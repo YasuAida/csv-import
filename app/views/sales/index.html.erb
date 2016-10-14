@@ -1,0 +1,39 @@
+<h1>トランザクションの概要</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>日付</th>
+      <th>注文番号</th>
+      <th>SKU</th>
+      <th>トランザクションの種類</th>
+      <th>支払いの種類</th>
+      <th>支払いの詳細</th>
+      <th>金額</th>
+      <th>数量</th>
+      <th>商品名</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <th><%= sale.id %></th>
+        <td><%= sale.date %></td>
+        <td><%= sale.order_num %></td>
+        <td><%= sale.SKU %></td>
+        <td><%= sale.kind_of_transaction %></td>
+        <td><%= sale.kind_of_payment %></td>
+        <td><%= sale.detail_of_payment %></td>
+        <td><%= sale.amount %></td>
+        <td><%= sale.quantity %></td>
+        <td><%= sale.goods_name %></td>        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>

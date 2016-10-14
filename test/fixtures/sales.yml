@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-10-12
+  order_num: MyString
+  SKU: MyString
+  kind_of_transaction: MyString
+  kind_of_payment: MyString
+  detail_of_payment: MyString
+  amount: 1
+  quantity: 1
+  goods_name: MyString
+
+two:
+  date: 2016-10-12
+  order_num: MyString
+  SKU: MyString
+  kind_of_transaction: MyString
+  kind_of_payment: MyString
+  detail_of_payment: MyString
+  amount: 1
+  quantity: 1
+  goods_name: MyString
