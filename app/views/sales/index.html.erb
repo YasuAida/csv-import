@@ -13,6 +13,7 @@
       <th>金額</th>
       <th>数量</th>
       <th>商品名</th>
+      <th>入金日</th>
     </tr>
   </thead>
   <tbody>
@@ -27,7 +28,8 @@
         <td><%= sale.detail_of_payment %></td>
         <td><%= sale.amount %></td>
         <td><%= sale.quantity %></td>
-        <td><%= sale.goods_name %></td>        
+        <td><%= sale.goods_name %></td>
+        <td><%= sale.money_receive %></td>
       </tr>
     <% end %>
   </tbody>

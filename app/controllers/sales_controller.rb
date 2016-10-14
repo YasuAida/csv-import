@@ -10,7 +10,7 @@ class SalesController < ApplicationController
     #ファイルの登録
     file_open(data[:datafile])
     #ファイルのインポート
-  file_import_transaction(data[:datafile])
+    file_import_transaction(data[:datafile])
     #ファイルの削除
     file_close(data[:datafile])
 

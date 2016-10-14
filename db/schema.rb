@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014015524) do
-
-  create_table "dealfiles", force: :cascade do |t|
-    t.string   "upload_file_name"
-    t.binary   "upload_file"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
+ActiveRecord::Schema.define(version: 20161014105256) do
 
   create_table "sales", force: :cascade do |t|
     t.date     "date"
@@ -32,6 +25,7 @@ ActiveRecord::Schema.define(version: 20161014015524) do
     t.string   "goods_name"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.date     "money_receive"
   end
 
 end
