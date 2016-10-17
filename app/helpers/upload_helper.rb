@@ -36,5 +36,17 @@ module UploadHelper
 
   def file_close(file_name)
     File.delete('./tmp/cache/' + file_name.original_filename)
-  end  
+  end
+  
+  def import_to_pladmin(sales)
+    sales.each do |sale|
+      if sale.handling == "売上"
+        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.SKU).sum(:amount)
+        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.SKU, goods_name: sale.goods_name, sale_amount: sale.amount, commission: commission, money_receive: sale.money_receive)
+        pladmin.save
+      end
+    end      
+  end
 end
+
+

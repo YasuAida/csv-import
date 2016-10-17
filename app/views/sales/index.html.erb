@@ -1,5 +1,10 @@
 <h1>トランザクションの概要</h1>
 
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -37,7 +42,3 @@
   </tbody>
 </table>
 
-<%= form_tag({action: 'upload'}, {multipart: true}) do %>
-  <%= file_field :upload, :datafile %>
-  <%= submit_tag "UPLOAD" %>
-<% end %>

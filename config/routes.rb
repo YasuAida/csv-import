@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
-  root 'sales#index'
-  
+  root 'stocks#index'
+
+  get 'pladmins/index'
+
   get 'entrypatterns/index'
 
   resources :sales

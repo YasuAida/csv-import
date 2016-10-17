@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-10-17
+  order_num: MyString
+  sku: MyString
+  goods_name: MyString
+  sale-amount: 1
+  commision: 1
+  cgs-amount: 1
+
+two:
+  date: 2016-10-17
+  order_num: MyString
+  sku: MyString
+  goods_name: MyString
+  sale-amount: 1
+  commision: 1
+  cgs-amount: 1

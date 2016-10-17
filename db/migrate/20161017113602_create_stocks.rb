@@ -1,0 +1,16 @@
+class CreateStocks < ActiveRecord::Migration
+  def change
+    create_table :stocks do |t|
+      t.date :date
+      t.string :asin
+      t.string :goods_name
+      t.integer :number
+      t.integer :unit_price
+      t.date :money_paid
+      t.string :purchase_from
+      t.string :country
+
+      t.timestamps null: false
+    end
+  end
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161016053401) do
+ActiveRecord::Schema.define(version: 20161017113602) do
 
   create_table "entrypatterns", force: :cascade do |t|
     t.string   "SKU"
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 20161016053401) do
     t.string   "credit"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+  end
+
+  create_table "pladmins", force: :cascade do |t|
+    t.date     "date"
+    t.string   "order_num"
+    t.string   "sku"
+    t.string   "goods_name"
+    t.integer  "sale_amount"
+    t.integer  "commission"
+    t.integer  "cgs_amount"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.date     "money_receive"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -39,6 +52,19 @@ ActiveRecord::Schema.define(version: 20161016053401) do
     t.datetime "updated_at",          null: false
     t.date     "money_receive"
     t.string   "handling"
+  end
+
+  create_table "stocks", force: :cascade do |t|
+    t.date     "date"
+    t.string   "asin"
+    t.string   "goods_name"
+    t.integer  "number"
+    t.integer  "unit_price"
+    t.date     "money_paid"
+    t.string   "purchase_from"
+    t.string   "country"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
 end

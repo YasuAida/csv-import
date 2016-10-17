@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-10-17
+  asin: MyString
+  goods_name: MyString
+  number: 1
+  unit_price: 1
+  money_paid: 2016-10-17
+  purchase_from: MyString
+  country: MyString
+
+two:
+  date: 2016-10-17
+  asin: MyString
+  goods_name: MyString
+  number: 1
+  unit_price: 1
+  money_paid: 2016-10-17
+  purchase_from: MyString
+  country: MyString

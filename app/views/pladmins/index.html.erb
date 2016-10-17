@@ -1,0 +1,35 @@
+<h1>損益管理シート</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th width="20">ID</th>
+      <th width="75">日付</th>
+      <th width="50">注文番号</th>
+      <th width="50">SKU</th>
+      <th width="150">商品名</th>      
+      <th width="50">売上高</th>
+      <th width="50">手数料</th>
+    　<th width="50">原価</th>
+      <th width="50">利益</th> 
+      <th width="75">入金日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pladmins.each do |pladmin| %>
+      <tr>
+        <th><%= pladmin.id %></th>
+        <td><%= pladmin.date %></td>
+        <td><%= pladmin.order_num %></td>
+        <td><%= pladmin.sku %></td>
+        <td><%= pladmin.goods_name %></td>
+        <td><%= pladmin.sale_amount %></td>
+        <td><%= pladmin.commission %></td>
+        <td><%= pladmin.cgs_amount %></td>
+        <td><%#= pladmin.sale_amount - pladmin.commission - pladmin.cgs_amount %></td>
+        <td><%= pladmin.money_receive %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
