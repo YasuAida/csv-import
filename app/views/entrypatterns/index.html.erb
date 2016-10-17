@@ -1,0 +1,30 @@
+<h1>仕訳パターン登録</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th width="50">ID</th>
+      <th width="100">SKU</th>
+      <th width="100">トランザクションの種類</th>
+      <th width="100">支払いの種類</th>
+      <th width="100">支払いの詳細</th>
+      <th width="100">処理</th>
+      <th width="100">借方</th>
+      <th width="100">貸方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @entrypatterns.each do |entrypattern| %>
+      <tr>
+        <th><%= entrypattern.id %></th>
+        <td><%= entrypattern.SKU %></td>
+        <td><%= entrypattern.kind_of_transaction %></td>
+        <td><%= entrypattern.kind_of_payment %></td>
+        <td><%= entrypattern.detail_of_payment %></td>
+        <td><%= entrypattern.handling %></td>
+        <td><%= entrypattern.debt %></td>
+        <td><%= entrypattern.credit %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

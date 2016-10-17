@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  SKU: MyString
+  kind_of_transaction: MyString
+  kind_of_payment: MyString
+  detail_of_payment: MyString
+  profit_loss: MyString
+  debt: MyString
+  credit: MyString
+
+two:
+  SKU: MyString
+  kind_of_transaction: MyString
+  kind_of_payment: MyString
+  detail_of_payment: MyString
+  profit_loss: MyString
+  debt: MyString
+  credit: MyString

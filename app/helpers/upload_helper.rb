@@ -11,7 +11,7 @@ module UploadHelper
       file.each_line.with_index(1) do |line, index|
         if ( index == 1 || index == 2 || index == 3 )
         elsif index == 4
-          @col_line = [:date, :order_num, :SKU, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :amount, :quantity, :goods_name, :money_receive]
+          @col_line = [:date, :order_num, :SKU, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :amount, :quantity, :goods_name, :money_receive, :handling]
         else
           ex_line = line.gsub(/\t{3}/, "\t \t \t")
           decorate_line = @col_line.zip(ex_line.gsub(/\t{2}/, "\t \t").gsub(/\r\n/, "").gsub(/,/, "").split(/\t/))
@@ -21,7 +21,13 @@ module UploadHelper
 
           money_receive_date = file_name.original_filename.gsub(/.txt/,"")
           line_hash[:money_receive] = Date.parse(money_receive_date).to_date
-    
+          
+          @entrypattern = Entrypattern.where(kind_of_transaction: line_hash[:kind_of_transaction])
+          @entrypattern = @entrypattern.where(kind_of_payment: line_hash[:kind_of_payment])
+          @entrypattern = @entrypattern.where(detail_of_payment: line_hash[:detail_of_payment])
+          @entrypattern = @entrypattern.where(SKU: line_hash[:SKU].gsub(/\S+/,"*")) 
+          line_hash[:handling] = @entrypattern.first.handling if @entrypattern.present?
+          
           Sale.create(line_hash)
         end
       end

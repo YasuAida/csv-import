@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root 'sales#index'
   
+  get 'entrypatterns/index'
+
   resources :sales
   
   post 'sales/upload'
