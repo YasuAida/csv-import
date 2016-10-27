@@ -26,7 +26,7 @@
         <td><%= pladmin.sale_amount %></td>
         <td><%= pladmin.commission %></td>
         <td><%= pladmin.cgs_amount %></td>
-        <td><%#= pladmin.sale_amount - pladmin.commission - pladmin.cgs_amount %></td>
+        <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i %></td>
         <td><%= pladmin.money_receive %></td>
       </tr>
     <% end %>

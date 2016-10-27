@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  usd: 1.5
+  eur: 1.5
+  cny: 1.5
+  thb: 1.5
+  krw: 1.5
+  other: 1.5
+
+two:
+  usd: 1.5
+  eur: 1.5
+  cny: 1.5
+  thb: 1.5
+  krw: 1.5
+  other: 1.5

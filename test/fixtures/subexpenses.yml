@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: MyString
+  method: MyString
+  date: 2016-10-20
+  purchased_from: MyString
+  amount: 1.5
+  applicable_id: MyString
+
+two:
+  item: MyString
+  method: MyString
+  date: 2016-10-20
+  purchased_from: MyString
+  amount: 1.5
+  applicable_id: MyString

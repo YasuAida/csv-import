@@ -1,0 +1,24 @@
+<h1>付随費用登録</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>諸掛項目</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @expense_titles.each do |expense_title| %>
+      <tr>
+        <td><%= expense_title.item %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_for(@expense_title) do |f| %>
+  <%= f.text_field :item %>
+ 
+  <div class="text-center">
+    <%= f.submit '登録', class: 'btn btn-primary' %>
+  </div>
+<% end %>

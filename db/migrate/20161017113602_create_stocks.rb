@@ -5,10 +5,10 @@ class CreateStocks < ActiveRecord::Migration
       t.string :asin
       t.string :goods_name
       t.integer :number
-      t.integer :unit_price
+      t.float :unit_price
       t.date :money_paid
       t.string :purchase_from
-      t.string :country
+      t.string :currency
 
       t.timestamps null: false
     end

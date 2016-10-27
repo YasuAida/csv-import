@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017113602) do
+ActiveRecord::Schema.define(version: 20161027012910) do
+
+  create_table "currencies", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "method"
+  end
 
   create_table "entrypatterns", force: :cascade do |t|
     t.string   "SKU"
@@ -23,6 +30,37 @@ ActiveRecord::Schema.define(version: 20161017113602) do
     t.string   "credit"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+  end
+
+  create_table "exchanges", force: :cascade do |t|
+    t.date     "date",                     null: false
+    t.string   "country",                  null: false
+    t.float    "rate",       default: 0.0, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "exchanges", ["date", "country"], name: "exchange_index", unique: true
+
+  create_table "expense_methods", force: :cascade do |t|
+    t.string   "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "expense_titles", force: :cascade do |t|
+    t.string   "item"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "listingreports", force: :cascade do |t|
+    t.string   "sku"
+    t.string   "asin"
+    t.integer  "price"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pladmins", force: :cascade do |t|
@@ -54,17 +92,45 @@ ActiveRecord::Schema.define(version: 20161017113602) do
     t.string   "handling"
   end
 
+  create_table "stockaccepts", force: :cascade do |t|
+    t.date     "date"
+    t.string   "fnsku"
+    t.string   "sku"
+    t.string   "goods_name"
+    t.integer  "quantity"
+    t.string   "fba_number"
+    t.string   "fc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "asin"
+  end
+
   create_table "stocks", force: :cascade do |t|
     t.date     "date"
     t.string   "asin"
     t.string   "goods_name"
     t.integer  "number"
-    t.integer  "unit_price"
+    t.float    "unit_price"
     t.date     "money_paid"
     t.string   "purchase_from"
-    t.string   "country"
+    t.string   "currency"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "sku"
+    t.float    "rate"
+  end
+
+  create_table "subexpenses", force: :cascade do |t|
+    t.string   "item"
+    t.string   "method"
+    t.date     "date"
+    t.string   "purchase_from"
+    t.float    "amount"
+    t.string   "targetgood"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.float    "rate"
+    t.string   "currency"
   end
 
 end

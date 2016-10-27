@@ -1,2 +1,55 @@
-<h1>Stocks#index</h1>
-<p>Find me in app/views/stocks/index.html.erb</p>
+<h1>在庫</h1>
+
+<h3>在庫データ取り込み</h3>
+<%= form_tag({action: 'uploadstock'}, {multipart: true}) do %>
+  <%= file_field :uploadstock, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
+
+<h3>為替レート取り込み</h3>
+<%= form_tag({action: 'uploadrate'}, {multipart: true}) do %>
+  <%= file_field :uploadrate, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sm-1">日付</th>
+          <th class="col-sm-1">SKU</th>
+          <th class="col-sm-1">ASIN</th>
+          <th class="col-sm-1">商品名</th>
+          <th class="col-sm-1">個数</th>
+          <th class="col-sm-1">単価</th>
+          <th class="col-sm-1">合計</th>
+          <th class="col-sm-1">為替レート</th>
+          <th class="col-sm-1">合計金額</th>
+          <th class="col-sm-1">支払日</th>
+          <th class="col-sm-1">購入先</th>
+          <th class="col-sm-1">通貨</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @stocks.each do |stock| %>
+          <tr>
+            <td><%= stock.date %></td>
+            <td><%#= stock.sku %></td>
+            <td><%= stock.asin %></td>
+            <td><%= stock.goods_name %></td>
+            <td><%= stock.number %></td>
+            <td><%= stock.unit_price %></td>
+            <td><%= stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %></td>        
+            <td><%= stock.rate %></td>
+                <% total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) * BigDecimal(stock.rate.to_s).round(2) %>
+            <td><%= sprintf("%.0f",total) %></td>
+            <td><%= stock.money_paid %></td>
+            <td><%= stock.purchase_from %></td>
+            <td><%= stock.currency %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

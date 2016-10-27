@@ -1,0 +1,29 @@
+<h1>出品レポート</h1>
+
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile%>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>出品者SKU</th>
+      <th>asin</th>
+      <th>価格</th>
+      <th>数量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @listingreports.each do |listingreport| %>
+      <tr>
+        <th><%= listingreport.id %></th>
+        <td><%= listingreport.sku %></td>
+        <td><%= listingreport.asin %></td>
+        <td><%= listingreport.price %></td>
+        <td><%= listingreport.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,6 +1,26 @@
 Rails.application.routes.draw do
 
-  root 'stocks#index'
+  get 'currencies/index'
+  
+  resources :currencies
+
+  get 'exchanges/index'
+
+  get 'stockaccepts/index'
+
+  get 'listingreports/index'
+
+  get 'expense_methods/index'
+
+  get 'expense_titles/index'
+  
+  resources :expense_titles
+
+  root 'subexpenses#index'
+  
+  resources :subexpenses
+
+  get 'stocks/index'
 
   get 'pladmins/index'
 
@@ -9,6 +29,14 @@ Rails.application.routes.draw do
   resources :sales
   
   post 'sales/upload'
+  
+  post 'stocks/upload'
+  
+  post 'listingreports/upload'
+  
+  post 'stockaccepts/upload'
+  
+  post 'exchanges/upload'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -41,8 +41,8 @@ module UploadHelper
   def import_to_pladmin(sales)
     sales.each do |sale|
       if sale.handling == "売上"
-        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.SKU).sum(:amount)
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.SKU, goods_name: sale.goods_name, sale_amount: sale.amount, commission: commission, money_receive: sale.money_receive)
+        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.SKU, handling: "原価（手数料）").sum(:amount)
+        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.SKU, goods_name: sale.goods_name, sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)
         pladmin.save
       end
     end      
