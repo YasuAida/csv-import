@@ -19,11 +19,6 @@ module StockacceptsHelper
           line_hash[:date] = Date.parse(line_hash[:date]).to_date
           line_hash[:quantity] = line_hash[:quantity].to_i
           
-          @listingreports = Listingreport.where(sku: line_hash[:sku]).first
-          if @listingreports.present?
-            line_hash[:asin] = @listingreports.asin
-          end
-          
           Stockaccept.create(line_hash)
         end
       end
@@ -32,5 +27,15 @@ module StockacceptsHelper
 
   def file_close(file_name)
     File.delete('./tmp/stockaccept/' + file_name.original_filename)
+  end
+  
+  def sku_addition_to_stockaccept
+    @stockaccepts = Stockaccept.all
+    @stockaccepts.each do |stockaccept|
+      @listingreports = Listingreport.where(sku: stockaccept.sku)
+      if @listingreports.present?
+        stockaccept.asin = @listingreports.first.asin
+      end
+    end
   end
 end

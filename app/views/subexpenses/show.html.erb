@@ -1,33 +1,41 @@
 <h1>付随費用</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>諸掛項目</th>
-      <th>按分方法</th>
-      <th>按分先在庫</th>
-      <th>日付</th>
-      <th>通貨</th>      
-      <th>外貨建金額</th>
-      <th>為替レート</th>
-      <th>円金額</th>
-      <th>支払先</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% Subexpense.all.each do |f| %>
-      <tr>
-        <th><%= f.id %></th>
-        <td><%= f.item %></td>
-        <td><%= f.method %></td>
-        <td><%= f.targetgood %></td>
-        <td><%= f.date %></td>
-        <td><%= f.currency %></td>
-        <td><%= f.amount %></td>
-        <td><%= f.rate %></td>
-        <td><%= f.purchase_from %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="container-fluid">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>諸掛項目</th>
+          <th>按分方法</th>
+          <th>按分先在庫</th>
+          <th>日付</th>
+          <th>通貨名</th>      
+          <th>外貨建金額</th>
+          <th>為替レート</th>
+          <th>円金額</th>
+          <th>支払先</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Subexpense.all.each do |f| %>
+          <tr>
+            <th><%= f.id %></th>
+            <td><%= f.item %></td>
+            <td><%= f.method %></td>
+            <td><%= f.targetgood %></td>
+            <td><%= f.date %></td>
+            <td><%= f.currency %></td>
+            <td><%= f.amount %></td>
+            <td><%= f.rate %></td>
+            <% yen_amount = BigDecimal(f.amount.to_s).round(2) * BigDecimal(f.rate.to_s).round(2) %>
+            <td><%= sprintf("%.0f",yen_amount) %></td>        
+            <td><%= f.purchase_from %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= link_to "新規登録画面へ", :action => "index" %>

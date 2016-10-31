@@ -6,7 +6,7 @@ class StocksController < ApplicationController
   end
 
   def upload 
-    data = params[:uploadstock]
+    data = params[:upload]
     #ファイルの登録
     file_open(data[:datafile])
     #ファイルのインポート
@@ -14,7 +14,16 @@ class StocksController < ApplicationController
     #ファイルの削除
     file_close(data[:datafile])
 
-    redirect_to root_path
+    redirect_to stocks_index_path
   end
- 
+  
+  def rate
+    #為替レートのインポート
+    rate_import_to_stock
+  end   
+
+  def sku
+    #SKUのインポート
+    sku_import_to_stock    
+  end
 end

@@ -28,30 +28,32 @@ module StocksHelper
   def file_close(file_name)
       File.delete('./tmp/stock/' + file_name.original_filename)
   end
-    
+  
   def rate_import_to_stock
     @stocks = Stock.all
     @stocks.each do |stock|
-      check_rate = Rate.find_by(date: stock.date)
+      check_exchange = Exchange.find_by(date: stock.date, country: stock.currency)
       #存在しなければbはnilが入るので
-      unless check_rate.nil?
-        case stock.currency
-        when "米ドル"
-          stock.rate = check_rate.usd unless check_rate.usd.nil?
-        when "ユーロ"
-          stock.rate = check_rate.eur unless check_rate.eur.nil?
-        when "人民元"
-          stock.rate = check_rate.cny unless check_rate.cny.nil?
-        when "タイ・バーツ"
-          stock.rate = check_rate.thb unless check_rate.thb.nil?
-        when "韓国ウォン"
-          stock.rate = check_rate.krw unless check_rate.krw.nil?
-        when "その他"
-          stock.rate = check_rate.other unless check_rate.other.nil?
-        end
-      end  
+      unless check_exchange.nil?
+        stock.rate = check_exchange.rate
+      end
       stock.save
     end
   end
     
+  def sku_import_to_stock
+    @stocks = Stock.all
+    #購入からFBA納品まで20日を見込む 
+    base_difference = 20
+    
+    @stocks.each do |stock|
+binding.pry
+      check_asin = Stockaccept.find_by(asin: stock.asin, quantity: stock.number)
+      #存在しなければbはnilが入るので      
+      if check_asin.present? && base_difference < check_asin.date - stock.date 
+        stock.sku = check_asin.sku
+      end
+      stock.save
+    end
+  end
 end

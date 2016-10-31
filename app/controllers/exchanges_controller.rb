@@ -6,7 +6,7 @@ class ExchangesController < ApplicationController
   end
   
   def upload
-    data = params[:uploadrate]
+    data = params[:upload]
     #ファイルの登録
     file_open(data[:datafile])
     #ファイルのインポート

@@ -17,11 +17,16 @@ Rails.application.routes.draw do
   resources :expense_titles
 
   root 'subexpenses#index'
-  
+
   resources :subexpenses
 
-  get 'stocks/index'
-
+  resources :stocks do
+    collection do
+      get 'rate'
+      get 'sku'
+    end
+  end
+  
   get 'pladmins/index'
 
   get 'entrypatterns/index'
@@ -30,10 +35,11 @@ Rails.application.routes.draw do
   
   post 'sales/upload'
   
-  post 'stocks/upload'
-  
+  post 'stocks/upload'  
+
   post 'listingreports/upload'
   
+  get  'stockaccepts/sku'
   post 'stockaccepts/upload'
   
   post 'exchanges/upload'

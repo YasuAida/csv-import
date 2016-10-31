@@ -7,7 +7,7 @@ class ExpenseTitlesController < ApplicationController
   def create
     @expense_title = ExpenseTitle.new(expense_title_params)
     @expense_title.save
-    redirect_to root_path , notice: '保存しました'
+    redirect_to expense_titles_index_path , notice: '保存しました'
   end
 
   private

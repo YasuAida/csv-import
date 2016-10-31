@@ -1,0 +1,38 @@
+<h1>在庫受領レポート</h1>
+
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile%>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>日付</th>
+      <th>FNSKU</th>
+      <th>出品者SKU</th>
+      <th>商品名</th>
+      <th>数量</th>
+      <th>FBA納品番号</th>
+      <th>FC</th>
+      <th>ASIN</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% @stockaccepts.each do |stockaccept| %>
+      <tr>
+        <th><%= stockaccept.id %></th>
+        <td><%= stockaccept.date %></td>
+        <td><%= stockaccept.fnsku %></td>
+        <td><%= stockaccept.sku %></td>
+        <td><%= stockaccept.goods_name %></td>
+        <td><%= stockaccept.quantity %></td>
+        <td><%= stockaccept.fba_number %></td>
+        <td><%= stockaccept.fc %></td>
+        <td><%= stockaccept.asin %></td>        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

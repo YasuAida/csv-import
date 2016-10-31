@@ -1,25 +1,10 @@
 <h1>為替レート</h1>
 
 <h3>為替レート取り込み</h3>
-<%= form_tag({action: 'uploadrate'}, {multipart: true}) do %>
-  <%= file_field :uploadrate, :datafile %>
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile %>
   <%= submit_tag "UPLOAD" %>
 <% end %>
-
-<%
-=begin
-<p>表示する通貨を選んでください</p>
-  <%= form_for(@currency) do |f| %>
-　  <% display = [] %>
-　  
-　  <%= f.select :name, ['米ドル', 'ユーロ', 'カナダ・ドル','英ポンド', 'スイス･フラン', 'デンマーク・クローネ','ノルウェー・クローネ', 'スウェーデン・クローネ', 'オーストラリア・ドル','ニュージーランド・ドル', '香港ドル', 'マレーシア・リンギット','シンガポール・ドル', 'サウジ・リアル', 'UAEディルハム','中国・人民元', 'タイ・バーツ', 'インド・ルピー','パキスタン・ルピー', 'クウェート・ディナール', 'カタール・リアル','インドネシア・ルピア', 'メキシコ・ペソ', '韓国ウォン','フィリピン・ペソ', '南アフリカ･ランド', 'チェコ・コルナ','ロシア・ルーブル', 'ハンガリー・フォリント', 'ポーランド・ズロチ ', 'トルコ・リラ'], { include_blank: '選択して下さい'} %>
-
-  <div class="text-center">
-    <%= f.submit '表示', class: 'btn btn-primary' %>
-  </div>
-<% end %>
-=end
-%>
 
 <table>
   <thead>
@@ -41,4 +26,3 @@
       <% end %>
   </tbody>
 </table>
-

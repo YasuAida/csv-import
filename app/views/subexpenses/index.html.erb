@@ -1,33 +1,39 @@
 <h1>付随費用</h1>
 
 <%= form_for(@subexpense) do |f| %>
-  <table>
-    <thead>
-      <tr>
-        <th>諸掛項目</th>
-        <th>按分方法</th>
-        <th>按分先在庫</th>
-        <th>日付</th>
-        <th>金額</th>
-        <th>支払先</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
-        <td><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
-        <td><%= f.collection_select :targetgood, Stock.all, :date_and_asin, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
-        <td><%= f.date_select :date %></td>
-        <td><%#= f.collection_select :currency, Rate.all, :item, :item %></td>
-        <td><%= f.text_field :amount %></td>
-        <td><%= f.text_field :purchase_from %></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="text-center">
-    <%= f.submit '登録', class: 'btn btn-primary' %>
+<div class="container-fluid">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>諸掛項目</th>
+          <th>按分方法</th>
+          <th>按分先在庫</th>
+          <th>日付</th>
+          <th>外貨金額</th>
+          <th>支払先</th>
+          <th>通貨名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
+          <td class="collection"><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
+          <td id="adjust" class="collection"><%= f.collection_select :targetgood, Stock.all, :date_and_asin, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
+          <td><%= f.text_field :date %></td>
+          <td><%= f.text_field :amount %></td>          
+          <td><%= f.text_field :purchase_from %></td>
+          <td><%= f.collection_select :currency, Currency.all, :name, :name %></td>          
+        </tr>
+      </tbody>
+    </table>
+  
+　  <div class="text-center">
+      <%= f.submit '登録', class: 'btn btn-primary' %>
+    </div>
   </div>
+</div>  
+  
 <% end %>
 
 

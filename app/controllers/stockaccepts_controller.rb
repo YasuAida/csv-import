@@ -16,5 +16,10 @@ class StockacceptsController < ApplicationController
 
     redirect_to root_path
   end
+  
+  def sku
+    #受領レポートに出品レポートからSKUを引っ張ってくる
+    sku_addition_to_stockaccept
+  end
 end
 

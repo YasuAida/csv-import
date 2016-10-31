@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027012910) do
+ActiveRecord::Schema.define(version: 20161031040946) do
 
   create_table "currencies", force: :cascade do |t|
     t.string   "name"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 20161027012910) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "expense_relations", force: :cascade do |t|
+    t.integer  "stock_id"
+    t.integer  "subexpense_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "expense_relations", ["stock_id", "subexpense_id"], name: "index_expense_relations_on_stock_id_and_subexpense_id", unique: true
+  add_index "expense_relations", ["stock_id"], name: "index_expense_relations_on_stock_id"
+  add_index "expense_relations", ["subexpense_id"], name: "index_expense_relations_on_subexpense_id"
 
   create_table "expense_titles", force: :cascade do |t|
     t.string   "item"

@@ -1,4 +1,6 @@
 class SubexpensesController < ApplicationController
+  include SubexpensesHelper
+  
   def index
     @subexpense = Subexpense.new
     @subexpenses = Subexpense.all
@@ -7,12 +9,14 @@ class SubexpensesController < ApplicationController
   def create
     @subexpense = Subexpense.new(subexpense_params)
     @subexpense.save
-    redirect_to subexpense_path(@subexpense) , notice: '保存しました'
+    redirect_to subexpenses_path, notice: '保存しました'
+    #為替レートのインポート
+    rate_import_to_subexpense
   end
-  
+
   private
   def subexpense_params
-    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, method: [], targetgood: [])
+    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, :currency, method: [], targetgood: [])
   end
 
 end
