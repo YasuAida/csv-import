@@ -11,9 +11,11 @@
           <th>商品名</th>
           <th>個数</th>
           <th>小計</th>
-          <% ExpenseTitle.all.each do |expense_title| %>
-            <th><%= expense_title.item %></th>
-          <% end %>
+          <th>送料</th>
+          <th>国際送料</th>
+          <th>代行手数料</th>
+          <th>Paypal手数料</th>
+          <th>関税</th>
           <th>合計金額</th>
         </tr>
       </thead>

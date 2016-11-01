@@ -29,13 +29,16 @@ module StockacceptsHelper
     File.delete('./tmp/stockaccept/' + file_name.original_filename)
   end
   
-  def sku_addition_to_stockaccept
+  def asin_addition_to_stockaccept
     @stockaccepts = Stockaccept.all
     @stockaccepts.each do |stockaccept|
       @listingreports = Listingreport.where(sku: stockaccept.sku)
       if @listingreports.present?
         stockaccept.asin = @listingreports.first.asin
       end
+      stockaccept.save
     end
   end
 end
+
+ 

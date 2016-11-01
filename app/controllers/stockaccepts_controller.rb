@@ -14,12 +14,14 @@ class StockacceptsController < ApplicationController
     # #ファイルの削除
     file_close(data[:datafile])
 
-    redirect_to root_path
+    redirect_to stockaccepts_index_path
   end
   
-  def sku
+  def asin
     #受領レポートに出品レポートからSKUを引っ張ってくる
-    sku_addition_to_stockaccept
+    asin_addition_to_stockaccept
+    
+    redirect_to stockaccepts_index_path
   end
 end
 

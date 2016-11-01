@@ -14,7 +14,7 @@ class StocksController < ApplicationController
     #ファイルの削除
     file_close(data[:datafile])
 
-    redirect_to stocks_index_path
+    redirect_to stocks_path
   end
   
   def rate

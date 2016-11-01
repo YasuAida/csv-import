@@ -7,7 +7,7 @@ class CurrenciesController < ApplicationController
   def create
     @currency = Currency.new(currency_params)
     @currency.save
-    redirect_to currency_path(@currency) , notice: '保存しました'
+    redirect_to currencies_path , notice: '保存しました'
   end
   
   private

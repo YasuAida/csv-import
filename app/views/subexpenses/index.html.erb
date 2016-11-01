@@ -19,11 +19,11 @@
         <tr>
           <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
           <td class="collection"><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
-          <td id="adjust" class="collection"><%= f.collection_select :targetgood, Stock.all, :date_and_asin, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
+          <td id="adjust" class="collection"><%= f.collection_select :targetgood, Stock.all, :id, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
           <td><%= f.text_field :date %></td>
           <td><%= f.text_field :amount %></td>          
           <td><%= f.text_field :purchase_from %></td>
-          <td><%= f.collection_select :currency, Currency.all, :name, :name %></td>          
+          <td><%= f.collection_select :currency, Currency.all, :name, :name %></td>
         </tr>
       </tbody>
     </table>

@@ -7,5 +7,5 @@ class Subexpense < ActiveRecord::Base
     validates :targetgood, presence: true
     
     has_many :expense_relations, dependent: :destroy
-    has_many :date_and_asins, through: :expense_relations, source: :stock
+    has_many :expense_relation_stocks, through: :expense_relations, source: :stock
 end

@@ -23,7 +23,11 @@
             <th><%= f.id %></th>
             <td><%= f.item %></td>
             <td><%= f.method %></td>
-            <td><%= f.targetgood %></td>
+            <td>
+              <% f.expense_relation_stocks.each do |stock| %>
+                <%= stock.date %>：<%= stock.asin %><br><%= stock.goods_name %><br>
+              <% end %>
+            </td>
             <td><%= f.date %></td>
             <td><%= f.currency %></td>
             <td><%= f.amount %></td>

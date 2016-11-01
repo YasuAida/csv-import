@@ -8,5 +8,5 @@ require 'date'
     validates :asin, uniqueness: { scope: [:date, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
     
     has_many :expense_relations, dependent: :destroy
-    has_many :targetgoods, through: :expense_relations, source: :subexpense
+    has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense
 end

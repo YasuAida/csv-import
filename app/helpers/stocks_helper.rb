@@ -47,7 +47,6 @@ module StocksHelper
     base_difference = 20
     
     @stocks.each do |stock|
-binding.pry
       check_asin = Stockaccept.find_by(asin: stock.asin, quantity: stock.number)
       #存在しなければbはnilが入るので      
       if check_asin.present? && base_difference < check_asin.date - stock.date 

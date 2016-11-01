@@ -1,6 +1,1 @@
-<% Subexpense.all.each do |subexpense|%>
-  <% sub_amount = BigDecimal(subexpense.amount.to_s).round(2) * BigDecimal(subexpense.rate.to_s).round(2) %>
-  <% if subexpense.method == "商品個数"
-        subexpense.targetgood                
-  end%>
-<% end %>
+<td><%=  %></td>

@@ -14,6 +14,6 @@ class ListingreportsController < ApplicationController
     # #ファイルの削除
     file_close(data[:datafile])
 
-    redirect_to root_path
+    redirect_to listingreports_index_path
   end
 end

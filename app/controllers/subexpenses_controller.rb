@@ -9,6 +9,11 @@ class SubexpensesController < ApplicationController
   def create
     @subexpense = Subexpense.new(subexpense_params)
     @subexpense.save
+
+    params[:subexpense][:targetgood].each do |n|
+      @subexpense.expense_relations.find_or_create_by(stock_id: n.to_i) if @subexpense.id.present?
+    end
+
     redirect_to subexpenses_path, notice: '保存しました'
     #為替レートのインポート
     rate_import_to_subexpense

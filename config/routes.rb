@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   post 'listingreports/upload'
   
-  get  'stockaccepts/sku'
+  get  'stockaccepts/asin'
   post 'stockaccepts/upload'
   
   post 'exchanges/upload'
