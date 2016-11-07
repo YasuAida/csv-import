@@ -1,3 +1,3 @@
 class ExpenseTitle < ActiveRecord::Base
-    validates :item, uniqueness: { scope: [:item] }, presence: true
+    validates :item, presence: true
 end

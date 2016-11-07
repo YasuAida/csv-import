@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'allocationcosts/index'
+
   get 'currencies/index'
   
   resources :currencies

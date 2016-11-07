@@ -2,7 +2,9 @@ class ExchangesController < ApplicationController
   include ExchangesHelper
   
   def index
-    @exchanges = Exchange.all 
+    #@exchanges = Exchange.all
+    @q = Exchange.search(params[:q])
+    @exchanges = @q.result(distinct: true)
   end
   
   def upload
@@ -14,6 +16,6 @@ class ExchangesController < ApplicationController
     # #ファイルの削除
     file_close(data[:datafile])
     
-    redirect_to root_path
+    redirect_to exchanges_index_path
   end
 end

@@ -9,4 +9,6 @@ require 'date'
     
     has_many :expense_relations, dependent: :destroy
     has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense
+    
+    has_many :allocationcosts
 end

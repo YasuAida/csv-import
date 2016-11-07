@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031040946) do
+ActiveRecord::Schema.define(version: 20161105093206) do
+
+  create_table "allocationcosts", force: :cascade do |t|
+    t.integer  "stock_id"
+    t.string   "title"
+    t.integer  "allocation_amount"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "allocationcosts", ["stock_id"], name: "index_allocationcosts_on_stock_id"
 
   create_table "currencies", force: :cascade do |t|
     t.string   "name"
@@ -129,6 +139,7 @@ ActiveRecord::Schema.define(version: 20161031040946) do
     t.datetime "updated_at",    null: false
     t.string   "sku"
     t.float    "rate"
+    t.integer  "grandtotal"
   end
 
   create_table "subexpenses", force: :cascade do |t|

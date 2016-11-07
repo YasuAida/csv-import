@@ -18,6 +18,6 @@ class SalesController < ApplicationController
       file_close(datafile)
     end
 
-    redirect_to root_path
+    redirect_to sales_path
   end
 end

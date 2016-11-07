@@ -44,12 +44,12 @@ module StocksHelper
   def sku_import_to_stock
     @stocks = Stock.all
     #購入からFBA納品まで20日を見込む 
-    base_difference = 20
+    base_difference = 30
     
     @stocks.each do |stock|
       check_asin = Stockaccept.find_by(asin: stock.asin, quantity: stock.number)
       #存在しなければbはnilが入るので      
-      if check_asin.present? && base_difference < check_asin.date - stock.date 
+      if check_asin.present? && base_difference > check_asin.date - stock.date 
         stock.sku = check_asin.sku
       end
       stock.save

@@ -1,0 +1,47 @@
+<h1>単価計算表</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th width="10">日付</th>
+          <th width="10">SKU</th>
+          <th width="10">ASIN</th>
+          <th>商品名</th>
+          <th width="10">個数</th>
+          <th width="10">小計</th>
+            <% @expense_titles = ExpenseTitle.all.sort_by{ |o| o.id } %>
+            <% @expense_titles.each do |e| %>
+          <th width="20"><%= e.item %></th>
+            <% end %>
+          <th width="10">合計金額</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Stock.all.each do |stock| %>
+          <tr>
+            <td><%= stock.date %></td>
+            <td><%= stock.sku %></td>
+            <td><%= stock.asin %></td>
+            <td id="adjust"><%= stock.goods_name %></td>
+            <td><%= stock.number %></td>
+                <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * BigDecimal(stock.rate.to_s).round(2) %>
+            <td><%= sprintf("%.0f",goods_amount) %></td>
+                <% count_title = @expense_titles.count %>
+                <% 0.upto(count_title-1) do |i| %>
+                    <% subexpense_title = @expense_titles[i] %>
+                    <% @alloc = stock.allocationcosts.find_by(title: subexpense_title.item) %>
+                    <% if @alloc.present? %>
+                    <td><%= sprintf("%.0f",@alloc.allocation_amount) %></td>
+                    <% else %>
+                    <td><%= nil %></td>
+                    <% end %>
+                <% end %>  
+            <td><%= sprintf("%.0f",stock.grandtotal) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
