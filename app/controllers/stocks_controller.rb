@@ -13,17 +13,16 @@ class StocksController < ApplicationController
     file_import_stock(data[:datafile])
     #ファイルの削除
     file_close(data[:datafile])
-
-    redirect_to stocks_path
-  end
-  
-  def rate
     #為替レートのインポート
     rate_import_to_stock
-  end   
+    
+    redirect_to stocks_path
+  end
 
   def sku
     #SKUのインポート
-    sku_import_to_stock    
+    sku_import_to_stock
+    redirect_to stocks_path
   end
+
 end

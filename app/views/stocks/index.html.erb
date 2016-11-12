@@ -11,6 +11,7 @@
     <table>
       <thead>
         <tr>
+          <th class="col-sm-1">ID</th>
           <th class="col-sm-1">日付</th>
           <th class="col-sm-1">SKU</th>
           <th class="col-sm-1">ASIN</th>
@@ -28,16 +29,26 @@
       <tbody>
         <% @stocks.each do |stock| %>
           <tr>
-            <td><%= stock.date %></td>
+            <td><%= stock.id %></td>
+            <td><%= stock.purchase_date %></td>
             <td><%= stock.sku %></td>
             <td><%= stock.asin %></td>
             <td><%= stock.goods_name %></td>
             <td><%= stock.number %></td>
-            <td><%= stock.unit_price %></td>
-            <td><%= stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %></td>        
+            
+                <% ex_currency = Currency.find_by(name: stock.currency) %>
+                <% if ex_currency.method == "外貨×為替レート"%>
+            <td><%= sprintf("%.2f",stock.unit_price) %></td>
+                <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %>
+            <td><%= sprintf("%.2f",sub_total) %></td>
+                <% else %>
+            <td><%= sprintf("%.0f",stock.unit_price) %></td>
+                <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(0) %>
+            <td><%= sprintf("%.0f",sub_total) %></td>
+                <% end %>
+                
             <td><%= stock.rate %></td>
-                <% total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) * BigDecimal(stock.rate.to_s).round(2) %>
-            <td><%= sprintf("%.0f",total) %></td>
+            <td><%= sprintf("%.0f",stock.goods_amount) %></td>
             <td><%= stock.money_paid %></td>
             <td><%= stock.purchase_from %></td>
             <td><%= stock.currency %></td>

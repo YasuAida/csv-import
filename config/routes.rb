@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  get 'journalpatterns/index'
+
+  get 'generalledgers/index'
+
+  get 'expenseledgers/index'
+
+  get 'stockledgers/index'
+
   get 'allocationcosts/index'
 
   get 'currencies/index'
@@ -24,7 +32,7 @@ Rails.application.routes.draw do
 
   resources :stocks do
     collection do
-      get 'rate'
+      post 'upload'       
       get 'sku'
     end
   end
@@ -33,15 +41,15 @@ Rails.application.routes.draw do
 
   get 'entrypatterns/index'
 
-  resources :sales
+  resources :sales do
+    collection do
+      post 'upload'
+      get  'pladmin'
+    end
+  end
   
-  post 'sales/upload'
-  
-  post 'stocks/upload'  
-
   post 'listingreports/upload'
   
-  get  'stockaccepts/asin'
   post 'stockaccepts/upload'
   
   post 'exchanges/upload'

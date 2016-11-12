@@ -1,0 +1,34 @@
+<h1>仕訳パターン登録</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th width="50">ID</th>
+      <th width="100">税抜/税込</th>
+      <th width="100">帳票</th>
+      <th width="100">パターン</th>
+      <th width="100">借方勘定科目</th>
+      <th width="100">借方補助科目</th>
+    　<th width="100">借方税コード</th>
+    　<th width="100">貸方勘定科目</th>
+    　<th width="100">貸方補助科目</th>
+    　<th width="100">貸方税コード</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @journalpatterns.each do |journalpattern| %>
+      <tr>
+        <th><%= journalpattern.id %></th>
+        <td><%= journalpattern.taxcode %></td>
+        <td><%= journalpattern.ledger %></td>
+        <td><%= journalpattern.pattern %></td>
+        <td><%= journalpattern.debit_account %></td>
+        <td><%= journalpattern.debit_subaccount %></td>
+        <td><%= journalpattern.debit_taxcode %></td>
+        <td><%= journalpattern.credit_account %></td>
+        <td><%= journalpattern.credit_subaccount %></td>
+        <td><%= journalpattern.credit_taxcode %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

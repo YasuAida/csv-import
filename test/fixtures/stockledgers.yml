@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sold_date: 2016-11-11
+  sku: MyString
+  asin: MyString
+  goods_name: MyString
+  number: MyString
+  grandtotal: MyString
+
+two:
+  sold_date: 2016-11-11
+  sku: MyString
+  asin: MyString
+  goods_name: MyString
+  number: MyString
+  grandtotal: MyString

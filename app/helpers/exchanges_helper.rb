@@ -9,7 +9,9 @@ module ExchangesHelper
   # 先にDBのカラム名を用意
     @column = ["日付"]
     Currency.all.each do |currency|
-      @column.push(currency.name)
+      if currency.name != "円"
+        @column.push(currency.name)
+      end
     end
 
     CSV.foreach('./tmp/exchange/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|

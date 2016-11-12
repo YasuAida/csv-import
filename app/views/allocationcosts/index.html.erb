@@ -19,9 +19,9 @@
         </tr>
       </thead>
       <tbody>
-        <% Stock.all.each do |stock| %>
+        <% @stocks.each do |stock| %>
           <tr>
-            <td><%= stock.date %></td>
+            <td><%= stock.purchase_date %></td>
             <td><%= stock.sku %></td>
             <td><%= stock.asin %></td>
             <td id="adjust"><%= stock.goods_name %></td>
@@ -38,10 +38,11 @@
                     <td><%= nil %></td>
                     <% end %>
                 <% end %>  
-            <td><%= sprintf("%.0f",stock.grandtotal) %></td>
+            <td><%= sprintf("%.0f",stock.grandtotal) if stock.grandtotal.present? %></td>
           </tr>
         <% end %>
       </tbody>
+      <%= paginate @stocks %>
     </table>
   </div>
 </div>

@@ -1,0 +1,38 @@
+<h1>経費台帳</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sm-1">ID</th>
+          <th class="col-sm-1">日付</th>
+          <th class="col-sm-1">摘要</th>
+          <th class="col-sm-1">金額(外貨)</th>
+          <th class="col-sm-1">為替レート</th>
+          <th class="col-sm-1">金額(円貨)</th>
+          <th class="col-sm-1">支払日</th>
+          <th class="col-sm-1">購入先</th>
+          <th class="col-sm-1">通貨</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @expenseledgers.each do |expenseledger| %>
+          <tr>
+            <td><%= expenseledger.id %></td>
+            <td><%= expenseledger.date %></td>
+            <td><%= expenseledger.content %></td>
+            <td><%= expenseledger.amount %></td>
+            <td><%= expenseledger.rate %></td>
+                <% total = expenseledger.amount.to_f * expenseledger.rate.to_f %>
+                <% total = BigDecimal(total.to_s).round(0) %>
+            <td><%= sprintf("%.0f",total) %></td>
+            <td><%= expenseledger.money_paid %></td>
+            <td><%= expenseledger.purchase_from %></td>
+            <td><%= expenseledger.currency %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

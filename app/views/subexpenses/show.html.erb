@@ -18,21 +18,21 @@
         </tr>
       </thead>
       <tbody>
-        <% Subexpense.all.each do |f| %>
+        <% Subexpense.includes(:expense_relation_stocks).all.each do |f| %>
           <tr>
             <th><%= f.id %></th>
             <td><%= f.item %></td>
             <td><%= f.method %></td>
             <td>
               <% f.expense_relation_stocks.each do |stock| %>
-                <%= stock.date %>：<%= stock.asin %><br><%= stock.goods_name %><br>
+                <%= stock.purchase_date %>：<%= stock.asin %><br><%= stock.goods_name %><br>
               <% end %>
             </td>
             <td><%= f.date %></td>
             <td><%= f.currency %></td>
             <td><%= f.amount %></td>
             <td><%= f.rate %></td>
-            <% yen_amount = BigDecimal(f.amount.to_s).round(2) * BigDecimal(f.rate.to_s).round(2) %>
+            <% yen_amount = BigDecimal(f.amount.to_s).round(2) * f.rate %>
             <td><%= sprintf("%.0f",yen_amount) %></td>        
             <td><%= f.purchase_from %></td>
           </tr>

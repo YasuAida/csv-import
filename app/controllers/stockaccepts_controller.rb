@@ -11,17 +11,13 @@ class StockacceptsController < ApplicationController
     file_open(data[:datafile])
     #ファイルのインポート
     file_import_stockaccept(data[:datafile])
-    # #ファイルの削除
+    #ファイルの削除
     file_close(data[:datafile])
+    #受領レポートに出品レポートからSKUを引っ張ってくる
+    asin_addition_to_stockaccept
 
     redirect_to stockaccepts_index_path
   end
-  
-  def asin
-    #受領レポートに出品レポートからSKUを引っ張ってくる
-    asin_addition_to_stockaccept
-    
-    redirect_to stockaccepts_index_path
-  end
+
 end
 

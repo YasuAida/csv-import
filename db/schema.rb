@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105093206) do
+ActiveRecord::Schema.define(version: 20161111024412) do
 
   create_table "allocationcosts", force: :cascade do |t|
     t.integer  "stock_id"
@@ -36,8 +36,6 @@ ActiveRecord::Schema.define(version: 20161105093206) do
     t.string   "kind_of_payment"
     t.string   "detail_of_payment"
     t.string   "handling"
-    t.string   "debt"
-    t.string   "credit"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -75,6 +73,49 @@ ActiveRecord::Schema.define(version: 20161105093206) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "expenseledgers", force: :cascade do |t|
+    t.date     "date"
+    t.string   "content"
+    t.integer  "amount"
+    t.float    "rate"
+    t.date     "money_paid"
+    t.string   "purchase_from"
+    t.string   "currency"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "grandtotal"
+  end
+
+  create_table "generalledgers", force: :cascade do |t|
+    t.date     "date"
+    t.string   "debit_account"
+    t.string   "debit_subaccount"
+    t.string   "debit_taxcode"
+    t.string   "credit_account"
+    t.string   "credit_subaccount"
+    t.string   "credit_taxcode"
+    t.string   "content"
+    t.string   "trade_company"
+    t.string   "reference"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "amount"
+  end
+
+  create_table "journalpatterns", force: :cascade do |t|
+    t.string   "taxcode"
+    t.string   "pattern"
+    t.string   "debit_account"
+    t.string   "debit_subaccount"
+    t.string   "debit_taxcode"
+    t.string   "credit_account"
+    t.string   "credit_subaccount"
+    t.string   "credit_taxcode"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "ledger"
+  end
+
   create_table "listingreports", force: :cascade do |t|
     t.string   "sku"
     t.string   "asin"
@@ -95,6 +136,7 @@ ActiveRecord::Schema.define(version: 20161105093206) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.date     "money_receive"
+    t.string   "sale_place"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -126,8 +168,22 @@ ActiveRecord::Schema.define(version: 20161105093206) do
     t.string   "asin"
   end
 
+  create_table "stockledgers", force: :cascade do |t|
+    t.integer  "stock_id"
+    t.date     "sold_date"
+    t.string   "sku"
+    t.string   "asin"
+    t.string   "goods_name"
+    t.string   "number"
+    t.string   "grandtotal"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
+
   create_table "stocks", force: :cascade do |t|
-    t.date     "date"
+    t.date     "purchase_date"
     t.string   "asin"
     t.string   "goods_name"
     t.integer  "number"
@@ -140,6 +196,7 @@ ActiveRecord::Schema.define(version: 20161105093206) do
     t.string   "sku"
     t.float    "rate"
     t.integer  "grandtotal"
+    t.integer  "goods_amount"
   end
 
   create_table "subexpenses", force: :cascade do |t|

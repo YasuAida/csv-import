@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  taxcode: MyString
+  pattern: MyString
+  debit_account: MyString
+  debit_subaccount: MyString
+  debit_taxcode: MyString
+  credit_account: MyString
+  credit_subaccount: MyString
+  credit_taxcode: MyString
+
+two:
+  taxcode: MyString
+  pattern: MyString
+  debit_account: MyString
+  debit_subaccount: MyString
+  debit_taxcode: MyString
+  credit_account: MyString
+  credit_subaccount: MyString
+  credit_taxcode: MyString

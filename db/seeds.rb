@@ -2,8 +2,12 @@ require "csv"
 
 # coding: utf-8
 
-CSV.foreach('db/pattern.txt') do |row|
-    Entrypattern.create(:SKU => row[0], :kind_of_transaction => row[1], :kind_of_payment => row[2], :detail_of_payment => row[3], :handling => row[4], :debt => row[5], :credit => row[6])
+CSV.foreach('db/entrypattern.txt') do |row|
+    Entrypattern.create(:SKU => row[0], :kind_of_transaction => row[1], :kind_of_payment => row[2], :detail_of_payment => row[3], :handling => row[4])
+end
+
+CSV.foreach('db/journalpattern.txt') do |row|
+    Journalpattern.create(:taxcode => row[0], :ledger => row[1], :pattern => row[2], :debit_account => row[3], :debit_subaccount => row[4], :debit_taxcode => row[5], :credit_account => row[6], :credit_subaccount => row[7], :credit_taxcode => row[8])
 end
 
 Currency.create!(name: '円', method: '換算無し')

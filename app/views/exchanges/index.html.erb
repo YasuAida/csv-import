@@ -7,10 +7,8 @@
 <% end %>
 
 <%= search_form_for(@q, url: exchanges_index_path) do |f| %>
-
   <%= f.label :country_start, "国名で検索" %>
   <%= f.search_field :country_start %>
-
  <%= f.submit %>
 <% end %>
 
