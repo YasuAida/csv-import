@@ -1,5 +1,17 @@
 <h1>商品有高帳</h1>
 
+<%= search_form_for(@q, url: stockledgers_path) do |f| %>
+  <%= f.label :sku_cont, "SKUで検索" %>
+  <%= f.search_field :sku_cont %>
+<%= f.submit %>
+<% end %>
+
+<%= search_form_for(@q, url: stockledgers_path) do |f| %>
+  <%= f.label :asin_cont, "ASINで検索" %>
+  <%= f.search_field :asin_cont %>
+<%= f.submit %>
+<% end %>
+
 <div class="container-fluid">
   <div class="row">
     <table>
@@ -10,22 +22,26 @@
           <th class="col-sm-1">SKU</th>
           <th class="col-sm-1">ASIN</th>
           <th class="col-sm-1">商品名</th>
-          <th class="col-sm-1">個数</th>
-          <th class="col-sm-1">帳簿価額</th>
+          <th class="col-sm-1">分類</th>          
+          <th class="col-sm-1">数量</th>
+          <th class="col-sm-1">単価</th>          
+          <th class="col-sm-1">金額</th>
         </tr>
       </thead>
       <tbody>
-        <% @stockledgers = Stockledger.all %>
         <% @stockledgers.each do |stockledger| %>
           <tr>
             <td><%= stockledger.id %></td>
-            <td><%= stockledger.sold_date %></td>
+            <td><%= stockledger.transaction_date %></td>
             <td><%= stockledger.sku %></td>
             <td><%= stockledger.asin %></td>
             <td><%= stockledger.goods_name %></td>
+            <td><%= stockledger.classification %></td>            
             <td><%= stockledger.number %></td>
-                <% bookvalue = stockledger.grandtotal %>
-            <td><%= sprintf("%.0f",bookvalue) %></td>
+                <% unitvalue = stockledger.unit_price %>
+            <td><%= sprintf("%.0f",unitvalue) %></td>            
+                <% totalvalue = stockledger.grandtotal %>
+            <td><%= sprintf("%.0f",totalvalue) %></td>
           </tr>
         <% end %>
       </tbody>

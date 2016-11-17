@@ -1,7 +1,7 @@
 class CreateEntrypatterns < ActiveRecord::Migration
   def change
     create_table :entrypatterns do |t|
-      t.string :SKU
+      t.string :sku
       t.string :kind_of_transaction
       t.string :kind_of_payment
       t.string :detail_of_payment

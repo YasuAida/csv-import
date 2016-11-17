@@ -1,0 +1,3 @@
+<!--Ajax実行ファイル。インスタンス変数@update_stockはupdateアクションから引用-->
+<!--IDに紐付いたformを呼び出すので、無駄なリダイレクトが発生せずスクロール位置もそのまま。-->
+$('#stock-<%= @update_stock.id %>').html("<%=j render 'form', stock: @update_stock %>");

@@ -11,5 +11,26 @@ require 'date'
     has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense
     
     has_many :allocationcosts
-    has_many :stockledgers
+
+    def self.to_csv
+      headers = %w(ID 日付 SKU ASIN 商品名 個数 単価 支払日 購入先 通貨) 
+      csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
+        all.each do |row|
+            csv_column_values = [
+              row.id,
+              row.purchase_date,
+              row.sku,
+              row.asin,
+              row.goods_name,
+              row.number,
+              row.unit_price,
+              row.money_paid,
+              row.purchase_from,
+              row.currency
+            ]
+            csv << csv_column_values
+        end    
+      end
+      csv_data.encode(Encoding::SJIS)
+    end
 end

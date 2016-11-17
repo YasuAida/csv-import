@@ -1,5 +1,7 @@
 <h1>損益管理シート</h1>
 
+<% if MultiChannel.count == 0 %>
+
 <table>
   <thead>
     <tr>
@@ -11,27 +13,103 @@
       <th width="50">売上先</th>      
       <th width="50">売上高</th>
       <th width="50">手数料</th>
-    　<th width="50">原価</th>
+      <th width="50">原価</th>
       <th width="50">利益</th> 
       <th width="75">入金日</th>
     </tr>
   </thead>
   <tbody>
-    <% @pladmins.each do |pladmin| %>
-      <tr>
-        <th><%= pladmin.id %></th>
-        <td><%= pladmin.date %></td>
-        <td><%= pladmin.order_num %></td>
-        <td><%= pladmin.sku %></td>
-        <td><%= pladmin.goods_name %></td>
-        <td><%= pladmin.sale_place %></td>        
-        <td><%= pladmin.sale_amount %></td>
-        <td><%= pladmin.commission %></td>
-        <td><%= pladmin.cgs_amount %></td>
+    <% @pladmins.each do |pladmin|  %>
+    <tr>
+      <%= form_for(pladmin, url: pladmin_path(pladmin.id)) do |f| %>
+        <td><%= pladmin.id %></td>
+        <td><%= f.text_field :date %></td>
+        <td><%= f.text_field :order_num %></td>
+        <td><%= f.text_field :sku %></td>
+        <td><%= f.text_field :goods_name %></td>
+        <td><%= f.text_field :sale_place %></td>        
+        <td><%= f.text_field :sale_amount %></td>
+        <td><%= f.text_field :commission %></td>
+        <td><%= f.text_field :cgs_amount %></td>
         <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i %></td>
-        <td><%= pladmin.money_receive %></td>
-      </tr>
+        <td><%= f.text_field :money_receive %></td>
+      <% end %> 
+    </tr>     
+  <% end %>
+
+    <%= form_for(@pladmin) do |f|  %>
+    <tr> 
+      <td></td>
+      <td><%= f.text_field :date %></td>
+      <td><%= f.text_field :order_num %></td>
+      <td><%= f.text_field :sku %></td>
+      <td><%= f.text_field :goods_name %></td>
+      <td><%= f.text_field :sale_place %></td>        
+      <td><%= f.text_field :sale_amount %></td>
+      <td><%= f.text_field :commission %></td>
+      <td><%= f.text_field :cgs_amount %></td>
+      <td></td>
+      <td></td>      
+      <td><%= f.text_field :money_receive %></td>
+      <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
 
+<% else %>
+<table>
+  <thead>
+    <tr>
+      <th width="20">ID</th>
+      <th width="75">日付</th>
+      <th width="50">注文番号</th>
+      <th width="50">SKU</th>
+      <th width="150">商品名</th>
+      <th width="50">売上先</th>      
+      <th width="50">売上高</th>
+      <th width="50">手数料</th>
+      <th width="50">原価</th>
+      <th width="50">送料</th>    
+      <th width="50">利益</th> 
+      <th width="75">入金日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pladmins.each do |pladmin|  %>
+    <tr>
+      <%= form_for(pladmin, url: pladmin_path(pladmin.id)) do |f| %>
+        <td><%= pladmin.id %></td>
+        <td><%= f.text_field :date %></td>
+        <td><%= f.text_field :order_num %></td>
+        <td><%= f.text_field :sku %></td>
+        <td><%= f.text_field :goods_name %></td>
+        <td><%= f.text_field :sale_place %></td>        
+        <td><%= f.text_field :sale_amount %></td>
+        <td><%= f.text_field :commission %></td>
+        <td><%= f.text_field :cgs_amount %></td>
+        <td><%= f.text_field :shipping_cost %></td>        
+        <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i%></td>
+        <td><%= f.text_field :money_receive %></td>
+      <% end %> 
+    </tr>  
+    <% end %>
+
+    <%= form_for(@pladmin) do |f|  %>
+    <tr>
+      <td></td>
+      <td><%= f.text_field :date %></td>
+      <td><%= f.text_field :order_num %></td>
+      <td><%= f.text_field :sku %></td>
+      <td><%= f.text_field :goods_name %></td>
+      <td><%= f.text_field :sale_place %></td>        
+      <td><%= f.text_field :sale_amount %></td>
+      <td><%= f.text_field :commission %></td>
+      <td><%= f.text_field :cgs_amount %></td>
+      <td></td>
+      <td></td>      
+      <td><%= f.text_field :money_receive %></td>
+      <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+    <% end %>  
+  </tbody>
+<% end %>

@@ -4,6 +4,12 @@ class SubexpensesController < ApplicationController
   def index
     @subexpense = Subexpense.new
     @subexpenses = Subexpense.all
+    
+    if params[:q].present?
+      @target_stocks = Stock.where(purchase_date: params[:q])
+    else
+      @target_stocks = Stock.all
+    end
   end
   
   def create

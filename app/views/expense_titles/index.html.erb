@@ -3,23 +3,31 @@
 <table>
   <thead>
     <tr>
+      <th>削除ボタン</th>
       <th>諸掛項目</th>
     </tr>
   </thead>
   <tbody>
     <% @expense_titles.each do |expense_title| %>
-      <tr>
-        <td><%= expense_title.item %></td>
-      </tr>
+    <tr>
+      <td>(
+       <%= link_to "削除" , expense_title , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
+      )</td>
+      <%= form_for(expense_title, url: expense_title_path(expense_title.id)) do |f| %>      
+        <td><%= f.text_field :item %></td>
+      <% end %>
+    </tr>
     <% end %>
   </tbody>
 </table>
+  <tbody>
+    <tr>
+      <td></td>
+      <%= form_for(@expense_title) do |f| %>
+        <td><%= f.text_field :item %></td>
+        <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit "登録" %></td>        
+      <% end %>
+    </tr>
+  </tbody>
 
-<%= form_for(@expense_title) do |f| %>
-  <%= f.text_field :item %>
- 
-  <div class="text-center">
-    <%= f.submit '登録', class: 'btn btn-primary' %>
-  </div>
-  
-<% end %>
+

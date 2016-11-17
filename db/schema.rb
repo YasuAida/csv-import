@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111024412) do
+ActiveRecord::Schema.define(version: 20161116033642) do
 
   create_table "allocationcosts", force: :cascade do |t|
     t.integer  "stock_id"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20161111024412) do
   end
 
   create_table "entrypatterns", force: :cascade do |t|
-    t.string   "SKU"
+    t.string   "sku"
     t.string   "kind_of_transaction"
     t.string   "kind_of_payment"
     t.string   "detail_of_payment"
@@ -125,6 +125,13 @@ ActiveRecord::Schema.define(version: 20161111024412) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "multi_channels", force: :cascade do |t|
+    t.string   "order_num"
+    t.string   "sku"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pladmins", force: :cascade do |t|
     t.date     "date"
     t.string   "order_num"
@@ -137,12 +144,23 @@ ActiveRecord::Schema.define(version: 20161111024412) do
     t.datetime "updated_at",    null: false
     t.date     "money_receive"
     t.string   "sale_place"
+    t.integer  "shipping_cost"
+  end
+
+  create_table "return_goods", force: :cascade do |t|
+    t.string   "order_num"
+    t.string   "old_sku"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "new_sku"
+    t.boolean  "disposal",   default: false, null: false
+    t.integer  "number"
   end
 
   create_table "sales", force: :cascade do |t|
     t.date     "date"
     t.string   "order_num"
-    t.string   "SKU"
+    t.string   "sku"
     t.string   "kind_of_transaction"
     t.string   "kind_of_payment"
     t.string   "detail_of_payment"
@@ -169,18 +187,20 @@ ActiveRecord::Schema.define(version: 20161111024412) do
   end
 
   create_table "stockledgers", force: :cascade do |t|
-    t.integer  "stock_id"
-    t.date     "sold_date"
+    t.date     "transaction_date"
     t.string   "sku"
     t.string   "asin"
     t.string   "goods_name"
-    t.string   "number"
-    t.string   "grandtotal"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "number"
+    t.integer  "unit_price"
+    t.integer  "grandtotal"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "classification"
   end
 
-  add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
+  add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
+  add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
 
   create_table "stocks", force: :cascade do |t|
     t.date     "purchase_date"
@@ -210,6 +230,7 @@ ActiveRecord::Schema.define(version: 20161111024412) do
     t.datetime "updated_at",    null: false
     t.float    "rate"
     t.string   "currency"
+    t.date     "money_paid"
   end
 
 end

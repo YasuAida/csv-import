@@ -1,58 +1,75 @@
 Rails.application.routes.draw do
 
+  root 'subexpenses#index'
+
+  resources :return_goods, only: [ :index, :create, :update, :destroy] do
+    collection do
+      get 'import'
+    end
+  end
+
+  resources :multi_channels, only: [ :index, :update] do
+    collection do
+      get 'import'
+    end
+  end
+
   get 'journalpatterns/index'
 
   get 'generalledgers/index'
 
   get 'expenseledgers/index'
-
-  get 'stockledgers/index'
+  
+  resources :stockledgers, only: [:index] do
+    collection do
+      get 'stock_list'
+    end
+  end
 
   get 'allocationcosts/index'
 
-  get 'currencies/index'
-  
-  resources :currencies
+  resources :currencies, only: [:index, :create, :destroy]
 
-  get 'exchanges/index'
+  resources :exchanges, only: [:index, :create, :update, :destroy] do
+    collection do
+      post 'upload'
+    end
+  end
 
-  get 'stockaccepts/index'
+  resources :stockaccepts, only: [:index] do
+    collection do
+      post 'upload'
+    end
+  end
 
-  get 'listingreports/index'
+  resources :listingreports, only: [:index] do
+    collection do
+      post 'upload'
+    end
+  end  
 
-  get 'expense_methods/index'
+  resources :expense_titles, only: [ :index, :create, :update, :destroy]
 
-  get 'expense_titles/index'
-  
-  resources :expense_titles
+  resources :subexpenses, only: [ :create]
 
-  root 'subexpenses#index'
-
-  resources :subexpenses
-
-  resources :stocks do
+  resources :stocks, only: [ :index, :create, :update, :destroy] do
     collection do
       post 'upload'       
       get 'sku'
     end
   end
   
-  get 'pladmins/index'
+  resources :pladmins , only: [:index, :create, :update]
 
-  get 'entrypatterns/index'
-
-  resources :sales do
+  resources :sales , only: [:index] do
     collection do
       post 'upload'
       get  'pladmin'
     end
   end
-  
-  post 'listingreports/upload'
-  
-  post 'stockaccepts/upload'
-  
-  post 'exchanges/upload'
+
+  get 'entrypatterns/index'
+  get 'expense_methods/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

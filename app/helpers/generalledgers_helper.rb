@@ -16,6 +16,7 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.sale_amount
+      g_ledger.save
     end
     
     #「損益管理シート」原価（手数料）計上  
@@ -31,6 +32,7 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.commission
+      g_ledger.save
     end
     
     #「損益管理シート」入金計上  
@@ -46,6 +48,7 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.sale_amount - pladmin.commission
+      g_ledger.save
     end
   end
   
@@ -78,6 +81,7 @@ module GeneralledgersHelper
         g_ledger.content = stock.goods_name
         g_ledger.trade_company = stock.purchase_from
         g_ledger.amount = stock.goods_amount
+        g_ledger.save
       end
     end
     
@@ -96,6 +100,7 @@ module GeneralledgersHelper
         g_ledger.content = stock.goods_name
         g_ledger.trade_company = stock.purchase_from
         g_ledger.amount = stock.goods_amount
+        g_ledger.save
       end
     end
   end
@@ -116,12 +121,50 @@ module GeneralledgersHelper
         g_ledger.content = stock.goods_name
         g_ledger.trade_company = stock.purchase_from
         g_ledger.amount = stock.goods_amount
+        g_ledger.save
       end
     end      
   end
   
   def import_from_subexpenses(journalpatterns)
     #「付随費用」発生による計上
+    @subexpenses.each do |subexpense|
+      g_ledger = Generalledger.new(date: subexpense.date)
+      #仕訳パターンを選ぶ
+      if subexpense.purchase_date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "現金払い（国内）")
+      elsif subexpense.purchase_date == subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "現金払い（海外）")
+      elsif subexpense.purchase_date != subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "掛払い（国内）") 
+      elsif subexpense.purchase_date != subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "掛払い（海外）")
+      elsif subexpense.purchase_date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item == "関税"
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "現金払い（関税）") 
+      else
+        find_pattern = journalpatterns.find_by(ledger: "付随費用",pattern: "掛払い（関税）") 
+      end
+      g_ledger.debit_account = find_pattern.debit_account
+      g_ledger.debit_subaccount = subexpense.item
+      g_ledger.debit_taxcode = find_pattern.debit_taxcode
+      g_ledger.credit_account = find_pattern.credit_account
+      if find_pattern.credit_account == "買掛金"
+        g_ledger.credit_subaccount = subexpense.money_paid
+      else
+        g_ledger.credit_subaccount = ""
+      end
+      g_ledger.credit_taxcode = find_pattern.credit_taxcode
+      g_ledger.content = subexpense.date + subexpense.item
+      g_ledger.trade_company = subexpense.purchase_from
+      paid_amount = subexpense.amount * subexpense.rate 
+      g_ledger.amount = BigDecimal(paid_amount.to_s).round(0)
+      g_ledger.save
+    end
+    
+    #「付随費用」支払計上
     
   end
+    
+
+    
 end

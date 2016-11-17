@@ -1,5 +1,11 @@
 <h1>付随費用</h1>
 
+<%= form_tag("/subexpenses", method: "get") do %>
+  <%= label_tag(:q) %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("絞り込み") %>
+<% end %>
+
 <%= form_for(@subexpense) do |f| %>
 <div class="container-fluid">
   <div class="row">
@@ -13,27 +19,26 @@
           <th>外貨金額</th>
           <th>支払先</th>
           <th>通貨名</th>
+          <th>支払日</th>          
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
           <td class="collection"><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
-          <td id="adjust" class="collection"><%= f.collection_select :targetgood, Stock.all, :id, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
+          <td id="adjust" class="collection"><%= f.collection_select :targetgood, @target_stocks, :id, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
           <td><%= f.text_field :date %></td>
-          <td><%= f.text_field :amount %></td>          
+          <td><%= f.text_field :amount %></td>
           <td><%= f.text_field :purchase_from %></td>
           <td><%= f.collection_select :currency, Currency.all, :name, :name %></td>
+          <td><%= f.text_field :money_paid %></td>
         </tr>
       </tbody>
     </table>
-  
-　  <div class="text-center">
+
+    <div class="text-center">
       <%= f.submit '登録', class: 'btn btn-primary' %>
     </div>
   </div>
-</div>  
-  
+</div>
 <% end %>
-
-

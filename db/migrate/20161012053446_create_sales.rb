@@ -3,7 +3,7 @@ class CreateSales < ActiveRecord::Migration
     create_table :sales do |t|
       t.date :date
       t.string :order_num
-      t.string :SKU
+      t.string :sku
       t.string :kind_of_transaction
       t.string :kind_of_payment
       t.string :detail_of_payment

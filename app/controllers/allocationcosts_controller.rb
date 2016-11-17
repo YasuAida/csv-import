@@ -95,6 +95,7 @@ class AllocationcostsController < ApplicationController
       end
     end
 
+    #@stocks = Stock.all
     @stocks = Stock.all.page(params[:page])
     @stocks.each do |stock|
       allocation_amount_sum = Allocationcost.where(stock_id: stock.id).sum(:allocation_amount)

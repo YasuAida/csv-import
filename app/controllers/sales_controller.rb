@@ -22,7 +22,7 @@ class SalesController < ApplicationController
   def pladmin  
     #損益管理シートへ売上・手数料の転記
       import_to_pladmin(Sale.all)
-      redirect_to pladmins_index_path      
+      redirect_to pladmins_path      
   end
 
 end

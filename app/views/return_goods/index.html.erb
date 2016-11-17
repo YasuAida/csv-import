@@ -1,0 +1,45 @@
+<h1>FBAからの返還商品登録</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>削除ボタン</th>
+      <th>ID</th>
+      <th>注文番号</th>
+      <th>返還前ＳＫＵ</th>
+      <th>新ＳＫＵ</th>
+      <th>個数</th>      
+      <th>廃棄したか？</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% @return_goods.each do |good| %>
+      <tr>
+        <td>(
+         <%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
+        )</td>
+        <%= form_for(good, url: return_good_path(good.id)) do |f| %>
+          <td><%= f.text_field :id, readonly: true %></td>        
+          <td><%= f.text_field :order_num, readonly: true %></td>
+          <td><%= f.text_field :old_sku %></td>
+          <td><%= f.text_field :new_sku %></td>
+          <td><%= f.text_field :number %></td>          
+          <td><%= f.check_box :disposal %><%= f.label :disposal, '廃棄商品' %></td>
+          <td class= "hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        <% end %> 
+      </tr>
+    <% end %>
+    <%= form_for(@return_good) do |f| %>
+      <tr>
+          <td></td>
+          <td></td>
+          <td><%= f.text_field :order_num %></td>            
+          <td><%= f.text_field :old_sku %></td>
+          <td><%= f.text_field :new_sku %></td>
+          <td><%= f.text_field :number %></td>           
+          <td><%= f.check_box :disposal %><%= f.label :disposal, '廃棄商品' %></td>
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

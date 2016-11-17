@@ -7,7 +7,13 @@ class CurrenciesController < ApplicationController
   def create
     @currency = Currency.new(currency_params)
     @currency.save
-    redirect_to currencies_path , notice: '保存しました'
+    redirect_to currencies_path , notice: 'データを保存しました'
+  end
+  
+  def destroy
+    @currency = Currency.find(params[:id])
+    @currency.destroy
+    redirect_to currencies_path, notice: 'データを削除しました'
   end
   
   private

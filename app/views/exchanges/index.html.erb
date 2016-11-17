@@ -6,7 +6,7 @@
   <%= submit_tag "UPLOAD" %>
 <% end %>
 
-<%= search_form_for(@q, url: exchanges_index_path) do |f| %>
+<%= search_form_for(@q, url: exchanges_path) do |f| %>
   <%= f.label :country_start, "国名で検索" %>
   <%= f.search_field :country_start %>
  <%= f.submit %>
@@ -15,6 +15,7 @@
 <table>
   <thead>
     <tr>
+      <th>削除ボタン</th>      
       <th>ID</th>
       <th>日付</th>
       <th>通貨名</th>
@@ -22,13 +23,29 @@
     </tr>
   </thead>
   <tbody>
-     <tr>
-      <% @exchanges.each do |exchange| %>
-        <th><%= exchange.id %></th>
-        <td><%= exchange.date %></td>
-        <td><%= exchange.country %></td>
-        <td><%= exchange.rate %></td>
-     </tr>
-      <% end %>
+    <% @exchanges.each do |exchange| %>
+      <tr>
+        <td>(
+         <%= link_to "削除" , exchange , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
+        )</td>
+        <%= form_for(exchange, url: exchange_path(exchange.id)) do |f| %>
+          <th><%= f.text_field :id, readonly: true %></th>
+          <td><%= f.text_field :date %></td>
+          <td><%= f.text_field :country %></td>
+          <td><%= f.text_field :rate %></td>
+          <td class= "hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    <%= form_for(@exchange) do |f| %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><%= f.text_field :date %></td>
+        <td><%= f.text_field :country %></td>
+        <td><%= f.text_field :rate %></td>
+        <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+      </tr>
+    <% end %>      
   </tbody>
 </table>

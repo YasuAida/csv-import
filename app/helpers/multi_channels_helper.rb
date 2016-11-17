@@ -1,0 +1,2 @@
+module MultiChannelsHelper
+end

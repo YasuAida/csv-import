@@ -2,7 +2,9 @@ class StockacceptsController < ApplicationController
   include StockacceptsHelper
   
   def index
-    @stockaccepts = Stockaccept.all
+    #@stockaccepts = Stockaccept.all
+    @q = Stockaccept.search(params[:q])
+    @stockaccepts = @q.result(distinct: true)
   end
   
   def upload

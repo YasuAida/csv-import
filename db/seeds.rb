@@ -3,7 +3,7 @@ require "csv"
 # coding: utf-8
 
 CSV.foreach('db/entrypattern.txt') do |row|
-    Entrypattern.create(:SKU => row[0], :kind_of_transaction => row[1], :kind_of_payment => row[2], :detail_of_payment => row[3], :handling => row[4])
+    Entrypattern.create(:sku => row[0], :kind_of_transaction => row[1], :kind_of_payment => row[2], :detail_of_payment => row[3], :handling => row[4])
 end
 
 CSV.foreach('db/journalpattern.txt') do |row|

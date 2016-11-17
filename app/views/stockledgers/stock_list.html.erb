@@ -1,0 +1,34 @@
+<h1>在庫台帳</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-sm-1">日付</th>
+          <th class="col-sm-1">SKU</th>
+          <th class="col-sm-1">ASIN</th>
+          <th class="col-sm-1">商品名</th>
+          <th class="col-sm-1">数量</th>
+          <th class="col-sm-1">単価</th>          
+          <th class="col-sm-1">金額</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @stock_lists.each do |stock_list| %>
+          <tr>
+            <td><%= stock_list.transaction_date %></td>
+            <td><%= stock_list.sku %></td>
+            <td><%= stock_list.asin %></td>
+            <td><%= stock_list.goods_name %></td>
+            <td><%= stock_list.number %></td>
+                <% unitvalue = stock_list.unit_price %>
+            <td><%= sprintf("%.0f",unitvalue) %></td>            
+                <% totalvalue = stock_list.grandtotal %>
+            <td><%= sprintf("%.0f",totalvalue) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
