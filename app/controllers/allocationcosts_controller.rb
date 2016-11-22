@@ -10,7 +10,7 @@ class AllocationcostsController < ApplicationController
       @subexpense = Subexpense.find(expense_relation.subexpense_id)
 
     #@subexpenseの外貨金額×為替レート=円金額を計算し、それを端数を丸めたあと「total_allocation_amount」に入れる
-      ex_total_allocation_amount = BigDecimal(@subexpense.amount.to_s).round(2) * BigDecimal(@subexpense.rate.to_s).round(2)
+      ex_total_allocation_amount = BigDecimal(@subexpense.amount.to_s).round(2) * @subexpense.rate
       total_allocation_amount = BigDecimal(ex_total_allocation_amount).round(0)
 
     #expense_relationsテーブルのsubexpense_idに対応するidを持つレコードをStockモデルの中から探し、それを@stockに入れる
@@ -95,8 +95,8 @@ class AllocationcostsController < ApplicationController
       end
     end
 
-    #@stocks = Stock.all
-    @stocks = Stock.all.page(params[:page])
+    @stocks = Stock.all
+    #@stocks = Stock.all.page(params[:page])
     @stocks.each do |stock|
       allocation_amount_sum = Allocationcost.where(stock_id: stock.id).sum(:allocation_amount)
       stock.grandtotal = stock.goods_amount + allocation_amount_sum

@@ -18,7 +18,7 @@ class StockacceptsController < ApplicationController
     #受領レポートに出品レポートからSKUを引っ張ってくる
     asin_addition_to_stockaccept
 
-    redirect_to stockaccepts_index_path
+    redirect_to stockaccepts_path
   end
 
 end

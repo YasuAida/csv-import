@@ -5,6 +5,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>削除ボタン</th>
           <th>ID</th>
           <th>諸掛項目</th>
           <th>按分方法</th>
@@ -18,23 +19,27 @@
         </tr>
       </thead>
       <tbody>
-        <% Subexpense.includes(:expense_relation_stocks).all.each do |f| %>
+        <% Subexpense.includes(:expense_relation_stocks).all.each do |subexpense| %>
           <tr>
-            <th><%= f.id %></th>
-            <td><%= f.item %></td>
-            <td><%= f.method %></td>
+            <%= form_for(subexpense, url: subexpense_path(subexpense)) do |f| %>
+            <td><%= link_to "削除" , subexpense , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+            <th><%= subexpense.id %></th>
+            <td><%= f.text_field :item %></td>
+            <td><%= f.text_field :method %></td>
             <td>
-              <% f.expense_relation_stocks.each do |stock| %>
+              <% subexpense.expense_relation_stocks.each do |stock| %>
                 <%= stock.purchase_date %>：<%= stock.asin %><br><%= stock.goods_name %><br>
               <% end %>
             </td>
-            <td><%= f.date %></td>
-            <td><%= f.currency %></td>
-            <td><%= f.amount %></td>
-            <td><%= f.rate %></td>
-            <% yen_amount = BigDecimal(f.amount.to_s).round(2) * f.rate %>
+            <td><%= f.text_field :date %></td>
+            <td><%= f.text_field :currency %></td>
+            <td><%= f.text_field :amount %></td>
+            <td><%= subexpense.rate %></td>
+            <% yen_amount = BigDecimal(subexpense.amount.to_s).round(2) * subexpense.rate %>
             <td><%= sprintf("%.0f",yen_amount) %></td>        
-            <td><%= f.purchase_from %></td>
+            <td><%= f.text_field :purchase_from %></td>
+            <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

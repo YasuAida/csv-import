@@ -19,6 +19,7 @@
         </tr>
       </thead>
       <tbody>
+        <%# @stocks = Stock.all %>
         <% @stocks.each do |stock| %>
           <tr>
             <td><%= stock.purchase_date %></td>
@@ -26,7 +27,12 @@
             <td><%= stock.asin %></td>
             <td id="adjust"><%= stock.goods_name %></td>
             <td><%= stock.number %></td>
-                <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * BigDecimal(stock.rate.to_s).round(2) %>
+                <% ex_currency = Currency.find_by(name: stock.currency) %>
+                <% if stock.currency == "外貨×為替レート" then %>
+                  <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * stock.rate %>
+                <% else %>
+                  <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(0) * stock.rate %>
+                <% end %>
             <td><%= sprintf("%.0f",goods_amount) %></td>
                 <% count_title = @expense_titles.count %>
                 <% 0.upto(count_title-1) do |i| %>
@@ -42,7 +48,7 @@
           </tr>
         <% end %>
       </tbody>
-      <%= paginate @stocks %>
+      <%#= paginate @stocks %>
     </table>
   </div>
 </div>

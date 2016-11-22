@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   resources :expense_titles, only: [ :index, :create, :update, :destroy]
 
-  resources :subexpenses, only: [ :create]
+  resources :subexpenses, only: [ :index, :create, :show, :update, :destroy] 
 
   resources :stocks, only: [ :index, :create, :update, :destroy] do
     collection do

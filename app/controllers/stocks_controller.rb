@@ -23,8 +23,8 @@ class StocksController < ApplicationController
     #ファイルの削除
     file_close(data[:datafile])
     #為替レートのインポート
-    rate_import_to_stock
-    
+    rate_import_to_stock(Stock.all)
+
     redirect_to stocks_path
   end
 
@@ -37,10 +37,11 @@ class StocksController < ApplicationController
   def create
     @stock = Stock.new(stock_params)
     if @stock.save
+      rate_import_to_new_stock(@stock)
       redirect_to stocks_path , notice: 'データを保存しました'
     else
       flash.now[:alert] = "データの保存に失敗しました。"
-      render "index"
+      redirect_to stocks_path
     end
   end
 
@@ -50,6 +51,7 @@ class StocksController < ApplicationController
       render 'update_ajax'
       # redirect_to stocks_path, notice: "データを編集しました"
     else
+      flash.now[:alert] = "データの編集に失敗しました。"
       render 'update_ajax'
       # render "update"
     end
@@ -57,7 +59,7 @@ class StocksController < ApplicationController
   
   def destroy
     @update_stock.destroy
-    redirect_to return_goods_path, notice: 'データを削除しました'
+    redirect_to stocks_path, notice: 'データを削除しました'
   end
   
   private

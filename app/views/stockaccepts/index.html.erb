@@ -5,7 +5,7 @@
   <%= submit_tag "UPLOAD" %>
 <% end %>
 
-<%= search_form_for(@q, url: stockaccepts_index_path) do |f| %>
+<%= search_form_for(@q, url: stockaccepts_path) do |f| %>
   <%= f.label :sku_start, "出品者SKUで検索" %>
   <%= f.search_field :sku_start %>
   <%= f.submit "検索" %>

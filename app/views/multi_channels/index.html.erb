@@ -11,7 +11,7 @@
     <% @multi_channels.each do |channel| %>
       <tr>
         <td><%= channel.order_num %></td>
-        <td><%= form_for(channel, url: multi_channels_edit_path) do |f|  %>
+        <td><%= form_for(channel, url: multi_channels_path) do |f|  %>
               <%= f.hidden_field :order_num %>              
               <%= f.text_field :sku %>
             <% end %></td>

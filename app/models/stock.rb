@@ -5,7 +5,14 @@ require 'date'
         self.purchase_date.strftime("%Y/%m/%d") + ' ' + self.asin + ' ' + self.goods_name + ' ' + self.number.to_s + '個'
     end
 
-    validates :asin, uniqueness: { scope: [:purchase_date, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
+    validates :sku , uniqueness: { scope: [:asin, :purchase_date, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
+    validates :asin, presence: true
+    validates :purchase_date, presence: true
+    validates :number, presence: true
+    validates :unit_price, presence: true
+    validates :money_paid, presence: true
+    validates :purchase_from, presence: true
+    validates :currency, presence: true
     
     has_many :expense_relations, dependent: :destroy
     has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense

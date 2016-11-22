@@ -22,8 +22,8 @@
 </table>
   <tbody>
     <tr>
-      <td></td>
       <%= form_for(@expense_title) do |f| %>
+        <td></td>
         <td><%= f.text_field :item %></td>
         <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit "登録" %></td>        
       <% end %>
