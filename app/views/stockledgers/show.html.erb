@@ -45,6 +45,12 @@
           </tr>
         <% end %>
       </tbody>
+      <%= paginate @stockledgers %>
     </table>
   </div>
 </div>
+
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", stockledgers_path(format: "csv") %>
+</p>

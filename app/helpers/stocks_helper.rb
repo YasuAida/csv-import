@@ -94,7 +94,7 @@ module StocksHelper
     #購入からFBA納品まで45日を見込む 
     base_difference = 45
 
-    @stocks = Stock.all
+    @stocks = Stock.where(sku: nil)
     @stocks.each do |stock|
 
       @check_stockaccepts = Stockaccept.where(asin: stock.asin)

@@ -25,10 +25,10 @@
             <td><%= link_to "削除" , subexpense , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
             <th><%= subexpense.id %></th>
             <td><%= f.text_field :item %></td>
-            <td><%= f.text_field :method %></td>
-            <td>
+            <td><%= f.collection_select(:method, ExpenseMethod.all, :method, :method, {include_blank: subexpense.method, include_hidden: true} ,{multiple: true}) %></td>
+            <td style="display:block; white-space:nowrap; overflow:scroll; height:100px; width:300px;">
               <% subexpense.expense_relation_stocks.each do |stock| %>
-                <%= stock.purchase_date %>：<%= stock.asin %><br><%= stock.goods_name %><br>
+                <%= stock.purchase_date %> <%= stock.asin %> <%= stock.goods_name %><br>
               <% end %>
             </td>
             <td><%= f.text_field :date %></td>

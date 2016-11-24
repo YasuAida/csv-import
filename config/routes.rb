@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :stockledgers, only: [:index] do
     collection do
       get 'stock_list'
+      get 'show'
     end
   end
 

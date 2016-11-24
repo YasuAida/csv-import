@@ -1,10 +1,26 @@
 class Stockledger < ActiveRecord::Base
 
-    validates :transaction_date, uniqueness: { scope: [:asin, :goods_name, :number, :unit_price, :grandtotal] }
-    validates :sku, uniqueness: { scope: [:transaction_date, :goods_name, :number, :unit_price, :grandtotal] }
-    validates :asin, uniqueness: { scope: [:transaction_date, :sku, :number, :unit_price, :grandtotal] }
-    validates :goods_name, uniqueness: { scope: [:transaction_date, :sku, :asin, :unit_price, :grandtotal] }
-    validates :number, uniqueness: { scope: [:transaction_date,:sku, :asin, :goods_name, :grandtotal] }
-    validates :unit_price, uniqueness: { scope: [:transaction_date,:sku, :asin, :goods_name, :number] }
-    validates :grandtotal, uniqueness: { scope: [:sku, :asin, :goods_name, :number, :unit_price] }
+    validates :transaction_date, uniqueness: { scope: [:asin, :sku, :goods_name, :number, :unit_price, :grandtotal] }
+    
+    def self.to_csv
+      headers = %w(ID 日付 SKU ASIN 商品名 分類 数量 単価 金額) 
+      csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
+        all.each do |row|
+            csv_column_values = [
+              row.id,
+              row.transaction_date,
+              row.sku,
+              row.asin,
+              row.goods_name,
+              row.classification,
+              row.number,
+              row.unit_price,
+              row.grandtotal
+            ]
+            csv << csv_column_values
+        end    
+      end
+      csv_data.encode(Encoding::SJIS)
+    end
+
 end

@@ -10,15 +10,19 @@
   <tbody>
     <% @multi_channels.each do |channel| %>
       <tr>
-        <td><%= channel.order_num %></td>
-        <td><%= form_for(channel, url: multi_channels_path) do |f|  %>
-              <%= f.hidden_field :order_num %>              
-              <%= f.text_field :sku %>
-            <% end %></td>
+        <%= form_for(channel, url: multi_channel_path(channel)) do |f|  %>
+          <td><%= f.text_field :order_num %></td>              
+          <td><%= f.text_field :sku %></td>
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", multi_channels_path(format: "csv") %>
+</p>
 
 

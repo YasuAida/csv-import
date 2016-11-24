@@ -2,6 +2,12 @@
 
 <% if MultiChannel.count == 0 %>
 
+<%= form_tag("/pladmins", method: "get") do %>
+  <%= label_tag(:q) %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("ASINで絞り込み") %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -57,7 +63,19 @@
   </tbody>
 </table>
 
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", pladmins_path(format: "csv") %>
+</p>
+
 <% else %>
+
+<%= form_tag("/pladmins", method: "get") do %>
+  <%= label_tag(:q) %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("SKUで絞り込み") %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -91,6 +109,7 @@
         <td><%= f.text_field :shipping_cost %></td>        
         <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i%></td>
         <td><%= f.text_field :money_receive %></td>
+        <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
       <% end %> 
     </tr>  
     <% end %>
@@ -112,4 +131,11 @@
       <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
     <% end %>  
   </tbody>
+</table>
+
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", pladmins_path(format: "csv") %>
+</p>
+
 <% end %>

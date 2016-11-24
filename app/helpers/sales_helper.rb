@@ -47,13 +47,18 @@ module SalesHelper
       if sale.handling == "原価（送料）"
         shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
         pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sale_place: "その他", shipping_cost: shipping_cost * -1, money_receive: sale.money_receive)
-        multi_channel = MultiChannel.new(order_num: sale.order_num)
         pladmin.save
-        multi_channel.save
+        unless MultiChannel.where(order_num: sale.order_num).present?
+          multi_channel = MultiChannel.new(order_num: sale.order_num)
+          multi_channel.save
+        end
+
       end
       if sale.detail_of_payment == "FBA在庫の返送手数料"
-        return_good = ReturnGood.new(order_num: sale.order_num)
-        return_good.save
+        unless ReturnGood.where(order_num: sale.order_num).present?
+          return_good = ReturnGood.new(order_num: sale.order_num)
+          return_good.save
+        end
       end      
     end      
   end

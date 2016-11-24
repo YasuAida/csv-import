@@ -21,7 +21,7 @@
           <tr>
             <td><%= expenseledger.id %></td>
             <td><%= expenseledger.date %></td>
-            <td><%= expenseledger.content %></td>
+            <td style="white-space:nowrap;"><%= expenseledger.content %></td>
             <td><%= expenseledger.amount %></td>
             <td><%= expenseledger.rate %></td>
                 <% total = expenseledger.amount.to_f * expenseledger.rate.to_f %>

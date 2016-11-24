@@ -3,7 +3,17 @@ class PladminsController < ApplicationController
   
   def index
     @pladmin = Pladmin.new
-    @pladmins = Pladmin.all
+
+    if params[:q].present?
+      @pladmins = Pladmin.where(sku: params[:q]).order(:date)
+    else
+      @pladmins = Pladmin.all.order(:date)
+    end
+    
+    respond_to do |format|
+      format.html
+      format.csv { send_data @pladmins.to_csv, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
+    end
   end
   
   def create
