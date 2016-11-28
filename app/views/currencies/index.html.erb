@@ -11,9 +11,7 @@
   <tbody>
     <% @currencies.each do |currency| %>
       <tr>
-        <td>(
-        <%= link_to "削除" , currency , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
-        )</td>
+        <td><%= link_to "削除" , currency , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
         <%= form_for(currency, url: currency_path(currency.id)) do |f| %>
           <td><%= f.text_field :name, readonly: true %></td>            
           <td><%= f.text_field :method, readonly: true %></td>

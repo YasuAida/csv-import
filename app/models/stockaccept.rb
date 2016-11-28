@@ -1,4 +1,6 @@
 class Stockaccept < ActiveRecord::Base
+  belongs_to :stock  
+  
   def self.to_download
     headers = %w(ID 日付 FNSKU 出品者SKU 商品名	数量 FBA納品番号 FC ASIN)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|

@@ -5,6 +5,7 @@ class Generalledger < ActiveRecord::Base
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
+        row.id,          
         row.date,
         row.debit_account,
         row.debit_subaccount,

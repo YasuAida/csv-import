@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20161125102916) do
   end
 
   create_table "stockledgers", force: :cascade do |t|
+    t.integer  "stock_id"
     t.date     "transaction_date"
     t.string   "sku"
     t.string   "asin"
@@ -204,6 +205,7 @@ ActiveRecord::Schema.define(version: 20161125102916) do
 
   add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
+  add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
 
   create_table "stocks", force: :cascade do |t|
     t.date     "date"

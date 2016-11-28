@@ -25,9 +25,7 @@
   <tbody>
     <% @exchanges.each do |exchange| %>
       <tr>
-        <td>(
-         <%= link_to "削除" , exchange , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
-        )</td>
+        <td><%= link_to "削除" , exchange , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
         <%= form_for(exchange, url: exchange_path(exchange.id)) do |f| %>
           <th><%= f.text_field :id, readonly: true %></th>
           <td><%= f.text_field :date %></td>

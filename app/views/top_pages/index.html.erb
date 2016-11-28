@@ -3,3 +3,8 @@
   BackUp:
   <%= link_to "ダウンロード", download_allocationcosts_top_pages_path(format: "csv") %>
 </p>
+
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile, {multiple: true}%>
+  <%= submit_tag "アップロード" %>
+<% end %>

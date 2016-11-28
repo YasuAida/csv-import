@@ -10,10 +10,11 @@ class Subexpense < ActiveRecord::Base
   has_many :expense_relation_stocks, through: :expense_relations, source: :stock
     
   def self.to_download
-    headers = %w(諸掛項目 按分方法 按分先在庫 日付 外貨金額	レート 支払先 通貨名 支払日)
+    headers = %w(ID 諸掛項目 按分方法 按分先在庫 日付 外貨金額	レート 支払先 通貨名 支払日)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
+        row.id,          
         row.item,
         row.method,
         row.targetgood,
@@ -22,7 +23,7 @@ class Subexpense < ActiveRecord::Base
         row.rate,
         row.purchase_from,
         row.currency,
-        row.money_paid  
+        row.money_paid
        ]
       csv << csv_column_values
       end    

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get 'download_subexpenses' 
       get 'download_vouchers' 
       get 'download'
+      post 'upload'
     end
   end
   

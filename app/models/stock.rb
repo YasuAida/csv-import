@@ -18,6 +18,8 @@ require 'date'
   has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense
   
   has_many :allocationcosts
+  
+  has_many :stockledgers
 
   def self.to_csv
     headers = %w(ID 日付 SKU ASIN 商品名 個数 単価 支払日 購入先 通貨) 

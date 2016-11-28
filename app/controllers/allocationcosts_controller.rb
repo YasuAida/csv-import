@@ -1,4 +1,5 @@
 class AllocationcostsController < ApplicationController
+    before_action :set_allocationcost, only: [ :index]
 
   def index
     start_time = Time.now
@@ -112,5 +113,10 @@ class AllocationcostsController < ApplicationController
       format.html
       format.csv { send_data @allocationcosts.to_download, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" }
     end
+  end
+  
+  private
+  def set_allocationcost
+    Allocationcost.destroy_all
   end
 end

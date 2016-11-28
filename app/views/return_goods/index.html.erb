@@ -15,9 +15,7 @@
   <tbody>
     <% @return_goods.each do |good| %>
       <tr>
-        <td>(
-         <%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
-        )</td>
+        <td><%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
         <%= form_for(good, url: return_good_path(good.id)) do |f| %>
           <td><%= f.text_field :id, readonly: true %></td>        
           <td><%= f.text_field :order_num, readonly: true %></td>

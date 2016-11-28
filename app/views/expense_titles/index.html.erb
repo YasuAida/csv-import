@@ -10,9 +10,7 @@
   <tbody>
     <% @expense_titles.each do |expense_title| %>
     <tr>
-      <td>(
-       <%= link_to "削除" , expense_title , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
-      )</td>
+      <td><%= link_to "削除" , expense_title , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
       <%= form_for(expense_title, url: expense_title_path(expense_title.id)) do |f| %>      
         <td><%= f.text_field :item %></td>
       <% end %>
