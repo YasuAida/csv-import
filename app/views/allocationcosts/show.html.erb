@@ -28,7 +28,7 @@
             <td id="adjust"><%= stock.goods_name %></td>
             <td><%= stock.number %></td>
                 <% ex_currency = Currency.find_by(name: stock.currency) %>
-                <% if stock.currency == "外貨×為替レート" then %>
+                <% if ex_currency.method == "外貨×為替レート" then %>
                   <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * stock.rate %>
                 <% else %>
                   <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(0) * stock.rate %>

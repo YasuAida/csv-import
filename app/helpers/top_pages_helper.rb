@@ -19,6 +19,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:allocation_amount] = row_hash[:allocation_amount].to_i
         
         Allocationcost.create(row_hash)
@@ -34,6 +35,8 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         
         Currency.create(row_hash)
       end
@@ -48,6 +51,8 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         
         Entrypattern.create(row_hash)
       end
@@ -63,6 +68,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:rate] = row_hash[:rate].to_f
         
@@ -79,7 +85,9 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
-
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        
         ExpenseMethod.create(row_hash)
       end
   end
@@ -93,7 +101,9 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
-
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        
         ExpenseRelation.create(row_hash)
       end
   end
@@ -107,6 +117,8 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
       
         ExpenseTitle.create(row_hash)
       end
@@ -122,6 +134,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_f
         row_hash[:rate] = row_hash[:rate].to_f
@@ -141,6 +154,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
        
@@ -157,7 +171,9 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
-
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        
         Journalpattern.create(row_hash)
       end
   end
@@ -172,6 +188,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:price] = row_hash[:price].to_i
         row_hash[:quantity] = row_hash[:quantity].to_i
         
@@ -188,7 +205,9 @@ module TopPagesHelper
         row_value = row.to_h.values
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
-
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        
         MultiChannel.create(row_hash)
       end
   end
@@ -203,6 +222,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:sale_amount] = row_hash[:sale_amount].to_i
         row_hash[:commission] = row_hash[:commission].to_i
@@ -226,6 +246,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:number] = row_hash[:number].to_i
 
         ReturnGood.create(row_hash)
@@ -242,6 +263,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
         row_hash[:quantity] = row_hash[:quantity].to_i        
@@ -261,6 +283,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:quantity] = row_hash[:quantity].to_i
 
@@ -278,6 +301,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:transaction_date] = Date.parse(row_hash[:transaction_date]).to_date
         row_hash[:number] = row_hash[:number].to_i
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f
@@ -297,6 +321,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:number] = row_hash[:number].to_i
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f
@@ -320,8 +345,9 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
-        row_hash[:amount] = row_hash[:amount].to_i
+        row_hash[:amount] = row_hash[:amount].to_f
         row_hash[:rate] = row_hash[:rate].to_f
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         
@@ -339,6 +365,7 @@ module TopPagesHelper
         # Zipで合体後にハッシュ化
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
      
