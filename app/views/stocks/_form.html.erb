@@ -2,7 +2,7 @@
   <td><%= link_to "削除" , stock , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
   <%= form_for(stock, url: stock_path(stock.id), remote: true) do |f|  %>
     <td><%= stock.id %></td>
-    <td><%= f.text_field :purchase_date %></td>
+    <td><%= f.text_field :date %></td>
     <td><%= f.text_field :sku %></td>
     <td><%= f.text_field :asin %></td>
     <td><%= f.text_field :goods_name %></td>

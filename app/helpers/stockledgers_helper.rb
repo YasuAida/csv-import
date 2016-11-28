@@ -3,7 +3,7 @@ module StockledgersHelper
     @pladmins = Pladmin.all
     @pladmins.each do |pladmin|
 
-      @sku_stocks = Stock.where(sku: pladmin.sku).order(:purchase_date)
+      @sku_stocks = Stock.where(sku: pladmin.sku).order(:date)
       unless @sku_stocks.any?
         pladmin.cgs_amount = 0
         pladmin.save        
@@ -62,7 +62,7 @@ module StockledgersHelper
         @sku_stockledgers = Stockledger.where(sku: multi.sku)
         pladmin.goods_name = @sku_stockledgers.first.goods_name if @sku_stockledgers.present?
       #商品有高帳へ記入、及びpladminsテーブルへ原価データの付与
-        @sku_stocks = Stock.where(sku: multi.sku).order(:purchase_date)
+        @sku_stocks = Stock.where(sku: multi.sku).order(:date)
         unless @sku_stocks.any? 
           pladmin.save
         else
@@ -105,7 +105,7 @@ module StockledgersHelper
   def return_goods_import_to_stockledger 
     ReturnGood.all.each do |return_good|
       #返還商品の返還前SKUを持つ在庫をstocksテーブルの中から抽出する
-        @sku_stocks = Stock.where(sku: return_good.old_sku).order(:purchase_date)
+        @sku_stocks = Stock.where(sku: return_good.old_sku).order(:date)
       #返還日時を把握するため、salesテーブルの中から返還商品の注文番号に一致するレコードを見つける
         @date_sale = Sale.find_by(order_num: return_good.order_num)
       #返還前SKUを持つ在庫がなければ何もしない

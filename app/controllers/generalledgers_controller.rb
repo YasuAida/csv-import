@@ -14,5 +14,11 @@ class GeneralledgersController < ApplicationController
     
     #「付随費用」から仕訳生成
     import_from_subexpenses(@journalpatterns)
+    
+    #「経費帳」から仕訳生成
+    import_from_expenseledgers(@journalpatterns) 
+    
+    #「振替台帳」から仕訳生成
+    import_from_vouchers(@journalpatterns)     
   end
 end

@@ -1,5 +1,5 @@
 class SubexpensesController < ApplicationController
-  include SubexpensesHelper
+  include ApplicationHelper
   before_action :set_subexpense, only: [ :update, :destroy]  
   
   def index
@@ -7,7 +7,7 @@ class SubexpensesController < ApplicationController
     @subexpenses = Subexpense.all
     
     if params[:q].present?
-      @target_stocks = Stock.where(purchase_date: params[:q])
+      @target_stocks = Stock.where(date: params[:q])
     else
       @target_stocks = Stock.all
     end
@@ -15,14 +15,11 @@ class SubexpensesController < ApplicationController
   
   def create
     @subexpense = Subexpense.new(subexpense_params)
-    @subexpense.save
+    rate_import_new_object(@subexpense)
 
     params[:subexpense][:targetgood].each do |n|
       @subexpense.expense_relations.find_or_create_by(stock_id: n.to_i) if @subexpense.id.present?
     end
-
-    #為替レートのインポート
-    rate_import_to_subexpense
 
     redirect_to subexpense_path(@subexpense), notice: '保存しました'
   end

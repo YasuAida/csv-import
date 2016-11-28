@@ -1,10 +1,11 @@
 class StockledgersController < ApplicationController
   include StockledgersHelper
+  before_action :set_stockledger, only: [ :index]
   
   def index
   #stocksテーブルの内容を移す。
     Stock.all.each do |stock|
-      @stockledger = Stockledger.new(transaction_date: stock.purchase_date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
+      @stockledger = Stockledger.new(transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
       @stockledger.save
     end
 
@@ -15,7 +16,8 @@ class StockledgersController < ApplicationController
   #返還商品についてstockledgersテーブルにデータを入力する
     return_goods_import_to_stockledger
 
-    @stockledgers = Stockledger.all.order(:transaction_date) 
+    @q = Stockledger.search(params[:q])
+    @stockledgers = @q.result(distinct: true).order(:transaction_date).page(params[:page])
     render 'show'
   end
   
@@ -30,8 +32,12 @@ class StockledgersController < ApplicationController
   end
   
   def stock_list
-    @stock_lists = Stockledger.all.group(:sku).order(:transaction_date)
-    
+    @purchase_stock = Stockledger.where(classification: "購入")
+
+  end
+  
+  private
+  def set_stockledger
+    Stockledger.destroy_all
   end
 end
-

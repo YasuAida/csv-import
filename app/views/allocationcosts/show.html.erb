@@ -19,10 +19,10 @@
         </tr>
       </thead>
       <tbody>
-        <%# @stocks = Stock.all %>
+        <% @stocks = Stock.all.order(:date).page(params[:page]) %>
         <% @stocks.each do |stock| %>
           <tr>
-            <td><%= stock.purchase_date %></td>
+            <td><%= stock.date %></td>
             <td><%= stock.sku %></td>
             <td><%= stock.asin %></td>
             <td id="adjust"><%= stock.goods_name %></td>
@@ -48,7 +48,12 @@
           </tr>
         <% end %>
       </tbody>
-      <%#= paginate @stocks %>
+      <%= paginate @stocks %>
     </table>
   </div>
 </div>
+
+<p>
+  BackUp:
+  <%= link_to "ダウンロード", allocationcosts_path(format: "csv") %>
+</p>

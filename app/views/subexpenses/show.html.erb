@@ -28,7 +28,7 @@
             <td><%= f.collection_select(:method, ExpenseMethod.all, :method, :method, {include_blank: subexpense.method, include_hidden: true} ,{multiple: true}) %></td>
             <td style="display:block; white-space:nowrap; overflow:scroll; height:100px; width:300px;">
               <% subexpense.expense_relation_stocks.each do |stock| %>
-                <%= stock.purchase_date %> <%= stock.asin %> <%= stock.goods_name %><br>
+                <%= stock.date %> <%= stock.asin %> <%= stock.goods_name %><br>
               <% end %>
             </td>
             <td><%= f.text_field :date %></td>
@@ -38,6 +38,7 @@
             <% yen_amount = BigDecimal(subexpense.amount.to_s).round(2) * subexpense.rate %>
             <td><%= sprintf("%.0f",yen_amount) %></td>        
             <td><%= f.text_field :purchase_from %></td>
+            <td><%= f.text_field :money_paid %></td>
             <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
             <% end %>
           </tr>

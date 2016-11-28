@@ -1,5 +1,6 @@
 class StocksController < ApplicationController
   include StocksHelper
+  include ApplicationHelper
   before_action :set_stock, only: [ :update, :destroy]
 
   def index
@@ -23,7 +24,9 @@ class StocksController < ApplicationController
     #ファイルの削除
     file_close(data[:datafile])
     #為替レートのインポート
-    rate_import_to_stock(Stock.all)
+    rate_import(Stock.all)
+    #商品金額の確定
+    goods_amount(Stock.all)
 
     redirect_to stocks_path
   end
@@ -37,11 +40,14 @@ class StocksController < ApplicationController
   def create
     @stock = Stock.new(stock_params)
     if @stock.save
-      rate_import_to_new_stock(@stock)
+    #為替レートの付与
+      rate_import_new_object(@stock)
+    #商品金額の確定
+      goods_amount_new_stock(@stock)
+      @stock.save
       redirect_to stocks_path , notice: 'データを保存しました'
     else
-      flash.now[:alert] = "データの保存に失敗しました。"
-      redirect_to stocks_path
+      redirect_to stocks_path , notice: 'データの保存に失敗しました'
     end
   end
 
@@ -64,7 +70,7 @@ class StocksController < ApplicationController
   
   private
   def stock_params
-    params.require(:stock).permit(:purchase_date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from, :currency)
+    params.require(:stock).permit(:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from, :currency)
   end
   
   def set_stock

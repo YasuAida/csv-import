@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-11-25
+  debit_account: MyString
+  credit_account: MyString
+  content: MyString
+  trade_company: MyString
+  amount: 1
+
+two:
+  date: 2016-11-25
+  debit_account: MyString
+  credit_account: MyString
+  content: MyString
+  trade_company: MyString
+  amount: 1

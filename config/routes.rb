@@ -1,6 +1,34 @@
 Rails.application.routes.draw do
 
-  root 'subexpenses#index'
+  root 'top_pages#index'
+
+  resources :top_pages, only: [ :index] do
+    collection do
+      get 'download_allocationcosts'
+      get 'download_currencies'
+      get 'download_entrypatterns'
+      get 'download_exchanges'
+      get 'download_expense_methods'
+      get 'download_expense_relations'
+      get 'download_expense_titles'
+      get 'download_expenseledgers'
+      get 'download_generalledgers'
+      get 'download_journalpatterns'
+      get 'download_listingreports'
+      get 'download_multi_channels'
+      get 'download_pladmins'
+      get 'download_return_goods'
+      get 'download_sales'
+      get 'download_stockaccepts'      
+      get 'download_stockledgers'
+      get 'download_stocks'      
+      get 'download_subexpenses' 
+      get 'download_vouchers' 
+      get 'download'
+    end
+  end
+  
+  resources :vouchers, only: [ :index, :create, :update, :destroy]
 
   resources :return_goods, only: [ :index, :create, :update, :destroy] do
     collection do
@@ -18,8 +46,8 @@ Rails.application.routes.draw do
 
   get 'generalledgers/index'
 
-  get 'expenseledgers/index'
-  
+  resources :expenseledgers, only: [ :index, :create, :update, :destroy]
+
   resources :stockledgers, only: [:index] do
     collection do
       get 'stock_list'
@@ -27,8 +55,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'allocationcosts/index'
-
+  resources :allocationcosts, only: [:index] do
+    collection do
+      get 'show'
+    end    
+  end
+  
   resources :currencies, only: [:index, :create, :destroy]
 
   resources :exchanges, only: [:index, :create, :update, :destroy] do

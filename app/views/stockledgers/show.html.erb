@@ -44,6 +44,17 @@
             <td><%= sprintf("%.0f",totalvalue) %></td>
           </tr>
         <% end %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>合計</td>            
+            <td><%= @stockledgers.sum(:number) %></td>
+            <td></td>            
+            <td><%= @stockledgers.sum(:grandtotal) %></td>
+          </tr>        
       </tbody>
       <%= paginate @stockledgers %>
     </table>

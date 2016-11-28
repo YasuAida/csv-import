@@ -1,0 +1,51 @@
+<h1>振替台帳</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sm-1">削除ボタン</th>           
+          <th class="col-sm-1">ID</th>
+          <th class="col-sm-1">日付</th>
+          <th class="col-sm-1">借方勘定科目</th>
+          <th class="col-sm-1">貸方勘定科目</th>
+          <th class="col-sm-1">摘要</th>
+          <th class="col-sm-1">取引先</th>
+          <th class="col-sm-1">金額</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @vouchers.each do |voucher| %>
+          <tr>
+           <td><%= link_to "削除" , voucher , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+            <%= form_for(voucher, url: voucher_path(voucher.id)) do |f| %>
+              <td><%= voucher.id %></td>
+              <td><%= f.text_field :date %></td>
+              <td><%= f.text_field :debit_account %></td>
+              <td><%= f.text_field :credit_account %></td>
+              <td style="white-space:nowrap;"><%= f.text_field :content %></td>
+              <td><%= f.text_field :trade_company %></td>
+              <td><%= f.text_field :amount %></td>
+            <% end %>
+          </tr>
+        <% end %>
+
+        <%= form_for(@voucher) do |f|  %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><%= f.text_field :date %></td>
+          <td><%= f.text_field :debit_account %></td>
+          <td><%= f.text_field :credit_account %></td>
+          <td style="white-space:nowrap;"><%= f.text_field :content %></td>
+          <td><%= f.text_field :trade_company %></td>
+          <td><%= f.text_field :amount %></td>
+          <td><%= f.submit "登録" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+      <%= paginate @vouchers %>
+    </table>
+  </div>
+</div>

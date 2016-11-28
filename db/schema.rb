@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116033642) do
+ActiveRecord::Schema.define(version: 20161125102916) do
 
   create_table "allocationcosts", force: :cascade do |t|
     t.integer  "stock_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20161116033642) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "grandtotal"
+    t.string   "account_name"
   end
 
   create_table "generalledgers", force: :cascade do |t|
@@ -140,11 +141,13 @@ ActiveRecord::Schema.define(version: 20161116033642) do
     t.integer  "sale_amount"
     t.integer  "commission"
     t.integer  "cgs_amount"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.date     "money_receive"
     t.string   "sale_place"
     t.integer  "shipping_cost"
+    t.date     "commission_pay_date"
+    t.date     "shipping_pay_date"
   end
 
   create_table "return_goods", force: :cascade do |t|
@@ -203,7 +206,7 @@ ActiveRecord::Schema.define(version: 20161116033642) do
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
 
   create_table "stocks", force: :cascade do |t|
-    t.date     "purchase_date"
+    t.date     "date"
     t.string   "asin"
     t.string   "goods_name"
     t.integer  "number"
@@ -231,6 +234,17 @@ ActiveRecord::Schema.define(version: 20161116033642) do
     t.float    "rate"
     t.string   "currency"
     t.date     "money_paid"
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.date     "date"
+    t.string   "debit_account"
+    t.string   "credit_account"
+    t.string   "content"
+    t.string   "trade_company"
+    t.integer  "amount"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
 end
