@@ -53,10 +53,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>合計</td>            
-            <td><%= @stockledgers.sum(:number) %></td>
-            <td></td>            
-            <td><%= @stockledgers.sum(:grandtotal) %></td>
+            <td>個数</td>
+            <td><%= @stockledgers.group(:id, :number).sum(:number).values.inject(:+) %></td>
+            <td>合計額</td>            
+            <td><%= @stockledgers.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %></td>
           </tr>        
       </tbody>
       <%= paginate @stockledgers %>

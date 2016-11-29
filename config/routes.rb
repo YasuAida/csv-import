@@ -1,29 +1,19 @@
 Rails.application.routes.draw do
 
-  root 'top_pages#index'
+  get 'sessions/new'
+
+  root to: 'static_pages#home'
+  get    'signup', to: 'users#new'
+  get    'login' , to: 'sessions#new'
+  post   'login' , to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
+
+  resources :users
+  
+  get 'top_pages/index'
 
   resources :top_pages, only: [ :index] do
     collection do
-      get 'download_allocationcosts'
-      get 'download_currencies'
-      get 'download_entrypatterns'
-      get 'download_exchanges'
-      get 'download_expense_methods'
-      get 'download_expense_relations'
-      get 'download_expense_titles'
-      get 'download_expenseledgers'
-      get 'download_generalledgers'
-      get 'download_journalpatterns'
-      get 'download_listingreports'
-      get 'download_multi_channels'
-      get 'download_pladmins'
-      get 'download_return_goods'
-      get 'download_sales'
-      get 'download_stockaccepts'      
-      get 'download_stockledgers'
-      get 'download_stocks'      
-      get 'download_subexpenses' 
-      get 'download_vouchers' 
       get 'download'
       post 'upload'
     end

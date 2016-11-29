@@ -7,24 +7,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <nav class="navbar">
+  <body>
+    <%= render 'layouts/header' %>
     <div class="container">
-      
-      <% if notice %>
-        <div class="alert alert-info">
-          <%= notice %>
-        </div>
-      <% end %>
-      
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">せどり会計システム</a>
-      </div>
+      <% flash.each do |message_type, message| %> 
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+      <% end %> 
+      <%= yield %>
     </div>
-  </nav>
-  <div class="container">
-    <%= yield %>
-  </div>
-</body>
+  </body>
 </html>
 
