@@ -9,10 +9,14 @@ class Voucher < ActiveRecord::Base
         row.id,
         row.date,
         row.debit_account,
+        row.debit_subaccount,        
+        row.debit_taxcode,        
         row.credit_account,
+        row.credit_subaccount,
+        row.credit_taxcode,
+        row.amount,
         row.content,        
-        row.trade_company, 
-        row.amount   
+        row.trade_company
        ]
       csv << csv_column_values
       end    

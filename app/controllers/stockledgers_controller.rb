@@ -3,11 +3,6 @@ class StockledgersController < ApplicationController
   before_action :set_stockledger, only: [ :index]
   
   def index
-  #stocksテーブルの内容を移す。
-    Stock.all.each do |stock|
-      @stockledger = Stockledger.new(transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
-      @stockledger.save
-    end
 
   #pladminsテーブルに原価データを付与
     sale_goods_import_to_stockledger
@@ -15,6 +10,12 @@ class StockledgersController < ApplicationController
     multi_channels_import_to_stockledger  
   #返還商品についてstockledgersテーブルにデータを入力する
     return_goods_import_to_stockledger
+    
+  #stocksテーブルの内容を移す。
+  Stock.all.each do |stock|
+    @stockledger = Stockledger.new(stock_id: stock.id, transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
+    @stockledger.save
+  end
 
     @q = Stockledger.search(params[:q])
     @stockledgers = @q.result(distinct: true).order(:transaction_date).page(params[:page])
@@ -32,8 +33,7 @@ class StockledgersController < ApplicationController
   end
   
   def stock_list
-    @purchase_stock = Stockledger.where(classification: "購入")
-
+    @stocks = Stock.all
   end
   
   private

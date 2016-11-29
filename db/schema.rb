@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161125102916) do
+ActiveRecord::Schema.define(version: 20161129020400) do
 
   create_table "allocationcosts", force: :cascade do |t|
     t.integer  "stock_id"
@@ -245,8 +245,12 @@ ActiveRecord::Schema.define(version: 20161125102916) do
     t.string   "content"
     t.string   "trade_company"
     t.integer  "amount"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "debit_subaccount"
+    t.string   "debit_taxcode"
+    t.string   "credit_subaccount"
+    t.string   "credit_taxcode"
   end
 
 end

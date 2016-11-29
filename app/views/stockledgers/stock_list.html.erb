@@ -15,17 +15,20 @@
         </tr>
       </thead>
       <tbody>
-        <% @stock_lists.each do |stock_list| %>
+        <% @stocks.each do |stock| %>
           <tr>
-            <td><%= stock_list.transaction_date %></td>
-            <td><%= stock_list.sku %></td>
-            <td><%= stock_list.asin %></td>
-            <td><%= stock_list.goods_name %></td>
-            <td><%= stock_list.number %></td>
-                <% unitvalue = stock_list.unit_price %>
-            <td><%= sprintf("%.0f",unitvalue) %></td>            
-                <% totalvalue = stock_list.grandtotal %>
-            <td><%= sprintf("%.0f",totalvalue) %></td>
+          <% if stock.stockledgers.sum(:grandtotal) != 0 %>          
+            <td><%= stock.date %></td>
+            <td><%= stock.sku %></td>
+            <td><%= stock.asin %></td>
+            <td><%= stock.goods_name %></td>
+                <% count = stock.stockledgers.sum(:number) %>
+            <td><%= sprintf("%.0f",count) %></td>
+                <% unit_value = stock.unit_price * stock.rate %>
+            <td><%= sprintf("%.0f",unit_value) %></td>            
+                <% total_value = stock.stockledgers.sum(:grandtotal) %>
+            <td><%= sprintf("%.0f",total_value) %></td>
+          <% end %> 
           </tr>
         <% end %>
       </tbody>

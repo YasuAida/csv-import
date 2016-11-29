@@ -45,7 +45,11 @@ Rails.application.routes.draw do
 
   get 'journalpatterns/index'
 
-  get 'generalledgers/index'
+  resources :generalledgers, only: [:index, :destroy] do
+    collection do
+      get 'show'
+    end    
+  end
 
   resources :expenseledgers, only: [ :index, :create, :update, :destroy]
 

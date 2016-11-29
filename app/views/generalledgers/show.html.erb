@@ -1,0 +1,46 @@
+<h1>総勘定元帳</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sm-1">削除ボタン</th>           
+          <th class="col-sm-1">ID</th>
+          <th class="col-sm-1">日付</th>
+          <th class="col-sm-1">借方勘定科目</th>
+          <th class="col-sm-1">借方補助科目</th>
+          <th class="col-sm-1">借方税コード</th>
+          <th class="col-sm-1">貸方勘定科目</th>
+          <th class="col-sm-1">貸方補助科目</th>
+          <th class="col-sm-1">貸方税コード</th>
+          <th class="col-sm-1">金額</th>
+          <th class="col-sm-1">摘要</th>
+          <th class="col-sm-1">取引先</th>
+          <th class="col-sm-1">備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @generalledgers = Generalledger.all.page(params[:page]) %>
+        <% @generalledgers.each do |generalledger| %>
+          <tr>
+            <td><%= link_to "削除" , generalledger , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+            <td><%= generalledger.id %></td>
+            <td><%= generalledger.date %></td>
+            <td><%= generalledger.debit_account %></td>
+            <td><%= generalledger.debit_subaccount %></td>              
+            <td><%= generalledger.debit_taxcode %></td>              
+            <td><%= generalledger.credit_account %></td>              
+            <td><%= generalledger.credit_subaccount %></td>              
+            <td><%= generalledger.credit_taxcode %></td>
+            <td><%= generalledger.amount %></td>              
+            <td style="white-space:nowrap;"><%= generalledger.content %></td>
+            <td><%= generalledger.trade_company %></td>
+            <td><%= generalledger.reference %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <%= paginate @generalledgers %>
+    </table>
+  </div>
+</div>

@@ -166,13 +166,13 @@ module GeneralledgersHelper
     #「仕入台帳」仕入計上
     @stocks = Stock.all
     @stocks.each do |stock|
-      g_ledger = Generalledger.new(date: stock.purchase_date)
+      g_ledger = Generalledger.new(date: stock.date)
       #仕訳パターンを選ぶ
-      if stock.purchase_date == stock.money_paid && stock.currency == "円"
+      if stock.date == stock.money_paid && stock.currency == "円"
         find_pattern = journalpatterns.find_by(ledger: "仕入台帳", pattern: "現金仕入（国内）")
-      elsif stock.purchase_date == stock.money_paid && stock.currency != "円"
+      elsif stock.date == stock.money_paid && stock.currency != "円"
         find_pattern = journalpatterns.find_by(ledger: "仕入台帳", pattern: "現金仕入（海外）")
-      elsif stock.purchase_date != stock.money_paid && stock.currency == "円" 
+      elsif stock.date != stock.money_paid && stock.currency == "円" 
         find_pattern = journalpatterns.find_by(ledger: "仕入台帳", pattern: "掛仕入（国内）") 
       else
         find_pattern = journalpatterns.find_by(ledger: "仕入台帳", pattern: "掛仕入（海外）") 
@@ -196,7 +196,7 @@ module GeneralledgersHelper
     
     #「仕入台帳」掛払い支払計上     
     @stocks.each do |stock|
-      if stock.purchase_date != stock.money_paid
+      if stock.date != stock.money_paid
         g_ledger = Generalledger.new(date: stock.money_paid)
         find_pattern = journalpatterns.find_by(ledger: "仕入台帳",pattern: "支払")
         
@@ -218,41 +218,45 @@ module GeneralledgersHelper
     #「商品有高帳」FBAから商品を戻した場合
     @return_goods = ReturnGood.all  
     @return_goods.each do |return_good|
-      @old_return_stockledger = Stockledger(sku: return_good.old_sku, classification: "返還")
-      g_ledger = Generalledger.new(date: @old_return_stockledger.transaction_date)
-      find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "FBAから商品を戻した場合")
-      
-      g_ledger.debit_account = find_pattern.debit_account
-      g_ledger.debit_subaccount = return_good.new_sku
-      g_ledger.debit_taxcode = find_pattern.debit_taxcode
-      g_ledger.credit_account = find_pattern.credit_account
-      g_ledger.credit_subaccount = return_good.old_sku
-      g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = @old_return_stockledger.goods_name
-      stock_trade_company = Stock.find_by(sku: return_good.old_sku)
-      g_ledger.trade_company = stock_trade_company.purchase_from
-      g_ledger.amount = @old_return_stockledger.grandtotal
-      g_ledger.save
+      if Stockledger.find_by(sku: return_good.old_sku, classification: "返還").present?
+        @old_return_stockledger = Stockledger.find_by(sku: return_good.old_sku, classification: "返還") 
+        g_ledger = Generalledger.new(date: @old_return_stockledger.transaction_date)
+        find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "FBAから商品を戻した場合")
+        
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = return_good.new_sku
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = return_good.old_sku
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = @old_return_stockledger.goods_name
+        stock_trade_company = Stock.find_by(sku: return_good.old_sku)
+        g_ledger.trade_company = stock_trade_company.purchase_from
+        g_ledger.amount = @old_return_stockledger.grandtotal
+        g_ledger.save
+      end
     end
     
     #「商品有高帳」商品を廃棄した場合    
     @disposal_goods = ReturnGood.where(disposal: true)
-    @disposal_goods.each do |disposal_good|    
-      @disposal_stockledger = Stockledger(sku: disposal_good.new_sku, classification: "SKU付替")
-      g_ledger = Generalledger.new(date: @disposal_stockledger.transaction_date)
-      find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "廃棄")
-      
-      g_ledger.debit_account = find_pattern.debit_account
-      g_ledger.debit_subaccount = disposal_good.new_sku
-      g_ledger.debit_taxcode = find_pattern.debit_taxcode
-      g_ledger.credit_account = find_pattern.credit_account
-      g_ledger.credit_subaccount = disposal_good.new_sku
-      g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = @disposal_stockledger.goods_name
-      stock_trade_company = Stock.find_by(sku: disposal_good.old_sku)
-      g_ledger.trade_company = stock_trade_company.purchase_from
-      g_ledger.amount = @disposal_stockledger.grandtotal
-      g_ledger.save
+    @disposal_goods.each do |disposal_good|
+      if Stockledger.find_by(sku: disposal_good.new_sku, classification: "SKU付替").present?
+        @disposal_stockledger = Stockledger.find_by(sku: disposal_good.new_sku, classification: "SKU付替")
+        g_ledger = Generalledger.new(date: @disposal_stockledger.transaction_date)
+        find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "廃棄")
+        
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = disposal_good.new_sku
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = disposal_good.new_sku
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = @disposal_stockledger.goods_name
+        stock_trade_company = Stock.find_by(sku: disposal_good.old_sku)
+        g_ledger.trade_company = stock_trade_company.purchase_from
+        g_ledger.amount = @disposal_stockledger.grandtotal
+        g_ledger.save
+      end
     end    
   end
   
@@ -263,15 +267,15 @@ module GeneralledgersHelper
     @subexpenses.each do |subexpense|
       g_ledger = Generalledger.new(date: subexpense.date)
       #仕訳パターンを選ぶ
-      if subexpense.purchase_date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
+      if subexpense.date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "現金払い（国内）")
-      elsif subexpense.purchase_date == subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
+      elsif subexpense.date == subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "現金払い（海外）")
-      elsif subexpense.purchase_date != subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
+      elsif subexpense.date != subexpense.money_paid && subexpense.currency == "円" && subexpense.item != "関税"
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "掛払い（国内）") 
-      elsif subexpense.purchase_date != subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
+      elsif subexpense.date != subexpense.money_paid && subexpense.currency != "円" && subexpense.item != "関税"
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "掛払い（海外）")
-      elsif subexpense.purchase_date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item == "関税"
+      elsif subexpense.date == subexpense.money_paid && subexpense.currency == "円" && subexpense.item == "関税"
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "現金払い（関税）") 
       else
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "掛払い（関税）") 
@@ -286,7 +290,7 @@ module GeneralledgersHelper
         g_ledger.credit_subaccount = ""
       end
       g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = subexpense.date + subexpense.item
+      g_ledger.content = subexpense.date.strftime("%Y年 %m月 %d日") + subexpense.item
       g_ledger.trade_company = subexpense.purchase_from
       paid_amount = subexpense.amount * subexpense.rate 
       g_ledger.amount = BigDecimal(paid_amount.to_s).round(0)
@@ -316,7 +320,7 @@ module GeneralledgersHelper
     
     #「付随費用」支払計上
     @subexpenses.each do |subexpense|
-      if subexpense.purchase_date != subexpense.money_paid
+      if subexpense.date != subexpense.money_paid
         g_ledger = Generalledger.new(date: subexpense.money_paid)
         find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "支払")
         
@@ -369,7 +373,7 @@ module GeneralledgersHelper
     #「経費帳」掛払い支払計上
     @expenseledgers = Expenseledger.all
     @expenseledgers.each do |expenseledger|
-      if expenseledger.purchase_date != expenseledger.money_paid
+      if expenseledger.date != expenseledger.money_paid
         g_ledger = Generalledger.new(date: expenseledger.money_paid)
         find_pattern = journalpatterns.find_by(ledger: "経費帳",pattern: "支払")
         
@@ -387,5 +391,20 @@ module GeneralledgersHelper
     end
   end
   
-  
+  def import_from_vouchers
+    @vouchers = Voucher.all
+    @vouchers.each do |voucher|
+      g_ledger = Generalledger.new(date: voucher.date)      
+      g_ledger.debit_account = voucher.debit_account
+      g_ledger.debit_subaccount = voucher.debit_subaccount
+      g_ledger.debit_taxcode = voucher.debit_taxcode
+      g_ledger.credit_account = voucher.credit_account
+      g_ledger.credit_subaccount = voucher.credit_subaccount
+      g_ledger.credit_taxcode = voucher.credit_taxcode
+      g_ledger.amount = voucher.amount 
+      g_ledger.content = voucher.content
+      g_ledger.trade_company = voucher.trade_company
+      g_ledger.save
+    end    
+  end
 end

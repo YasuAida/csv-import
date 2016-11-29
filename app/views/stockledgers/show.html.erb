@@ -18,6 +18,7 @@
       <thead>
         <tr>
           <th class="col-sm-1">ID</th>
+          <th class="col-sm-1">Stock_id</th>          
           <th class="col-sm-1">日付</th>
           <th class="col-sm-1">SKU</th>
           <th class="col-sm-1">ASIN</th>
@@ -32,6 +33,7 @@
         <% @stockledgers.each do |stockledger| %>
           <tr>
             <td><%= stockledger.id %></td>
+            <td><%= stockledger.stock_id %></td>            
             <td><%= stockledger.transaction_date %></td>
             <td><%= stockledger.sku %></td>
             <td><%= stockledger.asin %></td>
@@ -45,6 +47,7 @@
           </tr>
         <% end %>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -20,6 +20,7 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
+        row_hash[:stock_id] = row_hash[:stock_id].to_i
         row_hash[:allocation_amount] = row_hash[:allocation_amount].to_i
         
         Allocationcost.create(row_hash)
@@ -293,7 +294,7 @@ module TopPagesHelper
 
   def stockledgers_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :transaction_date, :sku, :asin, :goods_name, :classification, :number, :unit_price, :grandtotal]
+      @column = [:id, :stock_id, :transaction_date, :sku, :asin, :goods_name, :classification, :number, :unit_price, :grandtotal]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -302,6 +303,7 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
+        row_hash[:stock_id] = row_hash[:stock_id].to_i
         row_hash[:transaction_date] = Date.parse(row_hash[:transaction_date]).to_date
         row_hash[:number] = row_hash[:number].to_i
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f
