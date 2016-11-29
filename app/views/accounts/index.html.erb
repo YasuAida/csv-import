@@ -1,0 +1,38 @@
+<h1>勘定科目一覧</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>削除ボタン</th>            
+          <th>勘定科目名</th>
+          <th>貸借区分</th>
+          <th>ＰＬ／ＢＳ区分</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accounts.each do |account| %>
+        <tr>
+          <td><%= link_to "削除" , account , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+          <%= form_for(account, url: account_path(account.id)) do |f| %>
+            <td><%= f.text_field :account %></td>          
+            <td><%= f.select :debit_credit, ["借方","貸方"] ,{include_blank: account.debit_credit, include_hidden: true} %></td>
+            <td><%= f.select :bs_pl, ["ＢＳ項目","ＰＬ項目"],{include_blank: account.bs_pl, include_hidden: true} %></td>
+            <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+          <% end %>
+        </tr>
+        <% end %>
+        <%= form_for(@account) do |f| %>
+          <tr>
+            <td></td>
+            <td><%= f.text_field :account %></td>            
+            <td><%= f.select :debit_credit, ["借方","貸方"] %></td>
+            <td><%= f.select :bs_pl, ["ＢＳ項目","ＰＬ項目"] %></td>
+            <td><%= f.submit '登録', class: 'btn btn-primary' %></td>
+          </tr>
+        <% end %>       
+      </tbody>
+    </table>
+  </div>
+</div>

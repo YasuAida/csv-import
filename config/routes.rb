@@ -95,6 +95,8 @@ Rails.application.routes.draw do
       get  'pladmin'
     end
   end
+  
+  resources :accounts, only: [ :index, :create, :update, :destroy]
 
   get 'entrypatterns/index'
   get 'expense_methods/index'
