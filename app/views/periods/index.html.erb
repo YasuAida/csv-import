@@ -1,0 +1,27 @@
+<h1>会計期間</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sm-1">ID</th>
+          <th class="col-sm-1">月次／年次</th>
+          <th class="col-sm-1">開始年月日</th>
+          <th class="col-sm-1">終了年月日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @periods.each do |period| %>
+          <tr>
+            <td><%= period.id %></td>
+            <td><%= period.monthly_yearly %></td>
+            <td><%= period.period_start %></td>
+            <td><%= period.period_end %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <%= paginate @periods %>
+    </table>
+  </div>
+</div>

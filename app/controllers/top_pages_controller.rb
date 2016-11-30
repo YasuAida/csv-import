@@ -3,7 +3,7 @@ class TopPagesController < ApplicationController
   require 'zip'
   
   def index
-    
+    @period = Period.new  
   end
   
   def download

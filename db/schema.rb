@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129075706) do
+ActiveRecord::Schema.define(version: 20161130002350) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -139,6 +139,15 @@ ActiveRecord::Schema.define(version: 20161129075706) do
     t.string   "sku"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "periods", force: :cascade do |t|
+    t.date     "period_start"
+    t.date     "period_end"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.date     "beginning_date"
+    t.string   "monthly_yearly"
   end
 
   create_table "pladmins", force: :cascade do |t|

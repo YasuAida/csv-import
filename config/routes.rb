@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :periods, only: [ :index, :create]
+
+  get 'balance_sheets/index'
+
   get 'sessions/new'
 
   root to: 'static_pages#home'

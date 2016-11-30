@@ -8,3 +8,14 @@
   <%= file_field :upload, :datafile, {multiple: true}%>
   <%= submit_tag "アップロード" %>
 <% end %>
+
+
+<tr>
+  <th>事業開始年月日</th>
+</tr>
+<tr>
+  <%= form_for(@period) do |f|  %>        
+    <td><%= f.text_field :beginning_date %></td>
+    <td><%= f.submit "期首登録"%></td>
+  <% end %>
+</tr>

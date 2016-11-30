@@ -39,6 +39,7 @@
         <td><%= f.text_field :cgs_amount %></td>
         <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i %></td>
         <td><%= f.text_field :money_receive %></td>
+        <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
       <% end %> 
     </tr>     
   <% end %>
