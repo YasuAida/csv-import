@@ -29,7 +29,7 @@
             <% count_period = @show_periods.count %>
             <% 0.upto(count_period-1) do |i| %>
               <% target_period = @show_periods[i] %>
-              <% target_data = FinancialStatement.find_by(period_start: target_period.period_start) %>
+              <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: bs.account) %>
               <% if target_data.present? %>
               <td><%= sprintf("%.0f",target_data.amount) %></td>
               <% else %>
@@ -39,7 +39,6 @@
           </tr>
         <% end %>
       </tbody>
-      <%= paginate @show_periods %>
     </table>
   </div>
 </div>

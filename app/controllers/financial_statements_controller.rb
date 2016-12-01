@@ -48,6 +48,8 @@ class FinancialStatementsController < ApplicationController
       end
     end
     
+    @show_period = Period.new
+    @show_periods = Period.where(monthly_yearly: "月次")
     render 'pl'
   end
   
@@ -55,9 +57,9 @@ class FinancialStatementsController < ApplicationController
     @show_period = Period.new
     
     if params[:period].present? && params[:period][:monthly_yearly].present?
-      @show_periods = Period.where(monthly_yearly: params[:period][:monthly_yearly]).page(params[:page])
+      @show_periods = Period.where(monthly_yearly: params[:period][:monthly_yearly])
     else
-      @show_periods = Period.where(monthly_yearly: "月次").page(params[:page])      
+      @show_periods = Period.where(monthly_yearly: "月次")      
     end
     
     @bs_accounts = Account.where(bs_pl: "ＢＳ")
@@ -68,9 +70,9 @@ class FinancialStatementsController < ApplicationController
     @show_period = Period.new
     
     if params[:period].present? && params[:period][:monthly_yearly].present?
-      @show_periods = Period.where(monthly_yearly: params[:period][:monthly_yearly]).page(params[:page])
+      @show_periods = Period.where(monthly_yearly: params[:period][:monthly_yearly])
     else
-      @show_periods = Period.where(monthly_yearly: "月次").page(params[:page])     
+      @show_periods = Period.where(monthly_yearly: "月次")     
     end
     
     @pl_accounts = Account.where(bs_pl: "ＰＬ")
