@@ -23,7 +23,7 @@ class Generalledger < ActiveRecord::Base
       csv << csv_column_values
       end    
     end
-    csv_data.encode(Encoding::SJIS)
+    csv_data.encode(Encoding::SJIS, :invalid => :replace, :undef => :replace, :replace => "?")
   end
     
 end

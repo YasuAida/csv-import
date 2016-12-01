@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130002350) do
+ActiveRecord::Schema.define(version: 20161130103953) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -95,6 +95,15 @@ ActiveRecord::Schema.define(version: 20161130002350) do
     t.string   "account_name"
   end
 
+  create_table "financial_statements", force: :cascade do |t|
+    t.date     "period_start"
+    t.string   "monthly_yearly"
+    t.string   "account"
+    t.integer  "amount"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "generalledgers", force: :cascade do |t|
     t.date     "date"
     t.string   "debit_account"
@@ -146,7 +155,6 @@ ActiveRecord::Schema.define(version: 20161130002350) do
     t.date     "period_end"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.date     "beginning_date"
     t.string   "monthly_yearly"
   end
 

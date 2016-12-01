@@ -68,11 +68,11 @@ module GeneralledgersHelper
     end
  
     #「損益管理シート」原価（送料）計上
-    @shipping_cost_pladmins = Pladmin.where(shipping_cost: present?) 
+    @shipping_cost_pladmins = Pladmin.where.not(shipping_cost: [nil,0])
     @shipping_cost_pladmins.each do |pladmin|
       g_ledger = Generalledger.new(date: pladmin.date)
       order_num_sale = Sale.where(order_num: pladmin.order_num)
-      if order_num_sale.present? && order_num_sale.handling == "原価（送料）"
+      if order_num_sale.present? && order_num_sale.first.handling == "原価（送料）"
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（Amazon送料）")
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = pladmin.sku
@@ -232,7 +232,7 @@ module GeneralledgersHelper
         g_ledger.content = @old_return_stockledger.goods_name
         stock_trade_company = Stock.find_by(sku: return_good.old_sku)
         g_ledger.trade_company = stock_trade_company.purchase_from
-        g_ledger.amount = @old_return_stockledger.grandtotal
+        g_ledger.amount = @old_return_stockledger.grandtotal * -1
         g_ledger.save
       end
     end
@@ -290,7 +290,9 @@ module GeneralledgersHelper
         g_ledger.credit_subaccount = ""
       end
       g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = subexpense.date.strftime("%Y年 %m月 %d日") + subexpense.item
+      targetgoods = subexpense.targetgood.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
+      targetstock = Stock.find(targetgoods[0].to_i)
+      g_ledger.content = subexpense.date.strftime("%Y年 %m月 %d日") + subexpense.item + targetstock.goods_name
       g_ledger.trade_company = subexpense.purchase_from
       paid_amount = subexpense.amount * subexpense.rate 
       g_ledger.amount = BigDecimal(paid_amount.to_s).round(0)
@@ -318,7 +320,7 @@ module GeneralledgersHelper
       end
     end
     
-    #「付随費用」支払計上
+    #「付随費用」掛払い支払計上
     @subexpenses.each do |subexpense|
       if subexpense.date != subexpense.money_paid
         g_ledger = Generalledger.new(date: subexpense.money_paid)
@@ -344,11 +346,11 @@ module GeneralledgersHelper
     @expenseledgers.each do |expenseledger|
       g_ledger = Generalledger.new(date: expenseledger.date)
       #仕訳パターンを選ぶ
-      if expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円"
+      if expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円" && expenseledger.purchase_from != "Amazon"
         find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（国内）")
       elsif expenseledger.date == expenseledger.money_paid && expenseledger.currency != "円"
         find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（海外）")
-      elsif expenseledger.date != expenseledger.money_paid && expenseledger.currency == "円" 
+      elsif expenseledger.date != expenseledger.money_paid && expenseledger.currency == "円" || expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円" &&  expenseledger.purchase_from == "Amazon"
         find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（国内）") 
       else
         find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（海外）") 
@@ -390,7 +392,8 @@ module GeneralledgersHelper
       end
     end
   end
-  
+
+  #「振替台帳」から仕訳生成
   def import_from_vouchers
     @vouchers = Voucher.all
     @vouchers.each do |voucher|

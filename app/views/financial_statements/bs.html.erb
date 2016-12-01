@@ -1,0 +1,45 @@
+<h1>貸借対照表推移表</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    
+    <%= form_for(@show_period, url: bs_financial_statements_path , method: :get) do |f| %>
+      <label><%= f.radio_button :monthly_yearly, "月次", {:checked => true}%>月次</label>
+      <label><%= f.radio_button :monthly_yearly, "年次" %>年次</label>
+      <label><%= f.submit "切替" %>
+    <% end %>
+
+    <table>
+      <thead>
+        <tr>
+          <% @show_periods.each do |e| %>
+             <th></th>
+            <% if e.monthly_yearly == "月次" %>
+             <th><%= e.period_start.strftime("%Y年 %m月") %></th>
+            <% else %>
+             <th><%= e.period_start.strftime("%Y年") %></th>
+            <% end %>
+          <% end %>
+       </tr>
+      </thead>
+      <tbody>
+        <% @bs_accounts.each do |bs| %>
+          <tr>
+            <td><%= bs.account %></td>
+            <% count_period = @show_periods.count %>
+            <% 0.upto(count_period-1) do |i| %>
+              <% target_period = @show_periods[i] %>
+              <% target_data = FinancialStatement.find_by(period_start: target_period.period_start) %>
+              <% if target_data.present? %>
+              <td><%= sprintf("%.0f",target_data.amount) %></td>
+              <% else %>
+              <td><%= nil %></td>
+              <% end %>
+            <% end %> 
+          </tr>
+        <% end %>
+      </tbody>
+      <%= paginate @show_periods %>
+    </table>
+  </div>
+</div>

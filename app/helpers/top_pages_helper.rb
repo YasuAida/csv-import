@@ -9,6 +9,22 @@ module TopPagesHelper
       File.delete('./tmp/top_page/' + file_name.original_filename)
   end
   
+  def accounts_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :account, :debit_credit, :bs_pl]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+
+        Account.create(row_hash)
+      end
+  end
+
   def allocationcosts_import(file_name)
       # 先にDBのカラム名を用意
       @column = [:id, :stock_id, :title, :allocation_amount]
@@ -127,7 +143,7 @@ module TopPagesHelper
   
   def expenseledgers_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :date, :account_name, :content, :amount, :rate, :money_paid, :purchase_from, :currency]
+      @column = [:id, :date, :account_name, :content, :amount, :rate, :money_paid, :purchase_from, :currency, :grandtotal]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -140,8 +156,27 @@ module TopPagesHelper
         row_hash[:amount] = row_hash[:amount].to_f
         row_hash[:rate] = row_hash[:rate].to_f
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
+        row_hash[:grandtotal] = row_hash[:grandtotal].to_i      
         
         Expenseledger.create(row_hash)
+      end
+  end
+  
+  def financial_statements_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :period_start, :monthly_yearly, :account, :amount]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        row_hash[:period_start] = Date.parse(row_hash[:period_start]).to_date
+        row_hash[:amount] = row_hash[:amount].to_i
+        
+        FinancialStatement.create(row_hash)
       end
   end
   
@@ -213,6 +248,24 @@ module TopPagesHelper
       end
   end
 
+  def periods_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :period_start, :period_end, :monthly_yearly]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        row_hash[:period_start] = Date.parse(row_hash[:period_start]).to_date
+        row_hash[:period_end] = Date.parse(row_hash[:period_end]).to_date        
+        
+        Period.create(row_hash)
+      end
+  end
+  
   def pladmins_import(file_name)
       # 先にDBのカラム名を用意
       @column = [:id, :date, :order_num, :sku, :goods_name, :sale_place, :sale_amount, :commission, :cgs_amount, :shipping_cost, :money_receive, :commission_pay_date, :shipping_pay_date]
@@ -354,6 +407,22 @@ module TopPagesHelper
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         
         Subexpense.create(row_hash)
+      end
+  end
+
+  def users_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :name, :postal_code, :address, :telephone_number, :email, :password_digest]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+
+        User.create(row_hash)
       end
   end
   

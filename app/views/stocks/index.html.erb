@@ -1,9 +1,4 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h1>仕入台帳</h1>
-  </div>
-    
-  <div class="panel-body">
+<h1>仕入台帳</h1>
     <h3>仕入データ取り込み</h3>
     <%= form_tag({action: 'upload'}, {multipart: true}) do %>
       <%= file_field :upload, :datafile %>
@@ -24,7 +19,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th class="col-sm-1">削除ボタン</th>              
+              <th class="col-sm-1">削除ボタン</th>
               <th class="col-sm-1">ID</th>
               <th class="col-sm-1">日付</th>
               <th class="col-sm-1">SKU</th>
@@ -68,11 +63,10 @@
                   </tr>
             <% end %>
           </tbody>
+          <%= paginate @stocks %>
         </table>
       </div>
     </div>
-  </div>
-</div>
 
 <p>
   Download:

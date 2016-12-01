@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  period_start: 2016-11-30
+  monthly_yearly: MyString
+  account: MyString
+  amount: 1
+
+two:
+  period_start: 2016-11-30
+  monthly_yearly: MyString
+  account: MyString
+  amount: 1

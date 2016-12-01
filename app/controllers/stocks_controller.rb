@@ -6,7 +6,7 @@ class StocksController < ApplicationController
   def index
     #@stocks = Stock.all
     @q = Stock.search(params[:q])
-    @stocks = @q.result(distinct: true)
+    @stocks = @q.result(distinct: true).page(params[:page])
     @stock = Stock.new
     
     respond_to do |format|

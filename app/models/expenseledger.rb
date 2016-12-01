@@ -15,7 +15,8 @@ class Expenseledger < ActiveRecord::Base
         row.rate,
         row.money_paid,
         row.purchase_from,
-        row.currency
+        row.currency,
+        row.grandtotal
        ]
       csv << csv_column_values
       end    
