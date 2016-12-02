@@ -54,10 +54,12 @@ class StocksController < ApplicationController
   # Ajax用にリダイレクトを破棄 
   def update
     if @update_stock.update(stock_params)
+      p "***********************"
       render 'update_ajax'
       # redirect_to stocks_path, notice: "データを編集しました"
     else
       flash.now[:alert] = "データの編集に失敗しました。"
+      p "#######################"
       render 'update_ajax'
       # render "update"
     end

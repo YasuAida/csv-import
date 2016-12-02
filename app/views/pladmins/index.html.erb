@@ -92,6 +92,8 @@
       <th width="50">送料</th>    
       <th width="50">利益</th> 
       <th width="75">入金日</th>
+      <th width="75">Amazon以外の手数料支払日</th>
+      <th width="75">Amazon以外の送料支払日</th>
     </tr>
   </thead>
   <tbody>
@@ -110,6 +112,8 @@
         <td><%= f.text_field :shipping_cost %></td>        
         <td><%= pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i%></td>
         <td><%= f.text_field :money_receive %></td>
+        <td><%= f.text_field :commission_pay_date %></td>        
+        <td><%= f.text_field :shipping_pay_date %></td>        
         <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
       <% end %> 
     </tr>  
@@ -129,6 +133,8 @@
       <td></td>
       <td></td>      
       <td><%= f.text_field :money_receive %></td>
+      <td><%= f.text_field :commission_pay_date %></td>
+      <td><%= f.text_field :shipping_pay_date %></td>
       <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
     </tr> 
     <% end %>  

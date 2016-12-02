@@ -283,8 +283,8 @@ module TopPagesHelper
         row_hash[:cgs_amount] = row_hash[:cgs_amount].to_i 
         row_hash[:shipping_cost] = row_hash[:shipping_cost].to_i         
         row_hash[:money_receive] = Date.parse(row_hash[:money_receive]).to_date
-        row_hash[:commission_pay_date] = Date.parse(row_hash[:commission_pay_date]).to_date unless row_hash[:commission_pay_date].nil?
-        row_hash[:shipping_pay_date] = Date.parse(row_hash[:shipping_pay_date]).to_date unless row_hash[:commission_pay_date].nil?
+        row_hash[:commission_pay_date] = Date.parse(row_hash[:commission_pay_date]).to_date if row_hash[:commission_pay_date].present?
+        row_hash[:shipping_pay_date] = Date.parse(row_hash[:shipping_pay_date]).to_date if row_hash[:commission_pay_date].present?
         
         Pladmin.create(row_hash)
       end

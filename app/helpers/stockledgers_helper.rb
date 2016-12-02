@@ -22,10 +22,13 @@ module StockledgersHelper
           pladmin.save
         
         else
-          @sku_ledger = Stockledger.find_by(sku: @sku_stocks.first.sku)
+          @sku_ledger = Stockledger.where(sku: @sku_stocks.first.sku)
             if @sku_ledger.present?
               sku_ary = []
-              sku_ary << @sku_ledger
+              sku_ledger_number = 0
+              @sku_ledger.each do |sku_ledger|  
+                sku_ary << sku_ledger.id
+              end
               sku_ledger_number = sku_ary.count
             else
               sku_ledger_number = 0
@@ -36,10 +39,10 @@ module StockledgersHelper
               ex_price_unit = sku_stock.grandtotal / sku_stock.number
               price_unit = BigDecimal(ex_price_unit.to_s).round(0)
               if pladmin.sale_amount.present? && pladmin.sale_amount >= 0            
-                @stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: @sku_stocks.first.asin, goods_name: pladmin.goods_name, classification: "販売", number: -1, unit_price: price_unit, grandtotal: price_unit * -1)
+                @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: -1, unit_price: price_unit, grandtotal: price_unit * -1)
                 pladmin.cgs_amount = price_unit
               else
-                @stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: @sku_stocks.first.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: 1, unit_price: price_unit, grandtotal: price_unit)
+                @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: 1, unit_price: price_unit, grandtotal: price_unit)
                 pladmin.cgs_amount = price_unit * -1         
               end
               @stockledger.save
@@ -116,9 +119,9 @@ module StockledgersHelper
               if sku_stock.number > sku_ledger_number
                 ex_price_unit = sku_stock.grandtotal / sku_stock.number
                 price_unit = BigDecimal(ex_price_unit.to_s).round(0)
-                @old_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: @date_sale.date,sku: return_good.old_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
+                @old_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: @date_sale.date,sku: return_good.old_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
                 @old_stockledger.save
-                @new_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: @date_sale.date,sku: return_good.new_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
+                @new_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: @date_sale.date,sku: return_good.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
                 @new_stockledger.save
                 
               #pladminsテーブルの新SKUを持つデータを探し、あれば原価データを付与する
@@ -137,4 +140,17 @@ module StockledgersHelper
     end
   end
   
+  #端数処理
+  def rounding_fraction
+    @stocks = Stock.all
+    @stocks.each do |stock|
+      if stock.stockledgers.sum(:number) == 0 && stock.stockledgers.sum(:grandtotal) != 0
+        fraction = stock.stockledgers.sum(:grandtotal)
+        new_grandtotal = stock.stockledgers.where.not(classification: "購入").last.grandtotal - fraction
+        target_stockledger = stock.stockledgers.where.not(classification: "購入").last
+        target_stockledger.grandtotal = new_grandtotal
+        target_stockledger.save
+      end
+    end
+  end
 end
