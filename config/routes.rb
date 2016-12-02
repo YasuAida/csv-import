@@ -96,7 +96,11 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :pladmins , only: [:index, :create, :update]
+  resources :pladmins , only: [:index, :create, :update] do
+    collection do
+      post 'upload'       
+    end
+  end
 
   resources :sales , only: [:index] do
     collection do

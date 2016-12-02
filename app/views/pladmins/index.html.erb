@@ -1,6 +1,13 @@
 <h1>損益管理シート</h1>
 
+<%# マルチチャンネル発送が無い場合 %>
 <% if MultiChannel.count == 0 %>
+
+<h3>損益データ取り込み</h3>
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
 
 <%= form_tag("/pladmins", method: "get") do %>
   <%= label_tag(:q) %>
@@ -69,7 +76,18 @@
   <%= link_to "CSV形式でダウンロード", pladmins_path(format: "csv") %>
 </p>
 
+<p>
+  フォーマットはこちらからダウンロードしてください:
+  <%= link_to "フォーマット出力", pladmins_path(format: "csv"), class: "btn btn-primary" %>
+</p>
+
+<%# マルチチャンネル発送がある場合 %>
 <% else %>
+<h3>損益データ取り込み</h3>
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile %>
+  <%= submit_tag "UPLOAD" %>
+<% end %>
 
 <%= form_tag("/pladmins", method: "get") do %>
   <%= label_tag(:q) %>

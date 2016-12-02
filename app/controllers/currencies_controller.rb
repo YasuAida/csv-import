@@ -2,6 +2,7 @@ class CurrenciesController < ApplicationController
   def index
     @currency = Currency.new    
     @currencies = Currency.all
+    @upload_currencies = Currency.where.not(name: "円")
   end
   
   def create

@@ -2,43 +2,54 @@
 
 <div class="container-fluid">
   <div class="row">
-    
+    <div class="col-xs-12">
+      
     <%= form_for(@show_period, url: pl_financial_statements_path , method: :get) do |f| %>
       <label><%= f.radio_button :monthly_yearly, "月次", {:checked => true}%>月次</label>
       <label><%= f.radio_button :monthly_yearly, "年次" %>年次</label>
-      <label><%= f.submit "切替" %>
+      <label><%= f.submit "切替" %></label>
     <% end %>
 
-    <table>
-      <thead>
-        <tr>
-          <% @show_periods.each do |e| %>
-             <th></th>
-            <% if e.monthly_yearly == "月次" %>
-             <th><%= e.period_start.strftime("%Y年 %m月") %></th>
-            <% else %>
-             <th><%= e.period_start.strftime("%Y年") %></th>
-            <% end %>
+    <div style="overflow: hidden;">
+      <table border="1" style="float: left; display: inline-block; width: 101px; overflow-x: scroll;">
+        <thead>
+          <tr><th>　</th></tr>
+        </thead>
+        <tbody>
+          <% @pl_accounts.each do |pl| %>
+            <tr><td><%= pl.account %></td></tr>
           <% end %>
-       </tr>
-      </thead>
-      <tbody>
-        <% @pl_accounts.each do |pl| %>
+        </tbody>
+      </table>
+  
+  
+      <table border="1" style="float: left; max-width: 82%; display: inline-block; overflow-x: scroll;">
+        <thead>
           <tr>
-            <td><%= pl.account %></td>
-            <% count_period = @show_periods.count %>
-            <% 0.upto(count_period-1) do |i| %>
-              <% target_period = @show_periods[i] %>
-              <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: pl.account) %>
-              <% if target_data.present? %>
-                <td><%= sprintf("%.0f",target_data.amount) %></td>
+            <% @show_periods.each do |e| %>
+              <% if e.monthly_yearly == "月次" %>
+               <th style="white-space: nowrap; margin: 0;"><%= e.period_start.strftime("　%Y年%m月　") %></th>
               <% else %>
-                <td><%= nil %></td>
+               <th><%= e.period_start.strftime("　%Y年　") %></th>
               <% end %>
-            <% end %>  
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+            <% end %>
+         </tr>
+        </thead>
+  
+        <tbody>
+          <% @pl_accounts.each do |pl| %>
+            <tr>
+              <% count_period = @show_periods.count %>
+              <% 0.upto(count_period-1) do |i| %>
+                <% target_period = @show_periods[i] %>
+                <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: pl.account) %>
+                <td align="right"><%= sprintf("%.0f　",target_data.amount) if target_data.present? %></td>
+              <% end %>  
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    </div>
   </div>
 </div>

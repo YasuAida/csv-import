@@ -15,6 +15,19 @@ class PladminsController < ApplicationController
       format.csv { send_data @pladmins.to_csv, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
     end
   end
+
+  def upload 
+    data = params[:upload]
+    #ファイルの登録
+    file_open(data[:datafile])
+    #ファイルのインポート
+    file_import_pladmin(data[:datafile])
+    #ファイルの削除
+    file_close(data[:datafile])
+    #為替レートのインポート
+
+    redirect_to pladmins_path
+  end
   
   def create
     @pladmin = Pladmin.new(pladmin_params)

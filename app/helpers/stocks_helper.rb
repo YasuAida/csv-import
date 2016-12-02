@@ -19,6 +19,8 @@ module StocksHelper
         row_hash[:number] = row_hash[:number].to_i
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
+        row_hash[:rate] = row_hash[:rate].to_f        
+        row_hash[:goods_amount] = row_hash[:goods_amount].to_i
         
         Stock.create(row_hash)
 
