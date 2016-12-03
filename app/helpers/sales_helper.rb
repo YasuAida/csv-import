@@ -47,7 +47,7 @@ module SalesHelper
       
       if sale.handling == "原価（送料）"
         shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sale_place: "その他", shipping_cost: shipping_cost * -1, money_receive: sale.money_receive)
+        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)
         pladmin.save
         unless MultiChannel.where(order_num: sale.order_num).present?
           multi_channel = MultiChannel.new(order_num: sale.order_num)

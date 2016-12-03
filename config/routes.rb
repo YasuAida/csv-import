@@ -98,7 +98,8 @@ Rails.application.routes.draw do
   
   resources :pladmins , only: [:index, :create, :update] do
     collection do
-      post 'upload'       
+      get 'blank_form'
+      post 'upload'     
     end
   end
 

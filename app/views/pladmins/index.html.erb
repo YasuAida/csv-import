@@ -9,10 +9,13 @@
   <%= submit_tag "UPLOAD" %>
 <% end %>
 
-<%= form_tag("/pladmins", method: "get") do %>
-  <%= label_tag(:q) %>
-  <%= text_field_tag(:q) %>
-  <%= submit_tag("ASINで絞り込み") %>
+<%= search_form_for(@q, url: pladmins_path) do |f| %>
+  <%= f.label :sku_cont, "SKUで検索" %>
+  <%= f.search_field :sku_cont %>
+  <%= f.submit "検索" %>
+  <%= f.label :goods_name_cont, "商品名で検索" %>
+  <%= f.search_field :goods_name_cont %>
+  <%= f.submit "検索" %>
 <% end %>
 
 <table>
@@ -89,10 +92,13 @@
   <%= submit_tag "UPLOAD" %>
 <% end %>
 
-<%= form_tag("/pladmins", method: "get") do %>
-  <%= label_tag(:q) %>
-  <%= text_field_tag(:q) %>
-  <%= submit_tag("SKUで絞り込み") %>
+<%= search_form_for(@q, url: pladmins_path) do |f| %>
+  <%= f.label :sku_cont, "SKUで検索" %>
+  <%= f.search_field :sku_cont %>
+  <%= f.submit "検索" %>
+  <%= f.label :goods_name_cont, "商品名で検索" %>
+  <%= f.search_field :goods_name_cont %>
+  <%= f.submit "検索" %>
 <% end %>
 
 <table>
@@ -164,4 +170,8 @@
   <%= link_to "CSV形式でダウンロード", pladmins_path(format: "csv") %>
 </p>
 
+<p>
+  フォーマットはこちらからダウンロードしてください:
+  <%= link_to "フォーマット出力", blank_form_pladmins_path(format: "csv"), class: "btn btn-primary" %>
+</p>
 <% end %>

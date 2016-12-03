@@ -5,8 +5,6 @@ class StockledgersController < ApplicationController
   def index
   #pladminsテーブルに原価データを付与
     sale_goods_import_to_stockledger
-  #マルチチャンネル発送分についてstockledgersテーブルにデータを入力する
-    multi_channels_import_to_stockledger  
   #返還商品についてstockledgersテーブルにデータを入力する
     return_goods_import_to_stockledger
 
@@ -15,6 +13,9 @@ class StockledgersController < ApplicationController
       @stockledger = Stockledger.new(stock_id: stock.id, transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
       @stockledger.save
     end
+  
+  #マルチチャンネル発送分についてstockledgersテーブルにデータを入力する
+    multi_channels_import_to_stockledger
   
   #端数処理
     rounding_fraction

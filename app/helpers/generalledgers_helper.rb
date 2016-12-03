@@ -17,10 +17,8 @@ module GeneralledgersHelper
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.sale_amount
       g_ledger.save
-    end
-    
+
     #「損益管理シート」原価計上  
-    @pladmins.each do |pladmin|
       g_ledger = Generalledger.new(date: pladmin.date)
       find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価")
       g_ledger.debit_account = find_pattern.debit_account
@@ -33,10 +31,8 @@ module GeneralledgersHelper
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.cgs_amount
       g_ledger.save
-    end
-    
+
     #「損益管理シート」原価（手数料）計上  
-    @pladmins.each do |pladmin|
       order_num_sale = Sale.where(order_num: pladmin.order_num)
       if order_num_sale.present?  
         g_ledger = Generalledger.new(date: pladmin.date)
@@ -65,6 +61,20 @@ module GeneralledgersHelper
         g_ledger.amount = pladmin.commission
         g_ledger.save
       end
+      
+     #「損益管理シート」入金計上  
+        g_ledger = Generalledger.new(date: pladmin.money_receive)
+        find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "入金")
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = ""
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = pladmin.money_receive.to_s
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = pladmin.goods_name
+        g_ledger.trade_company = pladmin.sale_place
+        g_ledger.amount = pladmin.sale_amount - pladmin.commission
+        g_ledger.save
     end
  
     #「損益管理シート」原価（送料）計上
@@ -110,25 +120,9 @@ module GeneralledgersHelper
         g_ledger.save        
       end
     end
-    
-   #「損益管理シート」入金計上  
-    @pladmins.each do |pladmin|
-      g_ledger = Generalledger.new(date: pladmin.money_receive)
-      find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "入金")
-      g_ledger.debit_account = find_pattern.debit_account
-      g_ledger.debit_subaccount = ""
-      g_ledger.debit_taxcode = find_pattern.debit_taxcode
-      g_ledger.credit_account = find_pattern.credit_account
-      g_ledger.credit_subaccount = pladmin.money_receive.to_s
-      g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = pladmin.goods_name
-      g_ledger.trade_company = pladmin.sale_place
-      g_ledger.amount = pladmin.sale_amount - pladmin.commission
-      g_ledger.save
-    end
-    
+
     #「損益管理シート」掛払い支払計上
-    @commission_pay_pladmins = Pladmin.where(commission_pay_date: present?)     
+    @commission_pay_pladmins = Pladmin.where.not(commission_pay_date: [0,nil])     
     @commission_pay_pladmins.each do |pladmin|
       g_ledger = Generalledger.new(date: pladmin.commission_pay_date)
       find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "掛払い支払")
@@ -143,7 +137,7 @@ module GeneralledgersHelper
       g_ledger.amount = pladmin.commission
       g_ledger.save
     end
-    @shipping_pay_pladmins = Pladmin.where(shipping_pay_date: present?)     
+    @shipping_pay_pladmins = Pladmin.where(shipping_pay_date: [0,nil])    
     @shipping_pay_pladmins.each do |pladmin|
       if pladmin.shipping_pay_date - pladmin.date > 15
         g_ledger = Generalledger.new(date: pladmin.shipping_pay_date)

@@ -12,9 +12,13 @@
       <%= f.label :asin_cont, "ASINで検索" %>
       <%= f.search_field :asin_cont %>
       <%= f.submit "検索" %>
+      <%= f.label :goods_name_cont, "商品名で検索" %>
+      <%= f.search_field :goods_name_cont %>
+      <%= f.submit "検索" %>
     <% end %>
     
-    <div class="container-fluid">
+    <div class="container-fluid" id='aj-form'>
+      <!--クリックイベントを作る為に外包するIDをを作成-->
       <div class="row">
         <table class="table table-striped">
           <thead>
