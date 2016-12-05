@@ -61,6 +61,16 @@ module SalesHelper
           return_good.save
         end
       end
+      
+      if sale.handling == "未払金"
+        voucher = Voucher.new(date: sale.date, debit_account: "売掛金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
+        voucher.save
+      end
+        
+      if sale.handling == "売掛金"
+        voucher = Voucher.new(date: sale.date, debit_account: "売掛金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "売掛金", credit_subaccount: "", credit_taxcode: "不課税", amount: sale.amount, content: sale.detail_of_payment, trade_company: "Amazon")
+        voucher.save
+      end
     end      
   end
 

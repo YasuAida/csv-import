@@ -1,3 +1,65 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 1850px;
+}
+
+.container {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 1850px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 1850px;   /* ポイント */
+}
+thead {
+  float: left;    /* ポイント */
+  overflow: hidden;   /* ポイント */
+}
+tbody {
+  float: left;    /* ポイント */
+  overflow: auto; /* ポイント */
+  height: 818px;  /* ポイント */
+  width:1850px;    /* ポイント */
+}
+th.small, td.small {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 40px;    /* ポイント */
+}
+th.account,td.account,th.amount {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 106px;    /* ポイント */
+} 
+td.amount {
+  border: 1px;
+  font-size: 14px;
+  text-align: right;
+  width: 106px;    /* ポイント */
+} 
+th.order_num, td.order_num {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 175px;    /* ポイント */
+} 
+th.content, td.content {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 340px;    /* ポイント */
+}
+th.company, td.company {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 100px;    /* ポイント */
+}    

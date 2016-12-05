@@ -7,7 +7,7 @@ class PladminsController < ApplicationController
 
     #@pladmins = Pladmin.all
     @q = Pladmin.search(params[:q])
-    @pladmins = @q.result(distinct: true)
+    @pladmins = @q.result(distinct: true).page(params[:page])
     
     respond_to do |format|
       format.html
@@ -34,17 +34,28 @@ class PladminsController < ApplicationController
   end
   
   def create
+    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
+    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
+    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
     @pladmin = Pladmin.new(pladmin_params)
     @pladmin.save
     redirect_to pladmins_path, notice: 'データを保存しました'
   end
   
   def update
+    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
+    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
+    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
     if @update_pladmin.update(pladmin_params)
       redirect_to pladmins_path, notice: "データを編集しました"
     else
       render "update"
     end
+  end
+
+  def destroy
+    @update_pladmin.destroy
+    redirect_to pladmins_path  
   end
   
   private

@@ -34,7 +34,6 @@ module PladminsHelper
     @merge_pladmins = @ex_merge_pladmins.where.not(sale_place: "その他")
     
     @merge_pladmins.each do |merge_pladmin|
-binding.pry
       @target_pladmins = Pladmin.where(sale_place: "その他", sku: merge_pladmin.sku).order(:date) if Pladmin.where(sale_place: "その他", sku: merge_pladmin.sku).present?
       unless @target_pladmins.nil?
         @target_pladmins.first.date = merge_pladmin.date

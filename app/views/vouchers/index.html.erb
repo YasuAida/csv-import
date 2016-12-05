@@ -1,58 +1,60 @@
 <h1>振替台帳</h1>
 
-<div class="container-fluid">
-  <div class="row">
-    <table>
+<div class="container" id='aj-form'>
+<!--クリックイベントを作る為に外包するIDをを作成-->
+  <div style="overflow: hidden;">
+    <table class="table">
       <thead>
         <tr>
-          <th class="col-sm-1">削除ボタン</th>           
-          <th class="col-sm-1">ID</th>
-          <th class="col-sm-1">日付</th>
-          <th class="col-sm-1">借方勘定科目</th>
-          <th class="col-sm-1">借方補助科目</th>          
-          <th class="col-sm-1">借方税コード</th>          
-          <th class="col-sm-1">貸方勘定科目</th>
-          <th class="col-sm-1">貸方補助科目</th>          
-          <th class="col-sm-1">貸方税コード</th>
-          <th class="col-sm-1">金額</th>
-          <th class="col-sm-1">摘要</th>
-          <th class="col-sm-1">取引先</th>
+          <th class="small">削除</th>           
+          <th class="small">ID</th>
+          <th class="account">日付</th>
+          <th class="account">借方勘定科目</th>
+          <th class="account">借方補助科目</th>          
+          <th class="account">借方税コード</th>          
+          <th class="account">貸方勘定科目</th>
+          <th class="account">貸方補助科目</th>          
+          <th class="account">貸方税コード</th>
+          <th class="amount">金額</th>
+          <th class="content">摘要</th>
+          <th class="company">取引先</th>
         </tr>
       </thead>
       <tbody>
         <% @vouchers.each do |voucher| %>
           <tr>
-           <td><%= link_to "削除" , voucher , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+           <td class="small"><%= link_to "削除" , voucher , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
             <%= form_for(voucher, url: voucher_path(voucher.id)) do |f| %>
-              <td><%= voucher.id %></td>
-              <td><%= f.text_field :date %></td>
-              <td><%= f.text_field :debit_account %></td>
-              <td><%= f.text_field :debit_subaccount %></td>              
-              <td><%= f.text_field :debit_taxcode %></td>              
-              <td><%= f.text_field :credit_account %></td>
-              <td><%= f.text_field :credit_subaccount %></td>              
-              <td><%= f.text_field :credit_taxcode %></td>
-              <td><%= f.text_field :amount %></td>
-              <td style="white-space:nowrap;"><%= f.text_field :content %></td>
-              <td><%= f.text_field :trade_company %></td>
+              <td class="small"><%= voucher.id %></td>
+              <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+              <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
+              <td class="account"><%= f.text_field :debit_subaccount, :size=> "8" %></td>              
+              <td class="account"><%= f.text_field :debit_taxcode, :size=> "8" %></td>              
+              <td class="account"><%= f.text_field :credit_account, :size=> "8" %></td>
+              <td class="account"><%= f.text_field :credit_subaccount, :size=> "8" %></td>              
+              <td class="account"><%= f.text_field :credit_taxcode, :size=> "8" %></td>
+              <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+              <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => 42 %></td>
+              <td class="company"><%= f.text_field :trade_company, :size => 8 %></td>
+              <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit%></td>          
             <% end %>
           </tr>
         <% end %>
 
         <%= form_for(@voucher) do |f|  %>
         <tr>
-          <td></td>
-          <td></td>
-          <td><%= f.text_field :date %></td>
-          <td><%= f.text_field :debit_account %></td>
-          <td><%= f.text_field :debit_subaccount %></td>              
-          <td><%= f.text_field :debit_taxcode %></td>              
-          <td><%= f.text_field :credit_account %></td>
-          <td><%= f.text_field :credit_subaccount %></td>              
-          <td><%= f.text_field :credit_taxcode %></td>
-          <td><%= f.text_field :amount %></td>
-          <td style="white-space:nowrap;"><%= f.text_field :content %></td>
-          <td><%= f.text_field :trade_company %></td>
+          <td class="small"></td>
+          <td class="small"></td>
+          <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+          <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
+          <td class="account"><%= f.text_field :debit_subaccount, :size=> "8" %></td>              
+          <td class="account"><%= f.text_field :debit_taxcode, :size=> "8" %></td>              
+          <td class="account"><%= f.text_field :credit_account, :size=> "8" %></td>
+          <td class="account"><%= f.text_field :credit_subaccount, :size=> "8" %></td>              
+          <td class="account"><%= f.text_field :credit_taxcode, :size=> "8" %></td>
+          <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+          <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => 42 %></td>
+          <td class="company"><%= f.text_field :trade_company, :size => 8 %></td>
           <td><%= f.submit "登録" %></td>
         </tr>
         <% end %>
