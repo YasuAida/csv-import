@@ -38,6 +38,7 @@ class StocksController < ApplicationController
   end
   
   def create
+    params[:stock][:unit_price] = params[:stock][:unit_price].gsub(",","") if params[:stock][:unit_price].present?
     @stock = Stock.new(stock_params)
     if @stock.save
     #為替レートの付与
@@ -53,15 +54,13 @@ class StocksController < ApplicationController
 
   # Ajax用にリダイレクトを破棄 
   def update
+    params[:stock][:unit_price] = params[:stock][:unit_price].gsub(",","") if params[:stock][:unit_price].present?    
     if @update_stock.update(stock_params)
-      p "***********************"
+      flash.now[:alert] = "データを更新しました。"
       render 'update_ajax'
-      # redirect_to stocks_path, notice: "データを編集しました"
     else
-      flash.now[:alert] = "データの編集に失敗しました。"
-      p "#######################"
+      flash.now[:alert] = "データの更新に失敗しました。"
       render 'update_ajax'
-      # render "update"
     end
   end
   

@@ -9,8 +9,19 @@ td#adjust select{
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
 }
-
 td.collection select{
 -webkit-appearance:none;
 height: 500px;
+}
+th.subexpense{
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 135px;    /* ポイント */
+}
+th.alloc_stock{
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 515px;    /* ポイント */
 }

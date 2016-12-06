@@ -27,11 +27,17 @@ tbody {
   height: 818px;  /* ポイント */
   width:1850px;    /* ポイント */
 }
-th.small, td.small {
+th.small {
   border: 1px;
   font-size: 14px;
   text-align: center;
-  width: 40px;    /* ポイント */
+  width: 51px;    /* ポイント */
+}
+td.small {
+  border: 1px;
+  font-size: 14px;
+  text-align: right;
+  width: 46px;    /* ポイント */
 }
 th.account,td.account,th.amount {
   border: 1px;
@@ -51,6 +57,12 @@ th.order_num, td.order_num {
   text-align: center;
   width: 175px;    /* ポイント */
 } 
+th.asin, td.asin {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 130px;    /* ポイント */
+} 
 th.content, td.content {
   border: 1px;
   font-size: 14px;
@@ -62,4 +74,16 @@ th.company, td.company {
   font-size: 14px;
   text-align: center;
   width: 100px;    /* ポイント */
-}    
+}
+th.rate {
+  border: 1px;
+  font-size: 14px;
+  text-align: center;
+  width: 60px;    /* ポイント */
+}
+td.rate {
+  border: 1px;
+  font-size: 14px;
+  text-align: right;
+  width: 60px;    /* ポイント */
+}

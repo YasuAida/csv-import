@@ -5,6 +5,8 @@
       <%= submit_tag "UPLOAD" %>
     <% end %>
     
+    <br>
+    
     <%= search_form_for(@q, url: stocks_path) do |f| %>
       <%= f.label :sku_cont, "SKUで検索" %>
       <%= f.search_field :sku_cont %>
@@ -17,59 +19,57 @@
       <%= f.submit "検索" %>
     <% end %>
     
-    <div class="container-fluid" id='aj-form'>
+    <div class="container" id='aj-form'>
       <!--クリックイベントを作る為に外包するIDをを作成-->
-      <div class="row">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th class="col-sm-1">削除ボタン</th>
-              <th class="col-sm-1">ID</th>
-              <th class="col-sm-1">日付</th>
-              <th class="col-sm-1">SKU</th>
-              <th class="col-sm-1">ASIN</th>
-              <th class="col-sm-1">商品名</th>
-              <th class="col-sm-1">個数</th>
-              <th class="col-sm-1">単価</th>
-              <th class="col-sm-1">小計(外貨)</th>
-              <th class="col-sm-1">為替レート</th>
-              <th class="col-sm-1">小計(円貨)</th>
-              <th class="col-sm-1">支払日</th>
-              <th class="col-sm-1">購入先</th>
-              <th class="col-sm-1">通貨</th>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="small">削除</th>
+            <th class="small">ID</th>
+            <th class="account">日付</th>
+            <th class="order_num">SKU</th>
+            <th class="asin">ASIN</th>
+            <th class="content">商品名</th>
+            <th class="rate">個数</th>
+            <th class="amount">単価</th>
+            <th class="amount">小計(外貨)</th>
+            <th class="rate">レート</th>
+            <th class="amount">小計(円貨)</th>
+            <th class="account">支払日</th>
+            <th class="account">購入先</th>
+            <th class="account">通貨</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @stocks.each do |stock| %>
+            <!--Ajax用に固有のidを設定-->
+            <tr id="stock-<%= stock.id %>">
+              <!--Ajaxのrender用に部分テンプレートに切り出し-->
+              <%= render 'form', stock: stock %>
             </tr>
-          </thead>
-          <tbody>
-            <% @stocks.each do |stock| %>
-              <!--Ajax用に固有のidを設定-->
-              <tr id="stock-<%= stock.id %>">
-                <!--Ajaxのrender用に部分テンプレートに切り出し-->
-                <%= render 'form', stock: stock %>
-              </tr>
-            <% end %>
-            <%= form_for(@stock) do |f| %>
-              <tr>
-                  <td></td>
-                  <td></td>
-                  <td><%= f.text_field :date %></td>            
-                  <td><%= f.text_field :sku %></td>
-                  <td><%= f.text_field :asin %></td>
-                  <td><%= f.text_field :goods_name %></td>            
-                  <td><%= f.text_field :number %></td>
-                  <td><%= f.text_field :unit_price %></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>                  
-                  <td><%= f.text_field :money_paid %></td>           
-                  <td><%= f.text_field :purchase_from %></td>            
-                  <td><%= f.text_field :currency %></td>
-                  <td class="btn-btn-primary"><%= f.submit %></td>
-                  </tr>
-            <% end %>
-          </tbody>
-          <%= paginate @stocks %>
-        </table>
-      </div>
+          <% end %>
+          <%= form_for(@stock) do |f| %>
+            <tr>
+                <td class="small"></td>
+                <td class="small"></td>
+                <td class="account"><%= f.text_field :date, :size=> "8"%></td>            
+                <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+                <td class="asin"><%= f.text_field :asin, :size=> "10"%></td>
+                <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>            
+                <td class="rate"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>
+                <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right"%></td>
+                <td class="amount"></td>
+                <td class="rate"></td>
+                <td class="amount"></td>                  
+                <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>           
+                <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>            
+                <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
+                <td class="btn-btn-primary"><%= f.submit "登録"%></td>
+                </tr>
+          <% end %>
+        </tbody>
+        <%= paginate @stocks %>
+      </table>
     </div>
 
 <p>

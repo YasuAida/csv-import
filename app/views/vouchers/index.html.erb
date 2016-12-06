@@ -3,7 +3,7 @@
 <div class="container" id='aj-form'>
 <!--クリックイベントを作る為に外包するIDをを作成-->
   <div style="overflow: hidden;">
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th class="small">削除</th>           
@@ -22,25 +22,13 @@
       </thead>
       <tbody>
         <% @vouchers.each do |voucher| %>
-          <tr>
-           <td class="small"><%= link_to "削除" , voucher , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
-            <%= form_for(voucher, url: voucher_path(voucher.id)) do |f| %>
-              <td class="small"><%= voucher.id %></td>
-              <td class="account"><%= f.text_field :date, :size=> "8"%></td>
-              <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
-              <td class="account"><%= f.text_field :debit_subaccount, :size=> "8" %></td>              
-              <td class="account"><%= f.text_field :debit_taxcode, :size=> "8" %></td>              
-              <td class="account"><%= f.text_field :credit_account, :size=> "8" %></td>
-              <td class="account"><%= f.text_field :credit_subaccount, :size=> "8" %></td>              
-              <td class="account"><%= f.text_field :credit_taxcode, :size=> "8" %></td>
-              <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
-              <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => 42 %></td>
-              <td class="company"><%= f.text_field :trade_company, :size => 8 %></td>
-              <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit%></td>          
-            <% end %>
+          <!--Ajax用に固有のidを設定-->
+          <tr id="voucher-<%= voucher.id %>">
+            <!--Ajaxのrender用に部分テンプレートに切り出し-->
+            <%= render 'form', voucher: voucher %>
           </tr>
         <% end %>
-
+        
         <%= form_for(@voucher) do |f|  %>
         <tr>
           <td class="small"></td>

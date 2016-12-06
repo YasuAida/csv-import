@@ -5,11 +5,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th>削除ボタン</th>
-          <th>ID</th>
-          <th>諸掛項目</th>
-          <th>按分方法</th>
-          <th>按分先在庫</th>
+          <th class="small">削除</th>
+          <th class="small">ID</th>
+          <th class="subexpense">諸掛項目</th>
+          <th class="subexpense">按分方法</th>
+          <th class="alloc_stock">按分先在庫</th>
           <th>日付</th>
           <th>通貨名</th>      
           <th>外貨建金額</th>
@@ -22,11 +22,11 @@
         <% Subexpense.includes(:expense_relation_stocks).all.each do |subexpense| %>
           <tr>
             <%= form_for(subexpense, url: subexpense_path(subexpense)) do |f| %>
-            <td><%= link_to "削除" , subexpense , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
-            <th><%= subexpense.id %></th>
-            <td><%= f.text_field :item %></td>
-            <td><%= f.collection_select(:method, ExpenseMethod.all, :method, :method, {include_blank: subexpense.method, include_hidden: true} ,{multiple: true}) %></td>
-            <td style="display:block; white-space:nowrap; overflow:scroll; height:100px; width:300px;">
+            <td class="btn btn-default navbar-btn small"><%= link_to "削除" , subexpense , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+            <th class="small"><%= subexpense.id %></th>
+            <td class="subexpense"><%= f.collection_select(:item, ExpenseTitle.all, :item, :item, {include_blank: subexpense.item, include_hidden: true}) %></td>
+            <td class="subexpense"><%= f.collection_select(:method, ExpenseMethod.all, :method, :method, {include_blank: subexpense.method, include_hidden: true} ,{multiple: true}) %></td>
+            <td style="display:block; white-space:nowrap; overflow:scroll; height:100px; width:500px;">
               <% subexpense.expense_relation_stocks.each do |stock| %>
                 <%= stock.date %> <%= stock.asin %> <%= stock.goods_name %><br>
               <% end %>

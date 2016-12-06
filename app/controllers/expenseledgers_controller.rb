@@ -4,28 +4,17 @@ class ExpenseledgersController < ApplicationController
 
   def index
     @expenseledger = Expenseledger.new
-    @expenseledgers = Expenseledger.all.order(date: :desc).page(params[:page])   
-    
-    @expenses = Sale.where(handling: "経費")
-    @expenses.each do |expense|
-      expenseledger = Expenseledger.new(date: expense.date,account_name: "支払手数料", content: expense.detail_of_payment, amount: (expense.amount * -1), money_paid: expense.money_receive, purchase_from: "Amazon", currency: "円")
-
-      #為替レートの付与
-      rate_import_new_object(expenseledger)
-      
-      ex_grandtotal = expenseledger.amount * expenseledger.rate 
-      expenseledger.grandtotal = BigDecimal(ex_grandtotal.to_s).round(0)
-      expenseledger.save
-    end
+    @expenseledgers = Expenseledger.all.order(date: :desc).page(params[:page])
   end
   
   def create
+    params[:expenseledger][:amount] = params[:expenseledger][:amount].gsub(",","") if params[:expenseledger][:amount].present?
     @expenseledger = Expenseledger.new(expenseledger_params)
     if @expenseledger.save
       rate_import_new_object(@expenseledger)
       ex_grandtotal = @expenseledger.amount * @expenseledger.rate 
       @expenseledger.grandtotal = BigDecimal(ex_grandtotal.to_s).round(0)
-      expenseledger.save
+      @expenseledger.save
       redirect_to expenseledgers_path, notice: 'データを保存しました'
     else
       redirect_to expenseledgers, notice: 'データの保存に失敗しました'
@@ -33,7 +22,8 @@ class ExpenseledgersController < ApplicationController
   end
   
   def update
-    if @update_expenseledger.update(pladmin_params)
+    params[:expenseledger][:amount] = params[:expenseledger][:amount].gsub(",","") if params[:expenseledger][:amount].present?    
+    if @update_expenseledger.update(expenseledger_params)
       redirect_to expenseledgers_path, notice: "データを編集しました"
     else
       redirect_to expenseledgers_path, notice: "データの編集に失敗しました"
@@ -42,7 +32,7 @@ class ExpenseledgersController < ApplicationController
   
   def destroy
     @update_expenseledger.destroy
-    redirect_to expenseledgers_path, notice: 'データを削除しました'
+    redirect_to expenseledgers_path
   end
   
   private

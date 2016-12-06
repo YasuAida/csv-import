@@ -1,28 +1,29 @@
 <!--Ajaxのrender用に切り出したフォーム-->
-  <td><%= link_to "削除" , stock , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+  <td class="btn btn-default navbar-btn small"><%= link_to "削除" , stock , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
   <%= form_for(stock, url: stock_path(stock.id), remote: true) do |f|  %>
-    <td><%= stock.id %></td>
-    <td><%= f.text_field :date %></td>
-    <td><%= f.text_field :sku %></td>
-    <td><%= f.text_field :asin %></td>
-    <td><%= f.text_field :goods_name %></td>
-    <td><%= f.number_field :number %></td>            
+    <!--<td class="small"><%#= stock.id %></td>-->
+    <td class="small"><%= f.check_box :destroy_check,{}, "true", "false" %></td>
+    <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+    <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+    <td class="asin"><%= f.text_field :asin, :size => "10" %></td>
+    <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>
+    <td class="rate"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>            
 
-        <% ex_currency = Currency.find_by(name: stock.currency) %>
-        <% if ex_currency.method == "外貨×為替レート" %>
-    <td><%= f.text_field :unit_price %></td>
-        <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %>
-    <td><%= sprintf("%.2f",sub_total) %></td>
-        <% else %>
-    <td><%= f.text_field :unit_price %></td>
-        <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(0) %>
-    <td><%= sprintf("%.0f",sub_total) %></td>
-        <% end %>
+  <% ex_currency = Currency.find_by(name: stock.currency) %>
+  <% if ex_currency.method == "外貨×為替レート" %>
+    <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
+  <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %>
+    <td class="amount"><%= addcomma(sub_total.to_f) %></td>
+  <% else %>
+    <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+  <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(0) %>
+    <td class="amount"><%= addcomma(sub_total.to_i) %></td>
+  <% end %>
       
-    <td><%= stock.rate %></td>
-    <td><%= sprintf("%.0f",stock.goods_amount) unless stock.goods_amount.nil? %></td>
-    <td><%= f.text_field :money_paid %></td>
-    <td><%= f.text_field :purchase_from %></td>             
-    <td><%= f.text_field :currency%></td>
+    <td class="rate"><%= stock.rate %></td>
+    <td class="amount"><%= addcomma(stock.goods_amount.to_i) unless stock.goods_amount.nil? %></td>
+    <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
+    <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>             
+    <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
     <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit%></td>
   <% end %>

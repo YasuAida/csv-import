@@ -62,6 +62,17 @@ module SalesHelper
         end
       end
       
+      if sale.handling == "経費"
+        expenseledger = Expenseledger.new(date: sale.date,account_name: "支払手数料", content: sale.detail_of_payment, amount: (sale.amount * -1), money_paid: sale.money_receive, purchase_from: "Amazon", currency: "円")
+  
+        #為替レートの付与
+        rate_import_new_object(expenseledger)
+        
+        ex_grandtotal = expenseledger.amount * expenseledger.rate 
+        expenseledger.grandtotal = BigDecimal(ex_grandtotal.to_s).round(0)
+        expenseledger.save
+      end
+      
       if sale.handling == "未払金"
         voucher = Voucher.new(date: sale.date, debit_account: "売掛金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
         voucher.save

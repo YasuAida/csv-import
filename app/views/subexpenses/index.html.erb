@@ -8,36 +8,32 @@
 
 <%= form_for(@subexpense) do |f| %>
 <div class="container-fluid">
-  <div class="row">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>諸掛項目</th>
-          <th>按分方法</th>
-          <th>按分先在庫</th>
-          <th>日付</th>
-          <th>外貨金額</th>
-          <th>支払先</th>
-          <th>通貨名</th>
-          <th>支払日</th>          
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
-          <td class="collection"><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
-          <td id="adjust" class="collection"><%= f.collection_select :targetgood, @target_stocks, :id, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
-          <td><%= f.text_field :date %></td>
-          <td><%= f.text_field :amount %></td>
-          <td><%= f.text_field :purchase_from %></td>
-          <td><%= f.collection_select :currency, Currency.all, :name, :name %></td>
-          <td><%= f.text_field :money_paid %></td>
-          <div class="text-center">
-            <%= f.submit '登録', class: 'btn btn-primary' %>
-          </div>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="subexpense">諸掛項目</th>
+        <th class="subexpense">按分方法</th>
+        <th class="alloc_stock">按分先在庫</th>
+        <th class="account">日付</th>
+        <th class="amount">外貨金額</th>
+        <th class="account">支払先</th>
+        <th class="account">通貨名</th>
+        <th class="account">支払日</th>          
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= f.collection_select :item, ExpenseTitle.all, :item, :item %></td>
+        <td class="collection"><%= f.collection_select :method, ExpenseMethod.all, :method, :method ,{include_hidden: false},{multiple: true} %></td>
+        <td id="adjust" class="collection"><%= f.collection_select :targetgood, @target_stocks, :id, :date_and_asin ,{include_hidden: false} ,{multiple: true} %></td>
+        <td><%= f.text_field :date, :size=> "8"%></td>
+        <td><%= f.text_field :amount, :size=> "8"%></td>
+        <td><%= f.text_field :purchase_from, :size=> "8"%></td>
+        <td><%= f.collection_select :currency, Currency.all, :name, :name, :size=> "8"%></td>
+        <td><%= f.text_field :money_paid, :size=> "8"%></td>
+        <td><%= f.submit '登録', class: 'btn btn-primary' %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <% end %>

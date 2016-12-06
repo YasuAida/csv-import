@@ -6,17 +6,17 @@
 
       <h3>損益データ取り込み</h3>
       <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-        <%= file_field :upload, :datafile %>
-        <%= submit_tag "UPLOAD" %>
+        <div style="width: 200px;"><%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %></div>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
       <% end %>
       
       <%= search_form_for(@q, url: pladmins_path) do |f| %>
         <%= f.label :sku_cont, "SKUで検索" %>
         <%= f.search_field :sku_cont %>
-        <%= f.submit "検索" %>
+        <%= f.submit "検索", class: 'btn btn-default' %>
         <%= f.label :goods_name_cont, "商品名で検索" %>
         <%= f.search_field :goods_name_cont %>
-        <%= f.submit "検索" %>
+        <%= f.submit "検索", class: 'btn btn-default' %>
       <% end %>
       
       <table class="table" >

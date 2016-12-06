@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130103953) do
+ActiveRecord::Schema.define(version: 20161206055329) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -232,22 +232,8 @@ ActiveRecord::Schema.define(version: 20161130103953) do
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
   add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
 
-  create_table "stocks", force: :cascade do |t|
-    t.date     "date"
-    t.string   "asin"
-    t.string   "goods_name"
-    t.integer  "number"
-    t.float    "unit_price"
-    t.date     "money_paid"
-    t.string   "purchase_from"
-    t.string   "currency"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.string   "sku"
-    t.float    "rate"
-    t.integer  "grandtotal"
-    t.integer  "goods_amount"
-  end
+# Could not dump table "stocks" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "subexpenses", force: :cascade do |t|
     t.string   "item"
