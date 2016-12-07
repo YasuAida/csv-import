@@ -57,17 +57,6 @@ module StockledgersHelper
     end
   end
 
-  def multi_channels_import_to_stockledger
-    #損益管理シートへSKUと商品名を入力
-    MultiChannel.all.each do |multi|
-      pladmin = Pladmin.find_by(order_num: multi.order_num)
-      pladmin.sku = multi.sku
-      @sku_stockledgers = Stockledger.where(sku: multi.sku)
-      pladmin.goods_name = @sku_stockledgers.first.goods_name if @sku_stockledgers.present?
-      pladmin.save
-    end
-  end
-
   def return_goods_import_to_stockledger 
     ReturnGood.all.each do |return_good|
       #返還商品の返還前SKUを持つ在庫をstocksテーブルの中から抽出する

@@ -1,21 +1,21 @@
 <!--Ajaxのrender用に切り出したフォーム-->
   <td class="btn btn-default navbar-btn small"><%= link_to "削除" , stock , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
   <%= form_for(stock, url: stock_path(stock.id), remote: true) do |f|  %>
-    <!--<td class="small"><%#= stock.id %></td>-->
-    <td class="small"><%= f.check_box :destroy_check,{}, "true", "false" %></td>
+    <td class="small" id="check-<%= stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+    <td class="small"><%= stock.id %></td>
     <td class="account"><%= f.text_field :date, :size=> "8"%></td>
     <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
     <td class="asin"><%= f.text_field :asin, :size => "10" %></td>
     <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>
-    <td class="rate"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>            
+    <td class="rate" id="submit-<%= stock.id %>"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>            
 
   <% ex_currency = Currency.find_by(name: stock.currency) %>
   <% if ex_currency.method == "外貨×為替レート" %>
-    <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
+    <td class="amount"><%= f.text_field :unit_price, :size=> "5", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
   <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %>
     <td class="amount"><%= addcomma(sub_total.to_f) %></td>
   <% else %>
-    <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+    <td class="amount"><%= f.text_field :unit_price, :size=> "5", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
   <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(0) %>
     <td class="amount"><%= addcomma(sub_total.to_i) %></td>
   <% end %>
@@ -25,5 +25,12 @@
     <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
     <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>             
     <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-    <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit%></td>
+    <td class="hidden-lg hidden-md hidden-sm hidden-xs" id="submit-<%= stock.id %>"><%= f.submit %></td>
+    <!--チェックボックス更新用JQuery-->
+    <script>
+      $("#check-<%= stock.id %>").change(function(e){
+        $('#edit_stock_<%= stock.id %>').submit();
+      });
+    </script>
   <% end %>
+

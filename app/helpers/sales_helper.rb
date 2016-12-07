@@ -45,6 +45,11 @@ module SalesHelper
         pladmin.save
       end
       
+      if sale.handling == "売上(FBA在庫の返金)"
+        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, sale_place: "Amazon", sale_amount: sale.amount, commission: nil, money_receive: sale.money_receive)
+        pladmin.save
+      end      
+      
       if sale.handling == "原価（送料）"
         shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
         pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)

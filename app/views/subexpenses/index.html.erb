@@ -31,7 +31,7 @@
         <td><%= f.text_field :purchase_from, :size=> "8"%></td>
         <td><%= f.collection_select :currency, Currency.all, :name, :name, :size=> "8"%></td>
         <td><%= f.text_field :money_paid, :size=> "8"%></td>
-        <td><%= f.submit '登録', class: 'btn btn-primary' %></td>
+        <td><%= f.submit '登録', class: 'btn btn-default' %></td>
       </tr>
     </tbody>
   </table>

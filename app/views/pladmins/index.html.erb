@@ -1,73 +1,47 @@
 <h1>損益管理シート</h1>
 
-<div class="container-fluid">
-  <div class="row">
-    <div style="table-layout: fixed;">
+<div class="container">
+  <div class="table-responsive">
 
-      <h3>損益データ取り込み</h3>
-      <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-        <div style="width: 200px;"><%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %></div>
-        <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
-      <% end %>
-      
-      <%= search_form_for(@q, url: pladmins_path) do |f| %>
-        <%= f.label :sku_cont, "SKUで検索" %>
-        <%= f.search_field :sku_cont %>
-        <%= f.submit "検索", class: 'btn btn-default' %>
-        <%= f.label :goods_name_cont, "商品名で検索" %>
-        <%= f.search_field :goods_name_cont %>
-        <%= f.submit "検索", class: 'btn btn-default' %>
-      <% end %>
-      
-      <table class="table" >
-        <thead>
-          <tr>
-            <th class="small">削除</th>            
-            <th class="small">ID</th>
-            <th class="account">日付</th>
-            <th class="order_num">注文番号</th>
-            <th class="order_num">SKU</th>
-            <th class="content">商品名</th>
-            <th class="company">売上先</th>      
-            <th class="amount">売上高</th>
-            <th class="amount">原価</th>
-            <th class="amount">手数料</th>
-            <th class="amount">送料</th>    
-            <th class="amount">利益</th> 
-            <th class="account">入金日</th>
-            <th class="account">Amazon以外手数料支払日</th>
-            <th class="account">Amazon以外の送料支払日</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @pladmins.each do |pladmin|  %>
-          <tr>
-            <td class="small"><%= link_to "削除" , pladmin , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
-            <%= form_for(pladmin, url: pladmin_path(pladmin.id)) do |f| %>
-              <td class="small"><%= pladmin.id %></td>
-              <td class="account"><%= f.text_field :date, :size => 8 %></td>
-              <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
-              <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
-              <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
-              <td class="company"><%= f.text_field :sale_place, :size => 8 %></td>        
-              <td class="amount"><%= f.text_field :sale_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-              <td class="amount"><%= f.text_field :cgs_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-              <td class="amount"><%= f.text_field :commission, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-              <td class="amount"><%= f.text_field :shipping_cost, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-              <% profit = pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i %>
-              <td class="amount" style="text-align:right"><%= addcomma(profit)%></td>
-              <td class="account"><%= f.text_field :money_receive, :size => 8 %></td>
-              <td class="account"><%= f.text_field :commission_pay_date, :size => 8 %></td>        
-              <td class="account"><%= f.text_field :shipping_pay_date, :size => 8 %></td>        
-              <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
-            <% end %> 
-          </tr>  
-          <% end %>
-      
-          <%= form_for(@pladmin) do |f|  %>
-          <tr>
-            <td class="small"></td>            
-            <td class="small"></td>
+    <h3>損益データ取り込み</h3>
+    <%= form_tag({action: 'upload'}, {multipart: true}) do %>
+      <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
+      <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
+    <% end %>
+    
+    <%= search_form_for(@q, url: pladmins_path) do |f| %>
+      <%= f.label :sku_cont, "SKUで検索" %>
+      <%= f.search_field :sku_cont %>
+      <%= f.submit "検索", class: 'btn btn-default' %>
+      <%= f.label :goods_name_cont, "商品名で検索" %>
+      <%= f.search_field :goods_name_cont %>
+      <%= f.submit "検索", class: 'btn btn-default' %>
+    <% end %>
+    
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th class="small">削除</th>            
+          <th class="account">日付</th>
+          <th class="order_num">注文番号</th>
+          <th class="order_num">SKU</th>
+          <th class="content">商品名</th>
+          <th class="company">売上先</th>      
+          <th class="amount">売上高</th>
+          <th class="amount">原価</th>
+          <th class="amount">手数料</th>
+          <th class="amount">送料</th>    
+          <th class="amount">利益</th> 
+          <th class="account">入金日</th>
+          <th class="account">Amazon以外手数料支払日</th>
+          <th class="account">Amazon以外の送料支払日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pladmins.each do |pladmin|  %>
+        <tr>
+          <td class="small"><%= link_to "削除" , pladmin , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+          <%= form_for(pladmin, url: pladmin_path(pladmin.id)) do |f| %>
             <td class="account"><%= f.text_field :date, :size => 8 %></td>
             <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
             <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
@@ -77,17 +51,38 @@
             <td class="amount"><%= f.text_field :cgs_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
             <td class="amount"><%= f.text_field :commission, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
             <td class="amount"><%= f.text_field :shipping_cost, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-            <td class="amount" style="text-align:right"></td>      
+            <% profit = pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i %>
+            <td class="amount" style="text-align:right"><%= addcomma(profit)%></td>
             <td class="account"><%= f.text_field :money_receive, :size => 8 %></td>
-            <td class="account"><%= f.text_field :commission_pay_date, :size => 8 %></td>
-            <td class="account"><%= f.text_field :shipping_pay_date, :size => 8 %></td>
+            <td class="account"><%= f.text_field :commission_pay_date, :size => 8 %></td>        
+            <td class="account"><%= f.text_field :shipping_pay_date, :size => 8 %></td>        
             <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
-          </tr> 
-          <% end %>  
-        </tbody>
-        <%= paginate @pladmins %>
-      </table>
-    </div>
+          <% end %> 
+        </tr>  
+        <% end %>
+    
+        <%= form_for(@pladmin) do |f|  %>
+        <tr>
+          <td class="small"></td>            
+          <td class="account"><%= f.text_field :date, :size => 8 %></td>
+          <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
+          <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
+          <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
+          <td class="company"><%= f.text_field :sale_place, :size => 8 %></td>        
+          <td class="amount"><%= f.text_field :sale_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :cgs_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :commission, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :shipping_cost, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount" style="text-align:right"></td>      
+          <td class="account"><%= f.text_field :money_receive, :size => 8 %></td>
+          <td class="account"><%= f.text_field :commission_pay_date, :size => 8 %></td>
+          <td class="account"><%= f.text_field :shipping_pay_date, :size => 8 %></td>
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        </tr> 
+        <% end %>  
+      </tbody>
+      <%= paginate @pladmins %>
+    </table>
   </div>
 </div>
 

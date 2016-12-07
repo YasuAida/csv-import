@@ -5,8 +5,8 @@
 </p>
 
 <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-  <%= file_field :upload, :datafile, {multiple: true}%>
-  <%= submit_tag "アップロード" %>
+  <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
+  <%= submit_tag "アップロード", class: 'btn btn-default'%>
 <% end %>
 
 <br>

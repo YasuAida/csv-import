@@ -1,5 +1,5 @@
 class Pladmin < ActiveRecord::Base
-  validates :date, uniqueness: { scope: [:order_num, :sku, :goods_name] }
+  validates :date, uniqueness: { scope: [:order_num, :sku, :goods_name, :sale_place] }
   
   def self.to_csv
     headers = %w(ID 日付 注文番号 SKU 商品名 売上先 売上高 手数料 原価 送料 入金日) 

@@ -73,7 +73,7 @@ module GeneralledgersHelper
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
-        g_ledger.amount = pladmin.sale_amount - pladmin.commission
+        g_ledger.amount = (pladmin.sale_amount - pladmin.commission) if pladmin.sale_amount.present?
         g_ledger.save
     end
  

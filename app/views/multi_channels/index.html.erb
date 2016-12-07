@@ -1,24 +1,31 @@
 <h1>マルチチャンネルＳＫＵ登録</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>注文番号</th>
-      <th>ＳＫＵ</th>      
-    </tr>
-  </thead>
-  <tbody>
-    <% @multi_channels.each do |channel| %>
-      <tr>
-        <%= form_for(channel, url: multi_channel_path(channel)) do |f|  %>
-          <td><%= f.text_field :order_num %></td>              
-          <td><%= f.text_field :sku %></td>
-          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+<div class="container-fluid">
+  <div class="row">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th class="order_num">注文番号</th>
+          <th class="order_num">ＳＫＵ</th>
+          <th class="content">商品名</th>      
+        </tr>
+      </thead>
+      <tbody>
+        <% @multi_channels.each do |channel| %>
+          <tr>
+            <%= form_for(channel, url: multi_channel_path(channel)) do |f|  %>
+              <td><%= f.text_field :order_num, :size => "18"%></td>              
+              <td><%= f.text_field :sku, :size => "18"%></td>
+            <% multi_stock = Stock.find_by(sku: channel.sku) %>
+              <td class="content"><%= multi_stock.goods_name if multi_stock.present? %>
+              <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+            <% end %>
+          </tr>
         <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <p>
   Download:

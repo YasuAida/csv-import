@@ -5,19 +5,19 @@
     <table>
       <thead>
         <tr>
-          <th class="col-sm-1">ID</th>
-          <th class="col-sm-1">月次／年次</th>
-          <th class="col-sm-1">開始年月日</th>
-          <th class="col-sm-1">終了年月日</th>
+          <th class="small">ID</th>
+          <th class="account">月次／年次</th>
+          <th class="account">開始年月日</th>
+          <th class="account">終了年月日</th>
         </tr>
       </thead>
       <tbody>
         <% @periods.each do |period| %>
           <tr>
-            <td><%= period.id %></td>
-            <td><%= period.monthly_yearly %></td>
-            <td><%= period.period_start %></td>
-            <td><%= period.period_end %></td>
+            <td class="small"><%= period.id %></td>
+            <td class="account"><%= period.monthly_yearly %></td>
+            <td class="account"><%= period.period_start %></td>
+            <td class="account"><%= period.period_end %></td>
           </tr>
         <% end %>
       </tbody>

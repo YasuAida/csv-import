@@ -32,10 +32,9 @@ module PladminsHelper
   def merge_multi_channel
     @ex_merge_pladmins = Pladmin.where.not(sale_place: "Amazon")
     @merge_pladmins = @ex_merge_pladmins.where.not(sale_place: "その他")
-    
     @merge_pladmins.each do |merge_pladmin|
-      @target_pladmins = Pladmin.where(sale_place: "その他", sku: merge_pladmin.sku).order(:date) if Pladmin.where(sale_place: "その他", sku: merge_pladmin.sku).present?
-      unless @target_pladmins.nil?
+      @target_pladmins = Pladmin.where(sale_place: "その他", sku: merge_pladmin.sku).order(:date) 
+      if @target_pladmins.present?
         @target_pladmins.first.date = merge_pladmin.date
         @target_pladmins.first.sale_place = merge_pladmin.sale_place
         @target_pladmins.first.sale_amount = merge_pladmin.sale_amount

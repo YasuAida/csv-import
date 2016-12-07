@@ -5,40 +5,53 @@
   <%= submit_tag "UPLOAD" %>
 <% end %>
 
+<%= search_form_for(@q, url: sales_path) do |f| %>
+  <%= f.label :order_num_cont, "注文番号で検索" %>
+  <%= f.search_field :order_num_cont %>
+  <%= f.submit "検索" %>
+  <%= f.label :sku_cont, "SKUで検索" %>
+  <%= f.search_field :sku_cont %>
+  <%= f.submit "検索" %>
+  <%= f.label :goods_name_cont, "商品名で検索" %>
+  <%= f.search_field :goods_name_cont %>
+  <%= f.submit "検索" %>
+<% end %>
+
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>日付</th>
-      <th>注文番号</th>
-      <th>SKU</th>
-      <th>トランザクションの種類</th>
-      <th>支払いの種類</th>
-      <th>支払いの詳細</th>
-      <th>金額</th>
-      <th>数量</th>
-      <th>商品名</th>
-      <th>入金日</th>
-      <th>処理</th>      
+      <th class="account">日付</th>
+      <th class="order_num">注文番号</th>
+      <th class="order_num">SKU</th>
+      <th class="order_num">トランザクションの種類</th>
+      <th class="order_num">支払いの種類</th>
+      <th class="order_num">支払いの詳細</th>
+      <th class="amount">金額</th>
+      <th class="rate">数量</th>
+      <th>　</th>
+      <th class="content">商品名</th>
+      <th class="account">入金日</th>
+      <th class="account">処理</th>      
     </tr>
   </thead>
   <tbody>
     <% @sales.each do |sale| %>
       <tr>
-        <th><%= sale.id %></th>
-        <td><%= sale.date %></td>
-        <td><%= sale.order_num %></td>
-        <td><%= sale.sku %></td>
-        <td><%= sale.kind_of_transaction %></td>
-        <td><%= sale.kind_of_payment %></td>
-        <td><%= sale.detail_of_payment %></td>
-        <td><%= sale.amount %></td>
-        <td><%= sale.quantity %></td>
-        <td><%= sale.goods_name %></td>
-        <td><%= sale.money_receive %></td>
-        <td><%= sale.handling %></td>        
+        <td class="account"><%= sale.date %></td>
+        <td class="order_num"><%= sale.order_num %></td>
+        <td class="order_num"><%= sale.sku %></td>
+        <td class="order_num"><%= sale.kind_of_transaction %></td>
+        <td class="order_num"><%= sale.kind_of_payment %></td>
+        <td class="order_num"><%= sale.detail_of_payment %></td>
+        <td class="amount"><%= addcomma(sale.amount) %></td>
+        <td class="rate"><%= erase_zero(sale.quantity) %></td>
+        <td>　</td>
+        <td class="content"><%= sale.goods_name %></td>
+        <td class="account"><%= sale.money_receive %></td>
+        <td class="account"><%= sale.handling %></td>        
       </tr>
     <% end %>
   </tbody>
+  <%= paginate @sales %>
 </table>
 

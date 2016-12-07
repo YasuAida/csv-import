@@ -4,86 +4,164 @@
 body {
   margin-left: 0px;
   margin-right: 0px;
-  width: 1850px;
+  width: 1800px;
 }
-
 .container {
   margin-left: 0px;
   margin-right: 0px;
-  width: 1850px;
+  width: 1800px;
 }
-
 table {
   border-collapse: collapse;
-  width: 1850px;   /* ポイント */
+  width: 1800px;   /* ポイント */
 }
 thead {
-  float: left;    /* ポイント */
-  overflow: hidden;   /* ポイント */
+  float: left;     /*ポイント*/
+  overflow: hidden;  /*ポイント */
 }
 tbody {
-  float: left;    /* ポイント */
-  overflow: auto; /* ポイント */
-  height: 818px;  /* ポイント */
-  width:1850px;    /* ポイント */
+  float: left;     /*ポイント */
+  overflow: auto;  /*ポイント */
+  height: 1000px;   /*ポイント */
+  width:1800px;    /*ポイント */
 }
 th.small {
-  border: 1px;
   font-size: 14px;
   text-align: center;
-  width: 51px;    /* ポイント */
+  width: 46px;    /* ポイント */
 }
 td.small {
-  border: 1px;
   font-size: 14px;
   text-align: right;
   width: 46px;    /* ポイント */
 }
-th.account,td.account,th.amount {
-  border: 1px;
-  font-size: 14px;
-  text-align: center;
-  width: 106px;    /* ポイント */
-} 
-td.amount {
-  border: 1px;
-  font-size: 14px;
-  text-align: right;
-  width: 106px;    /* ポイント */
-} 
-th.order_num, td.order_num {
-  border: 1px;
-  font-size: 14px;
-  text-align: center;
-  width: 175px;    /* ポイント */
-} 
-th.asin, td.asin {
-  border: 1px;
-  font-size: 14px;
-  text-align: center;
-  width: 130px;    /* ポイント */
-} 
-th.content, td.content {
-  border: 1px;
-  font-size: 14px;
-  text-align: center;
-  width: 340px;    /* ポイント */
-}
-th.company, td.company {
-  border: 1px;
-  font-size: 14px;
-  text-align: center;
-  width: 100px;    /* ポイント */
-}
 th.rate {
-  border: 1px;
   font-size: 14px;
   text-align: center;
   width: 60px;    /* ポイント */
 }
 td.rate {
-  border: 1px;
   font-size: 14px;
   text-align: right;
   width: 60px;    /* ポイント */
+}
+th.middle {
+  font-size: 14px;
+  text-align: center;
+  width: 80px;    /* ポイント */
+}
+td.middle {
+  font-size: 14px;
+  text-align: left;
+  width: 80px;    /* ポイント */
+}
+th.update {
+  font-size: 14px;
+  text-align: center;
+  width: 83px;    /* ポイント */
+}
+td.update {
+  font-size: 14px;
+  text-align: left;
+  width: 83px;    /* ポイント */
+}
+th.amount {
+  font-size: 14px;
+  text-align: center;
+  width: 102px;    /* ポイント */
+}
+td.amount {
+  font-size: 14px;
+  text-align: right;
+  width: 102px;    /* ポイント */
+}
+th.company {
+  font-size: 14px;
+  text-align: center;
+  width: 102px;    /* ポイント */
+}
+td.company {
+  font-size: 14px;
+  text-align: left;
+  width: 102px;    /* ポイント */
+}
+th.account {
+  font-size: 14px;
+  text-align: center;
+  width: 104px;    /* ポイント */
+} 
+td.account {
+  font-size: 14px;
+  text-align: left;
+  width: 104px;    /* ポイント */
+}
+th.large {
+  font-size: 14px;
+  text-align: center;
+  width: 120px;    /* ポイント */
+}
+td.large {
+  font-size: 14px;
+  text-align: left;
+  width: 120px;    /* ポイント */
+}
+th.asin {
+  font-size: 14px;
+  text-align: center;
+  width: 130px;    /* ポイント */
+} 
+td.asin {
+  font-size: 14px;
+  text-align: left;
+  width: 130px;    /* ポイント */
+}
+th.middle_large {
+  font-size: 14px;
+  text-align: center;
+  width: 150px;    /* ポイント */
+}
+td.middle_large {
+  font-size: 14px;
+  text-align: left;
+  width: 150px;    /* ポイント */
+}
+th.order_num {
+  font-size: 14px;
+  text-align: center;
+  width: 170px;    /* ポイント */
+} 
+td.order_num {
+  font-size: 14px;
+  text-align: left;
+  width: 170px;    /* ポイント */
+} 
+th.detail {
+  font-size: 14px;
+  text-align: center;
+  width: 240px;    /* ポイント */
+} 
+td.detail {
+  font-size: 14px;
+  text-align: left;
+  width: 240px;    /* ポイント */
+} 
+th.content {
+  font-size: 14px;
+  text-align: center;
+  width: 330px;    /* ポイント */
+}
+td.content {
+  font-size: 14px;
+  text-align: left;
+  width: 330px;    /* ポイント */
+}
+.bootstrap-filestyle {
+  display: inline-block;
+}
+thead.financial {
+  float: none; 
+}
+tbody.financial {
+  float: none;
+  height: auto
 }

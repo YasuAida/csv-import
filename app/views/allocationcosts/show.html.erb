@@ -1,50 +1,44 @@
 <h1>単価計算表</h1>
 
-<div class="container-fluid">
-  <div class="row">
-    <table>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th width="10">日付</th>
-          <th width="10">SKU</th>
-          <th width="10">ASIN</th>
-          <th>商品名</th>
-          <th width="10">個数</th>
-          <th width="10">小計</th>
+          <th class="account">日付</th>
+          <th class="order_num">SKU</th>
+          <th class="asin">ASIN</th>
+          <th class="content">商品名</th>
+          <th class="rate">個数</th>
+          <th class="amount">小計</th>
             <% @expense_titles = ExpenseTitle.all.sort_by{ |o| o.id } %>
             <% @expense_titles.each do |e| %>
-          <th width="20"><%= e.item %></th>
+          <th class="amount"><%= e.item %></th>
             <% end %>
-          <th width="10">合計金額</th>
+          <th class="amount">合計金額</th>
         </tr>
       </thead>
       <tbody>
         <% @stocks = Stock.all.order(:date).page(params[:page]) %>
         <% @stocks.each do |stock| %>
           <tr>
-            <td><%= stock.date %></td>
-            <td><%= stock.sku %></td>
-            <td><%= stock.asin %></td>
-            <td id="adjust"><%= stock.goods_name %></td>
-            <td><%= stock.number %></td>
-                <% ex_currency = Currency.find_by(name: stock.currency) %>
-                <% if ex_currency.method == "外貨×為替レート" then %>
-                  <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * stock.rate %>
-                <% else %>
-                  <% goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(0) * stock.rate %>
-                <% end %>
-            <td><%= sprintf("%.0f",goods_amount) %></td>
+            <td class="account"><%= stock.date %></td>
+            <td class="order_num"><%= stock.sku %></td>
+            <td class="asin"><%= stock.asin %></td>
+            <td class="content"><%= stock.goods_name %></td>
+            <td class="rate"><%= addcomma(stock.number) %></td>
+            <td class="amount"><%= addcomma(stock.goods_amount) %></td>
                 <% count_title = @expense_titles.count %>
                 <% 0.upto(count_title-1) do |i| %>
                     <% subexpense_title = @expense_titles[i] %>
                     <% @alloc = stock.allocationcosts.find_by(title: subexpense_title.item) %>
                     <% if @alloc.present? %>
-                    <td><%= sprintf("%.0f",@alloc.allocation_amount) %></td>
+                      <td class="amount"><%= addcomma(@alloc.allocation_amount) %></td>
                     <% else %>
-                    <td><%= nil %></td>
+                      <td class="amount"><%= nil %></td>
                     <% end %>
                 <% end %>  
-            <td><%= sprintf("%.0f",stock.grandtotal) if stock.grandtotal.present? %></td>
+            <td class="amount"><%= addcomma(stock.grandtotal) if stock.grandtotal.present? %></td>
           </tr>
         <% end %>
       </tbody>

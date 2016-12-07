@@ -3,27 +3,39 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionsHelper
-  helper_method :addcomma
+  helper_method :addcomma, :erase_zero
   
   def addcomma(num)
     temp = num.to_s # 逆順にしない。単に文字列に変換するだけ
-    
   # "."で3分割する
     integer_part, p, fraction_part = temp.partition(".")
   # 整数部にカンマを挿入する
     result = ""
-    for i in 0..integer_part.length - 1
-      idx = integer_part.length - i - 1 # iが増えればidxは減る
-      if i % 3 == 0 and i != 0
-        result = "," + result
-      end
-      result = integer_part[idx] + result
-    end
-  # 整数部と小数部を連結して返す
-    if p == "."
-      return result + p + fraction_part
+    if num < 0 && integer_part.length == 4
+      result = temp
+      return result      
     else
-      return result
+      for i in 0..integer_part.length - 1
+        idx = integer_part.length - i - 1 # iが増えればidxは減る
+        if i % 3 == 0 and i != 0
+          result = "," + result
+        end
+        result = integer_part[idx] + result
+      end
+    # 整数部と小数部を連結して返す
+      if p == "."
+        return result + p + fraction_part
+      else
+        return result
+      end
+    end
+  end
+  
+  def erase_zero(num)
+    if num == 0
+      return ""
+    else
+      return num
     end
   end
 

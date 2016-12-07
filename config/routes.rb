@@ -30,15 +30,11 @@ Rails.application.routes.draw do
   
   resources :vouchers, only: [ :index, :create, :update, :destroy]
 
-  resources :return_goods, only: [ :index, :create, :update, :destroy] do
-    collection do
-      get 'import'
-    end
-  end
+  resources :return_goods, only: [ :index, :create, :update, :destroy]
 
   resources :multi_channels, only: [ :index, :update] do
     collection do
-      get 'import'
+      get 'sku'
     end
   end
 
@@ -96,7 +92,7 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :pladmins , only: [:index, :create, :update] do
+  resources :pladmins , only: [:index, :create, :update, :destroy] do
     collection do
       get 'blank_form'
       post 'upload'     

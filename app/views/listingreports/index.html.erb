@@ -8,21 +8,21 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>出品者SKU</th>
-      <th>asin</th>
-      <th>価格</th>
-      <th>数量</th>
+      <th class="small">ID</th>
+      <th class="order_num">出品者SKU</th>
+      <th class="asin">asin</th>
+      <th class="amount">価格</th>
+      <th class="rate">数量</th>
     </tr>
   </thead>
   <tbody>
     <% @listingreports.each do |listingreport| %>
       <tr>
-        <th><%= listingreport.id %></th>
-        <td><%= listingreport.sku %></td>
-        <td><%= listingreport.asin %></td>
-        <td><%= listingreport.price %></td>
-        <td><%= listingreport.quantity %></td>
+        <th class="small"><%= listingreport.id %></th>
+        <td class="order_num"><%= listingreport.sku %></td>
+        <td class="asin"><%= listingreport.asin %></td>
+        <td class="amount"><%= addcomma(listingreport.price.to_i) %></td>
+        <td class="rate"><%= listingreport.quantity %></td>
       </tr>
     <% end %>
   </tbody>

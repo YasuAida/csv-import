@@ -17,29 +17,33 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>日付</th>
-      <th>FNSKU</th>
-      <th>出品者SKU</th>
-      <th>商品名</th>
-      <th>数量</th>
-      <th>FBA納品番号</th>
-      <th>FC</th>
-      <th>ASIN</th>      
+      <th class="small">ID</th>
+      <th class="account">日付</th>
+      <th class="order_num">FNSKU</th>
+      <th class="order_num">出品者SKU</th>
+      <th class="content">商品名</th>
+      <th class="rate">数量</th>
+      <th>　</th>
+      <th class="order_num">FBA納品番号</th>
+      <th class="rate">FC</th>
+      <th>　</th>      
+      <th class="asin">ASIN</th>      
     </tr>
   </thead>
   <tbody>
     <% @stockaccepts.each do |stockaccept| %>
       <tr>
-        <th><%= stockaccept.id %></th>
-        <td><%= stockaccept.date %></td>
-        <td><%= stockaccept.fnsku %></td>
-        <td><%= stockaccept.sku %></td>
-        <td><%= stockaccept.goods_name %></td>
-        <td><%= stockaccept.quantity %></td>
-        <td><%= stockaccept.fba_number %></td>
-        <td><%= stockaccept.fc %></td>
-        <td><%= stockaccept.asin %></td>        
+        <th class="small"><%= stockaccept.id %></th>
+        <td class="account"><%= stockaccept.date %></td>
+        <td class="order_num"><%= stockaccept.fnsku %></td>
+        <td class="order_num"><%= stockaccept.sku %></td>
+        <td class="content"><%= stockaccept.goods_name %></td>
+        <td class="rate"><%= stockaccept.quantity %></td>
+        <td>　</td>
+        <td class="order_num"><%= stockaccept.fba_number %></td>
+        <td class="rate"><%= stockaccept.fc %></td>
+        <td>　</td>        
+        <td class="asin"><%= stockaccept.asin %></td>        
       </tr>
     <% end %>
   </tbody>

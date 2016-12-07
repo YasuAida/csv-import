@@ -12,58 +12,53 @@
 <%= f.submit %>
 <% end %>
 
-<%= page_entries_info @stockledgers %>
-
-<div class="container-fluid">
-  <div class="row">
-    <table>
-      <thead>
+<div class="container">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th class="middle">仕入ID</th>          
+        <th class="account">日付</th>
+        <th class="order_num">SKU</th>
+        <th class="asin">ASIN</th>
+        <th class="content">商品名</th>
+        <th class="small">分類</th>          
+        <th class="rate">数量</th>
+        <th class="amount">単価</th>          
+        <th class="amount">金額</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stockledgers.each do |stockledger| %>
         <tr>
-          <th class="col-sm-1">ID</th>
-          <th class="col-sm-1">Stock_id</th>          
-          <th class="col-sm-1">日付</th>
-          <th class="col-sm-1">SKU</th>
-          <th class="col-sm-1">ASIN</th>
-          <th class="col-sm-1">商品名</th>
-          <th class="col-sm-1">分類</th>          
-          <th class="col-sm-1">数量</th>
-          <th class="col-sm-1">単価</th>          
-          <th class="col-sm-1">金額</th>
+          <td class="middle"><%= stockledger.stock_id %></td>            
+          <td class="account"><%= stockledger.transaction_date %></td>
+          <td class="order_num"><%= stockledger.sku %></td>
+          <td class="asin"><%= stockledger.asin %></td>
+          <td class="content"><%= stockledger.goods_name %></td>
+          <td class="small"><%= stockledger.classification %></td>            
+          <td class="rate"><%= stockledger.number %></td>
+              <% unitvalue = stockledger.unit_price %>
+          <td class="amount"><%= addcomma(unitvalue.to_i) %></td>            
+              <% totalvalue = stockledger.grandtotal %>
+          <td class="amount"><%= addcomma(totalvalue.to_i) %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @stockledgers.each do |stockledger| %>
-          <tr>
-            <td><%= stockledger.id %></td>
-            <td><%= stockledger.stock_id %></td>            
-            <td><%= stockledger.transaction_date %></td>
-            <td><%= stockledger.sku %></td>
-            <td><%= stockledger.asin %></td>
-            <td><%= stockledger.goods_name %></td>
-            <td><%= stockledger.classification %></td>            
-            <td><%= stockledger.number %></td>
-                <% unitvalue = stockledger.unit_price %>
-            <td><%= sprintf("%.0f",unitvalue) %></td>            
-                <% totalvalue = stockledger.grandtotal %>
-            <td><%= sprintf("%.0f",totalvalue) %></td>
-          </tr>
-        <% end %>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>個数</td>
-            <td><%= @stockledgers.group(:id, :number).sum(:number).values.inject(:+) %></td>
-            <td>合計額</td>            
-            <td><%= @stockledgers.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %></td>
-          </tr>        
-      </tbody>
-      <%= paginate @stockledgers %>
-    </table>
-  </div>
+      <% end %>
+        <tr>
+          <td class="middle"></td>
+          <td class="account"></td>
+          <td class="order_num"></td>
+          <td class="asin"></td>
+          <td class="content"></td>
+          <td class="small">個数</td>
+              <% total_umit = @stockledgers.group(:id, :number).sum(:number).values.inject(:+) %>          
+          <td class="rate"><%= addcomma(total_umit.to_i) %></td>
+          <td class="amount">合計額</td>
+              <% total_amount = @stockledgers.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_amount.to_i) %></td>
+        </tr>        
+    </tbody>
+    <%= paginate @stockledgers %>
+  </table>
 </div>
 
 <p>

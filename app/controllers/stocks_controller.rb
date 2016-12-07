@@ -57,6 +57,9 @@ class StocksController < ApplicationController
     params[:stock][:unit_price] = params[:stock][:unit_price].gsub(",","") if params[:stock][:unit_price].present?    
     if @update_stock.update(stock_params)
       flash.now[:alert] = "データを更新しました。"
+      goods_amount_new_stock(@update_stock)
+      @update_stock.save
+      
       render 'update_ajax'
     else
       flash.now[:alert] = "データの更新に失敗しました。"
@@ -71,7 +74,7 @@ class StocksController < ApplicationController
   
   private
   def stock_params
-    params.require(:stock).permit(:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from, :currency)
+    params.require(:stock).permit(:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from, :currency, :destroy_check)
   end
   
   def set_stock

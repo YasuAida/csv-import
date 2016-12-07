@@ -25,6 +25,7 @@
         <thead>
           <tr>
             <th class="small">削除</th>
+            <th class="small">☑</th>
             <th class="small">ID</th>
             <th class="account">日付</th>
             <th class="order_num">SKU</th>
@@ -52,12 +53,13 @@
             <tr>
                 <td class="small"></td>
                 <td class="small"></td>
+                <td class="small"></td>
                 <td class="account"><%= f.text_field :date, :size=> "8"%></td>            
                 <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
                 <td class="asin"><%= f.text_field :asin, :size=> "10"%></td>
                 <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>            
                 <td class="rate"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>
-                <td class="amount"><%= f.text_field :unit_price, :size=> "8", :style=>"text-align:right"%></td>
+                <td class="amount"><%= f.text_field :unit_price, :size=> "6", :style=>"text-align:right"%></td>
                 <td class="amount"></td>
                 <td class="rate"></td>
                 <td class="amount"></td>                  

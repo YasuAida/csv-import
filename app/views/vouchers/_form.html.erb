@@ -4,13 +4,13 @@
   <td class="small"><%= voucher.id %></td>
   <td class="account"><%= f.text_field :date, :size=> "8"%></td>
   <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
-  <td class="account"><%= f.text_field :debit_subaccount, :size=> "8" %></td>              
+  <td class="large"><%= f.text_field :debit_subaccount, :size=> "10" %></td>              
   <td class="account"><%= f.text_field :debit_taxcode, :size=> "8" %></td>              
   <td class="account"><%= f.text_field :credit_account, :size=> "8" %></td>
-  <td class="account"><%= f.text_field :credit_subaccount, :size=> "8" %></td>              
+  <td class="large"><%= f.text_field :credit_subaccount, :size=> "10" %></td>              
   <td class="account"><%= f.text_field :credit_taxcode, :size=> "8" %></td>
-  <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+  <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
   <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42" %></td>
   <td class="company"><%= f.text_field :trade_company, :size => "8" %></td>
-  <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit%></td>          
+  <td class="update"><%= f.submit "更新", class: 'btn btn-default'%></td>          
 <% end %>

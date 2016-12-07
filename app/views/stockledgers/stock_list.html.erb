@@ -11,43 +11,45 @@
 
 <div class="container-fluid">
   <div class="row">
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th class="col-sm-1">日付</th>
-          <th class="col-sm-1">SKU</th>
-          <th class="col-sm-1">ASIN</th>
-          <th class="col-sm-1">商品名</th>
-          <th class="col-sm-1">数量</th>
-          <th class="col-sm-1">単価</th>          
-          <th class="col-sm-1">金額</th>
+          <th class="account">日付</th>
+          <th class="order_num">SKU</th>
+          <th class="asin">ASIN</th>
+          <th class="content">商品名</th>
+          <th class="rate">数量</th>
+          <th class="amount">単価</th>          
+          <th class="amount">金額</th>
         </tr>
       </thead>
       <tbody>
         <% @stocks.each do |stock| %>
           <tr>
           <% if stock.stockledgers.sum(:grandtotal) != 0 %>          
-            <td><%= stock.date %></td>
-            <td><%= stock.sku %></td>
-            <td><%= stock.asin %></td>
-            <td><%= stock.goods_name %></td>
+            <td class="account"><%= stock.date %></td>
+            <td class="order_num"><%= stock.sku %></td>
+            <td class="asin"><%= stock.asin %></td>
+            <td class="content"><%= stock.goods_name %></td>
                 <% count = stock.stockledgers.sum(:number) %>
-            <td><%= sprintf("%.0f",count) %></td>
+            <td class="rate"><%= addcomma(count.to_i) %></td>
                 <% unit_value = stock.unit_price * stock.rate %>
-            <td><%= sprintf("%.0f",unit_value) %></td>            
+            <td class="amount"><%= addcomma(unit_value.to_i) %></td>            
                 <% total_value = stock.stockledgers.sum(:grandtotal) %>
-            <td><%= sprintf("%.0f",total_value) %></td>
+            <td class="amount"><%= addcomma(total_value.to_i) %></td>
           <% end %> 
           </tr>
         <% end %>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>個数</td>
-            <td><%= @stocks.group(:id, :number).sum(:number).values.inject(:+) %></td>
-            <td>合計額</td>            
-            <td><%= @stocks.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %></td>
+            <td class="account"></td>
+            <td class="order_num"></td>
+            <td class="asin"></td>
+            <td class="content" style="text-align:right">個数</td>
+                <% total_number = @stocks.group(:id, :number).sum(:number).values.inject(:+) %>
+            <td class="rate"><%= addcomma(total_number.to_i) %></td>
+            <td class="amount">合計額</td>
+                <% total_amount = @stocks.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %>
+            <td class="amount"><%= addcomma(total_amount.to_i) %></td>
           </tr>  
       </tbody>
     </table>

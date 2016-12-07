@@ -1,70 +1,73 @@
 <h1>経費台帳</h1>
 
 <div class="container">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th class="small">削除</th>
-        <th class="small">ID</th>
-        <th class="account">日付</th>
-        <th class="account">勘定科目</th>
-        <th class="content">摘要</th>
-        <th class="amount">金額(外貨)</th>
-        <th class="rate">レート</th>
-        <th class="amount">金額(円貨)</th>
-        <th class="account" >支払日</th>
-        <th class="account">購入先</th>
-        <th class="account">通貨</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @expenseledgers.each do |expenseledger| %>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
         <tr>
-          <td class="small"><%= link_to "削除" , expenseledger , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
-          <%= form_for(expenseledger, url: expenseledger_path(expenseledger.id)) do |f| %>
-            <td class="small"><%= expenseledger.id %></td>
-            <td class="account"><%= f.text_field :date, :size=> "8"%></td>
-            <td class="account"><%= f.text_field :account_name, :size=> "8"%></td>
-            <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
-          
-          <% ex_currency = Currency.find_by(name: expenseledger.currency) %>
-          <% if ex_currency.method == "外貨×為替レート" %>  
-            <td class="account"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
-            <td class="rate"><%= expenseledger.rate.to_f %></td>
-          <% else %>
-            <td class="account"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
-            <td class="rate"><%= expenseledger.rate.to_i %></td>
-          <% end %>
-
-          <% ex_total = expenseledger.amount.to_f * expenseledger.rate.to_f %>
-          <% total = BigDecimal(ex_total.to_s).round(0) %>
-            <td class="amount"><%= addcomma(total.to_i) %></td>
-            
-            <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
-            <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>
-            <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-            <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
-          <% end %> 
+          <th class="small">削除</th>
+          <th class="small">ID</th>
+          <th class="account">日付</th>
+          <th class="account">勘定科目</th>
+          <th class="content">摘要</th>
+          <th class="amount">金額(外貨)</th>
+          <th class="rate">レート</th>
+          <th class="amount">金額(円貨)</th>
+          <th class="account" >支払日</th>
+          <th class="account">購入先</th>
+          <th class="account">通貨</th>
+          <th class="update">更新</th>           
         </tr>
-      <% end %>
-      
-      <%= form_for(@expenseledger) do |f| %>
-      <tr>
-        <td class="small"></td>
-        <td class="small"></td>
-        <td class="account"><%= f.text_field :date, :size=> "8"%></td>
-        <td class="account"><%= f.text_field :account_name, :size=> "8"%></td>
-        <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
-        <td class="amount" style="text-align: center;"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right"%></td>
-        <td class="rate"></td>
-        <td class="amount"></td>
-        <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
-        <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>
-        <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-        <td><%= f.submit "登録", class: 'btn btn-default' %></td>
-      </tr>
-      <% end %>
-    </tbody>
-    <%= paginate @expenseledgers %>
-  </table>
+      </thead>
+      <tbody>
+        <% @expenseledgers.each do |expenseledger| %>
+          <tr>
+            <td class="small"><%= link_to "削除" , expenseledger , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+            <%= form_for(expenseledger, url: expenseledger_path(expenseledger.id)) do |f| %>
+              <td class="small"><%= expenseledger.id %></td>
+              <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+              <td class="account"><%= f.text_field :account_name, :size=> "8"%></td>
+              <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
+            
+            <% ex_currency = Currency.find_by(name: expenseledger.currency) %>
+            <% if ex_currency.method == "外貨×為替レート" %>  
+              <td class="account"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
+              <td class="rate"><%= expenseledger.rate.to_f %></td>
+            <% else %>
+              <td class="account"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+              <td class="rate"><%= expenseledger.rate.to_i %></td>
+            <% end %>
+  
+            <% ex_total = expenseledger.amount.to_f * expenseledger.rate.to_f %>
+            <% total = BigDecimal(ex_total.to_s).round(0) %>
+              <td class="amount"><%= addcomma(total.to_i) %></td>
+              
+              <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
+              <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>
+              <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
+              <td class="update"><%= f.submit "更新", class: 'btn btn-default'%></td>  
+            <% end %> 
+          </tr>
+        <% end %>
+        
+        <%= form_for(@expenseledger) do |f| %>
+        <tr>
+          <td class="small"></td>
+          <td class="small"></td>
+          <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+          <td class="account"><%= f.text_field :account_name, :size=> "8"%></td>
+          <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
+          <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right"%></td>
+          <td class="rate"></td>
+          <td class="amount"></td>
+          <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
+          <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>
+          <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
+          <td class="update"><%= f.submit "登録", class: 'btn btn-default' %></td>
+        </tr>
+        <% end %>
+      </tbody>
+      <%= paginate @expenseledgers %>
+    </table>
+  </div>    
 </div>
