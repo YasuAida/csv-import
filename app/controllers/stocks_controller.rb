@@ -72,6 +72,11 @@ class StocksController < ApplicationController
     redirect_to stocks_path, notice: 'データを削除しました'
   end
   
+  def plural_destroy
+    Stock.where(destroy_check: "true").destroy_all
+    redirect_to stocks_path, notice: 'データを削除しました'
+  end
+  
   private
   def stock_params
     params.require(:stock).permit(:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from, :currency, :destroy_check)

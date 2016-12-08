@@ -25,7 +25,7 @@
         <thead>
           <tr>
             <th class="small">削除</th>
-            <th class="small">☑</th>
+            <th class="small"><a href= ./stocks/plural_destroy class="btn btn-default">削除</th>
             <th class="small">ID</th>
             <th class="account">日付</th>
             <th class="order_num">SKU</th>
@@ -66,7 +66,7 @@
                 <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>           
                 <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>            
                 <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-                <td class="btn-btn-primary"><%= f.submit "登録"%></td>
+                <td class="update"><%= f.submit "登録", class: 'btn btn-default'%></td>
                 </tr>
           <% end %>
         </tbody>

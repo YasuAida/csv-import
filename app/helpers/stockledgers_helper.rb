@@ -61,8 +61,6 @@ module StockledgersHelper
     ReturnGood.all.each do |return_good|
       #返還商品の返還前SKUを持つ在庫をstocksテーブルの中から抽出する
         @sku_stocks = Stock.where(sku: return_good.old_sku).order(:date)
-      #返還日時を把握するため、salesテーブルの中から返還商品の注文番号に一致するレコードを見つける
-        @date_sale = Sale.find_by(order_num: return_good.order_num)
       #返還前SKUを持つ在庫がなければ何もしない
         unless @sku_stocks.any?
         else
@@ -70,9 +68,9 @@ module StockledgersHelper
           if @sku_stocks.count == 1 
             ex_price_unit = @sku_stocks.first.grandtotal / @sku_stocks.first.number
             price_unit = BigDecimal(ex_price_unit.to_s).round(0)
-            @old_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: @date_sale.date,sku: return_good.old_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
+            @old_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: return_good.date,sku: return_good.old_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
             @old_stockledger.save
-            @new_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: @date_sale.date,sku: return_good.new_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
+            @new_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: return_good.date,sku: return_good.new_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
             @new_stockledger.save
             
           #pladminsテーブルの新SKUを持つデータを探し、あれば原価データを付与する
@@ -80,37 +78,69 @@ module StockledgersHelper
             @return_pladmins.each do |return_pladmin|
               return_pladmin.cgs_amount = price_unit
               return_pladmin.save
+              @return_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: return_pladmin.date,sku: return_good.new_sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "販売", number: -1, unit_price: price_unit, grandtotal: price_unit * -1)
+              @return_stockledger.save
             end
     
       #返還前SKUを持つ在庫が複数の場合は、まず売れた個数と返還した個数の合計を調べてsku_ledger_numberに入れる。
           else
-            @sale_stock = Stockledger.find_by(sku: @sku_stocks.first.sku, classification: "販売")
-            @return_stock = Stockledger.find_by(sku: @sku_stocks.first.sku, classification: "返還")            
-              if @sale_stock.present? && @return_stock.nil?
+            @sale_stocks = Stockledger.where(sku: @sku_stocks.first.sku, classification: "販売")
+            @return_stocks = Stockledger.where(sku: @sku_stocks.first.sku, classification: "返還")            
+              if @sale_stocks.present? && @return_stocks.nil?
                 sku_ary = []
-                sku_ary << @sale_stock
+                sku_ledger_number = 0
+                if @sale_stocks.count == 1
+                  sku_ary << @sale_stocks.id
+                else
+                  @sale_stocks.each do |sale_stock| 
+                    sku_ary << sale_stock.id
+                  end
+                end
                 sku_ledger_number = sku_ary.count
-              elsif @sale_stock.nil? && @return_stock.present?
+                
+              elsif @sale_stocks.nil? && @return_stocks.present?
                 sku_ary = []
-                sku_ary << @return_stock
-                sku_ledger_number = sku_ary.count                
-              elsif @sale_stock.present? && @return_stock.present?
+                sku_ledger_number = 0
+                if @return_stocks.count == 1
+                  sku_ary << @return_stocks.id
+                else
+                  @return_stocks.each do |return_stock| 
+                    sku_ary << return_stock.id
+                  end
+                end
+                sku_ledger_number = sku_ary.count
+                
+              elsif @sale_stocks.present? && @return_stocks.present?
                 sku_ary = []
-                return_ske_ary = []
-                sku_ary << @sale_stock
-                return_ske_ary << @return_stock
-                sku_ledger_number = sku_ary.count - return_ske_ary.count 
+                return_sku_ary = []
+                sku_ledger_number = 0
+                if @sale_stocks.count == 1
+                  sku_ary << @sale_stocks.id
+                else                
+                  @sale_stocks.each do |sale_stock| 
+                    sku_ary << sale_stock.id
+                  end
+                end
+                if @return_stocks.count == 1
+                  sku_ary << @return_stocks.id
+                else
+                  @return_stocks.each do |return_stock| 
+                    return_sku_ary << return_stock.id
+                  end
+                end
+                sku_ledger_number = sku_ary.count - return_sku_ary.count 
               else
                 sku_ledger_number = 0
               end
+              
       #個数を数えた後、日付の古いものから順番に売れたものを引いていって、現在どのSKUが残っているか調べた後、その在庫のデータを使ってstockledgersテーブルにレコードを作成する。
             @sku_stocks.each do |sku_stock|
               if sku_stock.number > sku_ledger_number
                 ex_price_unit = sku_stock.grandtotal / sku_stock.number
                 price_unit = BigDecimal(ex_price_unit.to_s).round(0)
-                @old_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: @date_sale.date,sku: return_good.old_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
+                @old_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: return_good.date,sku: return_good.old_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
                 @old_stockledger.save
-                @new_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: @date_sale.date,sku: return_good.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
+                @new_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: return_good.date,sku: return_good.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
                 @new_stockledger.save
                 
               #pladminsテーブルの新SKUを持つデータを探し、あれば原価データを付与する
@@ -118,6 +148,8 @@ module StockledgersHelper
                 @return_pladmins.each do |return_pladmin|
                   return_pladmin.cgs_amount = price_unit
                   return_pladmin.save
+                  @return_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: return_pladmin.date,sku: return_good.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: -1, unit_price: price_unit, grandtotal: price_unit * -1)                  
+                  @return_stockledger.save
                 end
                 break
               else

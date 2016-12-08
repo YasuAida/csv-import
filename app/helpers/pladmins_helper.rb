@@ -13,7 +13,7 @@ module PladminsHelper
       # rowの値のみを配列化
       row_value = row.to_h.values
       # row_valueからカンマを除く
-      row_value = row_value.map{|o| o.gsub(",","").gsub("¥|￥","") if o.present? } 
+      row_value = row_value.map{|o| o.gsub(",","").gsub("¥","").gsub("\\","") if o.present? } 
       # Zipで合体後にハッシュ化
       row_hash = @column.zip(row_value).to_h
       # データー型の変換

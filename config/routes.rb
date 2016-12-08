@@ -89,6 +89,7 @@ Rails.application.routes.draw do
     collection do
       post 'upload'       
       get 'sku'
+      get 'plural_destroy'
     end
   end
   

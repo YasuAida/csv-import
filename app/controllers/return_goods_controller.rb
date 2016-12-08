@@ -30,7 +30,7 @@ class ReturnGoodsController < ApplicationController
   
   private
   def return_good_params
-    params.require(:return_good).permit(:order_num, :old_sku, :new_sku, :number, :disposal)
+    params.require(:return_good).permit(:date, :order_num, :old_sku, :new_sku, :number, :disposal)
   end
   
   def set_return_good

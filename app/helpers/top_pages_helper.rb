@@ -292,7 +292,7 @@ module TopPagesHelper
 
   def return_goods_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :order_num, :old_sku, :new_sku, :number, :disposal]
+      @column = [:id, :date, :order_num, :old_sku, :new_sku, :number]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -301,6 +301,7 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
+        row_hash[:date] = Date.parse(row_hash[:date]).to_date   
         row_hash[:number] = row_hash[:number].to_i
 
         ReturnGood.create(row_hash)

@@ -62,7 +62,7 @@ module SalesHelper
       
       if sale.detail_of_payment == "FBA在庫の返送手数料"
         unless ReturnGood.where(order_num: sale.order_num).present?
-          return_good = ReturnGood.new(order_num: sale.order_num)
+          return_good = ReturnGood.new(date: sale.date, order_num: sale.order_num)
           return_good.save
         end
       end

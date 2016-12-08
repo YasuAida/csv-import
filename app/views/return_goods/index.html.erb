@@ -6,6 +6,7 @@
       <tr>
         <th class="small">削除</th>
         <th class="small">ID</th>
+        <th class="account">日付</th>        
         <th class="order_num">注文番号</th>
         <th class="order_num">返還前ＳＫＵ</th>
         <th class="order_num">新ＳＫＵ</th>
@@ -18,7 +19,8 @@
         <tr>
           <td class="small"><%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
           <%= form_for(good, url: return_good_path(good.id)) do |f| %>
-            <td class="small"><%= f.text_field :id, readonly: true, :size=> "1" %></td>        
+            <td class="small"><%= f.text_field :id, readonly: true, :size=> "1" %></td>
+            <td class="account"><%= f.text_field :date, :size => "8"%></td>     
             <td class="order_num"><%= f.text_field :order_num, readonly: true, :size => "18"%></td>
             <td class="order_num"><%= f.text_field :old_sku, :size => "18"%></td>
             <td class="order_num"><%= f.text_field :new_sku, :size => "18"%></td>
@@ -33,6 +35,7 @@
         <tr>
             <td class="small"></td>
             <td width="55"></td>
+            <td class="account"><%= f.text_field :date, :size => "8"%></td> 
             <td class="order_num"><%= f.text_field :order_num, :size => "18"%></td>            
             <td class="order_num"><%= f.text_field :old_sku, :size => "18"%></td>
             <td class="order_num"><%= f.text_field :new_sku, :size => "18"%></td>
