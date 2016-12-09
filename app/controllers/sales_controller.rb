@@ -3,9 +3,9 @@ class SalesController < ApplicationController
   include ApplicationHelper
 
   def index
-    #@sales = Sale.all
+    @sales = Sale.all
     @q = Sale.search(params[:q])
-    @sales = @q.result(distinct: true).page(params[:page])
+    #@sales = @q.result(distinct: true).page(params[:page])
   end
 
   def upload
