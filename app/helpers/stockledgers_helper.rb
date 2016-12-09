@@ -84,48 +84,61 @@ module StockledgersHelper
     
       #返還前SKUを持つ在庫が複数の場合は、まず売れた個数と返還した個数の合計を調べてsku_ledger_numberに入れる。
           else
-            @sale_stocks = Stockledger.where(sku: @sku_stocks.first.sku, classification: "販売")
-            @return_stocks = Stockledger.where(sku: @sku_stocks.first.sku, classification: "返還")            
-              if @sale_stocks.present? && @return_stocks.nil?
+            @sale_stockledgers = Stockledger.where(sku: @sku_stocks.first.sku, classification: "販売")
+            @return_stockledgers = Stockledger.where(sku: @sku_stocks.first.sku, classification: "返還")            
+              if @sale_stockledgers.present? && @return_stockledgers.blank?
                 sku_ary = []
                 sku_ledger_number = 0
-                if @sale_stocks.count == 1
-                  sku_ary << @sale_stocks.id
+                if @sale_stockledgers.count == 1
+                  sku_ary << @sale_stockledgers.ids
                 else
-                  @sale_stocks.each do |sale_stock| 
-                    sku_ary << sale_stock.id
+                  @sale_stockledgers.each do |sale_stockledger| 
+                    sku_ary << sale_stockledger.id
                   end
                 end
                 sku_ledger_number = sku_ary.count
                 
-              elsif @sale_stocks.nil? && @return_stocks.present?
+              elsif @sale_stockledgers.blank? && @return_stockledgers.present?
                 sku_ary = []
                 sku_ledger_number = 0
-                if @return_stocks.count == 1
-                  sku_ary << @return_stocks.id
+                if @return_stockledgers.count == 1
+                  0.upto(((@return_stockledgers.first.number)*-1) -1) do |i|
+                    sku_ary << @return_stockledgers.ids
+                    i = i + 1
+                  end
                 else
-                  @return_stocks.each do |return_stock| 
-                    sku_ary << return_stock.id
+                  @return_stockledgers.each do |return_stockledger| 
+                    0.upto(((return_stockledgers.number)*-1) -1) do |i|  
+                      sku_ary << return_stockledger.id
+                      i = i + 1
+                    end
                   end
                 end
                 sku_ledger_number = sku_ary.count
                 
-              elsif @sale_stocks.present? && @return_stocks.present?
+              elsif @sale_stockledgers.present? && @return_stockledgers.present?
                 sku_ary = []
                 return_sku_ary = []
                 sku_ledger_number = 0
-                if @sale_stocks.count == 1
-                  sku_ary << @sale_stocks.id
+                if @sale_stockledgers.count == 1
+                  sku_ary << @sale_stockledgers.id
                 else                
-                  @sale_stocks.each do |sale_stock| 
-                    sku_ary << sale_stock.id
+                  @sale_stockledgers.each do |sale_stockledger| 
+                    sku_ary << sale_stockledger.id
                   end
                 end
-                if @return_stocks.count == 1
-                  sku_ary << @return_stocks.id
+                
+                if @return_stockledgers.count == 1
+                  0.upto(((@return_stockledgers.first.number)*-1) -1) do |i|
+                    sku_ary << @return_stockledgers.id
+                    i = i + 1
+                  end
                 else
-                  @return_stocks.each do |return_stock| 
-                    return_sku_ary << return_stock.id
+                  @return_stockledgers.each do |return_stockledger| 
+                    0.upto(((return_stockledgers.number)*-1) -1) do |i|  
+                      sku_ary << return_stockledger.id
+                      i = i + 1
+                    end
                   end
                 end
                 sku_ledger_number = sku_ary.count - return_sku_ary.count 
