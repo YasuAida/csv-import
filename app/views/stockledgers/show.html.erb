@@ -1,8 +1,8 @@
 <h1>商品有高帳</h1>
 
 <%= search_form_for(@q, url: stockledgers_path) do |f| %>
-  <%= f.label :sku_cont, "SKUで検索" %>
-  <%= f.search_field :sku_cont %>
+  <%= f.label :sku_eq, "SKUで検索" %>
+  <%= f.search_field :sku_eq %>
 <%= f.submit %>
 <% end %>
 

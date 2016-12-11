@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208134604) do
+ActiveRecord::Schema.define(version: 20161210074412) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20161208134604) do
     t.integer  "shipping_cost"
     t.date     "commission_pay_date"
     t.date     "shipping_pay_date"
+    t.integer  "quantity"
   end
 
   create_table "return_goods", force: :cascade do |t|

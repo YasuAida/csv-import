@@ -96,23 +96,22 @@ class AllocationcostsController < ApplicationController
       end
     end
 
-    @stocks = Stock.all
-    @stocks.each do |stock|
+    Stock.all.each do |stock|
       allocation_amount_sum = Allocationcost.where(stock_id: stock.id).sum(:allocation_amount)
       stock.grandtotal = stock.goods_amount + allocation_amount_sum
       stock.save
     end
+    
+    @q = Stock.search(params[:q])
+    @stocks = @q.result(distinct: true).order(:date).page(params[:page])
     
     render 'show'
     p "処理概要 #{Time.now - start_time}s"
   end
   
   def show
-    @allocationcosts = Allocationcost.all
-    respond_to do |format|
-      format.html
-      format.csv { send_data @allocationcosts.to_download, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" }
-    end
+    @q = Stock.search(params[:q])
+    @stocks = @q.result(distinct: true).order(:date).page(params[:page])
   end
   
   private

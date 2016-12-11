@@ -1,10 +1,23 @@
 <h1>単価計算表</h1>
 
+<%= search_form_for(@q, url: allocationcosts_path) do |f| %>
+  <%= f.label :sku_eq, "SKUで検索" %>
+  <%= f.search_field :sku_eq %>
+  <%= f.submit "検索", class: 'btn btn-default' %>
+  <%= f.label :asin_cont, "ASINで検索" %>
+  <%= f.search_field :asin_cont %>
+  <%= f.submit "検索", class: 'btn btn-default' %>  
+  <%= f.label :goods_name_cont, "商品名で検索" %>
+  <%= f.search_field :goods_name_cont %>
+  <%= f.submit "検索", class: 'btn btn-default' %>
+<% end %>
+
 <div class="container">
   <div class="table-responsive">
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th class="small">仕入ID</th>
           <th class="account">日付</th>
           <th class="order_num">SKU</th>
           <th class="asin">ASIN</th>
@@ -19,9 +32,9 @@
         </tr>
       </thead>
       <tbody>
-        <% @stocks = Stock.all.order(:date).page(params[:page]) %>
         <% @stocks.each do |stock| %>
           <tr>
+            <td class="small"><%= stock.id %></td>            
             <td class="account"><%= stock.date %></td>
             <td class="order_num"><%= stock.sku %></td>
             <td class="asin"><%= stock.asin %></td>
@@ -46,8 +59,3 @@
     </table>
   </div>
 </div>
-
-<p>
-  BackUp:
-  <%= link_to "ダウンロード", allocationcosts_path(format: "csv") %>
-</p>

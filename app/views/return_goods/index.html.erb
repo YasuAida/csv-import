@@ -1,5 +1,11 @@
 <h1>FBAからの返還商品登録</h1>
 
+<%= search_form_for(@q, url: return_goods_path) do |f| %>
+  <%= f.label :old_sku_eq, "返還前ＳＫＵで検索" %>
+  <%= f.search_field :old_sku_eq %>
+  <%= f.submit "検索" %>
+<% end %>
+
 <div style="table-layout: fixed;">
   <table class="table table-striped">
     <thead>
@@ -45,6 +51,7 @@
         </tr>
       <% end %>
     </tbody>
+    <%= paginate @return_goods %>
   </table>
 </div>
 

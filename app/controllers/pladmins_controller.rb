@@ -60,7 +60,7 @@ class PladminsController < ApplicationController
   
   private
   def pladmin_params
-    params.require(:pladmin).permit(:date, :order_num, :sku, :goods_name, :sale_amount, :commission, :cgs_amount, :money_receive, :sale_place, :shipping_cost, :commission_pay_date, :shipping_pay_date)
+    params.require(:pladmin).permit(:date, :order_num, :sku, :goods_name, :quantity, :sale_amount, :commission, :cgs_amount, :money_receive, :sale_place, :shipping_cost, :commission_pay_date, :shipping_pay_date)
   end
   
   def set_pladmin

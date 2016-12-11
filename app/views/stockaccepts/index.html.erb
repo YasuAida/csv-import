@@ -6,8 +6,8 @@
 <% end %>
 
 <%= search_form_for(@q, url: stockaccepts_path) do |f| %>
-  <%= f.label :sku_start, "出品者SKUで検索" %>
-  <%= f.search_field :sku_start %>
+  <%= f.label :sku_eq, "出品者SKUで検索" %>
+  <%= f.search_field :sku_eq %>
   <%= f.submit "検索" %>
   <%= f.label :asin_start, "ASINで検索" %>
   <%= f.search_field :asin_start %>

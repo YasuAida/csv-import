@@ -8,8 +8,8 @@
     <br>
     
     <%= search_form_for(@q, url: stocks_path) do |f| %>
-      <%= f.label :sku_cont, "SKUで検索" %>
-      <%= f.search_field :sku_cont %>
+      <%= f.label :sku_eq, "SKUで検索" %>
+      <%= f.search_field :sku_eq %>
       <%= f.submit "検索" %>
       <%= f.label :asin_cont, "ASINで検索" %>
       <%= f.search_field :asin_cont %>

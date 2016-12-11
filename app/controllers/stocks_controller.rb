@@ -73,7 +73,7 @@ class StocksController < ApplicationController
   end
   
   def plural_destroy
-    Stock.where(destroy_check: "true").destroy_all
+    Stock.where(destroy_check: true).destroy_all
     redirect_to stocks_path, notice: 'データを削除しました'
   end
   

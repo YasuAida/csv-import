@@ -268,7 +268,7 @@ module TopPagesHelper
   
   def pladmins_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :date, :order_num, :sku, :goods_name, :sale_place, :sale_amount, :commission, :cgs_amount, :shipping_cost, :money_receive, :commission_pay_date, :shipping_pay_date]
+      @column = [:id, :date, :order_num, :sku, :goods_name, :quantity, :sale_place, :sale_amount, :commission, :cgs_amount, :shipping_cost, :money_receive, :commission_pay_date, :shipping_pay_date]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -278,6 +278,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
+        row_hash[:quantity] = row_hash[:quantity].to_i        
         row_hash[:sale_amount] = row_hash[:sale_amount].to_i
         row_hash[:commission] = row_hash[:commission].to_i
         row_hash[:cgs_amount] = row_hash[:cgs_amount].to_i 

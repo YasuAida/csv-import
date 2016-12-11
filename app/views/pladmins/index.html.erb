@@ -10,8 +10,8 @@
     <% end %>
     
     <%= search_form_for(@q, url: pladmins_path) do |f| %>
-      <%= f.label :sku_cont, "SKUで検索" %>
-      <%= f.search_field :sku_cont %>
+      <%= f.label :sku_eq, "SKUで検索" %>
+      <%= f.search_field :sku_eq %>
       <%= f.submit "検索", class: 'btn btn-default' %>
       <%= f.label :goods_name_cont, "商品名で検索" %>
       <%= f.search_field :goods_name_cont %>
@@ -26,6 +26,7 @@
           <th class="order_num">注文番号</th>
           <th class="order_num">SKU</th>
           <th class="content">商品名</th>
+          <th class="rate">個数</th>            
           <th class="company">売上先</th>      
           <th class="amount">売上高</th>
           <th class="amount">原価</th>
@@ -46,6 +47,7 @@
             <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
             <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
             <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
+            <td class="rate"><%= f.text_field :quantity, :size => 1, :style=>"text-align:right"%></td>            
             <td class="company"><%= f.text_field :sale_place, :size => 8 %></td>        
             <td class="amount"><%= f.text_field :sale_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
             <td class="amount"><%= f.text_field :cgs_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
@@ -68,6 +70,7 @@
           <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
           <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
           <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
+          <td class="rate"><%= f.text_field :quantity, :size => 1, :style=>"text-align:right"%></td>            
           <td class="company"><%= f.text_field :sale_place, :size => 8 %></td>        
           <td class="amount"><%= f.text_field :sale_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
           <td class="amount"><%= f.text_field :cgs_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>

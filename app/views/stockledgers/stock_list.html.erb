@@ -1,8 +1,8 @@
 <h1>在庫台帳</h1>
 
 <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
-  <%= f.label :sku_cont, "SKUで検索" %>
-  <%= f.search_field :sku_cont %>
+  <%= f.label :sku_eq, "SKUで検索" %>
+  <%= f.search_field :sku_eq %>
   <%= f.submit "検索" %>
   <%= f.label :asin_cont, "ASINで検索" %>
   <%= f.search_field :asin_cont %>
@@ -40,17 +40,21 @@
           <% end %> 
           </tr>
         <% end %>
+        <% total_number = 0 %>
+        <% total_amount = 0 %>
+        <% @stocks.each do |stock| %>
+          <% total_number = stock.stockledgers.sum(:number) + total_number %>
+          <% total_amount = stock.stockledgers.sum(:grandtotal) + total_amount %>
+        <% end %>
           <tr>
             <td class="account"></td>
             <td class="order_num"></td>
             <td class="asin"></td>
             <td class="content" style="text-align:right">個数</td>
-                <% total_number = @stocks.group(:id, :number).sum(:number).values.inject(:+) %>
             <td class="rate"><%= addcomma(total_number.to_i) %></td>
             <td class="amount">合計額</td>
-                <% total_amount = @stocks.group(:id, :grandtotal).sum(:grandtotal).values.inject(:+) %>
             <td class="amount"><%= addcomma(total_amount.to_i) %></td>
-          </tr>  
+          </tr>
       </tbody>
     </table>
   </div>

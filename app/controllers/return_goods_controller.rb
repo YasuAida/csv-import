@@ -3,7 +3,9 @@ class ReturnGoodsController < ApplicationController
   
   def index
     @return_good = ReturnGood.new   
-    @return_goods = ReturnGood.all
+    #@return_goods = ReturnGood.all
+    @q = ReturnGood.search(params[:q])
+    @return_goods = @q.result(distinct: true).page(params[:page])
     
     respond_to do |format|
       format.html
