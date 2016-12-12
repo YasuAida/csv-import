@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :disposals, only: [ :index, :create, :update, :destroy]
+  
   resources :periods, only: [ :index, :create]
 
   resources :financial_statements, only: [ :index] do

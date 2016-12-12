@@ -7,6 +7,8 @@ class StockledgersController < ApplicationController
     sale_goods_import_to_stockledger
   #返還商品についてstockledgersテーブルにデータを入力する
     return_goods_import_to_stockledger
+  #廃棄商品についてstockledgersテーブルにデータを入力する  
+    disposals_import_to_stockledger 
 
   #stocksテーブルの内容を移す。
     Stock.all.each do |stock|
@@ -41,5 +43,9 @@ class StockledgersController < ApplicationController
   private
   def set_stockledger
     Stockledger.destroy_all
+    Stock.all.each do |stock|
+      stock.sold_unit = nil
+      stock.save
+    end
   end
 end

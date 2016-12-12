@@ -66,6 +66,13 @@ module SalesHelper
           return_good.save
         end
       end
+ 
+      if sale.detail_of_payment == "FBA在庫の廃棄手数料"
+        unless Disposal.where(order_num: sale.order_num).present?
+          disposal = Disposal.new(date: sale.date, order_num: sale.order_num)
+          disposal.save
+        end
+      end
       
       if sale.handling == "経費"
         expenseledger = Expenseledger.new(date: sale.date,account_name: "支払手数料", content: sale.detail_of_payment, amount: (sale.amount * -1), money_paid: sale.money_receive, purchase_from: "Amazon", currency: "円")
