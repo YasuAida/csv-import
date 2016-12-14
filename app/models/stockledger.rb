@@ -1,4 +1,5 @@
 class Stockledger < ActiveRecord::Base
+  belongs_to :stock
 
   def self.to_csv
     headers = %w(ID Stock_id 日付 SKU ASIN 商品名 分類 数量 単価 金額) 

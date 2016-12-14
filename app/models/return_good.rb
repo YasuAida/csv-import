@@ -1,4 +1,5 @@
 class ReturnGood < ActiveRecord::Base
+  belongs_to :stock
     
   def self.to_csv
     headers = %w(ID 日付 注文番号 返還前SKU 新SKU 個数) 

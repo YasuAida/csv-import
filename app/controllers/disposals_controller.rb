@@ -1,4 +1,5 @@
 class DisposalsController < ApplicationController
+  include DisposalsHelper
   before_action :set_disposal, only: [ :update, :destroy] 
   
   def index
@@ -14,14 +15,16 @@ class DisposalsController < ApplicationController
   end
   
   def create
-    @disposal = Disposal.new(disposal_params)
+    @disposal = Disposal.new(disposal_params)        
     @disposal.save
     redirect_to disposals_path , notice: '保存しました'    
   end
   
   def update
-    if @disposal.update(disposal_params)
+    if @disposal.update(disposal_params)  
       redirect_to disposals_path , notice: '保存しました'
+    else
+      redirect_to disposals_path , notice: '保存に失敗しました'
     end
   end
   

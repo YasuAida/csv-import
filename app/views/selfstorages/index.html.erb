@@ -1,0 +1,59 @@
+<h1>自己保管商品</h1>
+
+<%= search_form_for(@q, url: selfstorages_path) do |f| %>
+  <%= f.label :sku_eq, "ＳＫＵで検索" %>
+  <%= f.search_field :sku_eq %>
+  <%= f.submit "検索" %>
+<% end %>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="small">削除</th>
+      <th class="middle">仕入ID</th>  
+      <th class="order_num">ＳＫＵ</th>
+      <th class="large">帳票</th>
+      <th class="content">商品名</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <% @selfstorages.each do |good| %>
+      <tr>
+        <td class="small"><%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+        <%= form_for(good, url: selfstorage_path(good.id)) do |f| %>
+          <td class="middle"><%= f.text_field :stock_id, readonly: true, :size=> "4" %></td>  
+          <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+          
+        <% stock_name = Stock.find_by(sku: good.sku) %>
+        <% if stock_name.present? %>
+          <td class="large">仕入台帳</td>
+          <td class="content"><%= stock_name.goods_name %></td>
+        <% elsif %>
+        <% return_good = ReturnGood.find_by(new_sku: good.sku) %>
+        <% stock_name = Stock.find_by(sku: return_good.old_sku) %>
+          <td class="large">返還商品台帳</td>
+          <td class="content"><%= stock_name.goods_name %></td>
+        <% elsif %>
+        <% pladmin_name = Pladmin.find_by(sku: good.sku) %> 
+          <td class="large">損益管理シート</td>
+          <td class="content"><%= pladmin_name.goods_name %></td>
+        <% end %>
+        
+          <td class= "hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        <% end %> 
+      </tr>
+    <% end %>
+    <%= form_for(@selfstorage) do |f| %>
+      <tr>
+          <td class="small"></td>
+          <td class="middle"></td>
+          <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+          <td class="account"></td>          
+          <td class="content"></td>   
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <%= paginate @selfstorages %>
+</table>

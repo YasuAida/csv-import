@@ -5,10 +5,6 @@ class StockledgersController < ApplicationController
   def index
   #pladminsテーブルに原価データを付与
     sale_goods_import_to_stockledger
-  #返還商品についてstockledgersテーブルにデータを入力する
-    return_goods_import_to_stockledger
-  #廃棄商品についてstockledgersテーブルにデータを入力する  
-    disposals_import_to_stockledger 
 
   #stocksテーブルの内容を移す。
     Stock.all.each do |stock|
@@ -44,7 +40,8 @@ class StockledgersController < ApplicationController
   def set_stockledger
     Stockledger.destroy_all
     Stock.all.each do |stock|
-      stock.sold_unit = nil
+      stock.sold_unit = 0
+      stock.soldout_check = false
       stock.save
     end
   end

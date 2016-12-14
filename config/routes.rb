@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :selfstorages, only: [ :index, :create, :update, :destroy]
+  
   resources :disposals, only: [ :index, :create, :update, :destroy]
   
   resources :periods, only: [ :index, :create]

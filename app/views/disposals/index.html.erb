@@ -1,4 +1,4 @@
-<h1>廃棄商品登録</h1>
+<h1>廃棄商品</h1>
 
 <%= search_form_for(@q, url: disposals_path) do |f| %>
   <%= f.label :sku_eq, "返還前ＳＫＵで検索" %>
@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th class="small">削除</th>
-        <th class="small">ID</th>
+        <th class="middle">仕入ID</th>
         <th class="account">日付</th>        
         <th class="order_num">注文番号</th>
         <th class="order_num">ＳＫＵ</th>
@@ -24,16 +24,16 @@
         <tr>
           <td class="small"><%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
           <%= form_for(good, url: disposal_path(good.id)) do |f| %>
-            <td class="small"><%= f.text_field :id, readonly: true, :size=> "1" %></td>
+            <td class="middle"><%= f.text_field :stock_id, readonly: true, :size=> "4", :style=>"text-align:right"%></td>
             <td class="account"><%= f.text_field :date, :size => "8"%></td>     
             <td class="order_num"><%= f.text_field :order_num, readonly: true, :size => "18"%></td>
             <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
             
           <% stock_name = Stock.find_by(sku: good.sku) %>
+          <% return_good = ReturnGood.find_by(new_sku: good.sku) %>
           <% if stock_name.present? %>
             <td class="content"><%= stock_name.goods_name %></td>
-          <% else %>
-          <% return_good = ReturnGood.find_by(new_sku: good.sku) %>
+          <% elsif return_good.present?%>
           <% stock_name = Stock.find_by(sku: return_good.old_sku) %>          
             <td class="content"><%= stock_name.goods_name %></td>
           <% end %>
@@ -46,7 +46,7 @@
       <%= form_for(@disposal) do |f| %>
         <tr>
             <td class="small"></td>
-            <td width="55"></td>
+            <td class="middle"></td>
             <td class="account"><%= f.text_field :date, :size => "8"%></td> 
             <td class="order_num"><%= f.text_field :order_num, :size => "18"%></td>            
             <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>

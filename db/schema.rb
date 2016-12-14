@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212013802) do
+ActiveRecord::Schema.define(version: 20161214024727) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161212013802) do
   end
 
   create_table "disposals", force: :cascade do |t|
+    t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
     t.string   "sku"
@@ -46,6 +47,8 @@ ActiveRecord::Schema.define(version: 20161212013802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "disposals", ["stock_id"], name: "index_disposals_on_stock_id"
 
   create_table "entrypatterns", force: :cascade do |t|
     t.string   "sku"
@@ -186,6 +189,7 @@ ActiveRecord::Schema.define(version: 20161212013802) do
   end
 
   create_table "return_goods", force: :cascade do |t|
+    t.integer  "stock_id"
     t.string   "order_num"
     t.string   "old_sku"
     t.datetime "created_at", null: false
@@ -194,6 +198,8 @@ ActiveRecord::Schema.define(version: 20161212013802) do
     t.integer  "number"
     t.date     "date"
   end
+
+  add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
 
   create_table "sales", force: :cascade do |t|
     t.date     "date"
@@ -209,6 +215,13 @@ ActiveRecord::Schema.define(version: 20161212013802) do
     t.datetime "updated_at",          null: false
     t.date     "money_receive"
     t.string   "handling"
+  end
+
+  create_table "selfstorages", force: :cascade do |t|
+    t.string   "sku"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "stock_id"
   end
 
   create_table "stockaccepts", force: :cascade do |t|
@@ -258,7 +271,8 @@ ActiveRecord::Schema.define(version: 20161212013802) do
     t.integer  "grandtotal"
     t.integer  "goods_amount"
     t.boolean  "destroy_check", default: false, null: false
-    t.integer  "sold_unit"
+    t.integer  "sold_unit",     default: 0
+    t.boolean  "soldout_check", default: false, null: false
   end
 
   create_table "subexpenses", force: :cascade do |t|

@@ -1,4 +1,5 @@
 class ReturnGoodsController < ApplicationController
+  include ReturnGoodsHelper
   before_action :set_return_good, only: [ :update, :destroy] 
   
   def index
@@ -14,14 +15,15 @@ class ReturnGoodsController < ApplicationController
   end
   
   def create
-    @return_good = ReturnGood.new(return_good_params)
-    @return_good.save
+    @return_good = ReturnGood.new(return_good_params)  
     redirect_to return_goods_path , notice: '保存しました'    
   end
   
   def update
     if @return_good.update(return_good_params)
       redirect_to return_goods_path , notice: '保存しました'
+    else
+      redirect_to return_goods_path , notice: '保存に失敗しました'
     end
   end
   

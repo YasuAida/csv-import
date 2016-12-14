@@ -58,6 +58,24 @@ module TopPagesHelper
         Currency.create(row_hash)
       end
   end
+
+  def disposals_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :date, :order_num, :sku, :number]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        row_hash[:date] = Date.parse(row_hash[:date]).to_date
+        row_hash[:number] = row_hash[:number].to_i
+        
+        Disposal.create(row_hash)
+      end
+  end
   
   def entrypatterns_import(file_name)
       # 先にDBのカラム名を用意
@@ -328,7 +346,23 @@ module TopPagesHelper
         Sale.create(row_hash)
       end
   end
- 
+
+  def selfstorages_import(file_name)
+      # 先にDBのカラム名を用意
+      @column = [:id, :sku]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        
+        Selfstorage.create(row_hash)
+      end
+  end
+  
   def stockaccepts_import(file_name)
       # 先にDBのカラム名を用意
       @column = [:id, :date, :fnsku, :sku, :goods_name, :quantity, :fba_number, :fc, :asin]

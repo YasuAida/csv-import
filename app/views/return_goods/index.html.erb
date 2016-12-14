@@ -1,4 +1,4 @@
-<h1>FBAからの返還商品登録</h1>
+<h1>FBAからの返還商品</h1>
 
 <%= search_form_for(@q, url: return_goods_path) do |f| %>
   <%= f.label :old_sku_eq, "返還前ＳＫＵで検索" %>
@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th class="small">削除</th>
-        <th class="small">ID</th>
+        <th class="middle">仕入ID</th>
         <th class="account">日付</th>        
         <th class="order_num">注文番号</th>
         <th class="order_num">返還前ＳＫＵ</th>
@@ -25,7 +25,7 @@
         <tr>
           <td class="small"><%= link_to "削除" , good , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
           <%= form_for(good, url: return_good_path(good.id)) do |f| %>
-            <td class="small"><%= f.text_field :id, readonly: true, :size=> "1" %></td>
+            <td class="middle"><%= f.text_field :stock_id, readonly: true, :size=> "4", :style=>"text-align:right"%></td>
             <td class="account"><%= f.text_field :date, :size => "8"%></td>     
             <td class="order_num"><%= f.text_field :order_num, readonly: true, :size => "18"%></td>
             <td class="order_num"><%= f.text_field :old_sku, :size => "18"%></td>
@@ -39,15 +39,15 @@
       <% end %>
       <%= form_for(@return_good) do |f| %>
         <tr>
-            <td class="small"></td>
-            <td width="55"></td>
-            <td class="account"><%= f.text_field :date, :size => "8"%></td> 
-            <td class="order_num"><%= f.text_field :order_num, :size => "18"%></td>            
-            <td class="order_num"><%= f.text_field :old_sku, :size => "18"%></td>
-            <td class="order_num"><%= f.text_field :new_sku, :size => "18"%></td>
-            <td class="content"></td>
-            <td class="rate"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>           
-            <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+          <td class="small"></td>
+          <td class="middle"></td>
+          <td class="account"><%= f.text_field :date, :size => "8"%></td> 
+          <td class="order_num"><%= f.text_field :order_num, :size => "18"%></td>            
+          <td class="order_num"><%= f.text_field :old_sku, :size => "18"%></td>
+          <td class="order_num"><%= f.text_field :new_sku, :size => "18"%></td>
+          <td class="content"></td>
+          <td class="rate"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>           
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
         </tr>
       <% end %>
     </tbody>
