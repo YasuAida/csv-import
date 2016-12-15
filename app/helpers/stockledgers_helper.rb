@@ -195,21 +195,21 @@ module StockledgersHelper
             if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0
               ex_price_unit = sku_stock.grandtotal / sku_stock.number
               price_unit = BigDecimal(ex_price_unit.to_s).round(0)
-              @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * -1)
+              @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity * -1)
               @stockledger.save
               pladmin.cgs_amount = price_unit * pladmin.quantity
               pladmin.save
               sku_stock.sold_unit += pladmin.quantity
               sku_stock.save
-            end
+              break
 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
-            if pladmin.sale_amount.present? && pladmin.sale_amount < 0
+            elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0
               target_stocks = @sku_stocks.where(soldout_check: true)
               if owned_number > 0 || target_stocks.present? && sku_stock == target_stocks.last           
                 ex_price_unit = sku_stock.grandtotal / sku_stock.number
                 price_unit = BigDecimal(ex_price_unit.to_s).round(0)
-                @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit)
+                @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
                 @stockledger.save
                 pladmin.cgs_amount = price_unit * pladmin.quantity * -1
                 pladmin.save
@@ -299,6 +299,7 @@ module StockledgersHelper
                       break
                     end
                   end
+                  break
                 end
                 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数ある 
@@ -310,7 +311,7 @@ module StockledgersHelper
                   @new_stockledger.save
                   return_good.stock_id = sku_stock.id
                   return_good.save
-
+                
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するpladminsがある
                   return_pladmins = Pladmin.where(sku: return_good.new_sku)
                   if return_pladmins.present? && return_pladmins.count == 1
@@ -331,7 +332,7 @@ module StockledgersHelper
                       end
                     end
                   end
-
+                
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある
                   return_disposals = Disposal.where(sku: (return_good.new_sku if return_good.present?))
                   if return_disposals.present? && return_disposals.count == 1 && !sku_stock.soldout_check
@@ -354,9 +355,10 @@ module StockledgersHelper
                       end
                     end
                   end                          
-                end #300行目 return_goods.each do |return_good|           
-              end #223行目 if return_goods.present? && return_goods.count == 1, 299行目 else return_goods.present? && return_goods.count > 1              
-            end #209行目 if pladmin.sale_amount.present? && pladmin.sale_amount < 0, 
+                end #307行目 return_goods.each do |return_good|           
+              end #252行目 if return_goods.present? && return_goods.count == 1, 306行目 else return_goods.present? && return_goods.count > 1              
+              break            
+            end #195行目 if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0, 206行目 if pladmin.sale_amount.present? && pladmin.sale_amount < 0, 
           end #184行目 @sku_stocks.each do |sku_stock|
         end #16行目if @sku_stocks.count == 1, 183行目else
       end #12行目if @sku_stocks.blank?, 15行目else
