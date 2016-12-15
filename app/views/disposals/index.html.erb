@@ -1,7 +1,7 @@
 <h1>廃棄商品</h1>
 
 <%= search_form_for(@q, url: disposals_path) do |f| %>
-  <%= f.label :sku_eq, "返還前ＳＫＵで検索" %>
+  <%= f.label :sku_eq, "ＳＫＵで検索" %>
   <%= f.search_field :sku_eq %>
   <%= f.submit "検索" %>
 <% end %>

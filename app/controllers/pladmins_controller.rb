@@ -67,5 +67,4 @@ class PladminsController < ApplicationController
     @update_pladmin = Pladmin.find(params[:id])
   end
   
-  
 end

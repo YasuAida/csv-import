@@ -14,15 +14,12 @@ module StockledgersHelper
         pladmin.save
       else
         if @sku_stocks.count == 1
-          if @sku_stocks.first.sold_unit.blank?
-            owned_number = @sku_stocks.first.number
-            @sku_stocks.first.sold_unit = 0
-          else
-            owned_number = @sku_stocks.first.number - @sku_stocks.first.sold_unit
-          end
-          
+
+          owned_number = @sku_stocks.first.number - @sku_stocks.first.sold_unit        
           if owned_number == 0
             @sku_stocks.first.soldout_check = true
+          else
+            @sku_stocks.first.soldout_check = false
           end
           
           ex_price_unit = @sku_stocks.first.grandtotal / @sku_stocks.first.number
@@ -45,6 +42,13 @@ module StockledgersHelper
             @stockledger.save
             @sku_stocks.first.save
             pladmin.save
+            
+            owned_number = @sku_stocks.first.number - @sku_stocks.first.sold_unit
+            if owned_number == 0
+              @sku_stocks.first.soldout_check = true
+            else
+              @sku_stocks.first.soldout_check = false
+            end
 
       #@sku_stocksが一つで、pladmin.sale_amountがマイナスで、@sku_stocksのSKUと一致するdisposalsがある
             disposals = Disposal.where(sku: @sku_stocks.first.sku)
@@ -151,7 +155,7 @@ module StockledgersHelper
                   end
                 end              
                 
-      #@sku_stocksが一つで、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある
+      #@sku_stocksが一つで、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある 
                 return_disposals = Disposal.where(sku: return_goods.new_sku)
                 if return_disposals.present? && return_disposals.count == 1 && @sku_stocks.first.soldout_check = false          
                   @return_disposal_stockledger = Stockledger.new(stock_id: @sku_stocks.first.id, transaction_date: return_disposals.first.date, sku: return_disposals.first.sku, asin: @sku_stocks.first.asin, goods_name: @sku_stocks.first.goods_name, classification: "廃棄", number: return_disposals.first.number * -1, unit_price: price_unit, grandtotal: price_unit * return_disposals.first.number * -1)
@@ -179,15 +183,12 @@ module StockledgersHelper
         
         else          
           @sku_stocks.each do |sku_stock|
-            if sku_stock.sold_unit.blank?
-              owned_number = sku_stock.number
-              sku_stock.sold_unit = 0
-            else
-              owned_number = sku_stock.number - sku_stock.sold_unit
-            end
 
+            owned_number = sku_stock.number - sku_stock.sold_unit
             if owned_number == 0
               sku_stock.soldout_check = true
+            else
+              sku_stock.soldout_check = false
             end            
             
       #@sku_stocksが複数で、pladmin.sale_amountがプラス 
@@ -215,10 +216,16 @@ module StockledgersHelper
                 sku_stock.sold_unit -= pladmin.quantity
               end
 
+              owned_number = @sku_stocks.first.number - @sku_stocks.first.sold_unit
+              if owned_number == 0
+                @sku_stocks.first.soldout_check = true
+              else
+                @sku_stocks.first.soldout_check = false
+              end
                 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、sku_stockのSKUと一致するdisposalsがある
               disposals = Disposal.where(sku: sku_stock.sku)
-              if disposals.present? && disposals.count == 1
+              if disposals.present? && disposals.count == 1 && sku_stock.soldout_check = false
                 @disposal_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: disposals.first.date, sku: disposals.first.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "廃棄", number: disposals.first.number * -1, unit_price: price_unit, grandtotal: price_unit * disposals.first.number * -1)
                 @disposal_stockledger.save
                 sku_stock.sold_unit += disposals.first.number
@@ -272,7 +279,7 @@ module StockledgersHelper
                 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが一つあり、return_goodsの新SKUと一致するdisposalsがある
                 return_disposals = Disposal.where(sku: (return_goods.new_sku if return_goods.present?))
-                if return_disposals.present? && return_disposals.count == 1
+                if return_disposals.present? && return_disposals.count == 1 && sku_stock.soldout_check = false
                   @return_disposal_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: return_disposals.first.date, sku: return_disposals.first.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "廃棄", number: return_disposals.first.number * -1, unit_price: price_unit, grandtotal: price_unit * return_disposals.first.number * -1)
                   @return_disposal_stockledger.save
                   sku_stock.sold_unit += return_disposals.first.number
@@ -326,7 +333,7 @@ module StockledgersHelper
 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある
                   return_disposals = Disposal.where(sku: (return_good.new_sku if return_good.present?))
-                  if return_disposals.present? && return_disposals.count == 1
+                  if return_disposals.present? && return_disposals.count == 1 && sku_stock.soldout_check = false
                     @return_disposal_stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: return_disposals.date, sku: return_disposals.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "廃棄", number: return_disposals.number * -1, unit_price: price_unit, grandtotal: price_unit * return_disposals.number * -1)
                     @return_disposal_stockledger.save
                     sku_stock.sold_unit += return_disposals.number
