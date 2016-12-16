@@ -70,8 +70,15 @@ module StockledgersHelper
             pladmin.cgs_amount = price_unit * pladmin.quantity
             @sku_stocks.first.sold_unit += pladmin.quantity
             @stockledger.save
-            @sku_stocks.first.save
-            pladmin.save     
+            pladmin.save
+            
+            owned_number = @sku_stocks.first.number - @sku_stocks.first.sold_unit
+            if owned_number == 0
+              @sku_stocks.first.soldout_check = true
+            else
+              @sku_stocks.first.soldout_check = false
+            end
+            @sku_stocks.first.save            
             
       #@sku_stocksが一つで、pladmin.sale_amountがマイナス
           elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0 
@@ -243,7 +250,14 @@ module StockledgersHelper
               pladmin.cgs_amount = price_unit * pladmin.quantity
               pladmin.save
               sku_stock.sold_unit += pladmin.quantity
-              sku_stock.save
+              
+              owned_number = sku_stock.number - sku_stock.sold_unit
+              if owned_number == 0
+                sku_stock.soldout_check = true
+              else
+                sku_stock.soldout_check = false
+              end
+              sku_stock.save            
               break
 
       #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
