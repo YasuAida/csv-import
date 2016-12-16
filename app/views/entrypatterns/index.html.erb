@@ -4,7 +4,6 @@
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
-        <th class="small">ID</th>
         <th class="order_num">SKU</th>
         <th class="order_num">トランザクションの種類</th>
         <th class="detail">支払いの種類</th>
@@ -15,12 +14,14 @@
     <tbody>
       <% @entrypatterns.each do |entrypattern| %>
         <tr>
-          <td class="small"><%= entrypattern.id %></th>
-          <td class="order_num"><%= entrypattern.sku %></td>
-          <td class="order_num"><%= entrypattern.kind_of_transaction %></td>
-          <td class="detail"><%= entrypattern.kind_of_payment %></td>
-          <td class="detail"><%= entrypattern.detail_of_payment %></td>
-          <td class="account"><%= entrypattern.handling %></td>
+        <%= form_for(entrypattern, url: entrypattern_path(entrypattern)) do |f|  %>
+          <td class="order_num"><%= f.text_field :sku %></td>
+          <td class="order_num"><%= f.text_field :kind_of_transaction %></td>
+          <td class="detail"><%= f.text_field :kind_of_payment %></td>
+          <td class="detail"><%= f.text_field :detail_of_payment %></td>
+          <td class="account"><%= f.text_field :handling %></td>
+          <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+        <% end %>
         </tr>
       <% end %>
     </tbody>

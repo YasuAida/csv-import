@@ -107,13 +107,15 @@ Rails.application.routes.draw do
   resources :sales , only: [:index] do
     collection do
       post 'upload'
+      get  'handling'
       get  'pladmin'
     end
   end
   
   resources :accounts, only: [ :index, :create, :update, :destroy]
 
-  get 'entrypatterns/index'
+  resources :entrypatterns, only: [ :index, :create, :update, :destroy]
+  
   get 'expense_methods/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

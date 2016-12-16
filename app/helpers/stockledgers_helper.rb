@@ -3,11 +3,49 @@ module StockledgersHelper
     @pladmins = Pladmin.all.order(:date)
     @pladmins.each do |pladmin|
 
-      @sku_stocks = nil      
-      if Stock.where(sku: pladmin.sku).present?
-        @sku_stocks = Stock.where(sku: pladmin.sku).order(:date)
-      elsif sku_return_good = ReturnGood.find_by(new_sku: pladmin.sku)
-        @sku_stocks = Stock.where(sku: sku_return_good.old_sku).order(:date) 
+      @sku_stocks = nil
+      @check_stocks = Stock.where(sku: pladmin.sku)
+      @check_returns = ReturnGood.where(new_sku: pladmin.sku)
+      if @check_stocks.present? && @check_returns.blank?
+        @sku_stocks = @check_stocks.order(:date)
+      elsif @check_stocks.blank? && @check_returns.present? 
+        if @check_returns.count == 1
+          @sku_stocks = Stock.where(sku: @check_returns.first.old_sku)
+        elsif @check_returns.count > 1
+          @check_returns.each do |check_return|
+            @check_stocks = Stock.where(sku: check_return.old_sku).order(:date)
+            if @check_stocks.present? && @check_stocks.count == 1 && !@check_stocks.first.soldout_check
+              @sku_stocks = @check_stocks
+              break
+            elsif @check_stocks.present? && @check_stocks.count > 1 
+              @check_stocks.each do |check_stock|
+                if !check_stock.soldout_check
+                  @sku_stocks = check_stock
+                  break
+                end
+              end
+            end
+          end
+        end  
+      elsif @check_stocks.present? && @check_returns.present?
+        if @check_stocks.where(soldout_check: false).present?
+          @sku_stocks = @check_stocks
+        else
+          @check_returns.each do |check_return|
+            @check_return_stocks = Stock.where(sku: check_return.old_sku).order(:date)
+            if @check_return_stocks.present? && @check_return_stocks.count == 1 && !@check_return_stocks.first.soldout_check
+              @sku_stocks = @check_return_stocks
+              break
+            elsif @check_return_stocks.present? && @check_return_stocks.count > 1 
+              @check_return_stocks.each do |check_return_stock|
+                if !check_return_stock.soldout_check
+                  @sku_stocks = check_return_stock
+                  break
+                end
+              end
+            end
+          end        
+        end
       end
       
       if @sku_stocks.blank? 
@@ -33,7 +71,7 @@ module StockledgersHelper
             @sku_stocks.first.sold_unit += pladmin.quantity
             @stockledger.save
             @sku_stocks.first.save
-            pladmin.save
+            pladmin.save     
             
       #@sku_stocksが一つで、pladmin.sale_amountがマイナス
           elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0 

@@ -21,12 +21,6 @@ module SalesHelper
           money_receive_date = file_name.original_filename.gsub(/.txt/,"")
           line_hash[:money_receive] = Date.parse(money_receive_date).to_date
           
-          @entrypattern = Entrypattern.where(kind_of_transaction: line_hash[:kind_of_transaction])
-          @entrypattern = @entrypattern.where(kind_of_payment: line_hash[:kind_of_payment])
-          @entrypattern = @entrypattern.where(detail_of_payment: line_hash[:detail_of_payment])
-          @entrypattern = @entrypattern.where(sku: line_hash[:sku].gsub(/\S+/,"*")) 
-          line_hash[:handling] = @entrypattern.first.handling if @entrypattern.present?
-          
           Sale.create(line_hash)
         end
       end
@@ -37,8 +31,30 @@ module SalesHelper
     File.delete('./tmp/cache/' + file_name.original_filename)
   end
   
-  def import_to_pladmin(sales)
-    sales.each do |sale|
+  def add_handling
+    #Sale.all.each do |sale|
+    Sale.where(handling: nil).each do |sale|
+      @entrypatterns = Entrypattern.where(kind_of_transaction: sale.kind_of_transaction)
+      @entrypatterns = @entrypatterns.where(kind_of_payment: sale.kind_of_payment)
+      @entrypatterns = @entrypatterns.where(detail_of_payment: sale.detail_of_payment)
+      @entrypatterns = @entrypatterns.where(sku: sale.sku.gsub(/\S+/,"*"))
+
+      if @entrypatterns.present?
+        sale.handling = @entrypatterns.first.handling
+        sale.save
+      else
+        unless sale.sku.blank?
+          sale.sku = sale.sku.gsub(/\S+/,"*")
+        end
+        Entrypattern.create(sku: sale.sku,kind_of_transaction: sale.kind_of_transaction, kind_of_payment: sale.kind_of_payment, detail_of_payment: sale.detail_of_payment)
+        #redirect_to entrypatterns_index_path, notice: '損益管理シート/パターンを登録してください'
+      end
+    end
+    redirect_to sales_path
+  end
+  
+  def import_to_pladmin
+    Sale.all.each do |sale|
       if sale.handling == "売上"
         commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.sku, handling: "原価（手数料）").sum(:amount)
         pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: sale.quantity, sale_place: "Amazon", sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)

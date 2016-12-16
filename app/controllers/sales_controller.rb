@@ -1,6 +1,6 @@
 class SalesController < ApplicationController
   include SalesHelper
-  include ApplicationHelper
+  include ApplicationHelper #expenseledgerで為替レートを付与している
 
   def index
     @sales = Sale.all
@@ -21,10 +21,16 @@ class SalesController < ApplicationController
 
     redirect_to sales_path
   end
-    
+  
+  def handling
+    #「処理」欄を記入
+    add_handling  
+  end
+  
   def pladmin  
     #損益管理シートへ売上・手数料の転記
-      import_to_pladmin(Sale.all)
+      import_to_pladmin
+      
       redirect_to pladmins_path      
   end
 
