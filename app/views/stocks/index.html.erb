@@ -21,7 +21,7 @@
     
     <div class="container" id='aj-form'>
       <!--クリックイベントを作る為に外包するIDをを作成-->
-      <table class="table table-striped">
+      <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
             <th class="small">削除</th>
@@ -70,8 +70,8 @@
                 </tr>
           <% end %>
         </tbody>
-        <%= paginate @stocks %>
       </table>
+      <%= paginate @stocks %>
     </div>
 
 <p>
