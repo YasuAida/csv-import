@@ -10,7 +10,7 @@ module StockledgersHelper
         @sku_stocks = @check_stocks.order(:date)
       elsif @check_stocks.blank? && @check_returns.present? 
         if @check_returns.count == 1
-          @sku_stocks = Stock.where(sku: @check_returns.first.old_sku)
+          @sku_stocks = Stock.where(sku: @check_returns.first.old_sku).order(:date)
         elsif @check_returns.count > 1
           @check_returns.each do |check_return|
             @check_stocks = Stock.where(sku: check_return.old_sku).order(:date)
@@ -245,21 +245,44 @@ module StockledgersHelper
             
       #@sku_stocksが複数で、pladmin.sale_amountがプラス 
             if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0
-              @stockledger = Stockledger.new(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity * -1)
-              @stockledger.save
-              pladmin.cgs_amount = price_unit * pladmin.quantity
-              pladmin.save
-              sku_stock.sold_unit += pladmin.quantity
-              
-              owned_number = sku_stock.number - sku_stock.sold_unit
-              if owned_number == 0
+              if pladmin.quantity > (sku_stock.number - sku_stock.sold_unit)
+                @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: owned_number * -1, unit_price: price_unit, grandtotal: price_unit * owned_number * -1)
+                first_cgs = price_unit * owned_number
+                sku_stock.sold_unit += owned_number
                 sku_stock.soldout_check = true
+                sku_stock.save
+                
+                @next_stocks = @sku_stocks.where(soldout_check: false)
+                next_stock = @next_stocks.first
+                ex_price_unit = next_stock.grandtotal / next_stock.number
+                price_unit = BigDecimal(ex_price_unit.to_s).round(0)                
+                @stockledger = Stockledger.create(stock_id: next_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: next_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: (pladmin.quantity - owned_number) * -1, unit_price: price_unit, grandtotal: price_unit * (pladmin.quantity - owned_number) * -1)
+                pladmin.cgs_amount = first_cgs + price_unit * (pladmin.quantity - owned_number)
+                pladmin.save
+                next_stock.sold_unit += (pladmin.quantity - owned_number)
+                
+                if (next_stock.number - next_stock.sold_unit) == 0
+                  next_stock.soldout_check = true
+                else
+                  next_stock.soldout_check = false
+                end
+                next_stock.save
+                break
               else
-                sku_stock.soldout_check = false
+                @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity * -1)
+                pladmin.cgs_amount = price_unit * pladmin.quantity
+                pladmin.save
+                sku_stock.sold_unit += pladmin.quantity
+                
+                owned_number = sku_stock.number - sku_stock.sold_unit
+                if owned_number == 0
+                  sku_stock.soldout_check = true
+                else
+                  sku_stock.soldout_check = false
+                end
+                sku_stock.save            
+                break
               end
-              sku_stock.save            
-              break
-
       #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
             elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0
               target_stocks = @sku_stocks.where(soldout_check: true)
