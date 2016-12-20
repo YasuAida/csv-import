@@ -33,7 +33,7 @@ module StockledgersHelper
               elsif @check_return_stocks.present? && @check_return_stocks.count > 1 
                 @check_return_stocks.each do |check_return_stock|
                 target_stocks = @check_return_stocks.where(soldout_check: true).order(:date)
-                  if !check_return_stock.soldout_check || target_stocks.present? && check_return_stock = target_stocks.last
+                  if !check_return_stock.soldout_check || target_stocks.present? && check_return_stock == target_stocks.last
                     only_stock = check_return_stock
                     break
                   end
@@ -76,7 +76,7 @@ module StockledgersHelper
               elsif @check_return_stocks.present? && @check_return_stocks.count > 1 
                 @check_return_stocks.each do |check_return_stock|
                 target_stocks = @check_return_stocks.where("sold_unit >= ?", 1).order(:date)
-                  if target_stocks.present? && check_return_stock = target_stocks.last
+                  if target_stocks.present? && check_return_stock == target_stocks.last
                     only_stock = check_return_stock
                     break
                   end
@@ -153,7 +153,7 @@ module StockledgersHelper
         #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
           elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0
             target_stocks = @sku_stocks.where("sold_unit >= ?", 1)
-            if target_stocks.present? && sku_stock = target_stocks.last           
+            if target_stocks.present? && sku_stock == target_stocks.last           
               @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
               pladmin.cgs_amount = price_unit * pladmin.quantity * -1
               pladmin.save
@@ -386,9 +386,9 @@ module StockledgersHelper
     @stocks.each do |stock|
       if stock.stockledgers.sum(:number) == 0 && stock.stockledgers.sum(:grandtotal) != 0
         fraction = stock.stockledgers.sum(:grandtotal)
-        new_grandtotal = stock.stockledgers.where.not(classification: "購入").last.grandtotal - fraction
-        target_stockledger = stock.stockledgers.where.not(classification: "購入").last
-        target_pladmin=Pladmin.where(sku: target_stockledger.sku).last
+        new_grandtotal = stock.stockledgers.where.not(classification: "購入").order(:date).last.grandtotal - fraction
+        target_stockledger = stock.stockledgers.where.not(classification: "購入").order(:date).last
+        target_pladmin=Pladmin.where(sku: target_stockledger.sku).order(:date).last
         target_stockledger.grandtotal = new_grandtotal
         target_pladmin.cgs_amount = new_grandtotal * -1 if target_pladmin.present?
         target_stockledger.save
