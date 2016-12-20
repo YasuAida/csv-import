@@ -202,6 +202,7 @@ module StockledgersHelper
               if return_pladmins.present? && return_pladmins.count == 1
                 @return_pladmin_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_pladmins.first.date, sku: return_pladmins.first.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: return_pladmins.first.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmins.first.quantity * -1)
                 return_pladmins.first.cgs_amount = price_unit * return_pladmins.first.quantity
+                return_pladmins.first.save
                 sku_stock.sold_unit += return_pladmins.first.quantity
                 sku_stock.save 
               elsif return_pladmins.present? && return_pladmins.count > 1
@@ -209,6 +210,7 @@ module StockledgersHelper
                   if return_pladmin.cgs_amount == 0 || return_pladmin.cgs_amount.blank?
                     @return_pladmin_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_pladmin.date, sku: return_pladmin.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: return_pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmin.quantity * -1)
                     return_pladmin.cgs_amount = price_unit * return_pladmin.quantity
+                    return_pladmin.save
                     sku_stock.sold_unit += return_pladmin.quantity
                     sku_stock.save
                     break
@@ -249,8 +251,9 @@ module StockledgersHelper
         #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するpladminsがある
                 return_pladmins = Pladmin.where(sku: return_good.new_sku)
                 if return_pladmins.present? && return_pladmins.count == 1
-                  @return_pladmin_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_pladmins.date, sku: return_pladmins.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: return_pladmins.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmins.quantity * -1)
-                  return_pladmins.cgs_amount = price_unit * return_pladmins.quantity
+                  @return_pladmin_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_pladmins.first.date, sku: return_pladmins.first.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: return_pladmins.first.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmins.first.quantity * -1)
+                  return_pladmins.first.cgs_amount = price_unit * return_pladmins.first.quantity
+                  return_pladmins.first.save
                   sku_stock.sold_unit += return_pladmins.quantity
                   sku_stock.save 
                 elsif return_pladmins.present? && return_pladmins.count > 1
@@ -258,6 +261,7 @@ module StockledgersHelper
                     if return_pladmin.cgs_amount == 0 || return_pladmin.cgs_amount.blank?
                       @return_pladmin_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_pladmin.date, sku: return_pladmin.sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "販売", number: return_pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmin.quantity * -1)
                       return_pladmin.cgs_amount = price_unit * return_pladmin.quantity
+                      return_pladmin.save
                       sku_stock.sold_unit += return_pladmin.quantity
                       sku_stock.save
                       break
@@ -323,8 +327,8 @@ module StockledgersHelper
     elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0 
       @stockledger = Stockledger.create(stock_id: stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
       pladmin.cgs_amount = price_unit * pladmin.quantity * -1 
-      stock.sold_unit -= pladmin.quantity
       pladmin.save
+      stock.sold_unit -= pladmin.quantity
       
       owned_number = stock.number - stock.sold_unit
       if owned_number == 0
@@ -368,6 +372,7 @@ module StockledgersHelper
         if return_pladmins.present? && return_pladmins.count == 1
           @return_pladmin_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_pladmins.first.date, sku: return_pladmins.first.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "販売", number: return_pladmins.first.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmins.first.quantity * -1)
           return_pladmins.first.cgs_amount = price_unit * return_pladmins.first.quantity
+          return_pladmins.first.save
           stock.sold_unit += return_pladmins.first.quantity
           stock.save 
         elsif return_pladmins.present? && return_pladmins.count > 1
@@ -375,6 +380,7 @@ module StockledgersHelper
             if return_pladmin.cgs_amount == 0 || return_pladmin.cgs_amount.blank?
               @return_pladmin_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_pladmin.date, sku: return_pladmin.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "販売", number: return_pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmin.quantity * -1)
               return_pladmin.cgs_amount = price_unit * return_pladmin.quantity
+              return_pladmin.save
               stock.sold_unit += return_pladmin.quantity
               stock.save
               break
@@ -415,7 +421,8 @@ module StockledgersHelper
           return_pladmins = Pladmin.where(sku: return_goods.new_sku)
           if return_pladmins.present? && return_pladmins.count == 1
             @return_pladmin_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_pladmins.first.date, sku: return_pladmins.first.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "販売", number: return_pladmins.first.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmins.first.quantity * -1)
-            return_pladmins.cgs_amount = price_unit * return_pladmins.first.quantity
+            return_pladmins.first.cgs_amount = price_unit * return_pladmins.first.quantity
+            return_pladmins.first.save
             stock.sold_unit += return_pladmins.first.quantity
             stock.save 
           elsif return_pladmins.present? && return_pladmins.count > 1
@@ -423,6 +430,7 @@ module StockledgersHelper
               if return_pladmin.cgs_amount == 0 || return_pladmin.cgs_amount.blank?
                 @return_pladmin_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_pladmin.date, sku: return_pladmin.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "販売", number: return_pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * return_pladmin.quantity * -1)
                 return_pladmin.cgs_amount = price_unit * return_pladmin.quantity
+                return_pladmin.save
                 stock.sold_unit += return_pladmin.quantity
                 stock.save
                 break
