@@ -15,6 +15,7 @@
       <thead>
         <tr>
           <th class="account">日付</th>
+          <th class="middle">仕入ID</th>            
           <th class="order_num">SKU</th>
           <th class="asin">ASIN</th>
           <th class="content">商品名</th>
@@ -28,6 +29,7 @@
           <tr>
           <% if stock.stockledgers.sum(:grandtotal) != 0 %>          
             <td class="account"><%= stock.date %></td>
+            <td class="middle"><%= stock.id %></td>             
             <td class="order_num"><%= stock.sku %></td>
             <td class="asin"><%= stock.asin %></td>
             <td class="content"><%= stock.goods_name %></td>
@@ -48,6 +50,7 @@
         <% end %>
           <tr>
             <td class="account"></td>
+            <td class="middle"></td>             
             <td class="order_num"></td>
             <td class="asin"></td>
             <td class="content" style="text-align:right">個数</td>

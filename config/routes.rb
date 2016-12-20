@@ -52,10 +52,10 @@ Rails.application.routes.draw do
 
   resources :expenseledgers, only: [ :index, :create, :update, :destroy]
 
-  resources :stockledgers, only: [:index] do
+  resources :stockledgers, only: [:index, :create, :update, :destroy] do
     collection do
+      get 'import'      
       get 'stock_list'
-      get 'show'
     end
   end
 
