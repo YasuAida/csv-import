@@ -1,6 +1,7 @@
 class CreatePladmins < ActiveRecord::Migration
   def change
     create_table :pladmins do |t|
+      t.references :stock, index: true, foreign_key: true
       t.date :date
       t.string :order_num
       t.string :sku

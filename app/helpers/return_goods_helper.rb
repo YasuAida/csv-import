@@ -1,3 +1,0 @@
-module ReturnGoodsHelper
-  
-end

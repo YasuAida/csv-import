@@ -1,13 +1,12 @@
 <!--Ajaxのrender用に切り出したフォーム-->
-  <td class="btn btn-default navbar-btn small"><%= link_to "削除" , stock , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
   <%= form_for(stock, url: stock_path(stock.id), remote: true) do |f|  %>
-    <td class="small" id="check-<%= stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
-    <td class="small"><%= stock.id %></td>
+    <td class="update" id="check-<%= stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+    <td class="half"><%= stock.id %></td>
     <td class="account"><%= f.text_field :date, :size=> "8"%></td>
     <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
     <td class="asin"><%= f.text_field :asin, :size => "10" %></td>
     <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>
-    <td class="rate" id="submit-<%= stock.id %>"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>            
+    <td class="rate" id="submit-<%= stock.id %>"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>            
 
   <% ex_currency = Currency.find_by(name: stock.currency) %>
   <% if ex_currency.method == "外貨×為替レート" %>
@@ -25,7 +24,7 @@
     <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
     <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>             
     <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-    <td id="submit-<%= stock.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
+    <td class="update" id="submit-<%= stock.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
     <!--チェックボックス更新用JQuery-->
     <script>
       $("#check-<%= stock.id %>").change(function(e){

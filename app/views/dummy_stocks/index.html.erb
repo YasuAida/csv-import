@@ -1,0 +1,70 @@
+<h1>ダミー計上商品</h1>
+<h3>売上のキャンセル処理がされる前に商品が売れてしまった時に入力します。</h3>
+
+<div class="container">
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th class="update"><a href= ./dummy_stocks/destroy class="btn btn-default">削除</th>      
+        <th class="middle">仕入ID</th>          
+        <th class="account">販売日</th>
+        <th class="account">キャンセル日</th>        
+        <th class="order_num">SKU</th>
+        <th class="asin">ASIN</th>
+        <th class="content">商品名</th>     
+        <th class="rate">数量</th>
+        <th class="amount">単価</th>          
+        <th class="amount">金額</th>
+        <th class="update"></th>      
+      </tr>
+    </thead>
+    <tbody>
+      <% @dummy_stocks.each do |dummy_stock| %>
+      <tr>
+        <%= form_for(dummy_stock, url: dummy_stock_path(dummy_stock), remote: true) do |f|  %>
+          <td class="update" id="check-<%= dummy_stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>      
+          <td class="middle"><%= dummy_stock.stock_id%></td>            
+          <td class="account"><%= dummy_stock.sale_date%></td>
+          <td class="account"><%= dummy_stock.cancel_date%></td>
+              <% @base_stock = Stock.find(dummy_stock.stock_id) %>          
+          <td class="order_num"><%= @base_stock.sku %></td>
+          <td class="asin"><%= @base_stock.asin %></td>
+          <td class="content"><%= @base_stock.goods_name %></td>      
+          <td class="rate"><%= dummy_stock.number%></td>
+          <td class="amount"><%= @base_stock.goods_amount %></td>          
+          <td class="amount"><%= @base_stock.grandtotal %></td>          
+          <td class="update" id="submit-<%= dummy_stock.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
+ 
+          <!--チェックボックス更新用JQuery-->
+          <script>
+            $("#check-<%= dummy_stock.id %>").change(function(e){
+              $('#edit_dummy_stock_<%= dummy_stock.id %>').submit();
+            });
+          </script>
+        <% end %>
+      </tr>
+      <% end %>
+      <%= form_for(@dummy_stock) do |f| %>
+        <tr>
+          <td class="update"></td>        
+          <td class="middle"><%= f.text_field :stock_id, :size => "4"%></td> 
+          <td class="account"><%= f.text_field :sale_date, :size => "8"%></td>
+          <td class="account"><%= f.text_field :cancel_date, :size => "8" %></td>         
+          <td class="order_num"></td>
+          <td class="asin"></td>
+          <td class="content"></td>
+          <td class="rate"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>
+          <td class="amount"></td>          
+          <td class="amount"></td>
+          <td class="update"><%= f.submit "登録", class: 'btn btn-default'%></td>
+        </tr>    
+      <% end %>
+    </tbody>
+    <%= paginate @dummy_stocks %>
+  </table>
+</div>
+
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", stockledgers_path(format: "csv") %>
+</p>

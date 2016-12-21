@@ -1,17 +1,17 @@
 class PladminsController < ApplicationController
   include PladminsHelper  
-  before_action :set_pladmin, only: [ :update, :destroy]  
+  before_action :set_pladmin, only: [ :update]  
   
   def index
     @pladmin = Pladmin.new
 
-    #@pladmins = Pladmin.all
+    @all_pladmins = Pladmin.all
     @q = Pladmin.search(params[:q])
     @pladmins = @q.result(distinct: true).page(params[:page])
     
     respond_to do |format|
       format.html
-      format.csv { send_data @pladmins.to_csv, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
+      format.csv { send_data @all_pladmins.to_csv, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
     end
   end
   
@@ -54,13 +54,13 @@ class PladminsController < ApplicationController
   end
 
   def destroy
-    @update_pladmin.destroy
-    redirect_to pladmins_path  
+    Pladmin.where(destroy_check: true).destroy_all
+    redirect_to pladmins_path, notice: 'データを削除しました'
   end
   
   private
   def pladmin_params
-    params.require(:pladmin).permit(:date, :order_num, :sku, :goods_name, :quantity, :sale_amount, :commission, :cgs_amount, :money_receive, :sale_place, :shipping_cost, :commission_pay_date, :shipping_pay_date)
+    params.require(:pladmin).permit(:date, :order_num, :sku, :goods_name, :quantity, :sale_amount, :commission, :cgs_amount, :money_receive, :sale_place, :shipping_cost, :commission_pay_date, :shipping_pay_date, :destroy_check)
   end
   
   def set_pladmin

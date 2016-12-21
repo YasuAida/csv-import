@@ -1,4 +1,6 @@
 class Pladmin < ActiveRecord::Base
+  belongs_to :stock
+  
   validates :date, uniqueness: { scope: [:order_num, :sku, :goods_name, :sale_place] }
   
   def self.to_csv

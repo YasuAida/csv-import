@@ -158,16 +158,16 @@ module StockledgersHelper
               pladmin.cgs_amount = price_unit * pladmin.quantity * -1
               pladmin.save
               sku_stock.sold_unit -= pladmin.quantity
-            end
 
-            owned_number = sku_stock.number - sku_stock.sold_unit
-            if owned_number == 0
-              sku_stock.soldout_check = true
-            else
-              sku_stock.soldout_check = false
+              owned_number = sku_stock.number - sku_stock.sold_unit
+              if owned_number == 0
+                sku_stock.soldout_check = true
+              else
+                sku_stock.soldout_check = false
+              end
+              sku_stock.save
             end
-            sku_stock.save
-              
+            
         #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、sku_stockのSKUと一致するdisposalsがある
             disposals = Disposal.where(sku: pladmin.sku)
             if disposals.present? && disposals.count == 1 && !sku_stock.soldout_check
@@ -249,7 +249,6 @@ module StockledgersHelper
                 end                          
               end #310行目 return_goods.each do |return_good|           
             end #255行目 if return_goods.present? && return_goods.count == 1, 309行目 else return_goods.present? && return_goods.count > 1 
-            break 
           end #202行目 if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0, 212行目 if pladmin.sale_amount.present? && pladmin.sale_amount < 0,   
         end #189行目 @sku_stocks.each do |sku_stock|
       end
@@ -386,8 +385,8 @@ module StockledgersHelper
     @stocks.each do |stock|
       if stock.stockledgers.sum(:number) == 0 && stock.stockledgers.sum(:grandtotal) != 0
         fraction = stock.stockledgers.sum(:grandtotal)
-        new_grandtotal = stock.stockledgers.where.not(classification: "購入").order(:date).last.grandtotal - fraction
-        target_stockledger = stock.stockledgers.where.not(classification: "購入").order(:date).last
+        new_grandtotal = stock.stockledgers.where.not(classification: "購入").order(:transaction_date).last.grandtotal - fraction
+        target_stockledger = stock.stockledgers.where.not(classification: "購入").order(:transaction_date).last
         target_pladmin=Pladmin.where(sku: target_stockledger.sku).order(:date).last
         target_stockledger.grandtotal = new_grandtotal
         target_pladmin.cgs_amount = new_grandtotal * -1 if target_pladmin.present?

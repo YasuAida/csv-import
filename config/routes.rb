@@ -52,9 +52,9 @@ Rails.application.routes.draw do
 
   resources :expenseledgers, only: [ :index, :create, :update, :destroy]
 
-  resources :stockledgers, only: [:index, :create, :update, :destroy] do
+  resources :stockledgers, only: [:index] do
     collection do
-      get 'import'      
+      get 'show'      
       get 'stock_list'
     end
   end
@@ -97,12 +97,13 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :pladmins , only: [:index, :create, :update, :destroy] do
+  resources :pladmins , only: [:index, :create, :update] do
     collection do
       get 'blank_form'
       post 'upload'     
     end
   end
+  get 'pladmins/destroy'
 
   resources :sales , only: [:index] do
     collection do
@@ -111,6 +112,12 @@ Rails.application.routes.draw do
       get  'pladmin'
     end
   end
+  
+  resources :stockreturns , only: [ :index, :create, :update] 
+  get 'stockreturns/destroy'
+  
+  resources :dummy_stocks , only: [ :index, :create, :update]   
+  get 'dummy_stocks/destroy'
   
   resources :accounts, only: [ :index, :create, :update, :destroy]
 

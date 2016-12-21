@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214024727) do
+ActiveRecord::Schema.define(version: 20161221033404) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -49,6 +49,18 @@ ActiveRecord::Schema.define(version: 20161214024727) do
   end
 
   add_index "disposals", ["stock_id"], name: "index_disposals_on_stock_id"
+
+  create_table "dummy_stocks", force: :cascade do |t|
+    t.integer  "stock_id"
+    t.date     "sale_date"
+    t.integer  "number"
+    t.boolean  "destroy_check", default: false, null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.date     "cancel_date"
+  end
+
+  add_index "dummy_stocks", ["stock_id"], name: "index_dummy_stocks_on_stock_id"
 
   create_table "entrypatterns", force: :cascade do |t|
     t.string   "sku"
@@ -178,14 +190,15 @@ ActiveRecord::Schema.define(version: 20161214024727) do
     t.integer  "sale_amount"
     t.integer  "commission"
     t.integer  "cgs_amount"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.date     "money_receive"
     t.string   "sale_place"
     t.integer  "shipping_cost"
     t.date     "commission_pay_date"
     t.date     "shipping_pay_date"
     t.integer  "quantity"
+    t.boolean  "destroy_check",       default: false, null: false
   end
 
   create_table "return_goods", force: :cascade do |t|
@@ -254,6 +267,27 @@ ActiveRecord::Schema.define(version: 20161214024727) do
   add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
   add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
+
+  create_table "stockreturns", force: :cascade do |t|
+    t.integer  "stock_id"
+    t.date     "date"
+    t.string   "sku"
+    t.string   "asin"
+    t.string   "goods_name"
+    t.integer  "number"
+    t.float    "unit_price"
+    t.float    "rate"
+    t.integer  "goods_amount"
+    t.date     "money_paid"
+    t.string   "purchase_from"
+    t.string   "currency"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "destroy_check", default: false, null: false
+    t.integer  "grandtotal"
+  end
+
+  add_index "stockreturns", ["stock_id"], name: "index_stockreturns_on_stock_id"
 
   create_table "stocks", force: :cascade do |t|
     t.date     "date"

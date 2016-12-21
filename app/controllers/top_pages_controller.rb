@@ -13,7 +13,8 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("accounts.csv") { |f| f.puts(Account.to_download) }      
       zipfile.get_output_stream("allocationcosts.csv") { |f| f.puts(Allocationcost.to_download) }
       zipfile.get_output_stream("currencies.csv") { |f| f.puts(Currency.to_download) }
-      zipfile.get_output_stream("disposals.csv") { |f| f.puts(Disposal.to_download) }      
+      zipfile.get_output_stream("disposals.csv") { |f| f.puts(Disposal.to_download) }
+      zipfile.get_output_stream("dummy_stocks.csv") { |f| f.puts(DummyStock.to_download) }      
       zipfile.get_output_stream("entrypatterns.csv") { |f| f.puts(Entrypattern.to_download) }
       zipfile.get_output_stream("exchanges.csv") { |f| f.puts(Exchange.to_download) }
       zipfile.get_output_stream("expense_methods.csv") { |f| f.puts(ExpenseMethod.to_download) }
@@ -32,6 +33,7 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("selfstorages.csv") { |f| f.puts(Selfstorage.to_download) }      
       zipfile.get_output_stream("stockaccepts.csv") { |f| f.puts(Stockaccept.to_download) }
       zipfile.get_output_stream("stockledgers.csv") { |f| f.puts(Stockledger.to_download) }
+      zipfile.get_output_stream("stockreturns.csv") { |f| f.puts(Stockreturn.to_download) }      
       zipfile.get_output_stream("stocks.csv") { |f| f.puts(Stock.to_download) }
       zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(Subexpense.to_download) }
       zipfile.get_output_stream("users.csv") { |f| f.puts(User.to_download) }      
@@ -56,7 +58,9 @@ class TopPagesController < ApplicationController
         when "currencies.csv" then
           currencies_import(datafile)
         when "disposals.csv" then
-          disposals_import(datafile)   
+          disposals_import(datafile)
+        when "dummy_stocks.csv" then
+          dummy_stocks_import(datafile)          
         when "entrypatterns.csv" then
           entrypatterns_import(datafile) 
         when "exchanges.csv" then
@@ -92,7 +96,9 @@ class TopPagesController < ApplicationController
         when "stockaccepts.csv" then
           stockaccepts_import(datafile) 
         when "stockledgers.csv" then
-          stockledgers_import(datafile) 
+          stockledgers_import(datafile)
+         when "stockreturns.csv" then
+          stockreturns_import(datafile)         
         when "stocks.csv" then
           stocks_import(datafile) 
         when "subexpenses.csv" then

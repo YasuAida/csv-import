@@ -4,16 +4,16 @@
 body {
   margin-left: 0px;
   margin-right: 0px;
-  width: 1850px;
+  width: 20000px;
 }
 .container {
   margin-left: 0px;
   margin-right: 0px;
-  width: 1850px;
+  width: 2000px;
 }
 table {
   border-collapse: collapse;
-  width: 1850px;   /* ポイント */
+  width: 2000px;   /* ポイント */
 }
 thead {
   float: left;     /*ポイント*/
@@ -23,7 +23,7 @@ tbody {
   float: left;     /*ポイント */
   overflow: auto;  /*ポイント */
   height: 900px;   /*ポイント */
-  width:1800px;    /*ポイント */
+  width: 2000px;    /*ポイント */
 }
 th.small {
   font-size: 14px;
@@ -45,6 +45,16 @@ td.rate {
   text-align: right;
   width: 60px;    /* ポイント */
 }
+th.half {
+  font-size: 14px;
+  text-align: center;
+  width: 70px;    /* ポイント */
+}
+td.half {
+  font-size: 14px;
+  text-align: left;
+  width: 70px;    /* ポイント */
+}
 th.middle {
   font-size: 14px;
   text-align: center;
@@ -55,14 +65,9 @@ td.middle {
   text-align: left;
   width: 80px;    /* ポイント */
 }
-th.update {
+.update {
   font-size: 14px;
   text-align: center;
-  width: 83px;    /* ポイント */
-}
-td.update {
-  font-size: 14px;
-  text-align: left;
   width: 83px;    /* ポイント */
 }
 th.amount {
@@ -148,12 +153,12 @@ td.detail {
 th.content {
   font-size: 14px;
   text-align: center;
-  width: 330px;    /* ポイント */
+  width: 335px;    /* ポイント */
 }
 td.content {
   font-size: 14px;
   text-align: left;
-  width: 330px;    /* ポイント */
+  width: 335px;    /* ポイント */
 }
 .bootstrap-filestyle {
   display: inline-block;
