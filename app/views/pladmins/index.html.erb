@@ -21,8 +21,9 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
-          <th class="update"><a href= ./pladmins/destroy class="btn btn-default">削除</th>           
-          <th class="account">日付</th>
+          <th class="update"><a href= ./pladmins/destroy class="btn btn-default">削除</th>
+          <th class="middle">仕入ID</th>            
+          <th class="account">日付</th>      
           <th class="order_num">注文番号</th>
           <th class="order_num">SKU</th>
           <th class="content">商品名</th>
@@ -44,14 +45,15 @@
         <tr>
           <%= form_for(pladmin, url: pladmin_path(pladmin.id), remote: true) do |f| %>
             <td class="update" id="check-<%= pladmin.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
-            <td class="account"><%= f.text_field :date, :size => 8 %></td>
+            <td class="middle"><%= pladmin.stock_id %></td>
+            <td class="account"><%= f.text_field :date, :size => 8 %></td>          
             <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
             <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>
             <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
             <td class="rate"><%= f.text_field :quantity, :size => 1, :style=>"text-align:right"%></td>            
             <td class="company"><%= f.text_field :sale_place, :size => 8 %></td>        
             <td class="amount"><%= f.text_field :sale_amount, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
-            <td class="amount"><%= pladmin.cgs_amount %></td>
+            <td class="amount"><%= addcomma(pladmin.cgs_amount.to_i) %></td>
             <td class="amount"><%= f.text_field :commission, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
             <td class="amount"><%= f.text_field :shipping_cost, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
             <% profit = pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i %>
@@ -73,7 +75,8 @@
     
         <%= form_for(@pladmin) do |f|  %>
         <tr>
-          <td class="update"></td>            
+          <td class="update"></td>
+          <td class="middle"></td>          
           <td class="account"><%= f.text_field :date, :size => 8 %></td>
           <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
           <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>

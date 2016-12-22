@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 20161221033404) do
   end
 
   create_table "pladmins", force: :cascade do |t|
+    t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
     t.string   "sku"
@@ -200,6 +201,8 @@ ActiveRecord::Schema.define(version: 20161221033404) do
     t.integer  "quantity"
     t.boolean  "destroy_check",       default: false, null: false
   end
+
+  add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
 
   create_table "return_goods", force: :cascade do |t|
     t.integer  "stock_id"

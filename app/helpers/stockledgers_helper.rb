@@ -114,7 +114,17 @@ module StockledgersHelper
           if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0
             if pladmin.quantity > (sku_stock.number - sku_stock.sold_unit)
               @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: owned_number * -1, unit_price: price_unit, grandtotal: price_unit * owned_number * -1)
-              first_cgs = price_unit * owned_number
+              
+              @first_pladmin = Pladmin.create(stock_id: sku_stock.id, date: pladmin.date, order_num: pladmin.order_num, sku: pladmin.sku, goods_name: pladmin.goods_name, money_receive: pladmin.money_receive, sale_place: pladmin.sale_place)
+              @first_pladmin.quantity = owned_number
+              @first_pladmin.sale_amount = pladmin.sale_amount * owned_number / pladmin.quantity
+              @first_pladmin.cgs_amount = price_unit * owned_number
+              @first_pladmin.commission = pladmin.commission * owned_number / pladmin.quantity if pladmin.commission.present?
+              @first_pladmin.shipping_cost = pladmin.shipping_cost * owned_number / pladmin.quantity if pladmin.shipping_cost.present?
+              @first_pladmin.commission_pay_date = pladmin.commission_pay_date if pladmin.commission_pay_date.present?
+              @first_pladmin.shipping_pay_date = pladmin.shipping_pay_date if pladmin.shipping_pay_date
+              @first_pladmin.save
+              
               sku_stock.sold_unit += owned_number
               sku_stock.soldout_check = true
               sku_stock.save
@@ -124,8 +134,17 @@ module StockledgersHelper
               ex_price_unit = next_stock.grandtotal / next_stock.number
               price_unit = BigDecimal(ex_price_unit.to_s).round(0)                
               @stockledger = Stockledger.create(stock_id: next_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: next_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: (pladmin.quantity - owned_number) * -1, unit_price: price_unit, grandtotal: price_unit * (pladmin.quantity - owned_number) * -1)
-              pladmin.cgs_amount = first_cgs + price_unit * (pladmin.quantity - owned_number)
-              pladmin.save
+
+              @later_pladmin = Pladmin.create(stock_id: next_stock.id, date: pladmin.date, order_num: pladmin.order_num, sku: pladmin.sku, goods_name: pladmin.goods_name, money_receive: pladmin.money_receive, sale_place: pladmin.sale_place)              
+              @later_pladmin.quantity = pladmin.quantity - owned_number            
+              @later_pladmin.sale_amount = pladmin.sale_amount - @first_pladmin.sale_amount
+              @later_pladmin.cgs_amount = price_unit * (pladmin.quantity - owned_number)
+              @later_pladmin.commission = (pladmin.commission - @first_pladmin.commission) if @first_pladmin.commission.present?
+              @later_pladmin.shipping_cost = (pladmin.shipping_cost - @first_pladmin.shipping_cost) if @first_pladmin.shipping_cost.present?
+              @later_pladmin.commission_pay_date = pladmin.commission_pay_date if pladmin.commission_pay_date.present?
+              @later_pladmin.shipping_pay_date = pladmin.shipping_pay_date if pladmin.shipping_pay_date
+              @later_pladmin.save
+              
               next_stock.sold_unit += (pladmin.quantity - owned_number)
               
               if (next_stock.number - next_stock.sold_unit) == 0
@@ -134,9 +153,11 @@ module StockledgersHelper
                 next_stock.soldout_check = false
               end
               next_stock.save
+              pladmin.destroy
               break
             else
               @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity * -1)
+              pladmin.stock_id = sku_stock.id
               pladmin.cgs_amount = price_unit * pladmin.quantity
               pladmin.save
               sku_stock.sold_unit += pladmin.quantity
@@ -153,8 +174,9 @@ module StockledgersHelper
         #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
           elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0
             target_stocks = @sku_stocks.where("sold_unit >= ?", 1)
-            if target_stocks.present? && sku_stock == target_stocks.last           
+            if sku_stock.soldout_check = false || target_stocks.present? && sku_stock == target_stocks.last           
               @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
+              pladmin.stock_id = sku_stock.id              
               pladmin.cgs_amount = price_unit * pladmin.quantity * -1
               pladmin.save
               sku_stock.sold_unit -= pladmin.quantity
@@ -268,6 +290,7 @@ module StockledgersHelper
   #@sku_stocksが一つで、pladmin.sale_amountがプラス    
     if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0
       @stockledger = Stockledger.create(stock_id: stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: stock.asin, goods_name: pladmin.goods_name, classification: "販売", number: pladmin.quantity * -1, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity * -1)
+      pladmin.stock_id = stock.id      
       pladmin.cgs_amount = price_unit * pladmin.quantity
       stock.sold_unit += pladmin.quantity
       pladmin.save
@@ -283,6 +306,7 @@ module StockledgersHelper
   #@sku_stocksが一つで、pladmin.sale_amountがマイナス
     elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0 
       @stockledger = Stockledger.create(stock_id: stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
+      pladmin.stock_id = stock.id       
       pladmin.cgs_amount = price_unit * pladmin.quantity * -1 
       pladmin.save
       stock.sold_unit -= pladmin.quantity
@@ -384,15 +408,18 @@ module StockledgersHelper
     @stocks = Stock.all
     @stocks.each do |stock|
       if stock.stockledgers.sum(:number) == 0 && stock.stockledgers.sum(:grandtotal) != 0
-        fraction = stock.stockledgers.sum(:grandtotal)
-        new_grandtotal = stock.stockledgers.where.not(classification: "購入").order(:transaction_date).last.grandtotal - fraction
+        stock_fraction = stock.stockledgers.sum(:grandtotal)
+        new_grandtotal = stock.stockledgers.where.not(classification: "購入").order(:transaction_date).last.grandtotal - stock_fraction
         target_stockledger = stock.stockledgers.where.not(classification: "購入").order(:transaction_date).last
-        target_pladmin=Pladmin.where(sku: target_stockledger.sku).order(:date).last
         target_stockledger.grandtotal = new_grandtotal
-        target_pladmin.cgs_amount = new_grandtotal * -1 if target_pladmin.present?
         target_stockledger.save
-        target_pladmin.save if target_pladmin.present?
-      end
+        
+        target_pladmin = Pladmin.where(stock_id: stock.id).order(:date).last
+        if target_pladmin.present?
+          target_pladmin.cgs_amount = new_grandtotal * -1
+          target_pladmin.save
+        end
+      end            
     end
   end  
 end

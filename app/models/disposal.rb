@@ -2,11 +2,12 @@ class Disposal < ActiveRecord::Base
   belongs_to :stock  
   
   def self.to_csv
-    headers = %w(ID 日付 注文番号 SKU 個数) 
+    headers = %w(ID 仕入ID 日付 注文番号 SKU 個数) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
           row.id,
+          row.stock_id,
           row.date,
           row.order_num,
           row.sku,
@@ -19,11 +20,12 @@ class Disposal < ActiveRecord::Base
   end
   
   def self.to_download
-    headers = %w(ID 日付 注文番号 SKU 個数) 
+    headers = %w(ID 仕入ID 日付 注文番号 SKU 個数) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
           row.id,
+          row.stock_id,
           row.date,
           row.order_num,
           row.sku,

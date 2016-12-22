@@ -1,5 +1,4 @@
 class DisposalsController < ApplicationController
-  include DisposalsHelper
   before_action :set_disposal, only: [ :update, :destroy] 
   
   def index

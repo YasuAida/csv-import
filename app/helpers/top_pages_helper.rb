@@ -61,6 +61,25 @@ module TopPagesHelper
 
   def disposals_import(file_name)
       # 先にDBのカラム名を用意
+      @column = [:id, :stock_id, :date, :order_num, :sku, :number]
+      
+      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        # rowの値のみを配列化
+        row_value = row.to_h.values
+        # Zipで合体後にハッシュ化
+        row_hash = @column.zip(row_value).to_h
+        # データー型の変換
+        row_hash[:id] = row_hash[:id].to_i
+        row_hash[:stock_id] = row_hash[:stock_id].to_i        
+        row_hash[:date] = Date.parse(row_hash[:date]).to_date     
+        row_hash[:number] = row_hash[:number].to_i
+        
+        Disposal.create(row_hash)
+      end
+  end
+
+  def dummy_stocks_import(file_name)
+      # 先にDBのカラム名を用意
       @column = [:id, :stock_id, :sale_date, :cancel_date, :number]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
@@ -75,25 +94,7 @@ module TopPagesHelper
         row_hash[:cancel_date] = Date.parse(row_hash[:cancel_date]).to_date        
         row_hash[:number] = row_hash[:number].to_i
         
-        Disposal.create(row_hash)
-      end
-  end
-
-  def dummy_stocks_import(file_name)
-      # 先にDBのカラム名を用意
-      @column = [:id, :date, :order_num, :sku, :number]
-      
-      CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
-        # rowの値のみを配列化
-        row_value = row.to_h.values
-        # Zipで合体後にハッシュ化
-        row_hash = @column.zip(row_value).to_h
-        # データー型の変換
-        row_hash[:id] = row_hash[:id].to_i
-        row_hash[:date] = Date.parse(row_hash[:date]).to_date
-        row_hash[:number] = row_hash[:number].to_i
-        
-        Disposal.create(row_hash)
+        DummyStock.create(row_hash)
       end
   end
 
@@ -307,7 +308,7 @@ module TopPagesHelper
   
   def pladmins_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :date, :order_num, :sku, :goods_name, :quantity, :sale_place, :sale_amount, :commission, :cgs_amount, :shipping_cost, :money_receive, :commission_pay_date, :shipping_pay_date]
+      @column = [:id, :stock_id, :date, :order_num, :sku, :goods_name, :quantity, :sale_place, :sale_amount, :commission, :cgs_amount, :shipping_cost, :money_receive, :commission_pay_date, :shipping_pay_date]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -316,6 +317,7 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
+        row_hash[:stock_id] = row_hash[:stock_id].to_i        
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:quantity] = row_hash[:quantity].to_i        
         row_hash[:sale_amount] = row_hash[:sale_amount].to_i
@@ -443,7 +445,7 @@ module TopPagesHelper
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         row_hash[:grandtotal] = row_hash[:grandtotal].to_i        
         
-        Stock.create(row_hash)
+        Stockreturn.create(row_hash)
       end
   end
 
