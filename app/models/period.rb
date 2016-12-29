@@ -1,5 +1,5 @@
 class Period < ActiveRecord::Base
-  validates :period_start, uniqueness: { scope: [:monthly_yearly, :period_end] }, presence: true
+  validates :period_start, uniqueness: { scope: [:monthly_yearly] }, presence: true
   
   def self.to_download
     headers = %w(ID 開始日 終了日 月次／年次)

@@ -5,7 +5,7 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th class="small">ID</th>
+          <th class="small">削除</th>
           <th class="middle">税抜/税込</th>
           <th class="large">帳票</th>
           <th class="middle_large">パターン</th>
@@ -15,12 +15,15 @@
         　<th class="large">貸方勘定科目</th>
         　<th class="large">貸方補助科目</th>
         　<th class="middle">貸方<br>税コード</th>
+        　<th class="reference">備考</th> 
+          <th class="update"></th> 
         </tr>
       </thead>
       <tbody>
         <% @journalpatterns.each do |journalpattern| %>
           <tr>
-            <th class="small"><%= journalpattern.id %></th>
+          <%= form_for(journalpattern, url: journalpattern_path(journalpattern)) do |f|  %>
+            <td class="small"><%= link_to "削除" , journalpattern , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
             <td class="middle"><%= journalpattern.taxcode %></td>
             <td class="large"><%= journalpattern.ledger %></td>
             <td class="middle_large"><%= journalpattern.pattern %></td>
@@ -30,6 +33,25 @@
             <td class="large"><%= journalpattern.credit_account %></td>
             <td class="large"><%= journalpattern.credit_subaccount %></td>
             <td class="middle"><%= journalpattern.credit_taxcode %></td>
+            <td class="reference"><%= journalpattern.reference %></td>
+            <td class="update"><%= f.submit "更新", class: 'btn btn-default'%></td>
+          <% end %>
+          </tr>
+        <% end %>
+        <%= form_for(@journalpattern) do |f|  %>
+          <tr>
+            <td class="small"></td>
+            <td class="middle"><%= f.text_field :taxcode, :size=> "4"%></td>
+            <td class="large"><%= f.text_field :ledger, :size=> "10"%></td>
+            <td class="middle_large"><%= f.text_field :pattern, :size=> "14"%></td>
+            <td class="large"><%= f.text_field :debit_account, :size=> "10"%></td>
+            <td class="large"><%= f.text_field :debit_subaccount, :size=> "10"%></td>
+            <td class="middle"><%= f.text_field :debit_taxcode, :size=> "4"%></td>            
+            <td class="large"><%= f.text_field :credit_account, :size=> "10"%></td>
+            <td class="large"><%= f.text_field :credit_subaccount, :size=> "10"%></td>
+            <td class="middle"><%= f.text_field :credit_taxcode, :size=> "4"%></td>            
+            <td class="reference"><%= f.text_field :reference, :size=> "22"%></td>            
+            <td class="update"><%= f.submit "登録", class: 'btn btn-default'%></td>
           </tr>
         <% end %>
       </tbody>

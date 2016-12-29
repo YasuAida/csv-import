@@ -16,9 +16,16 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.sale_amount
-      g_ledger.save
+      g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
 
-    #「損益管理シート」原価計上  
+    #「損益管理シート」原価計上
+
       g_ledger = Generalledger.new(date: pladmin.date)
       find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価")
       g_ledger.debit_account = find_pattern.debit_account
@@ -30,11 +37,15 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.cgs_amount
-      g_ledger.save
+      g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
 
     #「損益管理シート」原価（手数料）計上  
-      order_num_sale = Sale.where(order_num: pladmin.order_num)
-      if order_num_sale.present?  
+      if pladmin.sale_place == "Amazon"  
         g_ledger = Generalledger.new(date: pladmin.date)
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（Amazon手数料）")
         g_ledger.debit_account = find_pattern.debit_account
@@ -46,7 +57,12 @@ module GeneralledgersHelper
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
         g_ledger.amount = pladmin.commission
-        g_ledger.save
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       else
         g_ledger = Generalledger.new(date: pladmin.date)
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（掛払い手数料）")
@@ -59,7 +75,12 @@ module GeneralledgersHelper
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
         g_ledger.amount = pladmin.commission
-        g_ledger.save
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
       
      #「損益管理シート」入金計上  
@@ -73,17 +94,30 @@ module GeneralledgersHelper
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
-        g_ledger.amount = (pladmin.sale_amount - pladmin.commission) if pladmin.sale_amount.present?
-        g_ledger.save
+        
+        if pladmin.sale_place == "Amazon" && pladmin.commission.present?
+          g_ledger.amount = pladmin.sale_amount - pladmin.commission
+        elsif pladmin.sale_place == "Amazon" && pladmin.commission.blank?
+          g_ledger.amount = pladmin.sale_amount
+        else
+          g_ledger.amount = pladmin.sale_amount     
+        end
+        
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
     end
  
     #「損益管理シート」原価（送料）計上
     @shipping_cost_pladmins = Pladmin.where.not(shipping_cost: [nil,0])
     @shipping_cost_pladmins.each do |pladmin|
-      g_ledger = Generalledger.new(date: pladmin.date)
-      order_num_sale = Sale.where(order_num: pladmin.order_num)
-      if order_num_sale.present? && order_num_sale.first.handling == "原価（送料）"
+      if pladmin.goods_name.present? && pladmin.goods_name.include?("マルチ発送分")
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（Amazon送料）")
+        g_ledger = Generalledger.new(date: pladmin.date)
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = pladmin.sku
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
@@ -91,11 +125,17 @@ module GeneralledgersHelper
         g_ledger.credit_subaccount = pladmin.money_receive.to_s
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
         g_ledger.content = pladmin.goods_name
-        g_ledger.trade_company = pladmin.sale_place
+        g_ledger.trade_company = "Amazon"
         g_ledger.amount = pladmin.shipping_cost
-        g_ledger.save
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       elsif pladmin.shipping_pay_date - pladmin.date > 15
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（掛払い送料）")
+        g_ledger = Generalledger.new(date: pladmin.date)
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = pladmin.sku
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
@@ -105,9 +145,15 @@ module GeneralledgersHelper
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
         g_ledger.amount = pladmin.shipping_cost
-        g_ledger.save
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       else
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "原価（現金払い送料）")
+        g_ledger = Generalledger.new(date: pladmin.date)
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = pladmin.sku
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
@@ -117,11 +163,16 @@ module GeneralledgersHelper
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
         g_ledger.amount = pladmin.shipping_cost
-        g_ledger.save        
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end      
       end
     end
-
-    #「損益管理シート」掛払い支払計上
+    
+    #「損益管理シート」手数料支払計上
     @commission_pay_pladmins = Pladmin.where.not(commission_pay_date: [0,nil])     
     @commission_pay_pladmins.each do |pladmin|
       g_ledger = Generalledger.new(date: pladmin.commission_pay_date)
@@ -135,13 +186,38 @@ module GeneralledgersHelper
       g_ledger.content = pladmin.goods_name
       g_ledger.trade_company = pladmin.sale_place
       g_ledger.amount = pladmin.commission
-      g_ledger.save
+      g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
     end
-    @shipping_pay_pladmins = Pladmin.where(shipping_pay_date: [0,nil])    
+    
+    #「損益管理シート」マルチチャンネル発送分売掛金相殺および送料支払計上    
+    @shipping_pay_pladmins = Pladmin.where.not(shipping_pay_date: [0,nil]) 
     @shipping_pay_pladmins.each do |pladmin|
-      if pladmin.shipping_pay_date - pladmin.date > 15
+      if pladmin.goods_name.include?("マルチ発送分")    
+        find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "Amazon送料相殺")
         g_ledger = Generalledger.new(date: pladmin.shipping_pay_date)
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = pladmin.shipping_pay_date
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = ""
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = pladmin.goods_name
+        g_ledger.trade_company = "Amazon"
+        g_ledger.amount = pladmin.shipping_cost
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end 
+      elsif !pladmin.goods_name.include?("マルチ発送分") && pladmin.shipping_pay_date - pladmin.date > 15
         find_pattern = journalpatterns.find_by(ledger: "損益管理表",pattern: "掛払い支払")
+        g_ledger = Generalledger.new(date: pladmin.shipping_pay_date)
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = pladmin.shipping_pay_date
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
@@ -150,10 +226,15 @@ module GeneralledgersHelper
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
         g_ledger.content = pladmin.goods_name
         g_ledger.trade_company = pladmin.sale_place
-        g_ledger.amount = pladmin.shipping_pay_date
-        g_ledger.save
+        g_ledger.amount = pladmin.shipping_cost
+        g_ledger.reference = "注文番号：" + pladmin.order_num + ",仕入ID：" + pladmin.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
-    end    
+    end 
   end
   
   def import_from_stocks(journalpatterns)
@@ -185,7 +266,12 @@ module GeneralledgersHelper
       g_ledger.content = stock.goods_name
       g_ledger.trade_company = stock.purchase_from
       g_ledger.amount = stock.goods_amount
-      g_ledger.save
+      g_ledger.reference = "仕入ID：" + stock.id.to_s
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
     end
     
     #「仕入台帳」掛払い支払計上     
@@ -203,11 +289,79 @@ module GeneralledgersHelper
         g_ledger.content = stock.goods_name
         g_ledger.trade_company = stock.purchase_from
         g_ledger.amount = stock.goods_amount
-        g_ledger.save
+        g_ledger.reference = "仕入ID：" + stock.id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
     end
   end
-  
+ 
+  def import_from_stockreturns(journalpatterns)
+    #「仕入返品台帳」返品計上
+    @stockreturns = Stockreturn.all
+    @stockreturns.each do |stockreturn|
+      g_ledger = Generalledger.new(date: stockreturn.date)
+      #仕訳パターンを選ぶ
+      if stockreturn.date == stockreturn.money_paid && stockreturn.currency == "円"
+        find_pattern = journalpatterns.find_by(ledger: "仕入返品台帳", pattern: "現金仕入（国内）")
+      elsif stockreturn.date == stockreturn.money_paid && stockreturn.currency != "円"
+        find_pattern = journalpatterns.find_by(ledger: "仕入返品台帳", pattern: "現金仕入（海外）")
+      elsif stockreturn.date != stockreturn.money_paid && stockreturn.currency == "円" 
+        find_pattern = journalpatterns.find_by(ledger: "仕入返品台帳", pattern: "掛仕入（国内）") 
+      else
+        find_pattern = journalpatterns.find_by(ledger: "仕入返品台帳", pattern: "掛仕入（海外）") 
+      end
+      
+
+      g_ledger.debit_account = find_pattern.debit_account
+      if find_pattern.debit_account == "買掛金"
+        g_ledger.debit_subaccount = stockreturn.money_paid
+      else
+        g_ledger.debit_subaccount = ""
+      end
+      g_ledger.debit_taxcode = find_pattern.debit_taxcode
+      g_ledger.credit_account = find_pattern.credit_account
+      g_ledger.credit_subaccount = stockreturn.sku
+      g_ledger.credit_taxcode = find_pattern.credit_taxcode
+      g_ledger.content = stockreturn.goods_name
+      g_ledger.trade_company = stockreturn.purchase_from
+      g_ledger.amount = stockreturn.goods_amount
+      g_ledger.reference = "仕入ID：" + stockreturn.stock_id.to_s
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
+    end
+    
+    #「仕入返品台帳」払い戻し受領計上     
+    @stockreturns.each do |stockreturn|
+      if stockreturn.date != stockreturn.money_paid
+        g_ledger = Generalledger.new(date: stockreturn.money_paid)
+        find_pattern = journalpatterns.find_by(ledger: "仕入返品台帳",pattern: "返金受領")
+        
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = ""
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = stockreturn.money_paid
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = stockreturn.goods_name
+        g_ledger.trade_company = stockreturn.purchase_from
+        g_ledger.amount = stockreturn.goods_amount
+        g_ledger.reference = "仕入ID：" + stockreturn.stock_id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
+      end
+    end
+  end
+ 
   def import_from_stockledgers(journalpatterns)
     #「商品有高帳」FBAから商品を戻した場合
     @return_goods = ReturnGood.all  
@@ -227,29 +381,44 @@ module GeneralledgersHelper
         stock_trade_company = Stock.find_by(sku: return_good.old_sku)
         g_ledger.trade_company = stock_trade_company.purchase_from
         g_ledger.amount = @old_return_stockledger.grandtotal * -1
-        g_ledger.save
+        g_ledger.reference = "仕入ID：" + return_good.stock_id.to_s if return_good.stock_id.present?
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
     end
     
     #「商品有高帳」商品を廃棄した場合    
-    @disposal_goods = ReturnGood.where(disposal: true)
+    @disposal_goods = Disposal.all
     @disposal_goods.each do |disposal_good|
-      if Stockledger.find_by(sku: disposal_good.new_sku, classification: "SKU付替").present?
-        @disposal_stockledger = Stockledger.find_by(sku: disposal_good.new_sku, classification: "SKU付替")
+      if Stockledger.find_by(sku: disposal_good.sku, classification: "廃棄").present?
+        @disposal_stockledger = Stockledger.find_by(sku: disposal_good.sku, classification: "廃棄")
         g_ledger = Generalledger.new(date: @disposal_stockledger.transaction_date)
         find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "廃棄")
         
         g_ledger.debit_account = find_pattern.debit_account
-        g_ledger.debit_subaccount = disposal_good.new_sku
+        g_ledger.debit_subaccount = disposal_good.sku
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
         g_ledger.credit_account = find_pattern.credit_account
-        g_ledger.credit_subaccount = disposal_good.new_sku
+        g_ledger.credit_subaccount = disposal_good.sku
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
         g_ledger.content = @disposal_stockledger.goods_name
-        stock_trade_company = Stock.find_by(sku: disposal_good.old_sku)
-        g_ledger.trade_company = stock_trade_company.purchase_from
-        g_ledger.amount = @disposal_stockledger.grandtotal
-        g_ledger.save
+        if Stock.find_by(sku: disposal_good.sku).present?
+          stock_trade_company = Stock.find_by(sku: disposal_good.sku)
+        elsif ReturnGood.find_by(new_sku: disposal_good.sku).present?
+          return_good = ReturnGood.find_by(new_sku: disposal_good.sku)
+          stock_trade_company = Stock.find_by(sku: return_good.old_sku)
+        end
+        g_ledger.trade_company = stock_trade_company.purchase_from if stock_trade_company.purchase_from.present?
+        g_ledger.amount = @disposal_stockledger.grandtotal * -1
+        g_ledger.reference = "仕入ID：" + disposal_good.stock_id.to_s if disposal_good.stock_id.present?
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
     end    
   end
@@ -278,39 +447,56 @@ module GeneralledgersHelper
       g_ledger.debit_subaccount = subexpense.item
       g_ledger.debit_taxcode = find_pattern.debit_taxcode
       g_ledger.credit_account = find_pattern.credit_account
+      
       if find_pattern.credit_account == "買掛金"
         g_ledger.credit_subaccount = subexpense.money_paid
       else
         g_ledger.credit_subaccount = ""
       end
+      
       g_ledger.credit_taxcode = find_pattern.credit_taxcode
+      
       targetgoods = subexpense.targetgood.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
       targetstock = Stock.find(targetgoods[0].to_i)
-      g_ledger.content = subexpense.date.strftime("%Y年 %m月 %d日") + subexpense.item + targetstock.goods_name
+      if targetgoods.count == 1      
+        g_ledger.content = subexpense.item + " ,仕入ID: " + targetstock.id.to_s + targetstock.goods_name
+      else
+        g_ledger.content = subexpense.item + " ,仕入ID: " + targetstock.id.to_s + targetstock.goods_name + "等"
+      end
       g_ledger.trade_company = subexpense.purchase_from
-      paid_amount = subexpense.amount * subexpense.rate 
+      
+      paid_amount = subexpense.amount * subexpense.rate
       g_ledger.amount = BigDecimal(paid_amount.to_s).round(0)
-      g_ledger.save
+      
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
     end
     
     #「付随費用」配賦計上
-    @subexpenses.each do |subexpense|
-      g_ledger = Generalledger.new(date: subexpense.date)
-      find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "配賦")
+    @expense_relations = ExpenseRelation.all
+    @expense_relations.each do |expense_relation|
+      @target_subexpense = Subexpense.find(expense_relation.subexpense_id)
+      @target_stock = Stock.find(expense_relation.stock_id)      
+      @target_allocation = @target_stock.allocationcosts.find_by(title: @target_subexpense.item)
       
-      @target_stocks = subexpense.expense_relation_stocks.all
-      @target_stocks.each do |target_stock|
-        g_ledger.debit_account = find_pattern.debit_account
-        g_ledger.debit_subaccount = target_stock.sku
-        g_ledger.debit_taxcode = find_pattern.debit_taxcode
-        g_ledger.credit_account = find_pattern.credit_account
-        g_ledger.credit_subaccount = subexpense.item
-        g_ledger.credit_taxcode = find_pattern.credit_taxcode
-        g_ledger.content = target_stock.sku + target_stock.goods_name
-        g_ledger.trade_company = subexpense.purchase_from
-        target_allocation = Allocationcost.find_by(stock_id: target_stock.id, title: subexpense.item )
-        g_ledger.amount = target_allocation.allocation_amount
-        g_ledger.save
+      g_ledger = Generalledger.new(date: @target_subexpense.date)
+      find_pattern = journalpatterns.find_by(ledger: "付随費用", pattern: "配賦")
+      g_ledger.debit_account = find_pattern.debit_account
+      g_ledger.debit_subaccount = @target_stock.sku
+      g_ledger.debit_taxcode = find_pattern.debit_taxcode
+      g_ledger.credit_account = find_pattern.credit_account
+      g_ledger.credit_subaccount = @target_allocation.title
+      g_ledger.credit_taxcode = find_pattern.credit_taxcode
+      g_ledger.content = "仕入ID: " + @target_stock.id.to_s + @target_stock.goods_name
+      g_ledger.trade_company = @target_subexpense.purchase_from
+      g_ledger.amount = @target_allocation.allocation_amount
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
       end
     end
     
@@ -326,10 +512,17 @@ module GeneralledgersHelper
         g_ledger.credit_account = find_pattern.credit_account
         g_ledger.credit_subaccount = ""
         g_ledger.credit_taxcode = find_pattern.credit_taxcode
-        g_ledger.content = subexpense.goods_name
+        g_ledger.content = subexpense.item + " : "+ subexpense.expense_relation_stocks.first.goods_name
         g_ledger.trade_company = subexpense.purchase_from
-        g_ledger.amount = subexpense.goods_amount
-        g_ledger.save
+        
+        paid_amount = subexpense.amount * subexpense.rate 
+        g_ledger.amount = BigDecimal(paid_amount.to_s).round(0)
+      
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
     end
   end  
@@ -338,41 +531,68 @@ module GeneralledgersHelper
     #「経費帳」経費発生による計上
     @expenseledgers = Expenseledger.all
     @expenseledgers.each do |expenseledger|
-      g_ledger = Generalledger.new(date: expenseledger.date)
-      #仕訳パターンを選ぶ
-      if expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円" && expenseledger.purchase_from != "Amazon"
-        find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（国内）")
-      elsif expenseledger.date == expenseledger.money_paid && expenseledger.currency != "円"
-        find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（海外）")
-      elsif expenseledger.date != expenseledger.money_paid && expenseledger.currency == "円" || expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円" &&  expenseledger.purchase_from == "Amazon"
-        find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（国内）") 
-      else
-        find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（海外）") 
-      end
+      if Account.where(account: expenseledger.account_name).blank?
+         Account.create(account: expenseledger.account_name)
+      end      
       
-      g_ledger.debit_account = expenseledger.account_name
-      g_ledger.debit_subaccount = expenseledger.purchase_from
-      g_ledger.debit_taxcode = find_pattern.debit_taxcode
-      g_ledger.credit_account = find_pattern.credit_account
-      if find_pattern.credit_account == "未払金"
+      if expenseledger.purchase_from == "Amazon"
+        find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "Amazon経費")   
+        g_ledger = Generalledger.new(date: expenseledger.date)  
+        g_ledger.debit_account = expenseledger.account_name
+        g_ledger.debit_subaccount = "Amazon"
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
         g_ledger.credit_subaccount = expenseledger.money_paid
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = expenseledger.content
+        g_ledger.trade_company = expenseledger.purchase_from
+        g_ledger.amount = expenseledger.grandtotal
+        g_ledger.reference = "経費ID" + expenseledger.id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end        
       else
-        g_ledger.credit_subaccount = ""
+        #仕訳パターンを選ぶ
+        if expenseledger.date == expenseledger.money_paid && expenseledger.currency == "円" 
+          find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（国内）")
+        elsif expenseledger.date == expenseledger.money_paid && expenseledger.currency != "円"
+          find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "現金払い（海外）")
+        elsif expenseledger.date != expenseledger.money_paid && expenseledger.currency == "円" 
+          find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（国内）") 
+        else
+          find_pattern = journalpatterns.find_by(ledger: "経費帳", pattern: "掛払い（海外）") 
+        end
+        g_ledger = Generalledger.new(date: expenseledger.date)        
+        g_ledger.debit_account = expenseledger.account_name
+        g_ledger.debit_subaccount = expenseledger.purchase_from
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        if find_pattern.credit_account == "未払金"
+          g_ledger.credit_subaccount = expenseledger.money_paid
+        else
+          g_ledger.credit_subaccount = ""
+        end
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = expenseledger.content
+        g_ledger.trade_company = expenseledger.purchase_from
+        g_ledger.amount = expenseledger.grandtotal
+        g_ledger.reference = "経費ID" + expenseledger.id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
-      g_ledger.credit_taxcode = find_pattern.credit_taxcode
-      g_ledger.content = expenseledger.content
-      g_ledger.trade_company = expenseledger.purchase_from
-      g_ledger.amount = expenseledger.grandtotal
-      g_ledger.save
     end
     
-    #「経費帳」掛払い支払計上
+    #「経費帳」Amazon経費売掛金相殺および掛払い支払計上
     @expenseledgers = Expenseledger.all
     @expenseledgers.each do |expenseledger|
-      if expenseledger.date != expenseledger.money_paid
-        g_ledger = Generalledger.new(date: expenseledger.money_paid)
-        find_pattern = journalpatterns.find_by(ledger: "経費帳",pattern: "支払")
-        
+      if expenseledger.purchase_from == "Amazon"
+        find_pattern = journalpatterns.find_by(ledger: "経費帳",pattern: "Amazon経費相殺")        
+        g_ledger = Generalledger.new(date: expenseledger.money_paid)    
         g_ledger.debit_account = find_pattern.debit_account
         g_ledger.debit_subaccount = expenseledger.money_paid
         g_ledger.debit_taxcode = find_pattern.debit_taxcode
@@ -382,7 +602,30 @@ module GeneralledgersHelper
         g_ledger.content = expenseledger.content
         g_ledger.trade_company = expenseledger.purchase_from
         g_ledger.amount = expenseledger.grandtotal
-        g_ledger.save
+        g_ledger.reference = "経費ID" + expenseledger.id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end        
+      elsif expenseledger.date != expenseledger.money_paid
+        find_pattern = journalpatterns.find_by(ledger: "経費帳",pattern: "支払")
+        g_ledger = Generalledger.new(date: expenseledger.money_paid)        
+        g_ledger.debit_account = find_pattern.debit_account
+        g_ledger.debit_subaccount = expenseledger.money_paid
+        g_ledger.debit_taxcode = find_pattern.debit_taxcode
+        g_ledger.credit_account = find_pattern.credit_account
+        g_ledger.credit_subaccount = ""
+        g_ledger.credit_taxcode = find_pattern.credit_taxcode
+        g_ledger.content = expenseledger.content
+        g_ledger.trade_company = expenseledger.purchase_from
+        g_ledger.amount = expenseledger.grandtotal
+        g_ledger.reference = "経費ID" + expenseledger.id.to_s
+        if g_ledger.save
+        else
+          old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+          old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+        end
       end
     end
   end
@@ -401,7 +644,12 @@ module GeneralledgersHelper
       g_ledger.amount = voucher.amount 
       g_ledger.content = voucher.content
       g_ledger.trade_company = voucher.trade_company
-      g_ledger.save
+      g_ledger.reference = "振替ID" + voucher.id.to_s
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(date: g_ledger.date, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company, reference: g_ledger.reference ) if old_data
+      end
     end    
   end
 end

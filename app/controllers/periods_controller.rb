@@ -1,9 +1,12 @@
 class PeriodsController < ApplicationController
   def index
-    @periods = Period.all.order(:monthly_yearly).order(:period_start).page(params[:page])
+    @periods = Period.all.order(:monthly_yearly).order(period_start: :desc).page(params[:page]).per(100)
   end
-  
+    
   def create
+    Period.destroy_all
+    FinancialStatement.destroy_all
+    
     @monthly_beginning = Period.new(period_params)
     if @monthly_beginning.save
       #月次の最初の期間

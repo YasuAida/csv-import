@@ -4,14 +4,15 @@ class StocksController < ApplicationController
   before_action :set_stock, only: [ :update, :destroy]
 
   def index
-    #@stocks = Stock.all
+
     @q = Stock.search(params[:q])
     @stocks = @q.result(distinct: true).page(params[:page])
     @stock = Stock.new
     
+    @all_stocks = Stock.all
     respond_to do |format|
       format.html
-      format.csv { send_data @stocks.to_csv, type: 'text/csv; charset=shift_jis', filename: "stocks.csv" }
+      format.csv { send_data @all_stocks.to_csv, type: 'text/csv; charset=shift_jis', filename: "stocks.csv" }
     end
   end
 

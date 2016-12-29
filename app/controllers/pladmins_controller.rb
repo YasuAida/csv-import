@@ -6,8 +6,8 @@ class PladminsController < ApplicationController
     @pladmin = Pladmin.new
 
     @all_pladmins = Pladmin.all
-    @q = Pladmin.search(params[:q])
-    @pladmins = @q.result(distinct: true).page(params[:page])
+    @q = Pladmin.order(date: :desc).search(params[:q])
+    @pladmins = @q.result(distinct: true).page(params[:page]).per(100)
     
     respond_to do |format|
       format.html

@@ -11,9 +11,20 @@ class ApplicationController < ActionController::Base
     integer_part, p, fraction_part = temp.partition(".")
   # 整数部にカンマを挿入する
     result = ""
-    if num < 0 && integer_part.length == 4
-      result = temp
-      return result      
+    if num < 0
+      for i in 0..integer_part.length - 1
+        idx = integer_part.length - i - 1 # iが増えればidxは減る
+        if i % 3 == 0 and i != 0 and idx != 0
+          result = "," + result
+        end
+        result = integer_part[idx] + result
+      end
+     #整数部と小数部を連結して返す
+      if p == "."
+        return result + p + fraction_part
+      else
+        return result
+      end
     else
       for i in 0..integer_part.length - 1
         idx = integer_part.length - i - 1 # iが増えればidxは減る

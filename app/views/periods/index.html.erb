@@ -5,7 +5,6 @@
     <table>
       <thead>
         <tr>
-          <th class="small">ID</th>
           <th class="account">月次／年次</th>
           <th class="account">開始年月日</th>
           <th class="account">終了年月日</th>
@@ -14,7 +13,6 @@
       <tbody>
         <% @periods.each do |period| %>
           <tr>
-            <td class="small"><%= period.id %></td>
             <td class="account"><%= period.monthly_yearly %></td>
             <td class="account"><%= period.period_start %></td>
             <td class="account"><%= period.period_end %></td>

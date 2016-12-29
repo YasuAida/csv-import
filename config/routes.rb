@@ -32,8 +32,9 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :vouchers, only: [ :index, :create, :update, :destroy]
-
+  resources :vouchers, only: [ :index, :create, :update]
+  get 'vouchers/destroy'
+  
   resources :return_goods, only: [ :index, :create, :update, :destroy]
 
   resources :multi_channels, only: [ :index, :update] do
@@ -42,15 +43,19 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'journalpatterns/index'
-
   resources :generalledgers, only: [:index, :destroy] do
     collection do
       get 'show'
     end    
   end
 
-  resources :expenseledgers, only: [ :index, :create, :update, :destroy]
+  resources :expenseledgers, only: [ :index, :create, :update] do
+    collection do
+      get 'blank_form'
+      post 'upload'     
+    end
+  end
+  get 'expenseledgers/destroy'
 
   resources :stockledgers, only: [:index] do
     collection do
@@ -119,10 +124,13 @@ Rails.application.routes.draw do
   resources :dummy_stocks , only: [ :index, :create, :update]   
   get 'dummy_stocks/destroy'
   
-  resources :accounts, only: [ :index, :create, :update, :destroy]
+  resources :accounts, only: [ :index, :create, :update]
+  get 'accounts/destroy'
 
   resources :entrypatterns, only: [ :index, :create, :update, :destroy]
-  
+
+  resources :journalpatterns, only: [ :index, :create, :update, :destroy]  
+
   get 'expense_methods/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

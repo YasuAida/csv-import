@@ -1,5 +1,5 @@
 class VouchersController < ApplicationController
-  before_action :set_voucher, only: [ :update, :destroy]  
+  before_action :set_voucher, only: [ :update]  
   
   def index
     @vouchers = Voucher.all.order(date: :desc).page(params[:page])
@@ -27,13 +27,13 @@ class VouchersController < ApplicationController
   end
   
   def destroy
-    @update_voucher.destroy
-    redirect_to vouchers_path  
+    Voucher.where(destroy_check: true).destroy_all
+    redirect_to vouchers_path, notice: 'データを削除しました'
   end
   
   private
   def voucher_params
-    params.require(:voucher).permit(:date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode,:amount, :content, :trade_company)
+    params.require(:voucher).permit(:date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode,:amount, :content, :trade_company, :destroy_check)
   end
   
   def set_voucher

@@ -1,15 +1,17 @@
 class AllocationcostsController < ApplicationController
-    before_action :set_allocationcost, only: [ :index]
+  include AllocationcostsHelper
 
   def index
     start_time = Time.now
 
+    Allocationcost.destroy_all
+
     @expense_relations = ExpenseRelation.all
-    @expense_relations.each do |expense_relation|
-  
+    @expense_relations.group(:subexpense_id).each do |expense_relation|
+    
     #expense_relationsテーブルのsubexpense_idに等しいidを持つレコードをSubexpenseモデルの中から探し、それを@subexpenseに入れる
       @subexpense = Subexpense.find(expense_relation.subexpense_id)
-
+    
     #@subexpenseの外貨金額×為替レート=円金額を計算し、それを端数を丸めたあと「total_allocation_amount」に入れる
       ex_total_allocation_amount = BigDecimal(@subexpense.amount.to_s).round(2) * @subexpense.rate
       total_allocation_amount = BigDecimal(ex_total_allocation_amount).round(0)
@@ -19,14 +21,14 @@ class AllocationcostsController < ApplicationController
 
     #@subexpense.methodを配列に直し、subexpense_methodに入れて、caseで処理を分ける。
       subexpense_method = @subexpense.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
-
+    
       case subexpense_method
       
       when ["商品個数"] then
       #個数の総数を計算し「total_number」に入れる
         total_number = 0
         @stocks.each do |stock|
-          total_number = total_number + stock.number
+          total_number += stock.number
         end
 
       #@allocationcostに付随費用項目名と配分額を入れて保存する
@@ -43,7 +45,7 @@ class AllocationcostsController < ApplicationController
       #商品金額の総額を計算し「total_amount」に入れる        
         total_amount = 0
         @stocks.each do |stock|
-          total_amount = total_amount + stock.goods_amount
+          total_amount += stock.goods_amount
         end
 
       #@allocationcostsに付随費用項目名と配分額を入れて保存する        
@@ -60,7 +62,7 @@ class AllocationcostsController < ApplicationController
       #商品金額の総額を計算し「total_amount」に入れる        
         total_amount = 0
         @stocks.each do |stock|
-          total_amount = total_amount + stock.goods_amount
+          total_amount += stock.goods_amount
         end
 
       #subexpense_methodから"商品金額"を除き、その後それぞれの配列から"金額"という文字を削除した後「other_method」に入れる
@@ -76,7 +78,7 @@ class AllocationcostsController < ApplicationController
             total_subexpense += @ex_allocationcost.allocation_amount if @ex_allocationcost.present?
           end
         end
-
+    
       #@allocationcostsに付随費用項目名と配分額を入れて保存する        
         @stocks.each do |stock|
 
@@ -95,12 +97,12 @@ class AllocationcostsController < ApplicationController
         end      
       end
     end
-
-    Stock.all.each do |stock|
-      allocation_amount_sum = Allocationcost.where(stock_id: stock.id).sum(:allocation_amount)
-      stock.grandtotal = stock.goods_amount + allocation_amount_sum
-      stock.save
-    end
+    
+  #端数処理
+    rounding_allocation_fraction
+    
+  #付随費用を集計してstocksテーブルのレコードに付与
+    gathering_allocation_cost
     
     @q = Stock.search(params[:q])
     @stocks = @q.result(distinct: true).order(:date).page(params[:page])
@@ -111,11 +113,13 @@ class AllocationcostsController < ApplicationController
   
   def show
     @q = Stock.search(params[:q])
-    @stocks = @q.result(distinct: true).order(:date).page(params[:page])
+    @stocks = @q.result(distinct: true).order(:date).page(params[:page]).per(300)
+    
+    @all_allocationcosts = Allocationcost.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data @all_allocationcosts.to_csv, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" } 
+    end 
   end
-  
-  private
-  def set_allocationcost
-    Allocationcost.destroy_all
-  end
+
 end

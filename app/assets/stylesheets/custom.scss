@@ -11,6 +11,11 @@ body {
   margin-right: 0px;
   width: 2050px;
 }
+.panel_container {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 1200px;
+}
 table {
   border-collapse: collapse;
   width: 2050px;   /* ポイント */
@@ -140,6 +145,16 @@ td.order_num {
   text-align: left;
   width: 170px;    /* ポイント */
 } 
+th.reference {
+  font-size: 14px;
+  text-align: center;
+  width: 200px;    /* ポイント */
+} 
+td.reference {
+  font-size: 14px;
+  text-align: left;
+  width: 200px;    /* ポイント */
+} 
 th.detail {
   font-size: 14px;
   text-align: center;
@@ -164,9 +179,15 @@ td.content {
   display: inline-block;
 }
 thead.financial {
-  float: none; 
+  float: none;
 }
 tbody.financial {
   float: none;
-  height: auto
+  height: auto;
+}
+.blue_line {
+  background-color: AliceBlue;
+}
+.yellow_line {
+  background-color: LightYellow;
 }

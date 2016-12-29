@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221033404) do
+ActiveRecord::Schema.define(version: 20161228070659) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
     t.string   "debit_credit"
     t.string   "bs_pl"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "destroy_check",    default: false, null: false
+    t.string   "display_position"
   end
 
   create_table "allocationcosts", force: :cascade do |t|
@@ -113,10 +115,11 @@ ActiveRecord::Schema.define(version: 20161221033404) do
     t.date     "money_paid"
     t.string   "purchase_from"
     t.string   "currency"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "grandtotal"
     t.string   "account_name"
+    t.boolean  "destroy_check", default: false, null: false
   end
 
   create_table "financial_statements", force: :cascade do |t|
@@ -156,6 +159,7 @@ ActiveRecord::Schema.define(version: 20161221033404) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "ledger"
+    t.string   "reference"
   end
 
   create_table "listingreports", force: :cascade do |t|
@@ -346,12 +350,13 @@ ActiveRecord::Schema.define(version: 20161221033404) do
     t.string   "content"
     t.string   "trade_company"
     t.integer  "amount"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "debit_subaccount"
     t.string   "debit_taxcode"
     t.string   "credit_subaccount"
     t.string   "credit_taxcode"
+    t.boolean  "destroy_check",     default: false, null: false
   end
 
 end

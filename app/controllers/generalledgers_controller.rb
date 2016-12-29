@@ -12,6 +12,9 @@ class GeneralledgersController < ApplicationController
     
     #「仕入台帳」から仕訳生成  
      import_from_stocks(@journalpatterns)
+     
+    #「仕入返品台帳」から仕訳生成  
+     import_from_stockreturns(@journalpatterns)     
     
     #「商品有高帳」から仕訳生成  
      import_from_stockledgers(@journalpatterns)
@@ -28,6 +31,20 @@ class GeneralledgersController < ApplicationController
     render 'show'
     
     p "処理概要 #{Time.now - start_time}s"
+
+    @q = Generalledger.order(date: :desc).search(params[:q])
+    @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)
+
+  end
+  
+  def show
+    @q = Generalledger.order(date: :desc).search(params[:q])
+    @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)
+    @all_generalledgers = Generalledger.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data @all_generalledgers.to_csv, type: 'text/csv; charset=shift_jis', filename: "generalledgers.csv" } 
+    end 
   end
   
   def destroy

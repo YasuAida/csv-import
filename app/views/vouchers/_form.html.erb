@@ -1,6 +1,6 @@
 <!--Ajaxのrender用に切り出したフォーム-->
-  <td class="small"><%= link_to "削除" , voucher , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
 <%= form_for(voucher, url: voucher_path(voucher.id), remote: true) do |f| %>
+  <td class="update" id="check-<%= voucher.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
   <td class="small"><%= voucher.id %></td>
   <td class="account"><%= f.text_field :date, :size=> "8"%></td>
   <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
@@ -12,5 +12,12 @@
   <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
   <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42" %></td>
   <td class="company"><%= f.text_field :trade_company, :size => "8" %></td>
-  <td class="update"><%= f.submit "更新", class: 'btn btn-default'%></td>          
+  <td class="update" id="submit-<%= voucher.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
+  
+  <!--チェックボックス更新用JQuery-->
+  <script>
+    $("#check-<%= voucher.id %>").change(function(e){
+      $('#edit_voucher_<%= voucher.id %>').submit();
+    });
+  </script>
 <% end %>

@@ -14,6 +14,7 @@ class SubexpensesController < ApplicationController
   end
   
   def create
+    params[:subexpense][:amount] = params[:subexpense][:amount].gsub(",","") if params[:subexpense][:amount].present?
     @subexpense = Subexpense.new(subexpense_params)
     rate_import_new_object(@subexpense)
 
@@ -25,6 +26,7 @@ class SubexpensesController < ApplicationController
   end
 
   def update
+    params[:subexpense][:amount] = params[:subexpense][:amount].gsub(",","") if params[:subexpense][:amount].present?
     if @update_subexpense.update(subexpense_params)
       redirect_to subexpense_path(@update_subexpense), notice: 'データを更新しました'
     else
@@ -39,7 +41,7 @@ class SubexpensesController < ApplicationController
 
   private
   def subexpense_params
-    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, :currency, method: [], targetgood: [])
+    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, :currency, :money_paid, method: [], targetgood: [])
   end
 
   def set_subexpense

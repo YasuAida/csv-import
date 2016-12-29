@@ -1,7 +1,7 @@
 class Entrypattern < ActiveRecord::Base
     validates :sku, uniqueness: { scope: [:kind_of_transaction, :kind_of_payment, :detail_of_payment, :handling] }
     
-    def self.to_download
+  def self.to_download
     headers = %w(ID SKU トランザクションの種類 支払いの種類 支払いの詳細 処理)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|

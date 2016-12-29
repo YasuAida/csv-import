@@ -4,10 +4,10 @@
 <!--クリックイベントを作る為に外包するIDをを作成-->
   <div style="overflow: hidden;">
     <div class="table-responsive">
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
-            <th class="small">削除</th>           
+            <th class="update"><a href= ./vouchers/destroy class="btn btn-default">削除</th>          
             <th class="small">ID</th>
             <th class="account">日付</th>
             <th class="account">借方勘定科目</th>
@@ -33,7 +33,8 @@
           
           <%= form_for(@voucher) do |f|  %>
           <tr>
-            <td width="92">新規登録</td>
+            <td class="update">新規</td>
+            <th class="small"></th>            
             <td class="account"><%= f.text_field :date, :size=> "8"%></td>
             <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
             <td class="large"><%= f.text_field :debit_subaccount, :size=> "10" %></td>              

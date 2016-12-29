@@ -55,40 +55,40 @@ module SalesHelper
   
   def import_to_pladmin
     Sale.all.each do |sale|
-      if sale.handling == "売上"
-        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.sku, handling: "原価（手数料）").sum(:amount)
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: sale.quantity, sale_place: "Amazon", sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)
-        pladmin.save
-      end
+#      if sale.handling == "売上"
+#        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.sku, handling: "原価（手数料）").sum(:amount)
+#        Pladmin.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: sale.quantity, sale_place: "Amazon", sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)
+#      end
       
-      if sale.handling == "売上(FBA在庫の返金)"
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: 1, sale_place: "Amazon", sale_amount: sale.amount, commission: nil, money_receive: sale.money_receive)
-        pladmin.save
-      end      
+#      if sale.handling == "売上(FBA在庫の返金)"
+#        if sale.goods_name.present?
+#          name_of_goods = sale.goods_name + "（FBA在庫の返金）"        
+#        else
+#          name_of_goods = "（FBA在庫の返金）"
+#        end
+#          Pladmin.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: name_of_goods, quantity: 1, sale_place: "Amazon", sale_amount: sale.amount, commission: nil, money_receive: sale.money_receive)
+#      end      
       
-      if sale.handling == "原価（送料）"
-        shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, quantity: 1, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)
-        pladmin.save
-        unless MultiChannel.where(order_num: sale.order_num).present?
-          multi_channel = MultiChannel.new(order_num: sale.order_num)
-          multi_channel.save
-        end
-      end
+#      if sale.handling == "原価（送料）"
+#        shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
+#        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, quantity: 1, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)
+#        pladmin.save
+#        unless MultiChannel.where(order_num: sale.order_num).present?
+#          MultiChannel.create(order_num: sale.order_num)
+#        end
+#      end
       
-      if sale.detail_of_payment == "FBA在庫の返送手数料"
-        unless ReturnGood.where(order_num: sale.order_num).present?
-          return_good = ReturnGood.new(date: sale.date, order_num: sale.order_num)
-          return_good.save
-        end
-      end
+#      if sale.detail_of_payment == "FBA在庫の返送手数料"
+#        unless ReturnGood.where(order_num: sale.order_num).present?
+#          ReturnGood.create(date: sale.date, order_num: sale.order_num)
+#        end
+#      end
  
-      if sale.detail_of_payment == "FBA在庫の廃棄手数料"
-        unless Disposal.where(order_num: sale.order_num).present?
-          disposal = Disposal.new(date: sale.date, order_num: sale.order_num)
-          disposal.save
-        end
-      end
+#      if sale.detail_of_payment == "FBA在庫の廃棄手数料"
+#        unless Disposal.where(order_num: sale.order_num).present?
+#          Disposal.create(date: sale.date, order_num: sale.order_num)
+#        end
+#      end
       
       if sale.handling == "経費"
         expenseledger = Expenseledger.new(date: sale.date,account_name: "支払手数料", content: sale.detail_of_payment, amount: (sale.amount * -1), money_paid: sale.money_receive, purchase_from: "Amazon", currency: "円")
@@ -101,16 +101,10 @@ module SalesHelper
         expenseledger.save
       end
       
-      if sale.handling == "未払金"
-        voucher = Voucher.new(date: sale.date, debit_account: "売掛金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
-        voucher.save
-      end
-        
-      if sale.handling == "売掛金"
-        voucher = Voucher.new(date: sale.date, debit_account: "売掛金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "売掛金", credit_subaccount: "", credit_taxcode: "不課税", amount: sale.amount, content: sale.detail_of_payment, trade_company: "Amazon")
-        voucher.save
-      end
+#      if sale.handling == "未払金"
+#        voucher = Voucher.new(date: sale.date, debit_account: "現金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "出品者からの返済額", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
+#        voucher.save
+#      end  
     end      
   end
-
 end
