@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228070659) do
+ActiveRecord::Schema.define(version: 20170104133510) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -27,17 +27,19 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.integer  "stock_id"
     t.string   "title"
     t.integer  "allocation_amount"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "gl_flag",           default: false, null: false
   end
 
   add_index "allocationcosts", ["stock_id"], name: "index_allocationcosts_on_stock_id"
 
   create_table "currencies", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "method"
+    t.boolean  "destroy_check", default: false, null: false
   end
 
   create_table "disposals", force: :cascade do |t|
@@ -46,8 +48,10 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.string   "order_num"
     t.string   "sku"
     t.integer  "number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "destroy_check", default: false, null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   add_index "disposals", ["stock_id"], name: "index_disposals_on_stock_id"
@@ -75,11 +79,12 @@ ActiveRecord::Schema.define(version: 20161228070659) do
   end
 
   create_table "exchanges", force: :cascade do |t|
-    t.date     "date",                     null: false
-    t.string   "country",                  null: false
-    t.float    "rate",       default: 0.0, null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.date     "date",                          null: false
+    t.string   "country",                       null: false
+    t.float    "rate",          default: 0.0,   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "destroy_check", default: false, null: false
   end
 
   add_index "exchanges", ["date", "country"], name: "exchange_index", unique: true
@@ -93,8 +98,9 @@ ActiveRecord::Schema.define(version: 20161228070659) do
   create_table "expense_relations", force: :cascade do |t|
     t.integer  "stock_id"
     t.integer  "subexpense_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   add_index "expense_relations", ["stock_id", "subexpense_id"], name: "index_expense_relations_on_stock_id_and_subexpense_id", unique: true
@@ -105,6 +111,7 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.string   "item"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "method"
   end
 
   create_table "expenseledgers", force: :cascade do |t|
@@ -120,6 +127,7 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.integer  "grandtotal"
     t.string   "account_name"
     t.boolean  "destroy_check", default: false, null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   create_table "financial_statements", force: :cascade do |t|
@@ -132,6 +140,15 @@ ActiveRecord::Schema.define(version: 20161228070659) do
   end
 
   create_table "generalledgers", force: :cascade do |t|
+    t.integer  "pladmin_id"
+    t.integer  "stock_id"
+    t.integer  "stockreturn_id"
+    t.integer  "return_good_id"
+    t.integer  "disposal_id"
+    t.integer  "expenseledger_id"
+    t.integer  "voucher_id"
+    t.integer  "subexpense_id"
+    t.integer  "expense_relation_id"
     t.date     "date"
     t.string   "debit_account"
     t.string   "debit_subaccount"
@@ -142,10 +159,20 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.string   "content"
     t.string   "trade_company"
     t.string   "reference"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "amount"
   end
+
+  add_index "generalledgers", ["disposal_id"], name: "index_generalledgers_on_disposal_id"
+  add_index "generalledgers", ["expense_relation_id"], name: "index_generalledgers_on_expense_relation_id"
+  add_index "generalledgers", ["expenseledger_id"], name: "index_generalledgers_on_expenseledger_id"
+  add_index "generalledgers", ["pladmin_id"], name: "index_generalledgers_on_pladmin_id"
+  add_index "generalledgers", ["return_good_id"], name: "index_generalledgers_on_return_good_id"
+  add_index "generalledgers", ["stock_id"], name: "index_generalledgers_on_stock_id"
+  add_index "generalledgers", ["stockreturn_id"], name: "index_generalledgers_on_stockreturn_id"
+  add_index "generalledgers", ["subexpense_id"], name: "index_generalledgers_on_subexpense_id"
+  add_index "generalledgers", ["voucher_id"], name: "index_generalledgers_on_voucher_id"
 
   create_table "journalpatterns", force: :cascade do |t|
     t.string   "taxcode"
@@ -204,22 +231,22 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.date     "shipping_pay_date"
     t.integer  "quantity"
     t.boolean  "destroy_check",       default: false, null: false
+    t.boolean  "gl_flag",             default: false, null: false
   end
 
   add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
 
   create_table "return_goods", force: :cascade do |t|
-    t.integer  "stock_id"
     t.string   "order_num"
     t.string   "old_sku"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "new_sku"
     t.integer  "number"
     t.date     "date"
+    t.boolean  "destroy_check", default: false, null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
-
-  add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
 
   create_table "sales", force: :cascade do |t|
     t.date     "date"
@@ -292,6 +319,7 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.datetime "updated_at",                    null: false
     t.boolean  "destroy_check", default: false, null: false
     t.integer  "grandtotal"
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   add_index "stockreturns", ["stock_id"], name: "index_stockreturns_on_stock_id"
@@ -314,6 +342,7 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.boolean  "destroy_check", default: false, null: false
     t.integer  "sold_unit",     default: 0
     t.boolean  "soldout_check", default: false, null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   create_table "subexpenses", force: :cascade do |t|
@@ -323,11 +352,13 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.string   "purchase_from"
     t.float    "amount"
     t.string   "targetgood"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.float    "rate"
     t.string   "currency"
     t.date     "money_paid"
+    t.boolean  "destroy_check", default: false, null: false
+    t.boolean  "gl_flag",       default: false, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -357,6 +388,7 @@ ActiveRecord::Schema.define(version: 20161228070659) do
     t.string   "credit_subaccount"
     t.string   "credit_taxcode"
     t.boolean  "destroy_check",     default: false, null: false
+    t.boolean  "gl_flag",           default: false, null: false
   end
 
 end

@@ -14,22 +14,20 @@ require 'date'
   validates :purchase_from, presence: true
   validates :currency, presence: true
   
+  has_many :generalledgers, dependent: :destroy
+  
   has_many :expense_relations, dependent: :destroy
   has_many :expense_relation_subexpenses, through: :expense_relations, source: :subexpense
   
-  has_many :allocationcosts
+  has_many :allocationcosts, dependent: :destroy
   
-  has_many :stockledgers
+  has_many :stockledgers, dependent: :destroy
   
-  has_many :return_goods
+  has_many :disposals, dependent: :destroy
   
-  has_many :return_disposals, through: :return_goods, source: :disposal
+  has_many :dummy_stocks, dependent: :destroy
   
-  has_many :disposals
-  
-  has_many :dummy_stocks
-  
-  has_many :pladmins
+  has_many :pladmins, dependent: :destroy
 
   def self.to_csv
     headers = %w(ID 日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額) 

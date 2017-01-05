@@ -1,6 +1,6 @@
 class CreateVouchers < ActiveRecord::Migration
   def change
-    create_table :vouchers do |t|
+    create_table :vouchers do |t| 
       t.date :date
       t.string :debit_account
       t.string :credit_account

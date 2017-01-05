@@ -67,7 +67,7 @@ module StockledgersHelper
             only_stock = @check_stocks.last
           elsif @check_returns.count == 1
             @sku_stocks = Stock.where(sku: @check_returns.first.old_sku).order(:date)
-          elsif @check_returns.count > 0
+          elsif @check_returns.count > 1
             @check_returns.each do |check_return|
               @check_return_stocks = Stock.where(sku: check_return.old_sku).order(:date)
               if @check_return_stocks.present? && @check_return_stocks.count == 1
@@ -109,6 +109,8 @@ module StockledgersHelper
         
           ex_price_unit = sku_stock.grandtotal / sku_stock.number
           price_unit = BigDecimal(ex_price_unit.to_s).round(0)
+          
+          target_stocks = @sku_stocks.where("sold_unit >= ?", 1)          
           
         #@sku_stocksが複数で、pladmin.sale_amountがプラス 
           if pladmin.sale_amount.present? && pladmin.sale_amount > 0 && owned_number > 0
@@ -160,6 +162,7 @@ module StockledgersHelper
               pladmin.stock_id = sku_stock.id
               pladmin.cgs_amount = price_unit * pladmin.quantity
               pladmin.save
+              
               sku_stock.sold_unit += pladmin.quantity
               
               owned_number = sku_stock.number - sku_stock.sold_unit
@@ -173,7 +176,6 @@ module StockledgersHelper
             end
         #@sku_stocksが複数で、pladmin.sale_amountがマイナス              
           elsif pladmin.sale_amount.present? && pladmin.sale_amount < 0
-            target_stocks = @sku_stocks.where("sold_unit >= ?", 1)
             if target_stocks.present? && sku_stock == target_stocks.last           
               @stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: pladmin.date,sku: pladmin.sku, asin: sku_stock.asin, goods_name: pladmin.goods_name, classification: "キャンセル", number: pladmin.quantity, unit_price: price_unit, grandtotal: price_unit * pladmin.quantity)
               pladmin.stock_id = sku_stock.id              
@@ -215,9 +217,7 @@ module StockledgersHelper
             return_goods = ReturnGood.where(old_sku: pladmin.sku)
             if return_goods.present? && return_goods.count == 1 && target_stocks.present? && sku_stock == target_stocks.last
               @old_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.old_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "返還", number: return_goods.first.number * -1, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number * -1)
-              @new_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_goods.first.number, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number)
-              return_goods.first.stock_id = sku_stock.id
-              return_goods.first.save          
+              @new_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_goods.first.number, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number)        
               
         #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが一つあり、return_goodsの新SKUと一致するdisposalsがある
               return_disposals = Disposal.where(sku: return_goods.first.new_sku)
@@ -246,8 +246,6 @@ module StockledgersHelper
               return_goods.each do |return_good|
                 @old_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_good.date,sku: return_good.old_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
                 @new_stockledger = Stockledger.create(stock_id: sku_stock.id, transaction_date: return_good.date,sku: return_good.new_sku, asin: sku_stock.asin, goods_name: sku_stock.goods_name, classification: "SKU付替", number: return_good.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
-                return_good.stock_id = sku_stock.id
-                return_good.save
               
         #@sku_stocksが複数で、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある
                 return_disposals = Disposal.where(sku: return_good.new_sku)
@@ -344,9 +342,7 @@ module StockledgersHelper
       return_goods = ReturnGood.where(old_sku: pladmin.sku)
       if return_goods.present? && return_goods.count == 1
         @old_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.old_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "返還", number: return_goods.first.number * -1, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number * -1)
-        @new_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.new_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "SKU付替", number: return_goods.first.number, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number)
-        return_goods.first.stock_id = stock.id
-        return_goods.first.save             
+        @new_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_goods.first.date,sku: return_goods.first.new_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "SKU付替", number: return_goods.first.number, unit_price: price_unit, grandtotal: price_unit * return_goods.first.number)          
         
   #@sku_stocksが一つで、pladmin.sale_amountがマイナスで、return_goodsが一つあり、return_goodsの新SKUと一致するdisposalsがある
         return_disposals = Disposal.where(sku: return_goods.first.new_sku)
@@ -373,9 +369,7 @@ module StockledgersHelper
       else return_goods.present? && return_goods.count > 1 
         return_goods.each do |return_good|
           @old_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_good.date,sku: return_good.old_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "返還", number: return_good.number * -1, unit_price: price_unit, grandtotal: price_unit * return_good.number * -1)
-          @new_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_goods.date,sku: return_goods.new_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "SKU付替", number: return_goods.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)
-          return_good.stock_id = stock.id
-          return_good.save             
+          @new_stockledger = Stockledger.create(stock_id: stock.id, transaction_date: return_goods.date,sku: return_goods.new_sku, asin: stock.asin, goods_name: stock.goods_name, classification: "SKU付替", number: return_goods.number, unit_price: price_unit, grandtotal: price_unit * return_good.number)           
           
   #@sku_stocksが一つで、pladmin.sale_amountがマイナスで、return_goodsが複数あり、return_goodsの新SKUと一致するdisposalsがある 
           return_disposals = Disposal.where(sku: return_goods.new_sku)

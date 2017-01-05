@@ -20,7 +20,8 @@ class AllocationcostsController < ApplicationController
       @stocks = @subexpense.expense_relation_stocks
 
     #@subexpense.methodを配列に直し、subexpense_methodに入れて、caseで処理を分ける。
-      subexpense_method = @subexpense.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
+      expense_title = ExpenseTitle.find_by(item: @subexpense.item)
+      subexpense_method = expense_title.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
     
       case subexpense_method
       

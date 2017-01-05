@@ -1,7 +1,6 @@
 class CreateReturnGoods < ActiveRecord::Migration
   def change
-    create_table :return_goods do |t|
-      t.references :stock, index: true, foreign_key: true         
+    create_table :return_goods do |t| 
       t.string :order_num
       t.string :sku
 

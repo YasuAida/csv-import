@@ -10,7 +10,7 @@
   <td class="large"><%= f.text_field :credit_subaccount, :size=> "10" %></td>              
   <td class="account"><%= f.text_field :credit_taxcode, :size=> "8" %></td>
   <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
-  <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42" %></td>
+  <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "40" %></td>
   <td class="company"><%= f.text_field :trade_company, :size => "8" %></td>
   <td class="update" id="submit-<%= voucher.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
   

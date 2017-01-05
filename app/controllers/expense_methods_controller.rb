@@ -2,6 +2,7 @@ class ExpenseMethodsController < ApplicationController
   def index
     @expense_method = ExpenseMethod.new
     @expense_methods = ExpenseMethod.all
+    @expense_title = ExpenseTitle.new
     @expense_titles = ExpenseTitle.all
    
     options = ["商品個数","商品金額"] 

@@ -52,7 +52,6 @@ class StockledgersController < ApplicationController
   end
   
   def stock_list
-    #@stocks = Stock.all
     @q = Stock.search(params[:q])
     @stocks = @q.result(distinct: true)
   end

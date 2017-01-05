@@ -2,6 +2,16 @@ class Generalledger < ActiveRecord::Base
   
   validates :date, uniqueness: { scope: [:debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode, :amount, :content, :trade_company, :reference] }  
 
+  belongs_to :pladmin
+  belongs_to :stock
+  belongs_to :stockreturn
+  belongs_to :return_good
+  belongs_to :disposal
+  belongs_to :expenseledger
+  belongs_to :voucher
+  belongs_to :subexpense
+  belongs_to :expense_relation
+
   def self.to_csv
     headers = %w(日付 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード 金額 摘要 購入先 備考)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|

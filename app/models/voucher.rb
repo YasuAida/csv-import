@@ -1,5 +1,7 @@
 class Voucher < ActiveRecord::Base
   validates :date, uniqueness: { scope: [:debit_account, :credit_account, :content, :trade_company ] }
+
+  has_many :generalledgers, dependent: :destroy
     
   def self.to_download
     headers = %w(ID	日付 借方勘定科目 貸方勘定科目 摘要	取引先 金額)

@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   resources :selfstorages, only: [ :index, :create, :update, :destroy]
   
-  resources :disposals, only: [ :index, :create, :update, :destroy]
+  resources :disposals, only: [ :index, :create, :update]
+  get 'disposals/destroy'
   
   resources :periods, only: [ :index, :create]
 
@@ -35,8 +36,9 @@ Rails.application.routes.draw do
   resources :vouchers, only: [ :index, :create, :update]
   get 'vouchers/destroy'
   
-  resources :return_goods, only: [ :index, :create, :update, :destroy]
-
+  resources :return_goods, only: [ :index, :create, :update]
+  get 'return_goods/destroy'
+  
   resources :multi_channels, only: [ :index, :update] do
     collection do
       get 'sku'
@@ -70,14 +72,16 @@ Rails.application.routes.draw do
     end    
   end
   
-  resources :currencies, only: [:index, :create, :destroy]
+  resources :currencies, only: [:index, :create, :update]
+  get 'currencies/destroy'
 
-  resources :exchanges, only: [:index, :create, :update, :destroy] do
+  resources :exchanges, only: [:index, :create, :update] do
     collection do
       post 'upload'
     end
   end
-
+  get 'exchanges/destroy'
+  
   resources :stockaccepts, only: [:index] do
     collection do
       post 'upload'
@@ -90,17 +94,22 @@ Rails.application.routes.draw do
     end
   end  
 
-  resources :expense_titles, only: [ :index, :create, :update, :destroy]
+  resources :expense_titles, only: [ :index, :create, :update, :destroy]do
+    collection do
+      get 'show'
+    end    
+  end
 
-  resources :subexpenses, only: [ :index, :create, :show, :update, :destroy] 
-
-  resources :stocks, only: [ :index, :create, :update, :destroy] do
+  resources :subexpenses, only: [ :index, :create, :show, :update] 
+  get 'subexpenses/destroy'
+  
+  resources :stocks, only: [ :index, :create, :update] do
     collection do
       post 'upload'       
       get 'sku'
-      get 'plural_destroy'
     end
   end
+  get 'stocks/destroy'
   
   resources :pladmins , only: [:index, :create, :update] do
     collection do

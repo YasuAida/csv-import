@@ -1,6 +1,6 @@
 class CreateExpenseledgers < ActiveRecord::Migration
   def change
-    create_table :expenseledgers do |t|
+    create_table :expenseledgers do |t|    
       t.date :date
       t.string :content
       t.integer :amount

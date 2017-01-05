@@ -1,6 +1,8 @@
 class Stockreturn < ActiveRecord::Base
 
   validates :stock_id , uniqueness: { scope: [:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
+
+  has_many :generalledgers, dependent: :destroy
   
   def self.to_download
     headers = %w(ID 仕入ID 日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額)

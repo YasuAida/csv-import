@@ -167,7 +167,7 @@ module TopPagesHelper
 
   def expense_titles_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :item]
+      @column = [:id, :item, :method]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -474,7 +474,7 @@ module TopPagesHelper
 
   def subexpenses_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :item, :method, :targetgood, :date, :amount, :rate, :purchase_from, :currency, :money_paid]
+      @column = [:id, :item, :targetgood, :date, :amount, :rate, :purchase_from, :currency, :money_paid]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化

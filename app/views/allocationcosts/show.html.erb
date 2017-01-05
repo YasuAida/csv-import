@@ -17,7 +17,7 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th class="small">仕入ID</th>
+          <th class="rate">仕入ID</th>
           <th class="account">日付</th>
           <th class="order_num">SKU</th>
           <th class="asin">ASIN</th>
@@ -34,7 +34,7 @@
       <tbody>
         <% @stocks.each do |stock| %>
           <tr>
-            <td class="small"><%= stock.id %></td>            
+            <td class="rate"><%= stock.id %></td>            
             <td class="account"><%= stock.date %></td>
             <td class="order_num"><%= stock.sku %></td>
             <td class="asin"><%= stock.asin %></td>

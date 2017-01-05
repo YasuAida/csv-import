@@ -19,6 +19,8 @@ class VouchersController < ApplicationController
   def update
     params[:voucher][:amount] = params[:voucher][:amount].gsub(",","") if params[:voucher][:amount].present?
     if @update_voucher.update(voucher_params)
+      @update_voucher.gl_flag = false
+      @update_voucher.save
       render 'update_ajax'
     else
       flash.now[:alert] = "データの編集に失敗しました。"

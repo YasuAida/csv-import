@@ -1,5 +1,5 @@
 class ExpenseTitlesController < ApplicationController
-  before_action :set_expense_title, only: [ :update, :destroy]   
+  before_action :set_expense_title, only: [ :destroy]   
   
   def index
     @expense_title = ExpenseTitle.new
@@ -11,24 +11,31 @@ class ExpenseTitlesController < ApplicationController
     @expense_title.save
     redirect_to expense_titles_path , notice: '保存しました'
   end
+
+  def show
+    @expense_titles = ExpenseTitle.all
+  end
   
   def update
-    if @expense_title.update(expense_title_params)
-      redirect_to expense_titles_path , notice: '保存しました'
-    end
+    @update_expense_title = ExpenseTitle.find_by(item: params[:expense_title][:item])
+    copy_method = params[:expense_title][:method].dup
+    copy_method.shift  
+    @update_expense_title.method = copy_method
+    @update_expense_title.save
+    redirect_to expense_titles_path , notice: '保存しました'
   end
   
   def destroy
-    @expense_title.destroy
+    @update_expense_title.destroy
     redirect_to expense_titles_path, notice: '削除しました'
   end
 
   private
   def expense_title_params
-    params.require(:expense_title).permit(:item)
+    params.require(:expense_title).permit(:item, :method => [])
   end
   
   def set_expense_title
-    @expense_title = ExpenseTitle.find(params[:id])
+    @update_expense_title = ExpenseTitle.find(params[:id])
   end
 end

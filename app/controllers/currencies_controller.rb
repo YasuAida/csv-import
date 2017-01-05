@@ -1,4 +1,6 @@
 class CurrenciesController < ApplicationController
+  before_action :set_currency, only: [ :update]  
+  
   def index
     @currency = Currency.new    
     @currencies = Currency.all
@@ -6,19 +8,29 @@ class CurrenciesController < ApplicationController
   end
   
   def create
-    @currency = Currency.new(currency_params)
-    @currency.save
+    Currency.create(currency_params)
     redirect_to currencies_path , notice: 'データを保存しました'
   end
   
+  def update
+    if @update_currency.update(currency_params)
+      redirect_to currencies_path, notice: "データを編集しました"
+    else
+      redirect_to currencies_path, notice: "データの編集に失敗しました"
+    end
+  end
+  
   def destroy
-    @currency = Currency.find(params[:id])
-    @currency.destroy
+    Currency.where(destroy_check: true).destroy_all
     redirect_to currencies_path, notice: 'データを削除しました'
   end
   
   private
   def currency_params
-    params.require(:currency).permit(:name, :method)
+    params.require(:currency).permit(:name, :method, :destroy_check)
   end
+  
+  def set_currency
+    @update_currency = Currency.find(params[:id])
+  end  
 end

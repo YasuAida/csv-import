@@ -59,6 +59,7 @@ class StocksController < ApplicationController
     if @update_stock.update(stock_params)
       flash.now[:alert] = "データを更新しました。"
       goods_amount_new_stock(@update_stock)
+      @update_stock.gl_flag = false
       @update_stock.save
       
       render 'update_ajax'
@@ -69,11 +70,6 @@ class StocksController < ApplicationController
   end
   
   def destroy
-    @update_stock.destroy
-    redirect_to stocks_path, notice: 'データを削除しました'
-  end
-  
-  def plural_destroy
     Stock.where(destroy_check: true).destroy_all
     redirect_to stocks_path, notice: 'データを削除しました'
   end

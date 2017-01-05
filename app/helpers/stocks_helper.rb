@@ -65,7 +65,7 @@ module StocksHelper
       @check_stockaccepts = Stockaccept.where(asin: stock.asin)
       if @check_stockaccepts.any?
         @check_stockaccepts.each do |check_stockaccept| 
-          if stock.number == check_stockaccept.quantity && base_difference > check_stockaccept.date - stock.date 
+          if stock.number == check_stockaccept.quantity && base_difference > (check_stockaccept.date - stock.date)
             stock.sku = check_stockaccept.sku
             stock.save
             break
@@ -78,10 +78,10 @@ module StocksHelper
     @no_sku_stocks.each do |no_sku_stock|
 
       @check_stockaccepts = Stockaccept.where(asin: no_sku_stock.asin)
-      if @check_stockaccepts.count == 1
+      if @check_stockaccepts.present? && @check_stockaccepts.count == 1
         no_sku_stock.sku = @check_stockaccepts.first.sku
         no_sku_stock.save
-      else
+      elsif @check_stockaccepts.present? && @check_stockaccepts.count > 1
         check_sku = []
         @check_stockaccepts.each do |check_accept|
           if check_sku[0] != check_accept.sku

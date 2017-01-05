@@ -1,11 +1,11 @@
 class ExchangesController < ApplicationController
   include ExchangesHelper
-  before_action :set_exchange, only: [ :update, :destroy] 
+  before_action :set_exchange, only: [ :update] 
   
   def index
     #@exchanges = Exchange.all
     @q = Exchange.search(params[:q])
-    @exchanges = @q.result(distinct: true)
+    @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(300)
     @exchange = Exchange.new
   end
   
@@ -34,13 +34,13 @@ class ExchangesController < ApplicationController
   end
   
   def destroy
-    @exchange.destroy
+    Exchange.where(destroy_check: true).destroy_all
     redirect_to exchanges_path, notice: 'データを削除しました'
   end 
   
   private
   def exchange_params
-    params.require(:exchange).permit(:date, :country, :rate)
+    params.require(:exchange).permit(:date, :country, :rate, :destroy_check)
   end
   
   def set_exchange

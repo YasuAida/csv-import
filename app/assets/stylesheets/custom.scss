@@ -50,6 +50,7 @@ td.rate {
   text-align: right;
   width: 60px;    /* ポイント */
 }
+/* stocksのIDで使用 */
 th.half {
   font-size: 14px;
   text-align: center;
@@ -60,6 +61,7 @@ td.half {
   text-align: left;
   width: 70px;    /* ポイント */
 }
+/* stocksのIDで使用 */
 th.middle {
   font-size: 14px;
   text-align: center;
@@ -78,32 +80,32 @@ td.middle {
 th.amount {
   font-size: 14px;
   text-align: center;
-  width: 102px;    /* ポイント */
+  width: 105px;    /* ポイント */
 }
 td.amount {
   font-size: 14px;
   text-align: right;
-  width: 102px;    /* ポイント */
+  width: 105px;    /* ポイント */
 }
 th.company {
   font-size: 14px;
   text-align: center;
-  width: 102px;    /* ポイント */
+  width: 105px;    /* ポイント */
 }
 td.company {
   font-size: 14px;
   text-align: left;
-  width: 102px;    /* ポイント */
+  width: 105px;    /* ポイント */
 }
 th.account {
   font-size: 14px;
   text-align: center;
-  width: 104px;    /* ポイント */
+  width: 105px;    /* ポイント */
 } 
 td.account {
   font-size: 14px;
   text-align: left;
-  width: 104px;    /* ポイント */
+  width: 105px;    /* ポイント */
 }
 th.large {
   font-size: 14px;
@@ -145,16 +147,18 @@ td.order_num {
   text-align: left;
   width: 170px;    /* ポイント */
 } 
+/* generalledgerで使用 */
 th.reference {
   font-size: 14px;
   text-align: center;
-  width: 200px;    /* ポイント */
+  width: 200px;    
 } 
 td.reference {
   font-size: 14px;
   text-align: left;
-  width: 200px;    /* ポイント */
+  width: 200px; 
 } 
+/* generalledgerで使用 */
 th.detail {
   font-size: 14px;
   text-align: center;
@@ -173,11 +177,12 @@ th.content {
 td.content {
   font-size: 14px;
   text-align: left;
-  width: 335px;    /* ポイント */
+  width: 335px;    
 }
 .bootstrap-filestyle {
   display: inline-block;
 }
+/* financial_statementsで使用 */
 thead.financial {
   float: none;
 }
@@ -191,3 +196,46 @@ tbody.financial {
 .yellow_line {
   background-color: LightYellow;
 }
+/* financial_statementsで使用 */
+/* subexpensesで使用 */
+th.subexpense {
+  font-size: 14px;
+  text-align: center;
+  width: 507px; 
+}
+td.subexpense {
+  font-size: 14px;
+  text-align: left;
+  width: 507px; 
+}
+.small_select {
+  font-size: 14px;
+  text-align: left;
+  width: 100px;
+  height: 26px;
+}
+td select {
+  font-size: 14px;
+  text-align: left;
+  width: 140px;
+  height: 26px;
+}
+.subexpense select{
+  width: 490px;
+  overflow-y: auto;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  height: 490px;
+}
+/* subexpensesで使用 */
+/* expense_titlesで使用 */
+.method_select {
+  font-size: 14px;
+  text-align: left;
+  overflow-y: auto;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  width: 235px;
+  height: 26px;
+}
+/* expense_titlesで使用 */

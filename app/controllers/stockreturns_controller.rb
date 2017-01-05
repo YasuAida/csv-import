@@ -4,7 +4,6 @@ class StockreturnsController < ApplicationController
   include ApplicationHelper
 
   def index
-    #@stockreturns = Stockreturn.all
     @stockreturn = Stockreturn.new
     @q = Stockreturn.search(params[:q])
     @stockreturns = @q.result(distinct: true).page(params[:page])
@@ -38,7 +37,7 @@ class StockreturnsController < ApplicationController
     #grandtotalの計算 
       allocation_amount_sum = Allocationcost.where(stock_id: @update_stockreturn.stock_id).sum(:allocation_amount)
       @update_stockreturn.grandtotal = @update_stockreturn.goods_amount + allocation_amount_sum      
-      
+      @update_stockreturn.gl_flag = false
       @update_stockreturn.save
       
       redirect_to stockreturns_path , notice: 'データを保存しました'

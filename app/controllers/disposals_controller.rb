@@ -1,5 +1,5 @@
 class DisposalsController < ApplicationController
-  before_action :set_disposal, only: [ :update, :destroy] 
+  before_action :set_disposal, only: [ :update] 
   
   def index
     @disposal = Disposal.new   
@@ -20,7 +20,9 @@ class DisposalsController < ApplicationController
   end
   
   def update
-    if @disposal.update(disposal_params)  
+    if @update_disposal.update(disposal_params)
+      @update_disposal.gl_flag = false
+      @update_disposal.save
       redirect_to disposals_path , notice: '保存しました'
     else
       redirect_to disposals_path , notice: '保存に失敗しました'
@@ -28,16 +30,16 @@ class DisposalsController < ApplicationController
   end
   
   def destroy
-    @disposal.destroy
+    Disposal.where(destroy_check: true).destroy_all
     redirect_to disposals_path, notice: 'データを削除しました'
   end
   
   private
   def disposal_params
-    params.require(:disposal).permit(:date, :order_num, :sku, :number)
+    params.require(:disposal).permit(:date, :order_num, :sku, :number, :destroy_check)
   end
   
   def set_disposal
-    @disposal = Disposal.find(params[:id])
+    @update_disposal = Disposal.find(params[:id])
   end
 end

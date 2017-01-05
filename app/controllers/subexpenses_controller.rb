@@ -1,6 +1,6 @@
 class SubexpensesController < ApplicationController
   include ApplicationHelper
-  before_action :set_subexpense, only: [ :update, :destroy]  
+  before_action :set_subexpense, only: [ :update]  
   
   def index
     @subexpense = Subexpense.new
@@ -28,6 +28,10 @@ class SubexpensesController < ApplicationController
   def update
     params[:subexpense][:amount] = params[:subexpense][:amount].gsub(",","") if params[:subexpense][:amount].present?
     if @update_subexpense.update(subexpense_params)
+      @update_subexpense.gl_flag = false
+      @update_subexpense.expense_relations.gl_flag = false
+      @update_subexpense.save
+      @update_subexpense.expense_relations.save
       redirect_to subexpense_path(@update_subexpense), notice: 'データを更新しました'
     else
       redirect_to subexpense_path(@update_subexpense), notice: 'データの更新に失敗しました'
@@ -35,13 +39,13 @@ class SubexpensesController < ApplicationController
   end
   
   def destroy
-    @update_subexpense.destroy
+    Subexpense.where(destroy_check: true).destroy_all
     redirect_to subexpenses_path, notice: 'データを削除しました'
   end
 
   private
   def subexpense_params
-    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, :currency, :money_paid, method: [], targetgood: [])
+    params.require(:subexpense).permit(:item, :date, :amount, :purchase_from, :currency, :money_paid, :destroy_check, targetgood: [])
   end
 
   def set_subexpense

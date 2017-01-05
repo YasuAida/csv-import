@@ -1,5 +1,6 @@
 class Disposal < ActiveRecord::Base
-  belongs_to :stock  
+  belongs_to :stock
+  has_many :generalledgers, dependent: :destroy
   
   def self.to_csv
     headers = %w(ID 仕入ID 日付 注文番号 SKU 個数) 
