@@ -37,4 +37,16 @@ module AllocationcostsHelper
       stock.save
     end
   end
+  
+  #stockledgersの購入データの作成
+  def import_to_stockledger
+    Stock.all.each do |stock|
+      target_stockledger = Stockledger.find_by(stock_id: stock.id, classification: "購入")
+      if target_stockledger.present?
+        target_stockledger.update(transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
+      else
+        Stockledger.create(stock_id: stock.id, transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
+      end
+    end
+  end
 end

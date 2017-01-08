@@ -30,7 +30,7 @@
         <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>
         <td class="large"><%= f.collection_select :currency, Currency.all, :name, :name, {}, { class: "small_select" }%></td>
         <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
-        <td class="update"><%= f.submit '登録', class: 'btn btn-default' %></td>
+        <td class="update"><%= f.submit '登録', class: 'btn btn-default btn-sm' %></td>
       </tr>
     </tbody>
   </table>

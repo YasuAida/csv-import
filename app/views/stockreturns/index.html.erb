@@ -17,7 +17,7 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
-          <th class="update"><a href= ./stockreturns/destroy class="btn btn-default">削除</th>
+          <th class="update"><a href= ./stockreturns/destroy class="btn btn-default btn-sm">削除</th>
           <th class="middle">仕入ID</th>
           <th class="account">日付</th>
           <th class="order_num">SKU</th>
@@ -43,16 +43,16 @@
             <td class="account"><%= f.text_field :date, :size=> "8"%></td>
             <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
             <td class="asin"><%= f.text_field :asin, :size => "12" %></td>
-            <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>
+            <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "40"%></td>
             <td class="middle" id="submit-<%= stockreturn.id %>"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>            
       
           <% ex_currency = Currency.find_by(name: stockreturn.currency) %>
           <% if ex_currency.method == "外貨×為替レート" %>
-            <td class="amount"><%= f.text_field :unit_price, :size=> "5", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
+            <td class="amount"><%= f.text_field :unit_price, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 2} }%></td>
           <% sub_total = stockreturn.number.to_i * BigDecimal(stockreturn.unit_price.to_s).round(2) %>
             <td class="amount"><%= addcomma(sub_total.to_f) %></td>
           <% else %>
-            <td class="amount"><%= f.text_field :unit_price, :size=> "5", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
+            <td class="amount"><%= f.text_field :unit_price, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
           <% sub_total = stockreturn.number.to_i * BigDecimal(stockreturn.unit_price.to_s).round(0) %>
             <td class="amount"><%= addcomma(sub_total.to_i) %></td>
           <% end %>
@@ -62,7 +62,7 @@
             <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
             <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>             
             <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-            <td class="update" id="submit-<%= stockreturn.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
+            <td class="update" id="submit-<%= stockreturn.id %>"><%= f.submit "更新", class: 'btn btn-default btn-sm'%></td>
             
             <!--チェックボックス更新用JQuery-->
             <script>
@@ -80,7 +80,7 @@
             <td class="account"><%= f.text_field :date, :size=> "8"%></td>            
             <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
             <td class="asin"><%= f.text_field :asin, :size=> "12"%></td>
-            <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>            
+            <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "40"%></td>            
             <td class="middle"><%= f.text_field :number, :size => "3", :style=>"text-align:right"%></td>
             <td class="amount"><%= f.text_field :unit_price, :size=> "6", :style=>"text-align:right"%></td>
             <td class="amount"></td>
@@ -89,7 +89,7 @@
             <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>           
             <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>            
             <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-            <td class="update"><%= f.submit "登録", class: 'btn btn-default'%></td>
+            <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm'%></td>
           </tr>
         <% end %>
       </tbody>

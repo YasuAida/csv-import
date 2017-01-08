@@ -18,11 +18,11 @@ class ExpenseTitlesController < ApplicationController
   
   def update
     @update_expense_title = ExpenseTitle.find_by(item: params[:expense_title][:item])
-    copy_method = params[:expense_title][:method].dup
-    copy_method.shift  
-    @update_expense_title.method = copy_method
-    @update_expense_title.save
-    redirect_to expense_titles_path , notice: '保存しました'
+    if @update_expense_title.save
+      redirect_to expense_titles_show_path , notice: 'データを更新しました'
+    else
+      redirect_to expense_titles_show_path , notice: 'データの更新に失敗しました'
+    end
   end
   
   def destroy

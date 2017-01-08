@@ -3,9 +3,9 @@
     <td class="update" id="check-<%= stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
     <td class="half"><%= stock.id %></td>
     <td class="account"><%= f.text_field :date, :size=> "8"%></td>
-    <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+    <td class="order_num"><%= f.text_field :sku, :size => "16"%></td>
     <td class="asin"><%= f.text_field :asin, :size => "10" %></td>
-    <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "42"%></td>
+    <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "39"%></td>
     <td class="rate" id="submit-<%= stock.id %>"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>            
 
   <% ex_currency = Currency.find_by(name: stock.currency) %>

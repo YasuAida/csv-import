@@ -6,11 +6,9 @@
       <div class="panel-body">
         <%= search_form_for(@q, url: generalledgers_path, method: "get") do |f| %>
           <div class="row; form-inline;">
-            <div class="col-sm-6">          
+            <div class="col-sm-6">        
               <%= f.label :content_cont, "摘要で検索" %>
               <%= f.search_field :content_cont, placeholder: "部分一致"%>
-              <%= f.label :reference_cont, "備考で検索" %>
-              <%= f.search_field :reference_cont, placeholder: "部分一致"%>
             </div> 
           </div>
           <div class="col-sm-12">
@@ -30,7 +28,8 @@
   <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
-        <th class="small">削除</th>           
+        <th class="small">削除</th>
+        <th class="account">転記元帳票</th>        
         <th class="account">日付</th>
         <th class="account">借方勘定科目</th>
         <th class="large">借方補助科目</th>
@@ -41,13 +40,33 @@
         <th class="amount">金額</th>
         <th class="content">摘要</th>
         <th class="company">取引先</th>
-        <th class="content">備考</th>
       </tr>
     </thead>
     <tbody>
       <% @generalledgers.each do |generalledger| %>
         <tr>
           <td class="small"><%= link_to "削除" , generalledger , method: :delete, data: { confirm: '削除してもよろしいですか？' } %></td>
+          
+        <% if generalledger.pladmin_id.present? %>
+          <td class="account">損益管理シート</td>
+        <% elsif generalledger.stock_id.present? %>
+          <td class="account">仕入台帳</td>
+        <% elsif generalledger.stockreturn_id.present? %>
+          <td class="account">仕入返品台帳</td>
+        <% elsif generalledger.return_good_id.present? %>
+          <td class="account">返還商品台帳</td>
+        <% elsif generalledger.disposal_id.present? %>
+          <td class="account">廃棄商品台帳</td>
+        <% elsif generalledger.expenseledger_id.present? %>
+          <td class="account">経費台帳</td>
+        <% elsif generalledger.voucher_id.present? %>
+          <td class="account">振替台帳</td>
+        <% elsif generalledger.subexpense_id.present? %>
+          <td class="account">付随費用台帳</td>
+        <% elsif generalledger.expense_relation_id.present? %>
+          <td class="account">単価計算表</td>          
+        <% end %>
+          
           <td class="account"><%= generalledger.date %></td>
           <td class="account"><%= generalledger.debit_account %></td>
           <td class="large"><%= generalledger.debit_subaccount %></td>              
@@ -58,7 +77,6 @@
           <td class="amount"><%= addcomma(generalledger.amount.to_i) %></td>              
           <td class="content"><%= generalledger.content %></td>
           <td class="company"><%= generalledger.trade_company %></td>
-          <td class="content"><%= generalledger.reference %></td>
         </tr>
       <% end %>
     </tbody>

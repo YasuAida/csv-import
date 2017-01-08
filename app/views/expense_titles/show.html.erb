@@ -1,7 +1,7 @@
 <div class="container">
   <h1>付随費用登録</h1>
   
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
         <th class="order_num">諸掛項目</th>
@@ -17,7 +17,7 @@
               <% array_title = [] %>
               <% display_title = "" %>              
               <% array_title = expense_title.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",") if expense_title.method.present?%>
-              <% if array_title == nil %>
+              <% if array_title.blank? %>
                 <% display_title = "無し" %>
               <% elsif array_title.count == 1 %>
                 <% display_title = array_title[0] %>
@@ -26,10 +26,10 @@
                 <% 0.upto(count_title-2) do |i| %>
                   <% display_title += array_title[i] + "," %>
                 <% end %>
-                <% display_title += array_title[count_title-1] %>
+                <% display_title += array_title[count_title -1] %>
               <% end %>
-            <td class="detail"><%= f.collection_select :method, ExpenseMethod.all, :method, :method, {include_blank: "現在の選択値:" + display_title.to_s, include_hidden: true}, {multiple: true, class: "method_select"}%></td>
-            <td class="update"><%= f.submit '更新', class: 'btn btn-default' %></td>
+            <td class="detail"><%= f.collection_select :method, ExpenseMethod.all, :method, :method, {include_blank: "現在の選択値:" + display_title.to_s, include_hidden: false}, {multiple: true, class: "method_select"}%></td>
+            <td class="update"><%= f.submit '更新', class: 'btn btn-default btn-sm' %></td>
           </tr>
         <% end %>    
       <% end %>

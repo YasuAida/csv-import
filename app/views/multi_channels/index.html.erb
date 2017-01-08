@@ -5,20 +5,32 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th class="order_num">注文番号</th>
+          <th class="reference">注文番号</th>
           <th class="order_num">ＳＫＵ</th>
-          <th class="content">商品名</th>      
+          <th class="content">商品名</th>
+          <th class="update">更新</th>           
         </tr>
       </thead>
       <tbody>
         <% @multi_channels.each do |channel| %>
           <tr>
             <%= form_for(channel, url: multi_channel_path(channel)) do |f|  %>
-              <td><%= f.text_field :order_num, :size => "18"%></td>              
-              <td><%= f.text_field :sku, :size => "18"%></td>
+              <td class="reference"><%= f.text_field :order_num, :size => "18", readonly: true %></td>              
+              <td class="order_num"><%= f.text_field :sku, :size => "16"%></td>
+              
             <% multi_stock = Stock.find_by(sku: channel.sku) %>
-              <td class="content"><%= multi_stock.goods_name if multi_stock.present? %>
-              <td class="hidden-lg hidden-md hidden-sm hidden-xs"><%= f.submit %></td>
+            <% multi_pladmin = Pladmin.find_by(sku: channel.sku) %>
+            <% return_good = ReturnGood.find_by(new_sku: channel.sku) %>
+            <% multi_return_good = Stock.find_by(sku: return_good.old_sku) if return_good.present? %>
+            <% if multi_stock.present? %>
+              <% multi_goods_name = multi_stock.goods_name %>
+            <% elsif multi_pladmin.present? %>
+              <% multi_goods_name = multi_pladmin.goods_name %>
+            <% elsif multi_return_good.present? %>
+              <% multi_goods_name = multi_return_good.goods_name %>                          
+            <% end %>
+              <td class="content"><%= multi_goods_name %>
+              <td class="update"><%= f.submit "更新", class: 'btn btn-default btn-sm'%></td>
             <% end %>
           </tr>
         <% end %>

@@ -54,7 +54,7 @@ module StocksHelper
       stock.goods_amount = BigDecimal(ex_goods_amount.to_s).round(0)      
     end
   end
-  
+
   def sku_import_to_stock
     #購入からFBA納品まで45日を見込む 
     base_difference = 45

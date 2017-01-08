@@ -105,6 +105,9 @@ class AllocationcostsController < ApplicationController
   #付随費用を集計してstocksテーブルのレコードに付与
     gathering_allocation_cost
     
+  #stockledgersの購入データの作成
+    import_to_stockledger    
+    
     @q = Stock.search(params[:q])
     @stocks = @q.result(distinct: true).order(:date).page(params[:page])
     

@@ -33,7 +33,12 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :vouchers, only: [ :index, :create, :update]
+  resources :vouchers, only: [ :index, :create, :update]do
+    collection do
+      get 'blank_form'
+      post 'upload'
+    end
+  end
   get 'vouchers/destroy'
   
   resources :return_goods, only: [ :index, :create, :update]
@@ -94,11 +99,9 @@ Rails.application.routes.draw do
     end
   end  
 
-  resources :expense_titles, only: [ :index, :create, :update, :destroy]do
-    collection do
-      get 'show'
-    end    
-  end
+  resources :expense_titles, only: [ :index, :create, :update, :destroy]
+  get 'expense_titles/show'
+
 
   resources :subexpenses, only: [ :index, :create, :show, :update] 
   get 'subexpenses/destroy'

@@ -18,8 +18,8 @@ class MultiChannelsController < ApplicationController
       if @sku_stocks.present?
         pladmin.goods_name = @sku_stocks.first.goods_name + "（マルチ発送分）"
       else
-        @sku_pladmins = Pladmin.where(sku: multi.sku) 
-        pladmin.goods_name = @sku_pladmins.first.goods_name if @sku_pladmins.present?
+        @sku_stockaccepts = Stockaccept.where(sku: multi.sku) 
+        pladmin.goods_name = @sku_stockaccepts.first.goods_name + "（マルチ発送分）" if @sku_pladmins.present?
       end
       pladmin.save
     end

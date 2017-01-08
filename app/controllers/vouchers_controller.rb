@@ -1,9 +1,32 @@
 class VouchersController < ApplicationController
+  include VouchersHelper
   before_action :set_voucher, only: [ :update]  
   
   def index
+    @all_vouchers = Voucher.all
     @vouchers = Voucher.all.order(date: :desc).page(params[:page])
     @voucher = Voucher.new
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @all_vouchers.to_csv, type: 'text/csv; charset=shift_jis', filename: "vouchers.csv" }
+    end      
+  end
+
+  def blank_form
+    render "index"
+  end
+
+  def upload 
+    data = params[:upload]
+    #ファイルの登録
+    file_open(data[:datafile])
+    #ファイルのインポート
+    file_import_voucher(data[:datafile])
+    #ファイルの削除
+    file_close(data[:datafile])
+
+    redirect_to vouchers_path
   end
 
   def create

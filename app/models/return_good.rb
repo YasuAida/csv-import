@@ -1,4 +1,5 @@
 class ReturnGood < ActiveRecord::Base
+  has_many :stockledgers, dependent: :destroy  
   has_many :generalledgers, dependent: :destroy
     
   def self.to_csv

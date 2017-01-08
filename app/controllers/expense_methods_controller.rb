@@ -15,6 +15,8 @@ class ExpenseMethodsController < ApplicationController
       e= ExpenseMethod.new(method: o)
       e.save
     end
+    
+    redirect_to expense_titles_show_path
   end
 end  
 

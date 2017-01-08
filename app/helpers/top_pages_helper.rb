@@ -11,7 +11,7 @@ module TopPagesHelper
   
   def accounts_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :account, :debit_credit, :bs_pl]
+      @column = [:id, :account, :debit_credit, :bs_pl, :display_position]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化

@@ -3,6 +3,9 @@ class GeneralledgersController < ApplicationController
   before_action :set_generalledger, only: [ :destroy]
 
   def index
+    @q = Generalledger.order(date: :desc).search(params[:q])
+    @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)      
+      
     start_time = Time.now
     
     @journalpatterns = Journalpattern.all
@@ -31,9 +34,6 @@ class GeneralledgersController < ApplicationController
     render 'show'
     
     p "処理概要 #{Time.now - start_time}s"
-
-    @q = Generalledger.order(date: :desc).search(params[:q])
-    @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)
 
   end
   

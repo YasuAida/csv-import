@@ -1,5 +1,11 @@
 <h1>振替台帳</h1>
 
+<h3>振替データ取り込み</h3>
+<%= form_tag({action: 'upload'}, {multipart: true}) do %>
+  <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
+  <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
+<% end %>
+
 <div class="container" id='aj-form'>
 <!--クリックイベントを作る為に外包するIDをを作成-->
   <div style="overflow: hidden;">
@@ -7,7 +13,7 @@
       <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
-            <th class="update"><a href= ./vouchers/destroy class="btn btn-default">削除</th>          
+            <th class="update"><a href= ./vouchers/destroy class="btn btn-default btn-sm">削除</th>          
             <th class="small">ID</th>
             <th class="account">日付</th>
             <th class="account">借方勘定科目</th>
@@ -45,7 +51,7 @@
             <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
             <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "40" %></td>
             <td class="company"><%= f.text_field :trade_company, :size => "8" %></td>
-            <td class="update"><%= f.submit "登録", class: 'btn btn-default'%></td>
+            <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm'%></td>
           </tr>
           <% end %>
         </tbody>
@@ -54,3 +60,13 @@
     </div>      
   </div>
 </div>
+
+<p>
+  Download:
+  <%= link_to "CSV形式でダウンロード", vouchers_path(format: "csv") %>
+</p>
+
+<p>
+  フォーマットはこちらからダウンロードしてください:
+  <%= link_to "フォーマット出力", blank_form_vouchers_path(format: "csv"), class: "btn btn-primary btn-sm" %>
+</p>

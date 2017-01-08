@@ -60,6 +60,8 @@ class StocksController < ApplicationController
       flash.now[:alert] = "データを更新しました。"
       goods_amount_new_stock(@update_stock)
       @update_stock.gl_flag = false
+      @update_stock.ledger_flag = false
+      @update_stock.stockledgers.destroy_all
       @update_stock.save
       
       render 'update_ajax'
