@@ -222,7 +222,7 @@ module TopPagesHelper
   
   def generalledgers_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode, :amount, :content, :trade_company, :reference]
+      @column = [:id, :pladmin_id, :stock_id, :stockreturn_id, :return_good_id, :disposal_id, :expenseledger_id, :voucher_id, :subexpense_id, :expense_relation_id, :date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode, :amount, :content, :trade_company]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -231,6 +231,15 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
+        row_hash[:pladmin_id] = row_hash[:pladmin_id].to_i if row_hash[:pladmin_id].present?
+        row_hash[:stock_id] = row_hash[:stock_id].to_i if row_hash[:stock_id].present?
+        row_hash[:stockreturn_id] = row_hash[:stockreturn_id].to_i if row_hash[:stockreturn_id].present?
+        row_hash[:return_good_id] = row_hash[:return_good_id].to_i if row_hash[:return_good_id].present?
+        row_hash[:disposal_id] = row_hash[:disposal_id].to_i if row_hash[:disposal_id].present?
+        row_hash[:expenseledger_id] = row_hash[:expenseledger_id].to_i if row_hash[:expenseledger_id].present?
+        row_hash[:voucher_id] = row_hash[:voucher_id].to_i if row_hash[:voucher_id].present?
+        row_hash[:subexpense_id] = row_hash[:subexpense_id].to_i if row_hash[:subexpense_id].present?
+        row_hash[:expense_relation_id] = row_hash[:expense_relation_id].to_i if row_hash[:expense_relation_id].present?
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
        
@@ -317,7 +326,7 @@ module TopPagesHelper
         row_hash = @column.zip(row_value).to_h
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
-        row_hash[:stock_id] = row_hash[:stock_id].to_i        
+        row_hash[:stock_id] = row_hash[:stock_id].to_i if row_hash[:stock_id].present?        
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:quantity] = row_hash[:quantity].to_i        
         row_hash[:sale_amount] = row_hash[:sale_amount].to_i
@@ -510,7 +519,7 @@ module TopPagesHelper
   
   def vouchers_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :date, :debit_account, :credit_account, :content, :trade_company, :amount]
+      @column = [:id, :date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode, :amount, :content, :trade_company]
       
       CSV.foreach('./tmp/top_page/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化

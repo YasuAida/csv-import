@@ -353,26 +353,24 @@ module GeneralledgersHelper
     #「商品有高帳」FBAから商品を戻した場合
     @return_goods = ReturnGood.all 
     @return_goods.each do |return_good|
-      if Stockledger.find_by(sku: return_good.old_sku, classification: "返還").present?
-        find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "FBAから商品を戻した場合")
-        @old_return_stockledger = Stockledger.find_by(sku: return_good.old_sku, classification: "返還") 
-        g_ledger = Generalledger.new(date: @old_return_stockledger.transaction_date)
-        g_ledger.return_good_id = return_good.id
-        g_ledger.debit_account = find_pattern.debit_account
-        g_ledger.debit_subaccount = return_good.new_sku
-        g_ledger.debit_taxcode = find_pattern.debit_taxcode
-        g_ledger.credit_account = find_pattern.credit_account
-        g_ledger.credit_subaccount = return_good.old_sku
-        g_ledger.credit_taxcode = find_pattern.credit_taxcode
-        g_ledger.content = @old_return_stockledger.goods_name
-        stock_trade_company = Stock.find_by(sku: return_good.old_sku)
-        g_ledger.trade_company = stock_trade_company.purchase_from
-        g_ledger.amount = @old_return_stockledger.grandtotal * -1
-        if g_ledger.save
-        else
-          old_data = Generalledger.find_by(return_good_id: return_good.id, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
-          old_data.update(date: g_ledger.date, amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company) if old_data
-        end
+      find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "FBAから商品を戻した場合")
+      g_ledger = Generalledger.new(date: return_good.date)
+      g_ledger.return_good_id = return_good.id
+      g_ledger.debit_account = find_pattern.debit_account
+      g_ledger.debit_subaccount = return_good.new_sku
+      g_ledger.debit_taxcode = find_pattern.debit_taxcode
+      g_ledger.credit_account = find_pattern.credit_account
+      g_ledger.credit_subaccount = return_good.old_sku
+      g_ledger.credit_taxcode = find_pattern.credit_taxcode
+      return_stock = Stock.find(return_good.stock_id)
+      g_ledger.content = return_stock.goods_name
+      g_ledger.trade_company = return_stock.purchase_from
+      return_stockledger = Stockledger.find_by(stock_id: return_good.stock_id, classification: "返還")
+      g_ledger.amount = return_stockledger.grandtotal * -1
+      if g_ledger.save
+      else
+        old_data = Generalledger.find_by(return_good_id: return_good.id, debit_account: g_ledger.debit_account, debit_subaccount: g_ledger.debit_subaccount, debit_taxcode: g_ledger.debit_taxcode, credit_account: g_ledger.credit_account, credit_subaccount: g_ledger.credit_subaccount, credit_taxcode: g_ledger.credit_taxcode )
+        old_data.update(date: g_ledger.date, amount: g_ledger.amount, content: g_ledger.content, trade_company: g_ledger.trade_company) if old_data
       end
     end
     

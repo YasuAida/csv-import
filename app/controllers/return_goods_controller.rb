@@ -14,17 +14,19 @@ class ReturnGoodsController < ApplicationController
   end
   
   def create
-    @return_good = ReturnGood.create(return_good_params)  
-    redirect_to return_goods_path , notice: '保存しました'    
+    @return_good = ReturnGood.new(return_good_params)
+    if @return_good.save
+      redirect_to return_goods_path , notice: 'データを保存しました'
+    else
+      redirect_to return_goods_path , notice: 'データの保存に失敗しました'  
+    end
   end
   
   def update
-    if @return_good.update(return_good_params)
-      @return_good.gl_flag = false
-      @return_good.save
-      redirect_to return_goods_path , notice: '保存しました'
+    if @update_return_good.update(return_good_params)    
+      redirect_to return_goods_path , notice: 'データを更新しました'
     else
-      redirect_to return_goods_path , notice: '保存に失敗しました'
+      redirect_to return_goods_path , notice: 'データの更新に失敗しました'
     end
   end
   
@@ -35,11 +37,11 @@ class ReturnGoodsController < ApplicationController
   
   private
   def return_good_params
-    params.require(:return_good).permit(:date, :order_num, :old_sku, :new_sku, :number, :destroy_check)
+    params.require(:return_good).permit(:date, :stock_id, :order_num, :old_sku, :new_sku, :number, :destroy_check)
   end
   
   def set_return_good
-    @return_good = ReturnGood.find(params[:id])
+    @update_return_good = ReturnGood.find(params[:id])
   end
   
 end

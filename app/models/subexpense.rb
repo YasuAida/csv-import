@@ -1,5 +1,5 @@
 class Subexpense < ActiveRecord::Base
-  validates :item, uniqueness: { scope: [ :date, :purchase_from, :amount, :targetgood] }, presence: true
+  validates :item, uniqueness: { scope: [:targetgood, :date, :amount, :purchase_from, :currency, :money_paid] }, presence: true
   validates :date, presence: true
   validates :purchase_from, presence: true
   validates :amount, presence: true

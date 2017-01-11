@@ -24,7 +24,7 @@
     <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
     <td class="account"><%= f.text_field :purchase_from, :size=> "8"%></td>             
     <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-    <td class="update" id="submit-<%= stock.id %>"><%= f.submit "更新", class: 'btn btn-default'%></td>
+    <td class="update" id="submit-<%= stock.id %>"><%= f.submit "更新", class: 'btn btn-default btn-sm'%></td>
     <!--チェックボックス更新用JQuery-->
     <script>
       $("#check-<%= stock.id %>").change(function(e){

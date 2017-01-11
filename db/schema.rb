@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108065629) do
+ActiveRecord::Schema.define(version: 20170110032059) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -230,6 +230,7 @@ ActiveRecord::Schema.define(version: 20170108065629) do
   add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
 
   create_table "return_goods", force: :cascade do |t|
+    t.integer  "stock_id"
     t.string   "order_num"
     t.string   "old_sku"
     t.datetime "created_at",                    null: false
@@ -239,6 +240,8 @@ ActiveRecord::Schema.define(version: 20170108065629) do
     t.date     "date"
     t.boolean  "destroy_check", default: false, null: false
   end
+
+  add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
 
   create_table "sales", force: :cascade do |t|
     t.date     "date"
@@ -278,7 +281,6 @@ ActiveRecord::Schema.define(version: 20170108065629) do
 
   create_table "stockledgers", force: :cascade do |t|
     t.integer  "stock_id"
-    t.integer  "return_good_id"
     t.date     "transaction_date"
     t.string   "sku"
     t.string   "asin"
@@ -292,7 +294,6 @@ ActiveRecord::Schema.define(version: 20170108065629) do
   end
 
   add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
-  add_index "stockledgers", ["return_good_id"], name: "index_stockledgers_on_return_good_id"
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
   add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
 

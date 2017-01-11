@@ -21,8 +21,6 @@ class StockreturnsController < ApplicationController
       allocation_amount_sum = Allocationcost.where(stock_id: @stockreturn.stock_id).sum(:allocation_amount)
       @stockreturn.grandtotal = @stockreturn.goods_amount + allocation_amount_sum    
       @stockreturn.save
-    #stockledgersの作成
-      Stockledger.create(stock_id: @stockreturn.stock_id, transaction_date: @stockreturn.date, sku: @stockreturn.sku, asin: @stockreturn.asin, goods_name: @stockreturn.goods_name, classification: "仕入返品", number: @stockreturn.number * -1, unit_price: (@stockreturn.grandtotal)/(@stockreturn.number), grandtotal: @stockreturn.grandtotal * -1)
              
       redirect_to stockreturns_path , notice: 'データを保存しました'
     else
@@ -40,10 +38,6 @@ class StockreturnsController < ApplicationController
       @update_stockreturn.grandtotal = @update_stockreturn.goods_amount + allocation_amount_sum      
       @update_stockreturn.save
       
-      @update_stockledger = Stockledger.find_by(stock_id: @update_stockreturn.stock_id, classification: "仕入返品")
-      if @update_stockledger.present?
-        @update_stockledger.update(transaction_date: @update_stockreturn.date, sku: @update_stockreturn.sku, asin: @update_stockreturn.asin, goods_name: @update_stockreturn.goods_name, number: @update_stockreturn.number * -1, unit_price: (@update_stockreturn.grandtotal)/(@update_stockreturn.number), grandtotal: @update_stockreturn.grandtotal * -1)
-      end  
       redirect_to stockreturns_path , notice: 'データを保存しました'
     else
       redirect_to stockreturns_path , notice: 'データの保存に失敗しました'
@@ -51,15 +45,7 @@ class StockreturnsController < ApplicationController
   end
   
   def destroy
-    @delete_stockreturns = Stockreturn.where(destroy_check: true)
-    
-    @delete_stockreturns.each do |stockreturn|
-      @delete_stockledgers = Stockledger.where(stock_id: stockreturn.stock_id, classification: "仕入返品")
-      @delete_stockledgers.destroy_all
-    end
-    
-    @delete_stockreturns.destroy_all
-    
+    Stockreturn.where(destroy_check: true).destroy_all
     redirect_to stockreturns_path, notice: 'データを削除しました'
   end
   

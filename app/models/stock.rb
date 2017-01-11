@@ -30,11 +30,10 @@ require 'date'
   has_many :pladmins, dependent: :destroy
 
   def self.to_csv
-    headers = %w(ID 日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額) 
+    headers = %w(日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
-          row.id,
           row.date,
           row.sku,
           row.asin,

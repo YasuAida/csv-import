@@ -1,5 +1,6 @@
 class ExpenseTitle < ActiveRecord::Base
-  validates :item, presence: true
+  validates :item, uniqueness: { scope: :method }, presence: true
+  validates :method, presence: true
   
   def self.to_download
     headers = %w(ID 付随費用項目 按分方法)

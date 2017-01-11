@@ -15,8 +15,7 @@ class Journalpattern < ActiveRecord::Base
         row.debit_taxcode,
         row.credit_account,
         row.credit_subaccount,
-        row.credit_taxcode,
-        row.reference
+        row.credit_taxcode
        ]
       csv << csv_column_values
       end    
