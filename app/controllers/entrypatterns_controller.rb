@@ -20,7 +20,7 @@ class EntrypatternsController < ApplicationController
   end
 
   def destroy
-    @update_entrypattern.destroy
+    Entrypattern.where(destroy_check: true).destroy_all
     redirect_to entrypatterns_path  
   end
   

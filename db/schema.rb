@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110032059) do
+ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "account"
@@ -72,8 +72,9 @@ ActiveRecord::Schema.define(version: 20170110032059) do
     t.string   "kind_of_payment"
     t.string   "detail_of_payment"
     t.string   "handling"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.boolean  "destroy_check",       default: false, null: false
   end
 
   create_table "exchanges", force: :cascade do |t|
@@ -261,9 +262,10 @@ ActiveRecord::Schema.define(version: 20170110032059) do
 
   create_table "selfstorages", force: :cascade do |t|
     t.string   "sku"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "stock_id"
+    t.boolean  "destroy_check", default: false, null: false
   end
 
   create_table "stockaccepts", force: :cascade do |t|
@@ -361,6 +363,7 @@ ActiveRecord::Schema.define(version: 20170110032059) do
     t.string   "password_digest"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "furigana"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

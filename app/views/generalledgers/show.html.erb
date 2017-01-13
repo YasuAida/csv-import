@@ -1,26 +1,28 @@
-<div class="container-fluid">
-  <h1>総勘定元帳</h1>
-  
+<% content_for :head do %> 
   <div class="panel_container">
-    <div class="panel panel-default">      
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  総勘定元帳
+      </div>
       <div class="panel-body">
-        <%= search_form_for(@q, url: generalledgers_path, method: "get") do |f| %>
-          <div class="row; form-inline;">
-            <div class="col-sm-6">        
-              <%= f.label :content_cont, "摘要で検索" %>
-              <%= f.search_field :content_cont, placeholder: "部分一致"%>
-            </div> 
-          </div>
-          <div class="col-sm-12">
-            <div class="form-inline">
-              <%= f.label :date, "日付で検索"%>
-              <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>〜
-              <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>
-            </div>  
-          </div>
-          <%= f.submit "検索", class: 'btn btn-default' %>
-          <%= link_to "クリア", request.path, class: 'btn btn-default' %>
-        <% end %>
+        <div class="row form-inline">
+            <%= search_form_for(@q, url: generalledgers_path, method: "get") do |f| %>
+              <div class="col-sm-6">        
+                <%= f.label :content_cont, "摘要で検索" %>
+                <%= f.search_field :content_cont, placeholder: "部分一致"%>
+              </div> 
+              <div class="col-sm-8">
+                  <%= f.label :date, "日付で検索"%>
+                  <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>〜
+                  <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.submit "検索", class: 'btn btn-default' %>
+                <%= link_to "クリア", request.path, class: 'btn btn-default' %>
+              </div>  
+            <% end %>
+          </div> 
+        </div>      
       </div> 
     </div>
   </div>  
@@ -42,6 +44,7 @@
         <th class="company">取引先</th>
       </tr>
     </thead>
+<% end %>
     <tbody>
       <% @generalledgers.each do |generalledger| %>
         <tr>
@@ -80,10 +83,9 @@
         </tr>
       <% end %>
     </tbody>
-    <%= paginate @generalledgers %>
   </table>
-</div>
 
+<%= paginate @generalledgers %>
 <p>
   Download:
   <%= link_to "CSV形式でダウンロード", generalledgers_path(format: "csv") %>

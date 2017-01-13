@@ -30,13 +30,13 @@ class SelfstoragesController < ApplicationController
   end
   
   def destroy
-    @selfstorage.destroy
+    ReturnGood.where(destroy_check: true).destroy_all
     redirect_to disposals_path, notice: 'データを削除しました'
   end
   
   private
   def selfstorage_params
-    params.require(:selfstorage).permit(:date, :sku)
+    params.require(:selfstorage).permit( :sku)
   end
   
   def set_selfstorage

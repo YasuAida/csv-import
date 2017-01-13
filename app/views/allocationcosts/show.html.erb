@@ -1,18 +1,25 @@
-<h1>単価計算表</h1>
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+        単価計算表
+    	</div>
+      <div class="panel-body">
+        <%= search_form_for(@q, url: allocationcosts_path) do |f| %>
+          <%= f.label :sku_eq, "SKUで検索" %>
+          <%= f.search_field :sku_eq %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+          <%= f.label :asin_cont, "ASINで検索" %>
+          <%= f.search_field :asin_cont %>
+          <%= f.submit "検索", class: 'btn btn-default' %>  
+          <%= f.label :goods_name_cont, "商品名で検索" %>
+          <%= f.search_field :goods_name_cont %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+      </div> 
+    </div>
+  </div>
 
-<%= search_form_for(@q, url: allocationcosts_path) do |f| %>
-  <%= f.label :sku_eq, "SKUで検索" %>
-  <%= f.search_field :sku_eq %>
-  <%= f.submit "検索", class: 'btn btn-default' %>
-  <%= f.label :asin_cont, "ASINで検索" %>
-  <%= f.search_field :asin_cont %>
-  <%= f.submit "検索", class: 'btn btn-default' %>  
-  <%= f.label :goods_name_cont, "商品名で検索" %>
-  <%= f.search_field :goods_name_cont %>
-  <%= f.submit "検索", class: 'btn btn-default' %>
-<% end %>
-
-<div class="container">
   <div class="table-responsive">
     <table class="table table-striped table-bordered">
       <thead>
@@ -31,6 +38,7 @@
           <th class="amount">合計金額</th>
         </tr>
       </thead>
+<% end %>
       <tbody>
         <% @stocks.each do |stock| %>
           <tr>
@@ -55,10 +63,10 @@
           </tr>
         <% end %>
       </tbody>
-      <%= paginate @stocks %>
     </table>
   </div>
-</div>
+
+<%= paginate @stocks %>
 
 <p>
   Download:

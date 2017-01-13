@@ -1,4 +1,72 @@
-<h1>
-  <%= gravatar_for @user %>
-  <%= @user.name %>
-</h1>
+<% content_for :head do %> 
+  <div class="panel_container" style="padding-left: 100px; width: 700px">
+    <div class="panel panel-default" style="height: 500px">
+    	<div class="panel-heading">
+    	  会員登録情報
+    	</div>
+      <div class="panel-body user_form" >
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <div class="row" style="padding: 0px;">
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>名前:</p>
+              </div>
+              <div class="form-group col-sm-9" >
+                <%= f.text_field :name, class: 'form-control' %>
+              </div>
+            </div> 
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>ふりがな:</p>
+              </div>
+              <div class="form-group col-sm-9">
+                <%= f.text_field :furigana, class: 'form-control' %>
+              </div>
+            </div>              
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>郵便番号:</p>
+              </div>
+              <div class="form-group col-sm-9"> 
+                <%= f.text_field :postal_code, class: 'form-control' %>
+              </div>
+            </div>
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>住所:</p>
+              </div>
+              <div class="form-group col-sm-9"> 
+                <%= f.text_field :address, class: 'form-control' %>
+              </div>
+            </div>
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>メールアドレス:</p>
+              </div>
+              <div class="form-group col-sm-9"> 
+                <%= f.email_field :email, class: 'form-control' %>
+              </div>
+            </div>
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>パスワード:</p>
+              </div>
+              <div class="form-group col-sm-9">  
+                <%= f.password_field :password, class: 'form-control' %>
+              </div>
+            </div>
+            <div style="display: inline;">
+              <div class="col-sm-3">  
+                <p>パスワード（確認）:</p>
+              </div>
+            <div class="form-group col-sm-9">  
+              <%= f.password_field :password_confirmation, class: 'form-control' %>
+            </div>      
+              <%= f.submit "更新", class: "btn btn-primary" %>
+          </div> 
+        <% end %>       
+      </div> 
+    </div>
+  </div>
+<% end %>

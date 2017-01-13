@@ -1,6 +1,6 @@
 class MultiChannelsController < ApplicationController
   def index
-    @multi_channels = MultiChannel.all
+    @multi_channels = MultiChannel.all.page(params[:page]).per(100)   
     
     respond_to do |format|
       format.html

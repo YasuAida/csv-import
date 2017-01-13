@@ -139,7 +139,8 @@ Rails.application.routes.draw do
   resources :accounts, only: [ :index, :create, :update]
   get 'accounts/destroy'
 
-  resources :entrypatterns, only: [ :index, :create, :update, :destroy]
+  resources :entrypatterns, only: [ :index, :create, :update]
+  get 'entrypatterns/destroy'
 
   resources :journalpatterns, only: [ :index, :create, :update, :destroy]  
 

@@ -1,57 +1,80 @@
-<h1>トランザクションの概要</h1>
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+        トランザクションの概要
+      </div>
+      <div class="panel-body">
+        <div class="row; form-inline;">
+          <p style="font-weight: bold;">Amazon取引データ取込み:</p>
+          <div class="col-sm-3">   
+            <%= form_tag({action: 'upload'}, {multipart: true}) do %>
+              <%= file_field :upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+              <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+            <% end %>
+          </div>
+          <div class="col-sm-3">           
+            <%= search_form_for(@q, url: sales_path) do |f| %>
+              <%= f.label :order_num_cont, "注文番号で検索" %>
+              <%= f.search_field :order_num_cont %>
+              <%= f.submit "検索", class: 'btn btn-default'%>
+            <% end %>
+          </div>
+          <div class="col-sm-3">            
+            <%= search_form_for(@q, url: sales_path) do |f| %>
+              <%= f.label :sku_eq, "SKUで検索" %>
+              <%= f.search_field :sku_eq %>
+              <%= f.submit "検索", class: 'btn btn-default'%>
+            <% end %>
+          </div>
+          <div class="col-sm-3">               
+            <%= search_form_for(@q, url: sales_path) do |f| %>            
+              <%= f.label :goods_name_cont, "商品名で検索" %>
+              <%= f.search_field :goods_name_cont %>
+              <%= f.submit "検索", class: 'btn btn-default'%>
+            <% end %>
+          </div>            
+        </div>  
+      </div>
+    </div>
+  </div>
 
-<%= form_tag({action: 'upload'}, {multipart: true}) do %>
-  <%= file_field :upload, :datafile, {multiple: true}%>
-  <%= submit_tag "UPLOAD" %>
-<% end %>
-
-<%= search_form_for(@q, url: sales_path) do |f| %>
-  <%= f.label :order_num_cont, "注文番号で検索" %>
-  <%= f.search_field :order_num_cont %>
-  <%= f.submit "検索" %>
-  <%= f.label :sku_eq, "SKUで検索" %>
-  <%= f.search_field :sku_eq %>
-  <%= f.submit "検索" %>
-  <%= f.label :goods_name_cont, "商品名で検索" %>
-  <%= f.search_field :goods_name_cont %>
-  <%= f.submit "検索" %>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th class="account">日付</th>
-      <th class="order_num">注文番号</th>
-      <th class="order_num">SKU</th>
-      <th class="order_num">トランザクションの種類</th>
-      <th class="order_num">支払いの種類</th>
-      <th class="order_num">支払いの詳細</th>
-      <th class="amount">金額</th>
-      <th class="rate">数量</th>
-      <th>　</th>
-      <th class="content">商品名</th>
-      <th class="account">入金日</th>
-      <th class="account">処理</th>      
-    </tr>
-  </thead>
-  <tbody>
-    <% @sales.each do |sale| %>
+  <table>
+    <thead>
       <tr>
-        <td class="account"><%= sale.date %></td>
-        <td class="order_num"><%= sale.order_num %></td>
-        <td class="order_num"><%= sale.sku %></td>
-        <td class="order_num"><%= sale.kind_of_transaction %></td>
-        <td class="order_num"><%= sale.kind_of_payment %></td>
-        <td class="order_num"><%= sale.detail_of_payment %></td>
-        <td class="amount"><%= addcomma(sale.amount) %></td>
-        <td class="rate"><%= erase_zero(sale.quantity) %></td>
-        <td>　</td>
-        <td class="content"><%= sale.goods_name %></td>
-        <td class="account"><%= sale.money_receive %></td>
-        <td class="account"><%= sale.handling %></td>        
+        <th class="company">日付</th>
+        <th class="order_num">注文番号</th>
+        <th class="order_num">SKU</th>
+        <th class="order_num">トランザクションの種類</th>
+        <th class="order_num">支払いの種類</th>
+        <th class="order_num">支払いの詳細</th>
+        <th class="amount">金額</th>
+        <th class="rate">数量</th>
+        <th>　</th>
+        <th class="content">商品名</th>
+        <th class="account">入金日</th>
+        <th class="account">処理</th>      
       </tr>
-    <% end %>
-  </tbody>
-  <%#= paginate @sales %>
-</table>
+    </thead>
+<% end %>
+    <tbody>
+      <% @sales.each do |sale| %>
+        <tr>
+          <td class="company"><%= sale.date %></td>
+          <td class="order_num"><%= sale.order_num %></td>
+          <td class="order_num"><%= sale.sku %></td>
+          <td class="order_num"><%= sale.kind_of_transaction %></td>
+          <td class="order_num"><%= sale.kind_of_payment %></td>
+          <td class="order_num"><%= sale.detail_of_payment %></td>
+          <td class="amount"><%= addcomma(sale.amount) %></td>
+          <td class="rate"><%= erase_zero(sale.quantity) %></td>
+          <td>　</td>
+          <td class="content"><%= sale.goods_name %></td>
+          <td class="account"><%= sale.money_receive %></td>
+          <td class="account"><%= sale.handling %></td>        
+        </tr>
+      <% end %>
+    </tbody>
+    <%#= paginate @sales %>
+  </table>
 

@@ -32,7 +32,6 @@ module SalesHelper
   end
   
   def add_handling
-    #Sale.all.each do |sale|
     Sale.where(handling: nil).each do |sale|
       @entrypatterns = Entrypattern.where(kind_of_transaction: sale.kind_of_transaction)
       @entrypatterns = @entrypatterns.where(kind_of_payment: sale.kind_of_payment)
@@ -47,7 +46,7 @@ module SalesHelper
           sale.sku = sale.sku.gsub(/\S+/,"*")
         end
         Entrypattern.create(sku: sale.sku,kind_of_transaction: sale.kind_of_transaction, kind_of_payment: sale.kind_of_payment, detail_of_payment: sale.detail_of_payment)
-        #redirect_to entrypatterns_index_path, notice: '損益管理シート/パターンを登録してください'
+        render template: "entrypatterns/index", notice: '損益管理シート/パターンを登録してください'
       end
     end
     redirect_to sales_path

@@ -1,12 +1,30 @@
-<h1>FBAからの返還商品</h1>
-
-<%= search_form_for(@q, url: return_goods_path) do |f| %>
-  <%= f.label :old_sku_eq, "返還前ＳＫＵで検索" %>
-  <%= f.search_field :old_sku_eq %>
-  <%= f.submit "検索" %>
-<% end %>
-
-<div style="table-layout: fixed;">
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  FBAからの返還商品
+    	</div>
+      <div class="panel-body">
+        <div class="row form-inline">
+          <div class="col-sm-3"> 
+            <%= search_form_for(@q, url: return_goods_path) do |f| %>
+              <%= f.label :old_sku_eq, "返還前ＳＫＵで検索" %>
+              <%= f.search_field :old_sku_eq %>
+              <%= f.submit "検索", class: 'btn btn-default'%>
+            <% end %>
+          </div>
+          <div class="col-sm-3">
+            <%= search_form_for(@q, url: return_goods_path) do |f| %>
+              <%= f.label :new_sku_eq, "新ＳＫＵで検索" %>
+              <%= f.search_field :new_sku_eq %>
+              <%= f.submit "検索", class: 'btn btn-default'%>
+            <% end %>
+          </div>  
+        </div> 
+      </div> 
+    </div>
+  </div>
+  
   <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
@@ -21,6 +39,7 @@
         <th class="update">更新</th>        
       </tr>
     </thead>
+<% end %>
     <tbody>
       <% @return_goods.each do |return_good| %>
         <tr>
@@ -45,6 +64,9 @@
           <% end %> 
         </tr>
       <% end %>
+    </tbody>      
+<% content_for :foot do %>
+    <tbody class="footer">    
       <%= form_for(@return_good) do |f| %>
         <tr>
           <td class="update"></td>
@@ -59,11 +81,11 @@
         </tr>
       <% end %>
     </tbody>
-    <%= paginate @return_goods %>
   </table>
-</div>
-
-<p>
-  Download:
-  <%= link_to "CSV形式でダウンロード", return_goods_path(format: "csv") %>
-</p>
+  <%= paginate @return_goods %>
+  
+  <p>
+    Download:
+    <%= link_to "CSV形式でダウンロード", return_goods_path(format: "csv") %>
+  </p>
+<% end %>

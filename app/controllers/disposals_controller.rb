@@ -21,8 +21,6 @@ class DisposalsController < ApplicationController
   
   def update
     if @update_disposal.update(disposal_params)
-      @update_disposal.gl_flag = false
-      @update_disposal.save
       redirect_to disposals_path , notice: '保存しました'
     else
       redirect_to disposals_path , notice: '保存に失敗しました'

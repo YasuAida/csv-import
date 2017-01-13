@@ -1,85 +1,73 @@
-<h1>貸借対照表推移表</h1>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-    
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  貸借対照表推移表
+      </div>
+    </div>        
+    <div class="panel-body">
       <%= form_for(@show_period, url: bs_financial_statements_path , method: :get) do |f| %>
         <label><%= f.radio_button :monthly_yearly, "月次", {:checked => true}%>月次</label>
         <label><%= f.radio_button :monthly_yearly, "年次" %>年次</label>
         <label><%= f.submit "切替" %></label>
       <% end %>
-      
-      <div style="overflow: hidden;">
-        <table class="table table-striped table-bordered table-condensed" border="1" style="float: left; display: inline-block; width: 150px; overflow-x: scroll;">
-          <thead class="financial">
-            <tr><th width="140">　</th></tr>
-          </thead>
-          <tbody class="financial">
-        <%# 資産科目の表示%>
-            <% if @asset_accounts.count == 1 %>
-              <tr><td class="blue_line">資産合計</td></tr>
-            <% else %>
-              <% @asset_accounts.each do |asset_account| %>
-                <tr><td><%= asset_account.account %></td></tr>
-              <% end %>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">          
+        <div style="overflow: hidden;">
+          <table class="table table-striped table-bordered table-condensed" border="1" style="float: left; display: inline-block; width: 150px; overflow-x: scroll;">
+            <thead class="financial">
+              <tr><th width="140">　</th></tr>
+            </thead>
+<% end %>
+            <tbody class="financial">
+          <%# 資産科目の表示%>
+              <% if @asset_accounts.count == 1 %>
                 <tr><td class="blue_line">資産合計</td></tr>
-            <% end %>
-        <%# 負債科目の表示%>
-            <% if @liability_accounts.count == 1 %>
-              <tr><td class="blue_line">負債合計</td></tr>
-            <% else %>
-              <% @liability_accounts.each do |liability_account| %>
-                <tr><td><%= liability_account.account %></td></tr>
+              <% else %>
+                <% @asset_accounts.each do |asset_account| %>
+                  <tr><td><%= asset_account.account %></td></tr>
+                <% end %>
+                  <tr><td class="blue_line">資産合計</td></tr>
               <% end %>
+          <%# 負債科目の表示%>
+              <% if @liability_accounts.count == 1 %>
                 <tr><td class="blue_line">負債合計</td></tr>
-            <% end %>
-        <%# 純資産科目の表示%>
-            <% if @capital_accounts.count == 1 %>
-              <tr><td class="blue_line">純資産合計</td></tr>
-            <% else %>
-              <% @capital_accounts.each do |liability_account| %>
-                <tr><td><%= liability_account.account %></td></tr>
+              <% else %>
+                <% @liability_accounts.each do |liability_account| %>
+                  <tr><td><%= liability_account.account %></td></tr>
+                <% end %>
+                  <tr><td class="blue_line">負債合計</td></tr>
               <% end %>
+          <%# 純資産科目の表示%>
+              <% if @capital_accounts.count == 1 %>
                 <tr><td class="blue_line">純資産合計</td></tr>
-            <% end %>            
-          </tbody>
-        </table>
-    
-        <table class="table table-striped table-bordered table-condensed" border="1" style="float: left; max-width: 82%; display: inline-block; overflow-x: scroll;">
-          <thead class="financial">
-            <tr>
-              <% @show_periods.each do |e| %>
-                <% if e.monthly_yearly == "月次" %>
-                 <th style="white-space: nowrap; margin: 0;"><%= e.period_start.strftime(" %Y年 %m月 ") %></th>
-                <% else %>
-                 <th><%= e.period_start.strftime(" %Y年 ") %></th>
+              <% else %>
+                <% @capital_accounts.each do |liability_account| %>
+                  <tr><td><%= liability_account.account %></td></tr>
                 <% end %>
-              <% end %>
-           </tr>
-          </thead>
-          
-          <tbody class="financial">
-          <%# 資産金額の表示%>
-            <% count_period = @show_periods.count %>
-            <% if @asset_accounts.count == 1 %>
+                  <tr><td class="blue_line">純資産合計</td></tr>
+              <% end %>            
+            </tbody>
+          </table>
+                
+          <table class="table table-striped table-bordered table-condensed" border="1" style="float: left; max-width: 82%; display: inline-block; overflow-x: scroll;">
+            <thead class="financial">
               <tr>
-                <% 0.upto(count_period-1) do |i| %>
-                  <% target_period = @show_periods[i] %>
-                  <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "資産合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
-                <% end %>
-              </tr>
-            <% else %>        
-              <% @asset_accounts.each do |asset_account| %>
-                <tr>
-                  <% 0.upto(count_period-1) do |i| %>
-                    <% target_period = @show_periods[i] %>
-                    <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: asset_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                <% @show_periods.each do |e| %>
+                  <% if e.monthly_yearly == "月次" %>
+                   <th style="white-space: nowrap; margin: 0;"><%= e.period_start.strftime(" %Y年 %m月 ") %></th>
+                  <% else %>
+                   <th><%= e.period_start.strftime(" %Y年 ") %></th>
                   <% end %>
-                </tr>
-              <% end %>
+                <% end %>
+             </tr>
+            </thead>
+            
+            <tbody class="financial">
+            <%# 資産金額の表示%>
+              <% count_period = @show_periods.count %>
+              <% if @asset_accounts.count == 1 %>
                 <tr>
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
@@ -87,26 +75,26 @@
                     <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
-            <% end %> 
-          <%# 負債金額の表示%>
-            <% if @liability_accounts.count == 1 %>
-              <tr>
-                <% 0.upto(count_period-1) do |i| %>
-                  <% target_period = @show_periods[i] %>
-                  <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "負債合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+              <% else %>        
+                <% @asset_accounts.each do |asset_account| %>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: asset_account.account) %>
+                      <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
                 <% end %>
-              </tr>
-            <% else %>        
-              <% @liability_accounts.each do |liability_account| %>
-                <tr>
-                  <% 0.upto(count_period-1) do |i| %>
-                    <% target_period = @show_periods[i] %>
-                    <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: liability_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
-                  <% end %>
-                </tr>
-              <% end %>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "資産合計") %>
+                      <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
+              <% end %> 
+            <%# 負債金額の表示%>
+              <% if @liability_accounts.count == 1 %>
                 <tr>
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
@@ -114,26 +102,26 @@
                     <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
-            <% end %>
-          <%# 純資産金額の表示%>
-            <% if @capital_accounts.count == 1 %>
-              <tr>
-                <% 0.upto(count_period-1) do |i| %>
-                  <% target_period = @show_periods[i] %>
-                  <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "純資産合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+              <% else %>        
+                <% @liability_accounts.each do |liability_account| %>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: liability_account.account) %>
+                      <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
                 <% end %>
-              </tr>
-            <% else %>        
-              <% @capital_accounts.each do |capital_account| %>
-                <tr>
-                  <% 0.upto(count_period-1) do |i| %>
-                    <% target_period = @show_periods[i] %>
-                    <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: capital_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
-                  <% end %>
-                </tr>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "負債合計") %>
+                      <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
               <% end %>
+            <%# 純資産金額の表示%>
+              <% if @capital_accounts.count == 1 %>
                 <tr>
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
@@ -141,10 +129,27 @@
                     <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+              <% else %>        
+                <% @capital_accounts.each do |capital_account| %>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: capital_account.account) %>
+                      <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
+                <% end %>
+                  <tr>
+                    <% 0.upto(count_period-1) do |i| %>
+                      <% target_period = @show_periods[i] %>
+                      <% target_data = FinancialStatement.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "純資産合計") %>
+                      <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <% end %>
+                  </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div> <%#18行目 <div style="overflow: hidden;"> %>
+      </div> <%#10行目 <div class="col-xs-12"> %>  
+    </div> <%#9行目 <div class="row"> %>
+  </div> <%#2行目 <div class="panel_container"> %>
