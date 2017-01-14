@@ -1,5 +1,13 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+/* エラー時に良い感じに色をつけてくれる */
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+    color: $state-danger-text;
+  }
+}
+/* エラー時に良い感じに色をつけてくれる */
 /* layoutsで使用 */
 #logo {
   float: left;

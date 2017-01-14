@@ -1,13 +1,15 @@
 class PeriodsController < ApplicationController
+  before_action :logged_in_user
+  
   def index
-    @periods = Period.all.order(:monthly_yearly).order(period_start: :desc).page(params[:page]).per(100)
+    @periods = current_user.periods.all.order(:monthly_yearly).order(period_start: :desc).page(params[:page]).per(100)
   end
     
   def create
-    Period.destroy_all
-    FinancialStatement.destroy_all
+    current_user.periods.destroy_all
+    current_user.financial_statements.destroy_all
     
-    @monthly_beginning = Period.new(period_params)
+    @monthly_beginning = current_user.periods.build(period_params)
     if @monthly_beginning.save
       #月次の最初の期間
         @monthly_beginning.monthly_yearly = "月次"
@@ -23,7 +25,7 @@ class PeriodsController < ApplicationController
         count = 0
         start_date = calculating_start_date
         while count < months_diff do
-          @monthly_periods = Period.new(monthly_yearly: "月次")
+          @monthly_periods = current_user.periods.build(monthly_yearly: "月次")
           @monthly_periods.period_start = start_date
           @monthly_periods.period_end = start_date.end_of_month
           @monthly_periods.save
@@ -32,13 +34,13 @@ class PeriodsController < ApplicationController
           count = count + 1
         end
       #最後に今期の会計期間を作る  
-        @monthly_last = Period.new(period_start: start_date)
+        @monthly_last = current_user.periods.build(period_start: start_date)
         @monthly_last.monthly_yearly = "月次"
         @monthly_last.period_end = today
         @monthly_last.save
         
       #年次の最初の期間
-        @yearly_beginning = Period.new(period_params)
+        @yearly_beginning = current_user.periods.build(period_params)
         @yearly_beginning.monthly_yearly = "年次"
         @yearly_beginning.period_end = @yearly_beginning.period_start.end_of_year
         @yearly_beginning.save
@@ -52,7 +54,7 @@ class PeriodsController < ApplicationController
         count = 0
         start_date = calculating_start_date
         while count < years_diff do
-          @yearly_periods = Period.new(monthly_yearly: "年次")
+          @yearly_periods = current_user.periods.build(monthly_yearly: "年次")
           @yearly_periods.period_start = start_date
           @yearly_periods.period_end = start_date.end_of_year
           @yearly_periods.save
@@ -61,7 +63,7 @@ class PeriodsController < ApplicationController
           count = count + 1
         end
       #最後に今期の会計期間を作る  
-        @yearly_last = Period.new(period_start: start_date)
+        @yearly_last = current_user.periods.build(period_start: start_date)
         @yearly_last.monthly_yearly = "年次"
         @yearly_last.period_end = today
         @yearly_last.save

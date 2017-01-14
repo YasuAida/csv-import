@@ -2,14 +2,14 @@ class StocksController < ApplicationController
   include StocksHelper
   include ApplicationHelper
   before_action :set_stock, only: [ :update, :destroy]
+  before_action :logged_in_user
 
   def index
-
-    @q = Stock.search(params[:q])
+    @q = current_user.stocks.search(params[:q])
     @stocks = @q.result(distinct: true).page(params[:page])
-    @stock = Stock.new
+    @stock = current_user.stocks.new
     
-    @all_stocks = Stock.all
+    @all_stocks = current_user.stocks.all
     respond_to do |format|
       format.html
       format.csv { send_data @all_stocks.to_csv, type: 'text/csv; charset=shift_jis', filename: "stocks.csv" }
@@ -25,9 +25,9 @@ class StocksController < ApplicationController
     #ファイルの削除
     file_close(data[:datafile])
     #為替レートのインポート
-    rate_import(Stock.all)
+    rate_import(current_user.stocks.all)
     #商品金額の確定
-    goods_amount(Stock.all)
+    goods_amount(current_user.stocks.all)
 
     redirect_to stocks_path
   end
@@ -40,7 +40,7 @@ class StocksController < ApplicationController
   
   def create
     params[:stock][:unit_price] = params[:stock][:unit_price].gsub(",","") if params[:stock][:unit_price].present?
-    @stock = Stock.new(stock_params)
+    @stock = current_user.stocks.build(stock_params)
     if @stock.save
     #為替レートの付与
       rate_import_new_object(@stock)
@@ -72,7 +72,7 @@ class StocksController < ApplicationController
   end
   
   def destroy
-    Stock.where(destroy_check: true).destroy_all
+    current_user.stocks.where(destroy_check: true).destroy_all
     redirect_to stocks_path, notice: 'データを削除しました'
   end
   
@@ -82,6 +82,6 @@ class StocksController < ApplicationController
   end
   
   def set_stock
-    @update_stock = Stock.find(params[:id])
+    @update_stock = current_user.stocks.find(params[:id])
   end
 end

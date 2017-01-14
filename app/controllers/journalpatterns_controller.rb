@@ -1,13 +1,14 @@
 class JournalpatternsController < ApplicationController
-  before_action :set_journalpattern, only: [ :update, :destroy]   
-
+  before_action :set_journalpattern, only: [ :update, :destroy]
+  before_action :logged_in_user
+  
   def index
-    @journalpatterns = Journalpattern.all.order(:ledger)
-    @journalpattern = Journalpattern.new
+    @journalpatterns = current_user.journalpatterns.all.order(:ledger)
+    @journalpattern = current_user.journalpatterns.build
   end
   
   def create
-    @journalpattern = Journalpattern.create(journalpattern_params)
+    @journalpattern = current_user.journalpatterns.build(journalpattern_params)
     redirect_to journalpatterns_path, notice: 'データを保存しました'
   end
   
@@ -30,6 +31,6 @@ class JournalpatternsController < ApplicationController
   end
   
   def set_journalpattern
-    @update_journalpattern = Journalpattern.find(params[:id])
+    @update_journalpattern = current_user.journalpatterns.find(params[:id])
   end
 end

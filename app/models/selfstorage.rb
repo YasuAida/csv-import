@@ -1,5 +1,7 @@
 class Selfstorage < ActiveRecord::Base
   validates :sku, uniqueness: true, presence: true
+
+  belongs_to :user
   
   def self.to_csv
     headers = %w(ID SKU) 

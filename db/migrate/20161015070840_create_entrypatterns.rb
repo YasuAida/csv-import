@@ -1,6 +1,7 @@
 class CreateEntrypatterns < ActiveRecord::Migration
   def change
     create_table :entrypatterns do |t|
+      t.references :user, index: true, foreign_key: true 
       t.string :sku
       t.string :kind_of_transaction
       t.string :kind_of_payment

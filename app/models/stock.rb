@@ -13,6 +13,8 @@ require 'date'
   validates :money_paid, presence: true
   validates :purchase_from, presence: true
   validates :currency, presence: true
+
+  belongs_to :user 
   
   has_many :generalledgers, dependent: :destroy
   

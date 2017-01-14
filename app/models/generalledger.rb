@@ -2,6 +2,7 @@ class Generalledger < ActiveRecord::Base
   
   validates :pladmin_id, uniqueness: { scope: [:stock_id, :stockreturn_id, :return_good_id, :disposal_id, :expenseledger_id, :voucher_id, :subexpense_id, :expense_relation_id, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode] }  
 
+  belongs_to :user
   belongs_to :pladmin
   belongs_to :stock
   belongs_to :stockreturn

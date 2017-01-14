@@ -1,6 +1,8 @@
 class Voucher < ActiveRecord::Base
   validates :date, uniqueness: { scope: [:debit_account, :credit_account, :content, :trade_company ] }
 
+  belongs_to :user
+
   has_many :generalledgers, dependent: :destroy
 
   def self.to_csv

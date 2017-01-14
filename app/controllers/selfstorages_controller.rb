@@ -1,16 +1,17 @@
 class SelfstoragesController < ApplicationController
   include SelfstoragesHelper
   before_action :set_selfstorage, only: [ :update, :destroy] 
+  before_action :logged_in_user
   
   def index
-    @selfstorage = Selfstorage.new   
-    #@selfstorages = Selfstorage.all
-    @q = Selfstorage.search(params[:q])
+    @selfstorage = current_user.selfstorages.build
+    #@selfstorages = current_user.selfstorages.all
+    @q = current_user.selfstorages.search(params[:q])
     @selfstorages = @q.result(distinct: true).order(:sku).page(params[:page])
   end
   
   def create
-    @selfstorage = Selfstorage.new(selfstorage_params)
+    @selfstorage = current_user.selfstorages.build(selfstorage_params)
     
     #stock_idの付与
     attachment_of_stock_id(@selfstorage)
@@ -30,7 +31,7 @@ class SelfstoragesController < ApplicationController
   end
   
   def destroy
-    ReturnGood.where(destroy_check: true).destroy_all
+    @selfstorage.where(destroy_check: true).destroy_all
     redirect_to disposals_path, notice: 'データを削除しました'
   end
   
@@ -40,7 +41,7 @@ class SelfstoragesController < ApplicationController
   end
   
   def set_selfstorage
-    @selfstorage = Selfstorage.find(params[:id])
+    @selfstorage = current_user.selfstorages.find(params[:id])
   end
 end
 

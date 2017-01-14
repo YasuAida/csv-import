@@ -1,6 +1,8 @@
 class Listingreport < ActiveRecord::Base
   validates :sku, uniqueness: { scope: [:asin, :price, :quantity] }
   
+  belongs_to :user
+  
   def self.to_download
     headers = %w(ID SKU ASIN 価格 数量)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|

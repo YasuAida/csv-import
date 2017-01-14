@@ -1,43 +1,44 @@
 class TopPagesController < ApplicationController
   include TopPagesHelper
+  before_action :logged_in_user
   require 'zip'
   
   def index
-    @period = Period.new  
+    @period = current_user.periods.new  
   end
   
   def download
     zipfile_name = "#{Rails.root}/tmp/top_page/csv.zip"
   
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      zipfile.get_output_stream("accounts.csv") { |f| f.puts(Account.to_download) }      
-      zipfile.get_output_stream("allocationcosts.csv") { |f| f.puts(Allocationcost.to_download) }
-      zipfile.get_output_stream("currencies.csv") { |f| f.puts(Currency.to_download) }
-      zipfile.get_output_stream("disposals.csv") { |f| f.puts(Disposal.to_download) }
-      zipfile.get_output_stream("dummy_stocks.csv") { |f| f.puts(DummyStock.to_download) }      
-      zipfile.get_output_stream("entrypatterns.csv") { |f| f.puts(Entrypattern.to_download) }
-      zipfile.get_output_stream("exchanges.csv") { |f| f.puts(Exchange.to_download) }
-      zipfile.get_output_stream("expense_methods.csv") { |f| f.puts(ExpenseMethod.to_download) }
-      zipfile.get_output_stream("expense_relations.csv") { |f| f.puts(ExpenseRelation.to_download) }
-      zipfile.get_output_stream("expense_titles.csv") { |f| f.puts(ExpenseTitle.to_download) }
-      zipfile.get_output_stream("expenseledgers.csv") { |f| f.puts(Expenseledger.to_download) }
-      zipfile.get_output_stream("financial_statements.csv") { |f| f.puts(FinancialStatement.to_download) }      
-      zipfile.get_output_stream("generalledgers.csv") { |f| f.puts(Generalledger.to_download) }
-      zipfile.get_output_stream("journalpatterns.csv") { |f| f.puts(Journalpattern.to_download) }
-      zipfile.get_output_stream("listingreports.csv") { |f| f.puts(Listingreport.to_download) }
-      zipfile.get_output_stream("multi_channels.csv") { |f| f.puts(MultiChannel.to_download) }
-      zipfile.get_output_stream("periods.csv") { |f| f.puts(Period.to_download) }
-      zipfile.get_output_stream("pladmins.csv") { |f| f.puts(Pladmin.to_download) }
-      zipfile.get_output_stream("return_goods.csv") { |f| f.puts(ReturnGood.to_download) }
-      zipfile.get_output_stream("sales.csv") { |f| f.puts(Sale.to_download) }
-      zipfile.get_output_stream("selfstorages.csv") { |f| f.puts(Selfstorage.to_download) }      
-      zipfile.get_output_stream("stockaccepts.csv") { |f| f.puts(Stockaccept.to_download) }
-      zipfile.get_output_stream("stockledgers.csv") { |f| f.puts(Stockledger.to_download) }
-      zipfile.get_output_stream("stockreturns.csv") { |f| f.puts(Stockreturn.to_download) }      
-      zipfile.get_output_stream("stocks.csv") { |f| f.puts(Stock.to_download) }
-      zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(Subexpense.to_download) }
-      zipfile.get_output_stream("users.csv") { |f| f.puts(User.to_download) }      
-      zipfile.get_output_stream("vouchers.csv") { |f| f.puts(Voucher.to_download) }
+      zipfile.get_output_stream("accounts.csv") { |f| f.puts(current_user.accounts.to_download) }      
+      zipfile.get_output_stream("allocationcosts.csv") { |f| f.puts(current_user.allocationcosts.to_download) }
+      zipfile.get_output_stream("currencies.csv") { |f| f.puts(current_user.currencies.to_download) }
+      zipfile.get_output_stream("disposals.csv") { |f| f.puts(current_user.disposals.to_download) }
+      zipfile.get_output_stream("dummy_stocks.csv") { |f| f.puts(current_user.dummy_stocks.to_download) }      
+      zipfile.get_output_stream("entrypatterns.csv") { |f| f.puts(current_user.entrypatterns.to_download) }
+      zipfile.get_output_stream("exchanges.csv") { |f| f.puts(current_user.exchanges.to_download) }
+      zipfile.get_output_stream("expense_methods.csv") { |f| f.puts(current_user.expense_methods.to_download) }
+      zipfile.get_output_stream("expense_relations.csv") { |f| f.puts(current_user.expense_relations.to_download) }
+      zipfile.get_output_stream("expense_titles.csv") { |f| f.puts(current_user.expense_titles.to_download) }
+      zipfile.get_output_stream("expenseledgers.csv") { |f| f.puts(current_user.expenseledgers.to_download) }
+      zipfile.get_output_stream("financial_statements.csv") { |f| f.puts(current_user.financial_statements.to_download) }      
+      zipfile.get_output_stream("generalledgers.csv") { |f| f.puts(current_user.generalledgers.to_download) }
+      zipfile.get_output_stream("journalpatterns.csv") { |f| f.puts(current_user.journalpatterns.to_download) }
+      zipfile.get_output_stream("listingreports.csv") { |f| f.puts(current_user.listingreports.to_download) }
+      zipfile.get_output_stream("multi_channels.csv") { |f| f.puts(current_user.multi_channels.to_download) }
+      zipfile.get_output_stream("periods.csv") { |f| f.puts(current_user.periods.to_download) }
+      zipfile.get_output_stream("pladmins.csv") { |f| f.puts(current_user.pladmins.to_download) }
+      zipfile.get_output_stream("return_goods.csv") { |f| f.puts(current_user.return_goods.to_download) }
+      zipfile.get_output_stream("sales.csv") { |f| f.puts(current_user.sales.to_download) }
+      zipfile.get_output_stream("selfstorages.csv") { |f| f.puts(current_user.selfstorages.to_download) }      
+      zipfile.get_output_stream("stockaccepts.csv") { |f| f.puts(current_user.stockaccepts.to_download) }
+      zipfile.get_output_stream("stockledgers.csv") { |f| f.puts(current_user.stockledgers.to_download) }
+      zipfile.get_output_stream("stockreturns.csv") { |f| f.puts(current_user.stockreturns.to_download) }      
+      zipfile.get_output_stream("stocks.csv") { |f| f.puts(current_user.stocks.to_download) }
+      zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(current_user.subexpenses.to_download) }
+      zipfile.get_output_stream("users.csv") { |f| f.puts(current_user.users.to_download) }      
+      zipfile.get_output_stream("vouchers.csv") { |f| f.puts(current_user.vouchers.to_download) }
     end
     
     send_file(zipfile_name, type: 'application/zip' , filename: "csv.zip")

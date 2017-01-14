@@ -8,7 +8,7 @@ module ExchangesHelper
   def file_import_exchange(file_name)
   # 先にDBのカラム名を用意
     @column = ["日付"]
-    Currency.all.each do |currency|
+    current_user.currencies.all.each do |currency|
       if currency.name != "円"
         @column.push(currency.name)
       end
@@ -23,13 +23,13 @@ module ExchangesHelper
       @date = row_hash.shift[1]
       exchange_hash = row_hash
       exchange_hash.each do |exchange|
-        data = Exchange.new
+        data = current_user.exchanges.build
         data.date = Date.parse(@date).to_date
         data.country = exchange[0]
         data.rate = exchange[1]
         if data.save
         else
-          old_data = Exchange.find_by(country: data.country, date: data.date)
+          old_data = current_user.exchanges.find_by(country: data.country, date: data.date)
           old_data.update(rate: data.rate) if old_data
         end
       end

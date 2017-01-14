@@ -1,6 +1,8 @@
 class Currency < ActiveRecord::Base
-    validates :name, uniqueness: { scope: [:method] }, presence: true
-    validates :method, presence: true
+  validates :name, uniqueness: { scope: [:method] }, presence: true
+  validates :method, presence: true
+    
+  belongs_to :user
     
   def self.to_download
     headers = %w(ID 通貨名 換算方法)

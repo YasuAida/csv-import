@@ -1,4 +1,7 @@
 class Account < ActiveRecord::Base
+  validates :account, uniqueness: { scope: [:debit_credit, :bs_pl, :display_position ] }
+
+  belongs_to :user
     
   def self.to_download
     headers = %w(ID 勘定科目 貸借区分 ＢＳ／ＰＬ区分 表示区分)

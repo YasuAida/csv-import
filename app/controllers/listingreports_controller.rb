@@ -1,8 +1,9 @@
 class ListingreportsController < ApplicationController
   include ListingreportsHelper
+  before_action :logged_in_user 
   
   def index
-    @listingreports = Listingreport.all
+    @listingreports = current_user.listingreports.all
   end
   
   def upload

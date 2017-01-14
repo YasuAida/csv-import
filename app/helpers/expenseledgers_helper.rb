@@ -21,13 +21,13 @@ module ExpenseledgersHelper
       row_hash[:amount] = row_hash[:amount].to_i 
       row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
       
-      Expenseledger.create(row_hash)
+      current_user.expenseledgers.create(row_hash)
     end
   end
 
   def grandtotal(expenseledgers)
     expenseledgers.each do |expenseledger|
-      ex_currency = Currency.find_by(name: expenseledger.currency)
+      ex_currency = current_user.currencies.find_by(name: expenseledger.currency)
       if ex_currency.method == "外貨×為替レート"
         ex_grandtotal = BigDecimal(expenseledger.amount.to_s).round(2) * expenseledger.rate
         expenseledger.grandtotal = BigDecimal(ex_grandtotal.to_s).round(0)

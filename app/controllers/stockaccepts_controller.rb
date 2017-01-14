@@ -1,8 +1,9 @@
 class StockacceptsController < ApplicationController
   include StockacceptsHelper
+  before_action :logged_in_user
   
   def index
-    @q = Stockaccept.search(params[:q])
+    @q = current_user.stockaccepts.search(params[:q])
     @stockaccepts = @q.result(distinct: true)
   end
   

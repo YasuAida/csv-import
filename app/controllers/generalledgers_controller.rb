@@ -1,14 +1,15 @@
 class GeneralledgersController < ApplicationController
   include GeneralledgersHelper
   before_action :set_generalledger, only: [ :destroy]
+  before_action :logged_in_user
 
   def index
-    @q = Generalledger.order(date: :desc).search(params[:q])
+    @q = current_user.generalledgers.order(date: :desc).search(params[:q])
     @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)      
       
     start_time = Time.now
     
-    @journalpatterns = Journalpattern.all
+    @journalpatterns = current_user.journalpatterns.all
     
     #「損益管理シート」から仕訳生成
      import_from_pladmins(@journalpatterns)
@@ -38,9 +39,9 @@ class GeneralledgersController < ApplicationController
   end
   
   def show
-    @q = Generalledger.order(date: :desc).search(params[:q])
+    @q = current_user.generalledgers.order(date: :desc).search(params[:q])
     @generalledgers = @q.result(distinct: true).page(params[:page]).per(100)
-    @all_generalledgers = Generalledger.all
+    @all_generalledgers = current_user.generalledgers.all
     respond_to do |format|
       format.html
       format.csv { send_data @all_generalledgers.to_csv, type: 'text/csv; charset=shift_jis', filename: "generalledgers.csv" } 
@@ -54,7 +55,7 @@ class GeneralledgersController < ApplicationController
   
   private  
   def set_generalledger
-    @update_generalledger = Generalledger.find(params[:id])
+    @update_generalledger = current_user.generalledgers.find(params[:id])
   end
 
 end

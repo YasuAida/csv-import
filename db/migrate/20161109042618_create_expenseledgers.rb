@@ -1,6 +1,7 @@
 class CreateExpenseledgers < ActiveRecord::Migration
   def change
-    create_table :expenseledgers do |t|    
+    create_table :expenseledgers do |t|
+      t.references :user, index: true, foreign_key: true 
       t.date :date
       t.string :content
       t.integer :amount

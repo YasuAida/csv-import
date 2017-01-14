@@ -20,7 +20,7 @@ module VouchersHelper
       row_hash[:date] = Date.parse(row_hash[:date]).to_date
       row_hash[:amount] = row_hash[:amount].to_i 
       
-      Voucher.create(row_hash)
+      current_user.vouchers.create(row_hash)
     end
   end
 

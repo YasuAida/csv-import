@@ -1,12 +1,13 @@
 class PladminsController < ApplicationController
   include PladminsHelper  
-  before_action :set_pladmin, only: [ :update]  
+  before_action :set_pladmin, only: [ :update]
+  before_action :logged_in_user
   
   def index
-    @pladmin = Pladmin.new
-
-    @all_pladmins = Pladmin.all
-    @q = Pladmin.order(date: :desc).search(params[:q])
+    @pladmin = current_user.pladmins.build
+    
+    @all_pladmins = current_user.pladmins.all
+    @q = current_user.pladmins.order(date: :desc).search(params[:q])
     @pladmins = @q.result(distinct: true).page(params[:page]).per(100)
     
     respond_to do |format|
@@ -37,7 +38,7 @@ class PladminsController < ApplicationController
     params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
     params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
     params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
-    @pladmin = Pladmin.new(pladmin_params)
+    @pladmin = current_user.pladmins.build(pladmin_params)
     @pladmin.save
     redirect_to pladmins_path, notice: 'データを保存しました'
   end
@@ -56,7 +57,7 @@ class PladminsController < ApplicationController
   end
 
   def destroy
-    Pladmin.where(destroy_check: true).destroy_all
+    current_user.pladmins.where(destroy_check: true).destroy_all
     redirect_to pladmins_path, notice: 'データを削除しました'
   end
   
@@ -66,7 +67,7 @@ class PladminsController < ApplicationController
   end
   
   def set_pladmin
-    @update_pladmin = Pladmin.find(params[:id])
+    @update_pladmin = current_user.pladmins.find(params[:id])
   end
   
 end

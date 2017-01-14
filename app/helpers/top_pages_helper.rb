@@ -21,7 +21,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
 
-        Account.create(row_hash)
+        current_user.accounts.create(row_hash)
       end
   end
 
@@ -39,7 +39,7 @@ module TopPagesHelper
         row_hash[:stock_id] = row_hash[:stock_id].to_i
         row_hash[:allocation_amount] = row_hash[:allocation_amount].to_i
         
-        Allocationcost.create(row_hash)
+        current_user.allocationcosts.create(row_hash)
       end
   end
 
@@ -55,7 +55,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        Currency.create(row_hash)
+        current_user.currencies.create(row_hash)
       end
   end
 
@@ -74,7 +74,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date     
         row_hash[:number] = row_hash[:number].to_i
         
-        Disposal.create(row_hash)
+        current_user.disposals.create(row_hash)
       end
   end
 
@@ -94,7 +94,7 @@ module TopPagesHelper
         row_hash[:cancel_date] = Date.parse(row_hash[:cancel_date]).to_date        
         row_hash[:number] = row_hash[:number].to_i
         
-        DummyStock.create(row_hash)
+        current_user.dummy_stocks.create(row_hash)
       end
   end
 
@@ -111,7 +111,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        Entrypattern.create(row_hash)
+        current_user.entrypatterns.create(row_hash)
       end
   end
 
@@ -129,7 +129,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:rate] = row_hash[:rate].to_f
         
-        Exchange.create(row_hash)
+        current_user.exchanges.create(row_hash)
       end
   end
 
@@ -145,7 +145,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        ExpenseMethod.create(row_hash)
+        current_user.expense_methods.create(row_hash)
       end
   end
   
@@ -161,7 +161,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        ExpenseRelation.create(row_hash)
+        current_user.expense_relations.create(row_hash)
       end
   end
 
@@ -177,7 +177,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
       
-        ExpenseTitle.create(row_hash)
+        current_user.expense_titles.create(row_hash)
       end
   end
   
@@ -198,7 +198,7 @@ module TopPagesHelper
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         row_hash[:grandtotal] = row_hash[:grandtotal].to_i      
         
-        Expenseledger.create(row_hash)
+        current_user.expenseledgers.create(row_hash)
       end
   end
   
@@ -216,7 +216,7 @@ module TopPagesHelper
         row_hash[:period_start] = Date.parse(row_hash[:period_start]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
         
-        FinancialStatement.create(row_hash)
+        current_user.financial_statements.create(row_hash)
       end
   end
   
@@ -243,7 +243,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
        
-        Generalledger.create(row_hash)
+        current_user.generalledgers.create(row_hash)
       end
   end
 
@@ -259,7 +259,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        Journalpattern.create(row_hash)
+        current_user.journalpatterns.create(row_hash)
       end
   end
 
@@ -277,7 +277,7 @@ module TopPagesHelper
         row_hash[:price] = row_hash[:price].to_i
         row_hash[:quantity] = row_hash[:quantity].to_i
         
-        Listingreport.create(row_hash)
+        current_user.listingreports.create(row_hash)
       end
   end
 
@@ -293,7 +293,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        MultiChannel.create(row_hash)
+        current_user.multi_channels.create(row_hash)
       end
   end
 
@@ -311,7 +311,7 @@ module TopPagesHelper
         row_hash[:period_start] = Date.parse(row_hash[:period_start]).to_date
         row_hash[:period_end] = Date.parse(row_hash[:period_end]).to_date        
         
-        Period.create(row_hash)
+        current_user.periods.create(row_hash)
       end
   end
   
@@ -337,7 +337,7 @@ module TopPagesHelper
         row_hash[:commission_pay_date] = Date.parse(row_hash[:commission_pay_date]).to_date if row_hash[:commission_pay_date].present?
         row_hash[:shipping_pay_date] = Date.parse(row_hash[:shipping_pay_date]).to_date if row_hash[:commission_pay_date].present?
         
-        Pladmin.create(row_hash)
+        current_user.pladmins.create(row_hash)
       end
   end
 
@@ -355,7 +355,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date   
         row_hash[:number] = row_hash[:number].to_i
 
-        ReturnGood.create(row_hash)
+        current_user.return_goods.create(row_hash)
       end
   end
 
@@ -375,7 +375,7 @@ module TopPagesHelper
         row_hash[:quantity] = row_hash[:quantity].to_i        
         row_hash[:money_receive] = Date.parse(row_hash[:money_receive]).to_date
         
-        Sale.create(row_hash)
+        current_user.sales.create(row_hash)
       end
   end
 
@@ -391,7 +391,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
         
-        Selfstorage.create(row_hash)
+        current_user.selfstorages.create(row_hash)
       end
   end
   
@@ -409,7 +409,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:quantity] = row_hash[:quantity].to_i
 
-        Stockaccept.create(row_hash)
+        current_user.stockaccepts.create(row_hash)
       end
   end
 
@@ -430,7 +430,7 @@ module TopPagesHelper
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f
         row_hash[:grandtotal] = row_hash[:grandtotal].to_i
    
-        Stockledger.create(row_hash)
+        current_user.stockledgers.create(row_hash)
       end
   end
 
@@ -454,7 +454,7 @@ module TopPagesHelper
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         row_hash[:grandtotal] = row_hash[:grandtotal].to_i        
         
-        Stockreturn.create(row_hash)
+        current_user.stockreturns.create(row_hash)
       end
   end
 
@@ -477,7 +477,7 @@ module TopPagesHelper
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         row_hash[:grandtotal] = row_hash[:grandtotal].to_i        
         
-        Stock.create(row_hash)
+        current_user.stocks.create(row_hash)
       end
   end
 
@@ -497,7 +497,7 @@ module TopPagesHelper
         row_hash[:rate] = row_hash[:rate].to_f
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date
         
-        Subexpense.create(row_hash)
+        current_user.subexpenses.create(row_hash)
       end
   end
 
@@ -513,7 +513,7 @@ module TopPagesHelper
         # データー型の変換
         row_hash[:id] = row_hash[:id].to_i
 
-        User.create(row_hash)
+        current_user.users.create(row_hash)
       end
   end
   
@@ -531,7 +531,7 @@ module TopPagesHelper
         row_hash[:date] = Date.parse(row_hash[:date]).to_date
         row_hash[:amount] = row_hash[:amount].to_i
      
-        Voucher.create(row_hash)
+        current_user.vouchers.create(row_hash)
       end
   end
 end

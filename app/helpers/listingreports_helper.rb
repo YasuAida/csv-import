@@ -17,7 +17,7 @@ module ListingreportsHelper
           line_hash[:price] = line_hash[:price].to_i
           line_hash[:quantity] = line_hash[:quantity].to_i
 
-          Listingreport.create(line_hash)
+          current_user.listingreports.create(line_hash)
         end
       end
     end

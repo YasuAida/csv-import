@@ -2,11 +2,11 @@ module AllocationcostsHelper
     
   #端数処理
   def rounding_allocation_fraction
-    @expense_relations = ExpenseRelation.all
+    @expense_relations = current_user.expense_relations.all
     @expense_relations.group(:subexpense_id).each do |expense_relation|
          
     #配賦対象額を計算する
-      @subexpense_relation = Subexpense.find(expense_relation.subexpense_id)
+      @subexpense_relation = current_user.subexpenses.find(expense_relation.subexpense_id)
 
       ex_total_allocation_amount = BigDecimal(@subexpense_relation.amount.to_s).round(2) * @subexpense_relation.rate
       total_allocation_amount = BigDecimal(ex_total_allocation_amount.to_s).round(0)    
@@ -31,8 +31,8 @@ module AllocationcostsHelper
 
   #付随費用を集計してstocksテーブルのレコードに付与    
   def gathering_allocation_cost
-    Stock.all.each do |stock|
-      allocation_amount_sum = Allocationcost.where(stock_id: stock.id).sum(:allocation_amount)
+    current_user.stocks.all.each do |stock|
+      allocation_amount_sum = current_user.allocationcosts.where(stock_id: stock.id).sum(:allocation_amount)
       stock.grandtotal = stock.goods_amount + allocation_amount_sum
       stock.save
     end
@@ -40,12 +40,12 @@ module AllocationcostsHelper
   
   #stockledgersの購入データの作成
   def import_to_stockledger
-    Stock.all.each do |stock|
-      target_stockledger = Stockledger.find_by(stock_id: stock.id, classification: "購入")
+    current_user.stocks.all.each do |stock|
+      target_stockledger = current_user.stockledgers.find_by(stock_id: stock.id, classification: "購入")
       if target_stockledger.present?
         target_stockledger.update(transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
       else
-        Stockledger.create(stock_id: stock.id, transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
+        current_user.stockledgers.create(stock_id: stock.id, transaction_date: stock.date, sku: stock.sku, asin: stock.asin, goods_name: stock.goods_name, classification: "購入", number: stock.number, unit_price: (stock.grandtotal)/(stock.number), grandtotal: stock.grandtotal)
       end
     end
   end

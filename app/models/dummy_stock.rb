@@ -1,7 +1,9 @@
 class DummyStock < ActiveRecord::Base
-  belongs_to :stock
+
+  validates :stock_id , uniqueness: { scope: [:sale_date, :cancel_date, :number] }
   
-  validates :stock_id , uniqueness: { scope: [:sale_date, :cancel_date, :number] }  
+  belongs_to :user
+  belongs_to :stock  
   
   def self.to_download
     headers = %w(ID 仕入ID 売上日 キャンセル日 個数) 

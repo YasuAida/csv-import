@@ -1,5 +1,7 @@
 class FinancialStatement < ActiveRecord::Base
-  validates :account, uniqueness: { scope: [:period_start, :monthly_yearly] }  
+  validates :account, uniqueness: { scope: [:period_start, :monthly_yearly] }
+  
+  belongs_to :user
   
   def self.to_download
     headers = %w(ID 期間 月次／年次 勘定科目 金額)

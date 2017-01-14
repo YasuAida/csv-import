@@ -1,16 +1,17 @@
 class AllocationcostsController < ApplicationController
   include AllocationcostsHelper
+  before_action :logged_in_user  
 
   def index
     start_time = Time.now
 
-    Allocationcost.destroy_all
+    current_user.allocationcosts.destroy_all
 
-    @expense_relations = ExpenseRelation.all
+    @expense_relations = current_user.expense_relations.all
     @expense_relations.group(:subexpense_id).each do |expense_relation|
     
     #expense_relationsテーブルのsubexpense_idに等しいidを持つレコードをSubexpenseモデルの中から探し、それを@subexpenseに入れる
-      @subexpense = Subexpense.find(expense_relation.subexpense_id)
+      @subexpense = current_user.subexpenses.find(expense_relation.subexpense_id)
     
     #@subexpenseの外貨金額×為替レート=円金額を計算し、それを端数を丸めたあと「total_allocation_amount」に入れる
       ex_total_allocation_amount = BigDecimal(@subexpense.amount.to_s).round(2) * @subexpense.rate
@@ -20,7 +21,7 @@ class AllocationcostsController < ApplicationController
       @stocks = @subexpense.expense_relation_stocks
 
     #@subexpense.methodを配列に直し、subexpense_methodに入れて、caseで処理を分ける。
-      expense_title = ExpenseTitle.find_by(item: @subexpense.item)
+      expense_title = current_user.expense_titles.find_by(item: @subexpense.item)
       subexpense_method = expense_title.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "").split(",")
     
       case subexpense_method
@@ -34,7 +35,7 @@ class AllocationcostsController < ApplicationController
 
       #@allocationcostに付随費用項目名と配分額を入れて保存する
         @stocks.each do |stock|
-          @allocationcost = Allocationcost.new
+          @allocationcost = current_user.allocationcosts.build
           @allocationcost.stock_id = stock.id
           @allocationcost.title = @subexpense.item
           alloc_amount = total_allocation_amount * stock.number / total_number
@@ -51,7 +52,7 @@ class AllocationcostsController < ApplicationController
 
       #@allocationcostsに付随費用項目名と配分額を入れて保存する        
         @stocks.each do |stock|
-          @allocationcost = Allocationcost.new
+          @allocationcost = current_user.allocationcosts.build
           @allocationcost.stock_id = stock.id
           @allocationcost.title = @subexpense.item
           alloc_amount = total_allocation_amount * stock.goods_amount / total_amount
@@ -89,7 +90,7 @@ class AllocationcostsController < ApplicationController
             other_subexpense += @ex_allocationcost.allocation_amount if @ex_allocationcost.present?
           end
 
-          @allocationcost = Allocationcost.new
+          @allocationcost = current_user.allocationcosts.build
           @allocationcost.stock_id = stock.id
           @allocationcost.title = @subexpense.item 
           alloc_amount = total_allocation_amount * (stock.goods_amount + BigDecimal(other_subexpense.to_s).round(0))/ (total_amount + total_subexpense)
@@ -108,7 +109,7 @@ class AllocationcostsController < ApplicationController
   #stockledgersの購入データの作成
     import_to_stockledger    
     
-    @q = Stock.search(params[:q])
+    @q = current_user.stocks.search(params[:q])
     @stocks = @q.result(distinct: true).order(:date).page(params[:page])
     
     render 'show'
@@ -116,10 +117,10 @@ class AllocationcostsController < ApplicationController
   end
   
   def show
-    @q = Stock.search(params[:q])
+    @q = current_user.stocks.search(params[:q])
     @stocks = @q.result(distinct: true).order(:date).page(params[:page]).per(300)
     
-    @all_allocationcosts = Allocationcost.all
+    @all_allocationcosts = current_user.allocationcosts.all
     respond_to do |format|
       format.html
       format.csv { send_data @all_allocationcosts.to_csv, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" } 

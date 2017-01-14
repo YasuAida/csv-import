@@ -1,6 +1,7 @@
 class CreateStockreturns < ActiveRecord::Migration
   def change
     create_table :stockreturns do |t|
+      t.references :user, index: true, foreign_key: true 
       t.references :stock, index: true, foreign_key: true
       t.date :date
       t.string :sku

@@ -1,6 +1,7 @@
 class CreateStockaccepts < ActiveRecord::Migration
   def change
     create_table :stockaccepts do |t|
+      t.references :user, index: true, foreign_key: true
       t.date :date
       t.string :fnsku
       t.string :sku

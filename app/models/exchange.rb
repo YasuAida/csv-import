@@ -3,6 +3,8 @@ class Exchange < ActiveRecord::Base
   validates :country, presence: true
   validates :rate, presence: true
   
+  belongs_to :user
+  
   def self.to_download
     headers = %w(ID 日付 国 レート)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|

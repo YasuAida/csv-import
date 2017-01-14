@@ -1,6 +1,7 @@
 class CreateGeneralledgers < ActiveRecord::Migration
   def change
     create_table :generalledgers do |t|
+      t.references :user, index: true, foreign_key: true
       t.references :pladmin, index: true, foreign_key: true
       t.references :stock, index: true, foreign_key: true
       t.references :stockreturn, index: true, foreign_key: true

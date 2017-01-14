@@ -2,23 +2,24 @@ class StockreturnsController < ApplicationController
   before_action :set_stockreturn, only: [ :update]
   include StocksHelper
   include ApplicationHelper
+  before_action :logged_in_user  
 
   def index
-    @stockreturn = Stockreturn.new
-    @q = Stockreturn.search(params[:q])
+    @stockreturn = current_user.stockreturns.build
+    @q = current_user.stockreturns.search(params[:q])
     @stockreturns = @q.result(distinct: true).page(params[:page])
   end
   
   def create
     params[:stockreturn][:unit_price] = params[:stockreturn][:unit_price].gsub(",","") if params[:stockreturn][:unit_price].present?
-    @stockreturn = Stockreturn.new(stockreturn_params)
+    @stockreturn = current_user.stockreturns.build(stockreturn_params)
     if @stockreturn.save
     #為替レートの付与
       rate_import_new_object(@stockreturn)
     #商品金額の確定
       goods_amount_new_stock(@stockreturn)
     #grandtotalの計算 
-      allocation_amount_sum = Allocationcost.where(stock_id: @stockreturn.stock_id).sum(:allocation_amount)
+      allocation_amount_sum = current_user.allocationcosts.where(stock_id: @stockreturn.stock_id).sum(:allocation_amount)
       @stockreturn.grandtotal = @stockreturn.goods_amount + allocation_amount_sum    
       @stockreturn.save
              
@@ -34,7 +35,7 @@ class StockreturnsController < ApplicationController
       flash.now[:alert] = "データを更新しました。"
       goods_amount_new_stock(@update_stockreturn)
     #grandtotalの計算 
-      allocation_amount_sum = Allocationcost.where(stock_id: @update_stockreturn.stock_id).sum(:allocation_amount)
+      allocation_amount_sum = current_user.allocationcosts.where(stock_id: @update_stockreturn.stock_id).sum(:allocation_amount)
       @update_stockreturn.grandtotal = @update_stockreturn.goods_amount + allocation_amount_sum      
       @update_stockreturn.save
       
@@ -45,7 +46,7 @@ class StockreturnsController < ApplicationController
   end
   
   def destroy
-    Stockreturn.where(destroy_check: true).destroy_all
+    current_user.stockreturns.where(destroy_check: true).destroy_all
     redirect_to stockreturns_path, notice: 'データを削除しました'
   end
   
@@ -55,6 +56,6 @@ class StockreturnsController < ApplicationController
   end
   
   def set_stockreturn
-    @update_stockreturn = Stockreturn.find(params[:id])
+    @update_stockreturn = current_user.stockreturns.find(params[:id])
   end
 end

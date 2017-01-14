@@ -1,21 +1,22 @@
 class SubexpensesController < ApplicationController
   include ApplicationHelper
-  before_action :set_subexpense, only: [ :update]  
+  before_action :set_subexpense, only: [ :update]
+  before_action :logged_in_user
   
   def index
-    @subexpense = Subexpense.new
-    @subexpenses = Subexpense.all
+    @subexpense = current_user.subexpenses.build
+    @subexpenses = current_user.subexpenses.all
     
     if params[:q].present?
-      @target_stocks = Stock.where(date: params[:q])
+      @target_stocks = current_user.stocks.where(date: params[:q])
     else
-      @target_stocks = Stock.all
+      @target_stocks = current_user.stocks.all
     end
   end
   
   def create
     params[:subexpense][:amount] = params[:subexpense][:amount].gsub(",","") if params[:subexpense][:amount].present?
-    @subexpense = Subexpense.new(subexpense_params)
+    @subexpense = current_user.subexpenses.build(subexpense_params)
     rate_import_new_object(@subexpense)
 
     params[:subexpense][:targetgood].each do |n|
@@ -37,7 +38,7 @@ class SubexpensesController < ApplicationController
   end
   
   def destroy
-    Subexpense.where(destroy_check: true).destroy_all
+    current_user.subexpenses.where(destroy_check: true).destroy_all
     redirect_to subexpenses_path, notice: 'データを削除しました'
   end
 
@@ -47,6 +48,6 @@ class SubexpensesController < ApplicationController
   end
 
   def set_subexpense
-    @update_subexpense = Subexpense.find(params[:id])
+    @update_subexpense = current_user.subexpenses.find(params[:id])
   end
 end

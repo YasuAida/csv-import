@@ -5,6 +5,8 @@ class Subexpense < ActiveRecord::Base
   validates :amount, presence: true
   validates :targetgood, presence: true
 
+  belongs_to :user 
+
   has_many :generalledgers, dependent: :destroy
 
   has_many :expense_relations, dependent: :destroy

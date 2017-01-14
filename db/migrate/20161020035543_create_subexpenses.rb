@@ -1,6 +1,7 @@
 class CreateSubexpenses < ActiveRecord::Migration
   def change
     create_table :subexpenses do |t|
+      t.references :user, index: true, foreign_key: true      
       t.string :item
       t.string :method
       t.date :date

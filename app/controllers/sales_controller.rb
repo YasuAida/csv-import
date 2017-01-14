@@ -1,10 +1,11 @@
 class SalesController < ApplicationController
   include SalesHelper
   include ApplicationHelper #expenseledgerで為替レートを付与している
+  before_action :logged_in_user
 
   def index
-    @sales = Sale.all
-    @q = Sale.search(params[:q])
+    @sales = current_user.sales.all
+    @q = current_user.sales.search(params[:q])
     #@sales = @q.result(distinct: true).page(params[:page])
   end
 

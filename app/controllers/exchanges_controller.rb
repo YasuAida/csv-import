@@ -1,12 +1,13 @@
 class ExchangesController < ApplicationController
   include ExchangesHelper
   before_action :set_exchange, only: [ :update] 
+  before_action :logged_in_user
   
   def index
-    #@exchanges = Exchange.all
-    @q = Exchange.search(params[:q])
+    #@exchanges = current_user.exchanges.all
+    @q = current_user.exchanges.search(params[:q])
     @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(300)
-    @exchange = Exchange.new
+    @exchange = current_user.exchanges.build
   end
   
   def upload
@@ -22,7 +23,7 @@ class ExchangesController < ApplicationController
   end
   
   def create
-    @exchange = Exchange.new(exchange_params)
+    @exchange = current_user.exchanges.build(exchange_params)
     @exchange.save
     redirect_to exchanges_path , notice: '保存しました'    
   end
@@ -34,7 +35,7 @@ class ExchangesController < ApplicationController
   end
   
   def destroy
-    Exchange.where(destroy_check: true).destroy_all
+    current_user.exchanges.where(destroy_check: true).destroy_all
     redirect_to exchanges_path, notice: 'データを削除しました'
   end 
   
@@ -44,6 +45,6 @@ class ExchangesController < ApplicationController
   end
   
   def set_exchange
-    @exchange = Exchange.find(params[:id])
+    @exchange = current_user.exchanges.find(params[:id])
   end
 end

@@ -1,4 +1,5 @@
 class ReturnGood < ActiveRecord::Base
+  belongs_to :user
   has_many :stockledgers, dependent: :destroy  
   has_many :generalledgers, dependent: :destroy
     

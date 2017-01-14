@@ -1,6 +1,7 @@
 class CreateExpenseRelations < ActiveRecord::Migration
   def change
     create_table :expense_relations do |t|
+      t.references :user, index: true, foreign_key: true
       t.references :stock, index: true, foreign_key: true
       t.references :subexpense, index: true, foreign_key: true
 

@@ -1,6 +1,7 @@
 class CreateJournalpatterns < ActiveRecord::Migration
   def change
     create_table :journalpatterns do |t|
+      t.references :user, index: true, foreign_key: true
       t.string :taxcode
       t.string :pattern
       t.string :debit_account

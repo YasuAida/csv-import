@@ -1,10 +1,11 @@
 class DisposalsController < ApplicationController
-  before_action :set_disposal, only: [ :update] 
+  before_action :set_disposal, only: [ :update]
+  before_action :logged_in_user
   
   def index
-    @disposal = Disposal.new   
-    #@disposals = Disposal.all
-    @q = Disposal.search(params[:q])
+    @disposal = current_user.disposals.build
+    #@disposals = current_user.disposals.all
+    @q = current_user.disposals.search(params[:q])
     @disposals = @q.result(distinct: true).page(params[:page])
     
     respond_to do |format|
@@ -14,7 +15,7 @@ class DisposalsController < ApplicationController
   end
   
   def create
-    @disposal = Disposal.new(disposal_params)        
+    @disposal = current_user.disposals.build(disposal_params)        
     @disposal.save
     redirect_to disposals_path , notice: '保存しました'    
   end
@@ -28,7 +29,7 @@ class DisposalsController < ApplicationController
   end
   
   def destroy
-    Disposal.where(destroy_check: true).destroy_all
+    current_user.disposals.where(destroy_check: true).destroy_all
     redirect_to disposals_path, notice: 'データを削除しました'
   end
   
@@ -38,6 +39,6 @@ class DisposalsController < ApplicationController
   end
   
   def set_disposal
-    @update_disposal = Disposal.find(params[:id])
+    @update_disposal = current_user.disposals.find(params[:id])
   end
 end

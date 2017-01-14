@@ -2,11 +2,12 @@ class ExpenseledgersController < ApplicationController
   include ApplicationHelper
   include ExpenseledgersHelper
   before_action :set_expenseledger, only: [ :update]
+  before_action :logged_in_user
 
   def index
-    @all_expenseledgers = Expenseledger.all
-    @expenseledger = Expenseledger.new
-    @expenseledgers = Expenseledger.all.order(date: :desc).page(params[:page])
+    @all_expenseledgers = current_user.expenseledgers.all
+    @expenseledger = current_user.expenseledgers.build
+    @expenseledgers = current_user.expenseledgers.all.order(date: :desc).page(params[:page])
     
     respond_to do |format|
       format.html
@@ -25,9 +26,9 @@ class ExpenseledgersController < ApplicationController
     #ファイルのインポート
     file_import_expenseledger(data[:datafile])
     #為替レートの付与    
-    rate_import(Expenseledger.where(rate: nil))
+    rate_import(current_user.expenseledgers.where(rate: nil))
     #円金額の確定
-    grandtotal(Expenseledger.where(grandtotal: nil))
+    grandtotal(current_user.expenseledgers.where(grandtotal: nil))
     #ファイルの削除
     file_close(data[:datafile])
 
@@ -36,7 +37,7 @@ class ExpenseledgersController < ApplicationController
   
   def create
     params[:expenseledger][:amount] = params[:expenseledger][:amount].gsub(",","") if params[:expenseledger][:amount].present?
-    @expenseledger = Expenseledger.new(expenseledger_params)
+    @expenseledger = current_user.expenseledgers.build(expenseledger_params)
     if @expenseledger.save
       rate_import_new_object(@expenseledger)
       ex_grandtotal = @expenseledger.amount * @expenseledger.rate 
@@ -60,7 +61,7 @@ class ExpenseledgersController < ApplicationController
   end
   
   def destroy
-    Expenseledger.where(destroy_check: true).destroy_all
+    current_user.expenseledgers.where(destroy_check: true).destroy_all
     redirect_to expenseledgers_path, notice: 'データを削除しました'
   end
   
@@ -70,7 +71,7 @@ class ExpenseledgersController < ApplicationController
   end
   
   def set_expenseledger
-    @update_expenseledger = Expenseledger.find(params[:id])
+    @update_expenseledger = current_user.expenseledgers.find(params[:id])
   end  
   
 end

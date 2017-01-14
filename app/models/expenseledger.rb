@@ -1,4 +1,5 @@
 class Expenseledger < ActiveRecord::Base
+  belongs_to :user
   has_many :generalledgers, dependent: :destroy
     
   validates :date, uniqueness: { scope: [:account_name, :content, :amount, :money_paid, :purchase_from] }

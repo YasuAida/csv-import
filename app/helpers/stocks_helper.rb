@@ -22,7 +22,7 @@ module StocksHelper
         row_hash[:rate] = row_hash[:rate].to_f        
         row_hash[:goods_amount] = row_hash[:goods_amount].to_i
         
-        Stock.create(row_hash)
+        current_user.stocks.create(row_hash)
 
       end
   end
@@ -33,7 +33,7 @@ module StocksHelper
 
   def goods_amount(stocks)
     stocks.each do |stock|
-      ex_currency = Currency.find_by(name: stock.currency)
+      ex_currency = current_user.currencies.find_by(name: stock.currency)
       if ex_currency.method == "外貨×為替レート"
         ex_goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * stock.rate
         stock.goods_amount = BigDecimal(ex_goods_amount.to_s).round(0)
@@ -45,7 +45,7 @@ module StocksHelper
   end
 
   def goods_amount_new_stock(stock)
-    ex_currency = Currency.find_by(name: stock.currency)
+    ex_currency = current_user.currencies.find_by(name: stock.currency)
     if ex_currency.method == "外貨×為替レート"
       ex_goods_amount = stock.number * BigDecimal(stock.unit_price.to_s).round(2) * stock.rate
       stock.goods_amount = BigDecimal(ex_goods_amount.to_s).round(0)
@@ -59,10 +59,10 @@ module StocksHelper
     #購入からFBA納品まで45日を見込む 
     base_difference = 45
 
-    @stocks = Stock.where(sku: nil)
+    @stocks = current_user.stocks.where(sku: nil)
     @stocks.each do |stock|
 
-      @check_stockaccepts = Stockaccept.where(asin: stock.asin)
+      @check_stockaccepts = current_user.stockaccepts.where(asin: stock.asin)
       if @check_stockaccepts.any?
         @check_stockaccepts.each do |check_stockaccept| 
           if stock.number == check_stockaccept.quantity && base_difference > (check_stockaccept.date - stock.date)
@@ -74,10 +74,10 @@ module StocksHelper
       end
     end
 
-    @no_sku_stocks = Stock.where(sku: nil)
+    @no_sku_stocks = current_user.stocks.where(sku: nil)
     @no_sku_stocks.each do |no_sku_stock|
 
-      @check_stockaccepts = Stockaccept.where(asin: no_sku_stock.asin)
+      @check_stockaccepts = current_user.stockaccepts.where(asin: no_sku_stock.asin)
       if @check_stockaccepts.present? && @check_stockaccepts.count == 1
         no_sku_stock.sku = @check_stockaccepts.first.sku
         no_sku_stock.save

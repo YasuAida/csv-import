@@ -2,16 +2,17 @@ class DummyStocksController < ApplicationController
   include DummyStocksHelper
   include StockledgersHelper  
   before_action :set_dummy_stock, only: [ :update]
+  before_action :logged_in_user
 
   def index
-    #@dummy_stocks = DummyStock.all
-    @dummy_stock = DummyStock.new
-    @q = DummyStock.search(params[:q])
+    #@dummy_stocks = current_user.dummy_stocks.all
+    @dummy_stock = current_user.dummy_stocks.build
+    @q = current_user.dummy_stocks.search(params[:q])
     @dummy_stocks = @q.result(distinct: true).page(params[:page])
   end
   
   def create
-    @dummy_stock = DummyStock.new(dummy_stock_params)
+    @dummy_stock = current_user.dummy_stocks.build(dummy_stock_params)
     if @dummy_stock.save
     #stockledgerテーブルにレコードを追加
       add_stockledgers(@dummy_stock)
@@ -25,7 +26,7 @@ class DummyStocksController < ApplicationController
   end
 
   def destroy
-    DummyStock.where(destroy_check: true).destroy_all
+    current_user.dummy_stocks.where(destroy_check: true).destroy_all
     redirect_to dummy_stocks_path, notice: 'データを削除しました'
   end
   
@@ -35,6 +36,6 @@ class DummyStocksController < ApplicationController
   end
   
   def set_dummy_stock
-    @update_dummy_stock = DummyStock.find(params[:id])
+    @update_dummy_stock = current_user.dummy_stocks.find(params[:id])
   end
 end

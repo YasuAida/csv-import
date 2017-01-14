@@ -1,11 +1,12 @@
 class ReturnGoodsController < ApplicationController
   before_action :set_return_good, only: [ :update] 
+  before_action :logged_in_user
   
   def index
-    @return_good = ReturnGood.new   
-    @q = ReturnGood.search(params[:q])
+    @return_good = current_user.return_goods.build
+    @q = current_user.return_goods.search(params[:q])
     @return_goods = @q.result(distinct: true).page(params[:page])
-    @all_return_goods = ReturnGood.all
+    @all_return_goods = current_user.return_goods.all
     
     respond_to do |format|
       format.html
@@ -14,7 +15,7 @@ class ReturnGoodsController < ApplicationController
   end
   
   def create
-    @return_good = ReturnGood.new(return_good_params)
+    @return_good = current_user.return_goods.build(return_good_params)
     if @return_good.save
       redirect_to return_goods_path , notice: 'データを保存しました'
     else
@@ -31,7 +32,7 @@ class ReturnGoodsController < ApplicationController
   end
   
   def destroy
-    ReturnGood.where(destroy_check: true).destroy_all
+    current_user.return_goods.where(destroy_check: true).destroy_all
     redirect_to return_goods_path, notice: 'データを削除しました'
   end
   
@@ -41,7 +42,7 @@ class ReturnGoodsController < ApplicationController
   end
   
   def set_return_good
-    @update_return_good = ReturnGood.find(params[:id])
+    @update_return_good = current_user.return_goods.find(params[:id])
   end
   
 end

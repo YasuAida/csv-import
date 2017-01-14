@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "accounts", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "account"
     t.string   "debit_credit"
     t.string   "bs_pl"
@@ -23,7 +24,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "display_position"
   end
 
+  add_index "accounts", ["user_id"], name: "index_accounts_on_user_id"
+
   create_table "allocationcosts", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.string   "title"
     t.integer  "allocation_amount"
@@ -32,8 +36,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "allocationcosts", ["stock_id"], name: "index_allocationcosts_on_stock_id"
+  add_index "allocationcosts", ["user_id"], name: "index_allocationcosts_on_user_id"
 
   create_table "currencies", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -41,7 +47,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "currencies", ["user_id"], name: "index_currencies_on_user_id"
+
   create_table "disposals", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
@@ -53,8 +62,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "disposals", ["stock_id"], name: "index_disposals_on_stock_id"
+  add_index "disposals", ["user_id"], name: "index_disposals_on_user_id"
 
   create_table "dummy_stocks", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.date     "sale_date"
     t.integer  "number"
@@ -65,8 +76,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "dummy_stocks", ["stock_id"], name: "index_dummy_stocks_on_stock_id"
+  add_index "dummy_stocks", ["user_id"], name: "index_dummy_stocks_on_user_id"
 
   create_table "entrypatterns", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "sku"
     t.string   "kind_of_transaction"
     t.string   "kind_of_payment"
@@ -77,7 +90,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check",       default: false, null: false
   end
 
+  add_index "entrypatterns", ["user_id"], name: "index_entrypatterns_on_user_id"
+
   create_table "exchanges", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date",                          null: false
     t.string   "country",                       null: false
     t.float    "rate",          default: 0.0,   null: false
@@ -87,14 +103,19 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "exchanges", ["date", "country"], name: "exchange_index", unique: true
+  add_index "exchanges", ["user_id"], name: "index_exchanges_on_user_id"
 
   create_table "expense_methods", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "method"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "expense_methods", ["user_id"], name: "index_expense_methods_on_user_id"
+
   create_table "expense_relations", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.integer  "subexpense_id"
     t.datetime "created_at",    null: false
@@ -104,15 +125,20 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   add_index "expense_relations", ["stock_id", "subexpense_id"], name: "index_expense_relations_on_stock_id_and_subexpense_id", unique: true
   add_index "expense_relations", ["stock_id"], name: "index_expense_relations_on_stock_id"
   add_index "expense_relations", ["subexpense_id"], name: "index_expense_relations_on_subexpense_id"
+  add_index "expense_relations", ["user_id"], name: "index_expense_relations_on_user_id"
 
   create_table "expense_titles", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "item"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "method"
   end
 
+  add_index "expense_titles", ["user_id"], name: "index_expense_titles_on_user_id"
+
   create_table "expenseledgers", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date"
     t.string   "content"
     t.integer  "amount"
@@ -127,7 +153,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "expenseledgers", ["user_id"], name: "index_expenseledgers_on_user_id"
+
   create_table "financial_statements", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "period_start"
     t.string   "monthly_yearly"
     t.string   "account"
@@ -136,7 +165,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "financial_statements", ["user_id"], name: "index_financial_statements_on_user_id"
+
   create_table "generalledgers", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "pladmin_id"
     t.integer  "stock_id"
     t.integer  "stockreturn_id"
@@ -168,9 +200,11 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   add_index "generalledgers", ["stock_id"], name: "index_generalledgers_on_stock_id"
   add_index "generalledgers", ["stockreturn_id"], name: "index_generalledgers_on_stockreturn_id"
   add_index "generalledgers", ["subexpense_id"], name: "index_generalledgers_on_subexpense_id"
+  add_index "generalledgers", ["user_id"], name: "index_generalledgers_on_user_id"
   add_index "generalledgers", ["voucher_id"], name: "index_generalledgers_on_voucher_id"
 
   create_table "journalpatterns", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "taxcode"
     t.string   "pattern"
     t.string   "debit_account"
@@ -184,7 +218,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "ledger"
   end
 
+  add_index "journalpatterns", ["user_id"], name: "index_journalpatterns_on_user_id"
+
   create_table "listingreports", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "sku"
     t.string   "asin"
     t.integer  "price"
@@ -193,14 +230,20 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "listingreports", ["user_id"], name: "index_listingreports_on_user_id"
+
   create_table "multi_channels", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "order_num"
     t.string   "sku"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "multi_channels", ["user_id"], name: "index_multi_channels_on_user_id"
+
   create_table "periods", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "period_start"
     t.date     "period_end"
     t.datetime "created_at",     null: false
@@ -208,7 +251,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "monthly_yearly"
   end
 
+  add_index "periods", ["user_id"], name: "index_periods_on_user_id"
+
   create_table "pladmins", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
@@ -229,8 +275,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
+  add_index "pladmins", ["user_id"], name: "index_pladmins_on_user_id"
 
   create_table "return_goods", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.string   "order_num"
     t.string   "old_sku"
@@ -243,8 +291,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
+  add_index "return_goods", ["user_id"], name: "index_return_goods_on_user_id"
 
   create_table "sales", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date"
     t.string   "order_num"
     t.string   "sku"
@@ -260,7 +310,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "handling"
   end
 
+  add_index "sales", ["user_id"], name: "index_sales_on_user_id"
+
   create_table "selfstorages", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "sku"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -268,7 +321,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "selfstorages", ["user_id"], name: "index_selfstorages_on_user_id"
+
   create_table "stockaccepts", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date"
     t.string   "fnsku"
     t.string   "sku"
@@ -281,7 +337,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "asin"
   end
 
+  add_index "stockaccepts", ["user_id"], name: "index_stockaccepts_on_user_id"
+
   create_table "stockledgers", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.date     "transaction_date"
     t.string   "sku"
@@ -298,8 +357,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
   add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
   add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
+  add_index "stockledgers", ["user_id"], name: "index_stockledgers_on_user_id"
 
   create_table "stockreturns", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "stock_id"
     t.date     "date"
     t.string   "sku"
@@ -319,8 +380,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   end
 
   add_index "stockreturns", ["stock_id"], name: "index_stockreturns_on_stock_id"
+  add_index "stockreturns", ["user_id"], name: "index_stockreturns_on_user_id"
 
   create_table "stocks", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date"
     t.string   "asin"
     t.string   "goods_name"
@@ -340,7 +403,10 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "soldout_check", default: false, null: false
   end
 
+  add_index "stocks", ["user_id"], name: "index_stocks_on_user_id"
+
   create_table "subexpenses", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "item"
     t.date     "date"
     t.string   "purchase_from"
@@ -353,6 +419,8 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.date     "money_paid"
     t.boolean  "destroy_check", default: false, null: false
   end
+
+  add_index "subexpenses", ["user_id"], name: "index_subexpenses_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -369,6 +437,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
 
   create_table "vouchers", force: :cascade do |t|
+    t.integer  "user_id"
     t.date     "date"
     t.string   "debit_account"
     t.string   "credit_account"
@@ -383,5 +452,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.string   "credit_taxcode"
     t.boolean  "destroy_check",     default: false, null: false
   end
+
+  add_index "vouchers", ["user_id"], name: "index_vouchers_on_user_id"
 
 end

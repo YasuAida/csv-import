@@ -1,9 +1,11 @@
 class Pladmin < ActiveRecord::Base
-  belongs_to :stock
-  has_many :generalledgers, dependent: :destroy
-  
+
   validates :date, uniqueness: { scope: [:stock_id, :order_num, :sku, :goods_name, :sale_place] }
-  
+
+  belongs_to :stock
+  belongs_to :user  
+  has_many :generalledgers, dependent: :destroy
+    
   def self.to_csv
     headers = %w(仕入ID 日付 注文番号 SKU 商品名 個数 売上先 売上高 手数料 原価 送料 入金日 手数料支払日 送料支払日) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|

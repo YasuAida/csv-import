@@ -1,11 +1,12 @@
 class VouchersController < ApplicationController
   include VouchersHelper
-  before_action :set_voucher, only: [ :update]  
+  before_action :set_voucher, only: [ :update]
+  before_action :logged_in_user
   
   def index
-    @all_vouchers = Voucher.all
-    @vouchers = Voucher.all.order(date: :desc).page(params[:page])
-    @voucher = Voucher.new
+    @all_vouchers = current_user.vouchers.all
+    @vouchers = current_user.vouchers.all.order(date: :desc).page(params[:page])
+    @voucher = current_user.vouchers.build
 
     respond_to do |format|
       format.html
@@ -31,7 +32,7 @@ class VouchersController < ApplicationController
 
   def create
     params[:voucher][:amount] = params[:voucher][:amount].gsub(",","") if params[:voucher][:amount].present?
-    @voucher = Voucher.new(voucher_params)
+    @voucher = current_user.vouchers.build(voucher_params)
     if @voucher.save
       redirect_to vouchers_path, notice: 'データを保存しました'
     else
@@ -52,7 +53,7 @@ class VouchersController < ApplicationController
   end
   
   def destroy
-    Voucher.where(destroy_check: true).destroy_all
+    current_user.vouchers.where(destroy_check: true).destroy_all
     redirect_to vouchers_path, notice: 'データを削除しました'
   end
   
@@ -62,7 +63,7 @@ class VouchersController < ApplicationController
   end
   
   def set_voucher
-    @update_voucher = Voucher.find(params[:id])
+    @update_voucher = current_user.vouchers.find(params[:id])
   end
 end
 

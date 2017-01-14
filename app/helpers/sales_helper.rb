@@ -21,7 +21,7 @@ module SalesHelper
           money_receive_date = file_name.original_filename.gsub(/.txt/,"")
           line_hash[:money_receive] = Date.parse(money_receive_date).to_date
           
-          Sale.create(line_hash)
+          current_user.sales.create(line_hash)
         end
       end
     end
@@ -32,8 +32,8 @@ module SalesHelper
   end
   
   def add_handling
-    Sale.where(handling: nil).each do |sale|
-      @entrypatterns = Entrypattern.where(kind_of_transaction: sale.kind_of_transaction)
+    current_user.sales.where(handling: nil).each do |sale|
+      @entrypatterns = current_user.entrypatterns.where(kind_of_transaction: sale.kind_of_transaction)
       @entrypatterns = @entrypatterns.where(kind_of_payment: sale.kind_of_payment)
       @entrypatterns = @entrypatterns.where(detail_of_payment: sale.detail_of_payment)
       @entrypatterns = @entrypatterns.where(sku: sale.sku.gsub(/\S+/,"*"))
@@ -45,7 +45,7 @@ module SalesHelper
         unless sale.sku.blank?
           sale.sku = sale.sku.gsub(/\S+/,"*")
         end
-        Entrypattern.create(sku: sale.sku,kind_of_transaction: sale.kind_of_transaction, kind_of_payment: sale.kind_of_payment, detail_of_payment: sale.detail_of_payment)
+        current_user.entrypatterns.create(sku: sale.sku,kind_of_transaction: sale.kind_of_transaction, kind_of_payment: sale.kind_of_payment, detail_of_payment: sale.detail_of_payment)
         render template: "entrypatterns/index", notice: '損益管理シート/パターンを登録してください'
       end
     end
@@ -53,10 +53,10 @@ module SalesHelper
   end
   
   def import_to_pladmin
-    Sale.all.each do |sale|
+    current_user.sales.all.each do |sale|
       if sale.handling == "売上"
-        commission = Sale.where(date: sale.date, order_num: sale.order_num, sku: sale.sku, handling: "原価（手数料）").sum(:amount)
-        Pladmin.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: sale.quantity, sale_place: "Amazon", sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)
+        commission = current_user.sales.where(date: sale.date, order_num: sale.order_num, sku: sale.sku, handling: "原価（手数料）").sum(:amount)
+        current_user.pladmins.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: sale.goods_name, quantity: sale.quantity, sale_place: "Amazon", sale_amount: sale.amount, commission: commission*-1.to_i, money_receive: sale.money_receive)
       end
       
       if sale.handling == "売上(FBA在庫の返金)"
@@ -65,32 +65,32 @@ module SalesHelper
         else
           name_of_goods = "（FBA在庫の返金）"
         end
-          Pladmin.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: name_of_goods, quantity: 1, sale_place: "Amazon", sale_amount: sale.amount, commission: nil, money_receive: sale.money_receive)
+          current_user.pladmins.create(date: sale.date, order_num: sale.order_num, sku: sale.sku, goods_name: name_of_goods, quantity: 1, sale_place: "Amazon", sale_amount: sale.amount, commission: nil, money_receive: sale.money_receive)
       end      
       
       if sale.handling == "原価（送料）"
-        shipping_cost = Sale.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
-        pladmin = Pladmin.new(date: sale.date, order_num: sale.order_num, quantity: 1, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)
+        shipping_cost = current_user.sales.where(date: sale.date, order_num: sale.order_num).sum(:amount)        
+        pladmin = current_user.pladmins.build(date: sale.date, order_num: sale.order_num, quantity: 1, sale_place: "その他", shipping_cost: shipping_cost * -1, shipping_pay_date: sale.money_receive)
         pladmin.save
-        unless MultiChannel.where(order_num: sale.order_num).present?
-         MultiChannel.create(order_num: sale.order_num)
+        unless current_user.multi_channels.where(order_num: sale.order_num).present?
+         current_user.multi_channels.create(order_num: sale.order_num)
         end
       end
       
       if sale.detail_of_payment == "FBA在庫の返送手数料"
-        unless ReturnGood.where(order_num: sale.order_num).present?
-          ReturnGood.create(date: sale.date, order_num: sale.order_num)
+        unless current_user.return_goods.where(order_num: sale.order_num).present?
+          current_user.return_goods.create(date: sale.date, order_num: sale.order_num)
         end
       end
  
       if sale.detail_of_payment == "FBA在庫の廃棄手数料"
-        unless Disposal.where(order_num: sale.order_num).present?
-          Disposal.create(date: sale.date, order_num: sale.order_num)
+        unless current_user.disposals.where(order_num: sale.order_num).present?
+          current_user.disposals.create(date: sale.date, order_num: sale.order_num)
         end
       end
       
       if sale.handling == "経費"
-        expenseledger = Expenseledger.new(date: sale.date,account_name: "支払手数料", content: sale.detail_of_payment, amount: (sale.amount * -1), money_paid: sale.money_receive, purchase_from: "Amazon", currency: "円")
+        expenseledger = current_user.expenseledgers.build(date: sale.date,account_name: "支払手数料", content: sale.detail_of_payment, amount: (sale.amount * -1), money_paid: sale.money_receive, purchase_from: "Amazon", currency: "円")
   
         #為替レートの付与
         rate_import_new_object(expenseledger)
@@ -101,7 +101,7 @@ module SalesHelper
       end
       
       if sale.handling == "未払金"
-        voucher = Voucher.new(date: sale.date, debit_account: "現金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "出品者からの返済額", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
+        voucher = current_user.vouchers.build(date: sale.date, debit_account: "現金", debit_subaccount: "", debit_taxcode: "不課税", credit_account: "未払金", credit_subaccount: "出品者からの返済額", credit_taxcode: "不課税", amount: sale.amount, content: sale.kind_of_transaction, trade_company: "Amazon")
         voucher.save
       end  
     end      

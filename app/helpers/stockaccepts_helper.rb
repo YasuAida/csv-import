@@ -19,7 +19,7 @@ module StockacceptsHelper
           line_hash[:date] = Date.parse(line_hash[:date]).to_date
           line_hash[:quantity] = line_hash[:quantity].to_i
           
-          Stockaccept.create(line_hash)
+          current_user.stockaccepts.create(line_hash)
         end
       end
     end
@@ -30,9 +30,9 @@ module StockacceptsHelper
   end
   
   def asin_addition_to_stockaccept
-    @stockaccepts = Stockaccept.all
+    @stockaccepts = current_user.stockaccepts.all
     @stockaccepts.each do |stockaccept|
-      @listingreports = Listingreport.where(sku: stockaccept.sku)
+      @listingreports = current_user.listingreports.where(sku: stockaccept.sku)
       if @listingreports.present?
         stockaccept.asin = @listingreports.first.asin
       end

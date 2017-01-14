@@ -1,13 +1,14 @@
 class AccountsController < ApplicationController
   before_action :set_accounts, only: [ :update]
+  before_action :logged_in_user
 
   def index
-    @account = Account.new
-    @accounts = Account.all.order(:bs_pl).order(display_position: :desc)
+    @account = current_user.accounts.build
+    @accounts = current_user.accounts.all.order(:bs_pl).order(display_position: :desc)
   end
   
   def create
-    @account = Account.new(accounts_params)
+    @account = current_user.accounts.build(accounts_params)
     if @account.save
       redirect_to accounts_path, notice: 'データを保存しました'
     else
@@ -24,7 +25,7 @@ class AccountsController < ApplicationController
   end
   
   def destroy
-    Account.where(destroy_check: true).destroy_all
+    current_user.accounts.where(destroy_check: true).destroy_all
     redirect_to accounts_path, notice: 'データを削除しました'
   end
   

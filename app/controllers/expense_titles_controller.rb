@@ -1,23 +1,24 @@
 class ExpenseTitlesController < ApplicationController
-  before_action :set_expense_title, only: [ :destroy]   
+  before_action :set_expense_title, only: [ :destroy] 
+  before_action :logged_in_user
   
   def index
-    @expense_title = ExpenseTitle.new
-    @expense_titles = ExpenseTitle.all
+    @expense_title = current_user.expense_titles.build
+    @expense_titles = current_user.expense_titles.all
   end
   
   def create
-    @expense_title = ExpenseTitle.new(expense_title_params)
+    @expense_title = current_user.expense_titles.build(expense_title_params)
     @expense_title.save
     redirect_to expense_titles_path , notice: '保存しました'
   end
 
   def show
-    @expense_titles = ExpenseTitle.all
+    @expense_titles = current_user.expense_titles.all
   end
   
   def update
-    @update_expense_title = ExpenseTitle.find_by(item: params[:expense_title][:item])
+    @update_expense_title = current_user.expense_titles.find_by(item: params[:expense_title][:item])
     if @update_expense_title.save
       redirect_to expense_titles_show_path , notice: 'データを更新しました'
     else
@@ -36,6 +37,6 @@ class ExpenseTitlesController < ApplicationController
   end
   
   def set_expense_title
-    @update_expense_title = ExpenseTitle.find(params[:id])
+    @update_expense_title = current_user.expense_titles.find(params[:id])
   end
 end

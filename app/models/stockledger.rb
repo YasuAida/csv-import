@@ -1,4 +1,5 @@
 class Stockledger < ActiveRecord::Base
+  belongs_to :user
   belongs_to :stock
   belongs_to :return_good
 

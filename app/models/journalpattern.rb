@@ -1,5 +1,7 @@
 class Journalpattern < ActiveRecord::Base
   validates :taxcode, uniqueness: { scope: [:ledger, :pattern, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode] }
+  
+  belongs_to :user
     
   def self.to_download
     headers = %w(ID 税コード 元帳 パターン 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード)

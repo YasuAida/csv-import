@@ -1,4 +1,5 @@
 class ExpenseRelation < ActiveRecord::Base
+  belongs_to :user
   belongs_to :stock
   belongs_to :subexpense
   

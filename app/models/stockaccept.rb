@@ -1,4 +1,8 @@
 class Stockaccept < ActiveRecord::Base
+
+  validates :date, uniqueness: { scope: [:fnsku, :sku, :goods_name, :quantity, :fba_number, :fc, :asin] }
+
+  belongs_to :user
   
   def self.to_download
     headers = %w(ID 日付 FNSKU 出品者SKU 商品名	数量 FBA納品番号 FC ASIN)

@@ -1,6 +1,7 @@
 class CreateVouchers < ActiveRecord::Migration
   def change
-    create_table :vouchers do |t| 
+    create_table :vouchers do |t|
+      t.references :user, index: true, foreign_key: true      
       t.date :date
       t.string :debit_account
       t.string :credit_account

@@ -1,5 +1,7 @@
 class Entrypattern < ActiveRecord::Base
-    validates :sku, uniqueness: { scope: [:kind_of_transaction, :kind_of_payment, :detail_of_payment, :handling] }
+  validates :sku, uniqueness: { scope: [:kind_of_transaction, :kind_of_payment, :detail_of_payment, :handling] }
+    
+  belongs_to :user  
     
   def self.to_download
     headers = %w(ID SKU トランザクションの種類 支払いの種類 支払いの詳細 処理)

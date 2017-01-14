@@ -1,14 +1,15 @@
 class CurrenciesController < ApplicationController
-  before_action :set_currency, only: [ :update]  
+  before_action :set_currency, only: [ :update]
+  before_action :logged_in_user
   
   def index
-    @currency = Currency.new    
-    @currencies = Currency.all
-    @upload_currencies = Currency.where.not(name: "円")
+    @currency = current_user.currencies.build   
+    @currencies = current_user.currencies.all
+    @upload_currencies = current_user.currencies.where.not(name: "円")
   end
   
   def create
-    Currency.create(currency_params)
+    current_user.currencies.build(currency_params)
     redirect_to currencies_path , notice: 'データを保存しました'
   end
   
@@ -21,7 +22,7 @@ class CurrenciesController < ApplicationController
   end
   
   def destroy
-    Currency.where(destroy_check: true).destroy_all
+    current_user.currencies.where(destroy_check: true).destroy_all
     redirect_to currencies_path, notice: 'データを削除しました'
   end
   
@@ -31,6 +32,6 @@ class CurrenciesController < ApplicationController
   end
   
   def set_currency
-    @update_currency = Currency.find(params[:id])
+    @update_currency = current_user.currencies.find(params[:id])
   end  
 end
