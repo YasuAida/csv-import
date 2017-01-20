@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113004557) do
+ActiveRecord::Schema.define(version: 20170120023334) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "disposals", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "disposals", ["sale_id"], name: "index_disposals_on_sale_id"
   add_index "disposals", ["stock_id"], name: "index_disposals_on_stock_id"
   add_index "disposals", ["user_id"], name: "index_disposals_on_user_id"
 
@@ -139,6 +141,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "expenseledgers", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.date     "date"
     t.string   "content"
     t.integer  "amount"
@@ -153,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "expenseledgers", ["sale_id"], name: "index_expenseledgers_on_sale_id"
   add_index "expenseledgers", ["user_id"], name: "index_expenseledgers_on_user_id"
 
   create_table "financial_statements", force: :cascade do |t|
@@ -234,12 +238,17 @@ ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "multi_channels", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.string   "order_num"
     t.string   "sku"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "destroy_check", default: false, null: false
+    t.integer  "number",        default: 1,     null: false
+    t.date     "date"
   end
 
+  add_index "multi_channels", ["sale_id"], name: "index_multi_channels_on_sale_id"
   add_index "multi_channels", ["user_id"], name: "index_multi_channels_on_user_id"
 
   create_table "periods", force: :cascade do |t|
@@ -255,6 +264,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "pladmins", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.integer  "stock_id"
     t.date     "date"
     t.string   "order_num"
@@ -274,22 +284,25 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check",       default: false, null: false
   end
 
+  add_index "pladmins", ["sale_id"], name: "index_pladmins_on_sale_id"
   add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
   add_index "pladmins", ["user_id"], name: "index_pladmins_on_user_id"
 
   create_table "return_goods", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.integer  "stock_id"
     t.string   "order_num"
     t.string   "old_sku"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "new_sku"
-    t.integer  "number"
+    t.integer  "number",        default: 1
     t.date     "date"
     t.boolean  "destroy_check", default: false, null: false
   end
 
+  add_index "return_goods", ["sale_id"], name: "index_return_goods_on_sale_id"
   add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
   add_index "return_goods", ["user_id"], name: "index_return_goods_on_user_id"
 
@@ -438,6 +451,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
 
   create_table "vouchers", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "sale_id"
     t.date     "date"
     t.string   "debit_account"
     t.string   "credit_account"
@@ -453,6 +467,7 @@ ActiveRecord::Schema.define(version: 20170113004557) do
     t.boolean  "destroy_check",     default: false, null: false
   end
 
+  add_index "vouchers", ["sale_id"], name: "index_vouchers_on_sale_id"
   add_index "vouchers", ["user_id"], name: "index_vouchers_on_user_id"
 
 end

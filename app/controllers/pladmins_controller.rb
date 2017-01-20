@@ -48,7 +48,6 @@ class PladminsController < ApplicationController
     params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
     params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
     if @update_pladmin.update(pladmin_params)
-      @update_pladmin.gl_flag = false
       @update_pladmin.save
       redirect_to pladmins_path, notice: "データを編集しました"
     else

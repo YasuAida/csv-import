@@ -101,7 +101,7 @@ module StockledgersHelper
               sku_stock.sold_unit += owned_number
               sku_stock.soldout_check = true
               sku_stock.save
-              
+          
               @next_stocks = @sku_stocks.where(soldout_check: false)
               next_stock = @next_stocks.first
               ex_price_unit = next_stock.grandtotal / next_stock.number

@@ -12,7 +12,12 @@ module ListingreportsHelper
         if index == 1
           @col_line = [:sku, :asin, :price, :quantity]
         else
+#begin
           decorate_line = @col_line.zip(line.gsub(/\r\n/, "").split(/\t/))
+#rescue =>e
+#          binding.pry
+#          decorate_line = @col_line.zip(line.tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z').gsub(/\r\n/, "").split(/\t/))
+#end
           line_hash = Hash[*decorate_line.flatten]
           line_hash[:price] = line_hash[:price].to_i
           line_hash[:quantity] = line_hash[:quantity].to_i

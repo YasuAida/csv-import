@@ -1,7 +1,8 @@
 class CreateDisposals < ActiveRecord::Migration
   def change
     create_table :disposals do |t|
-      t.references :user, index: true, foreign_key: true       
+      t.references :user, index: true, foreign_key: true
+      t.references :sale, index: true, foreign_key: true      
       t.references :stock, index: true, foreign_key: true
       t.date :date
       t.string :order_num

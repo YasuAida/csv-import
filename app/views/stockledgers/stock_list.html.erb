@@ -1,64 +1,74 @@
-<h1>在庫台帳</h1>
-
-<%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
-  <%= f.label :sku_eq, "SKUで検索" %>
-  <%= f.search_field :sku_eq %>
-  <%= f.submit "検索" %>
-  <%= f.label :asin_cont, "ASINで検索" %>
-  <%= f.search_field :asin_cont %>
-  <%= f.submit "検索" %>
-<% end %>
-
-<div class="container-fluid">
-  <div class="row">
-    <table class="table table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th class="account">日付</th>
-          <th class="middle">仕入ID</th>            
-          <th class="order_num">SKU</th>
-          <th class="asin">ASIN</th>
-          <th class="content">商品名</th>
-          <th class="rate">数量</th>
-          <th class="amount">単価</th>          
-          <th class="amount">金額</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @stocks.each do |stock| %>
-          <tr>
-          <% if stock.stockledgers.sum(:grandtotal) != 0 %>          
-            <td class="account"><%= stock.date %></td>
-            <td class="middle"><%= stock.id %></td>             
-            <td class="order_num"><%= stock.sku %></td>
-            <td class="asin"><%= stock.asin %></td>
-            <td class="content"><%= stock.goods_name %></td>
-                <% count = stock.stockledgers.sum(:number) %>
-            <td class="rate"><%= addcomma(count.to_i) %></td>
-                <% unit_value = stock.unit_price * stock.rate %>
-            <td class="amount"><%= addcomma(unit_value.to_i) %></td>            
-                <% total_value = stock.stockledgers.sum(:grandtotal) %>
-            <td class="amount"><%= addcomma(total_value.to_i) %></td>
-          <% end %> 
-          </tr>
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  在庫台帳
+      </div>
+      <div class="panel-body">
+        <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
+          <%= f.label :sku_eq, "SKUで検索" %>
+          <%= f.search_field :sku_eq %>
+          <%= f.submit "検索", class: 'btn btn-default'%>
+        <% end %>  
+        <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
+          <%= f.label :asin_cont, "ASINで検索" %>
+          <%= f.search_field :asin_cont %>
+          <%= f.submit "検索", class: 'btn btn-default'%>
         <% end %>
-        <% total_number = 0 %>
-        <% total_amount = 0 %>
-        <% @stocks.each do |stock| %>
-          <% total_number = stock.stockledgers.sum(:number) + total_number %>
-          <% total_amount = stock.stockledgers.sum(:grandtotal) + total_amount %>
-        <% end %>
-          <tr>
-            <td class="account"></td>
-            <td class="middle"></td>             
-            <td class="order_num"></td>
-            <td class="asin"></td>
-            <td class="content" style="text-align:right">個数</td>
-            <td class="rate"><%= addcomma(total_number.to_i) %></td>
-            <td class="amount">合計額</td>
-            <td class="amount"><%= addcomma(total_amount.to_i) %></td>
-          </tr>
-      </tbody>
-    </table>
+      </div> 
+    </div>
   </div>
-</div>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th class="account">日付</th>
+        <th class="middle">仕入ID</th>            
+        <th class="order_num">SKU</th>
+        <th class="asin">ASIN</th>
+        <th class="content">商品名</th>
+        <th class="rate">数量</th>
+        <th class="amount">単価</th>          
+        <th class="amount">金額</th>
+      </tr>
+    </thead>
+<% end %>
+    <tbody class="account">
+      <% @stocks.each do |stock| %>
+        <tr>
+        <% if stock.stockledgers.sum(:grandtotal) != 0 %>          
+          <td class="account"><%= stock.date %></td>
+          <td class="middle"><%= stock.id %></td>             
+          <td class="order_num"><%= stock.sku %></td>
+          <td class="asin"><%= stock.asin %></td>
+          <td class="content"><%= stock.goods_name %></td>
+              <% count = stock.stockledgers.sum(:number) %>
+          <td class="rate"><%= addcomma(count.to_i) %></td>
+              <% unit_value = stock.unit_price * stock.rate %>
+          <td class="amount"><%= addcomma(unit_value.to_i) %></td>            
+              <% total_value = stock.stockledgers.sum(:grandtotal) %>
+          <td class="amount"><%= addcomma(total_value.to_i) %></td>
+        <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+<% content_for :foot do %> 
+    <tbody>
+      <% total_number = 0 %>
+      <% total_amount = 0 %>
+      <% @stocks.each do |stock| %>
+        <% total_number = stock.stockledgers.sum(:number) + total_number %>
+        <% total_amount = stock.stockledgers.sum(:grandtotal) + total_amount %>
+      <% end %>
+        <tr>
+          <td class="account"></td>
+          <td class="middle"></td>             
+          <td class="order_num"></td>
+          <td class="asin"></td>
+          <td class="content" style="text-align:right">個数</td>
+          <td class="rate"><%= addcomma(total_number.to_i) %></td>
+          <td class="amount">合計額</td>
+          <td class="amount"><%= addcomma(total_amount.to_i) %></td>
+        </tr>
+    </tbody>
+  </table>
+<% end %>

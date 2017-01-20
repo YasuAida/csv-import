@@ -1,7 +1,7 @@
 <!--Ajaxのrender用に切り出したフォーム-->
 <%= form_for(voucher, url: voucher_path(voucher.id), remote: true) do |f| %>
   <td class="update" id="check-<%= voucher.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
-  <td class="small"><%= voucher.id %></td>
+  <td class="middle"><%= voucher.sale_id %></td> 
   <td class="account"><%= f.text_field :date, :size=> "8"%></td>
   <td class="account"><%= f.text_field :debit_account, :size=> "8" %></td>
   <td class="large"><%= f.text_field :debit_subaccount, :size=> "10" %></td>              

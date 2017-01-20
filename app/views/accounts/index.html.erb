@@ -2,10 +2,8 @@
   <div class="panel_container">
     <div class="panel panel-default">
     	<div class="panel-heading">
-        <h3>勘定科目一覧</h3>
+        勘定科目一覧
     	</div>
-      <div class="panel-body">
-      </div> 
     </div>
   </div>  
   <div class="table-responsive">
@@ -43,8 +41,8 @@
         <% end %>
       </tbody>
 <% content_for :foot do %>
-      <tbody class="accounts">
-        <%= form_for(@account) do |f| %>
+      <%= form_for(@account) do |f| %>
+        <tbody class="footer">
           <tr>
             <th class="update">新規登録</td>
             <td class="asin"><%= f.text_field :account, :size=> "10"%></td>            
@@ -52,9 +50,9 @@
             <td class="asin"><%= f.select :bs_pl, ["ＢＳ","ＰＬ"] ,{},{class: "account_select"}%></td>
             <td class="asin"><%= f.select :display_position, ["売上高","売上原価","販売管理費","営業外損益","資産","負債","純資産"],{},{class: "account_select"} %></td>              
             <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm' %></td>
-          </tr>
-        <% end %>       
-      </tbody>
+          </tr>    
+        </tbody>
+      <% end %> 
     </table>
   </div>
 <% end %>

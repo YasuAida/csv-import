@@ -5,54 +5,44 @@
         損益管理シート
     	</div>
       <div class="panel-body">
-        <div class="row form-inline">      
-          <%= search_form_for(@q, url: pladmins_path) do |f| %>
-            <div class="row; form-inline;">
-              <div class="col-sm-3">          
-                <%= f.label :sku_eq, "SKUで検索" %>
-                <%= f.search_field :sku_eq, placeholder: "完全一致"%>
-              </div>
-              <div class="col-sm-3">
-                <%= f.label :goods_name_cont, "商品名で検索" %>
-                <%= f.search_field :goods_name_cont, placeholder: "部分一致"%>
-              </div> 
-            </div>
-            <div class="col-sm-6">
-              <div class="form-inline">
-                <%= f.label :date, "日付で検索"%>
-                <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>〜
-                <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control" %>
-              </div>  
-            </div>
-            <div>
-              <div class="col-sm-3">          
-                <%= f.submit "検索", class: 'btn btn-default' %>
-                <%= link_to "クリア", request.path, class: 'btn btn-default' %>
-              </div>
-            </div>
+        <%= search_form_for(@q, url: pladmins_path) do |f| %>   
+          <%= f.label :order_num_cont, "注文番号で検索" %>
+          <%= f.search_field :order_num_cont, placeholder: "部分一致"%>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+        <%= search_form_for(@q, url: pladmins_path) do |f| %>   
+          <%= f.label :sku_eq, "SKUで検索" %>
+          <%= f.search_field :sku_eq, placeholder: "完全一致"%>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+        <%= search_form_for(@q, url: pladmins_path) do |f| %>          
+          <%= f.label :goods_name_cont, "商品名で検索" %>
+          <%= f.search_field :goods_name_cont, placeholder: "部分一致"%>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+        <%= search_form_for(@q, url: pladmins_path, html: {class: 'date_form'}) do |f| %>           
+          <%= f.label :date, "日付で検索"%>
+          <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+          <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+          <%= f.submit "検索", class: 'btn btn-default' %>            
+        <% end %>
+        <div style="display: inline-block">   
+          <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
+            <label>損益データ取り込み:</label>
+            <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
+            <%= submit_tag "UPLOAD", class: 'btn btn-default' %>  
           <% end %>
-          <div style="display: inline-block">
-            <div class="col-sm-6"> 
-              <p>損益データ取り込み:</p>
-            </div>            
-            <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-            <div class="col-sm-4"> 
-                <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
-            </div>
-            <div class="col-sm-2">             
-                <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm' %>
-             </div>   
-            <% end %>
-          </div>
         </div>  
-      </div> 
-    </div>  
+      </div>
+    </div>
+  </div>
 
   <div class="table-responsive">  
     <table class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
           <th class="update"><a href= ./pladmins/destroy class="btn btn-default btn-sm">削除</th>
+          <th class="middle">取引ID</th>            
           <th class="middle">仕入ID</th>            
           <th class="account">日付</th>      
           <th class="order_num">注文番号</th>
@@ -77,6 +67,7 @@
         <tr>
           <%= form_for(pladmin, url: pladmin_path(pladmin.id), remote: true) do |f| %>
             <td class="update" id="check-<%= pladmin.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= pladmin.sale_id %></td>            
             <td class="middle"><%= pladmin.stock_id %></td>
             <td class="account"><%= f.text_field :date, :size => 8 %></td>          
             <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
@@ -106,6 +97,7 @@
         <% end %>
         <tr>
           <td class="update"></td>
+          <td class="middle"></td>          
           <td class="middle"></td>          
           <td class="account"></td>
           <td class="order_num"></td>
@@ -143,7 +135,8 @@
       <tbody class="footer">
         <tr>
           <td class="update"></td>
-          <td class="middle"></td>          
+          <td class="middle"></td>
+          <td class="middle"></td>
           <td class="account"><%= f.text_field :date, :size => 8 %></td>
           <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>
           <td class="order_num"><%= f.text_field :sku, :size => 18 %></td>

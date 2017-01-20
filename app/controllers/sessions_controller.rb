@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
       flash[:info] = "ユーザー名 #{@user.name}"
-      redirect_to @user
+      redirect_to root_path
     else
       flash[:danger] = '無効なメールアドレス／パスワードです'
       render 'new'

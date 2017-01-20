@@ -1,0 +1,36 @@
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        入金一覧
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th class="small">削除</th>
+        <th class="company">入金日</th>
+        <th class="amount">入金額</th>
+        <th class="update">更新</th>        
+      </tr>
+    </thead>
+<% end %>
+    <tbody>
+      <% @sales.group(:money_receive).each do |sale| %>
+        <tr>
+          <td class="small"></td>        
+          <td class="company"><%= sale.money_receive %></td>
+          
+          <% total_amount = 0 %>
+          <% @sales.where(money_receive: sale.money_receive).each do |each_sale| %>
+            <% total_amount = each_sale.amount + total_amount %>
+          <% end %>
+          
+          <td class="amount"><%= addcomma(total_amount.to_i) %></td>
+          <td class="update"></td>      
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

@@ -1,6 +1,6 @@
 class Stockreturn < ActiveRecord::Base
 
-  validates :stock_id , uniqueness: { scope: [:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
+  validates :user_id, uniqueness: { scope: [:stock_id,:date, :sku, :asin, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
 
   belongs_to :user
 
@@ -12,6 +12,7 @@ class Stockreturn < ActiveRecord::Base
       all.each do |row|
         csv_column_values = [
           row.id,
+          row.user_id,
           row.stock_id,          
           row.date,
           row.sku,

@@ -13,7 +13,7 @@ class FinancialStatementsController < ApplicationController
     @liability_accounts = current_user.accounts.where(bs_pl: "ＢＳ", display_position: "負債")
     @capital_accounts = current_user.accounts.where(bs_pl: "ＢＳ", display_position: "純資産")
     
-    @periods.each do |period|
+    @periods.each do |period|  
     #ＰＬ科目ごとの集計  
       @pl_accounts.each do |pl_account|    
         @pl_debit_ledgers = current_user.generalledgers.where(debit_account: pl_account.account, date: period.period_start..period.period_end)
@@ -41,7 +41,7 @@ class FinancialStatementsController < ApplicationController
       end
     #売上高の集計      
       balance = 0
-      @pl_accounts.where(display_position: "売上高" ).each do |sale_account|    
+      @pl_accounts.where(display_position: "売上高" ).each do |sale_account|
         @sale_debit_ledgers = current_user.generalledgers.where(debit_account: sale_account.account, date: period.period_start..period.period_end)
         debit_total_amount = @sale_debit_ledgers.sum(:amount)
         @sale_credit_ledgers = current_user.generalledgers.where(credit_account: sale_account.account, date: period.period_start..period.period_end)
@@ -52,7 +52,7 @@ class FinancialStatementsController < ApplicationController
       financial_statement.monthly_yearly = period.monthly_yearly
       financial_statement.account = "売上高合計"
       financial_statement.amount = balance * -1
-     
+  
       if financial_statement.save        
       else 
         old_data = current_user.financial_statements.find_by(period_start: period.period_start, monthly_yearly: period.monthly_yearly, account: "売上高合計")
@@ -103,7 +103,7 @@ class FinancialStatementsController < ApplicationController
       financial_statement.monthly_yearly = period.monthly_yearly
       financial_statement.account = "販売管理費合計"
       financial_statement.amount = balance
-     
+ 
       if financial_statement.save        
       else 
         old_data = current_user.financial_statements.find_by(period_start: period.period_start, monthly_yearly: period.monthly_yearly, account: "販売管理費合計")

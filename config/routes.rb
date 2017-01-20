@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'settings/index'
+
   resources :selfstorages, only: [ :index, :create, :update, :destroy]
   
   resources :disposals, only: [ :index, :create, :update]
@@ -44,11 +46,12 @@ Rails.application.routes.draw do
   resources :return_goods, only: [ :index, :create, :update]
   get 'return_goods/destroy'
   
-  resources :multi_channels, only: [ :index, :update] do
+  resources :multi_channels, only: [ :index, :create, :update] do
     collection do
       get 'sku'
     end
   end
+  get 'multi_channels/destroy'
 
   resources :generalledgers, only: [:index, :destroy] do
     collection do
@@ -127,6 +130,7 @@ Rails.application.routes.draw do
       post 'upload'
       get  'handling'
       get  'pladmin'
+      get  'receipt'      
     end
   end
   

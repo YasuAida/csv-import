@@ -4,11 +4,11 @@
     	<div class="panel-heading">
     	  経費台帳
     	</div>
-      <div class="panel-body inline">      
-        <p style="font-weight: bold;">経費取込み:</p>
-        <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-            <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
-            <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
+      <div class="panel-body">      
+        <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
+          <label>経費取込み:</label>
+          <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
+          <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
         <% end %>
       </div> <%#7行目<div class="panel-body"> %>
     </div> <%#3行目<div class="panel-heading"> %>
@@ -19,6 +19,7 @@
       <thead>
         <tr>
           <th class="update"><a href= ./expenseledgers/destroy class="btn btn-default btn-sm">削除</th>
+          <th class="middle">取引ID</th>           
           <th class="account">日付</th>
           <th class="asin">勘定科目</th>
           <th class="amount">金額(外貨)</th>
@@ -37,6 +38,7 @@
           <tr>
             <%= form_for(expenseledger, url: expenseledger_path(expenseledger.id), remote: true) do |f| %>
               <td class="update" id="check-<%= expenseledger.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+              <td class="middle"><%= expenseledger.sale_id %></td>                
               <td class="account"><%= f.text_field :date, :size=> "8"%></td>
               <td class="asin"><%= f.text_field :account_name, :size=> "12"%></td>
             
@@ -73,26 +75,28 @@
         <% end %>
       </tbody>
 <% content_for :foot do %>
-      <tbody class="footer">
-        <%= form_for(@expenseledger) do |f| %>
-        <tr>
-          <td class="update"></td>
-          <td class="account"><%= f.text_field :date, :size=> "8"%></td>
-          <td class="asin"><%= f.text_field :account_name, :size=> "12"%></td>
-          <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right"%></td>
-          <td class="rate"></td>
-          <td class="amount"></td>
-          <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
-          <td class="asin"><%= f.text_field :purchase_from, :size=> "12"%></td>
-          <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
-          <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
-          <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm' %></td>
-        </tr>
-        <% end %>
-      </tbody>
+      <%= form_for(@expenseledger) do |f| %>
+        <tbody class="footer">
+          <tr>
+            <td class="update"></td>
+            <td class="middle"></td>             
+            <td class="account"><%= f.text_field :date, :size=> "8"%></td>
+            <td class="asin"><%= f.text_field :account_name, :size=> "12"%></td>
+            <td class="amount"><%= f.text_field :amount, :size=> "8", :style=>"text-align:right"%></td>
+            <td class="rate"></td>
+            <td class="amount"></td>
+            <td class="account"><%= f.text_field :money_paid, :size=> "8"%></td>
+            <td class="asin"><%= f.text_field :purchase_from, :size=> "12"%></td>
+            <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
+            <td class="content" style="white-space:nowrap;"><%= f.text_field :content, :size => "42"%></td>
+            <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm' %></td>
+          </tr>
+        </tbody>
+      <% end %>
     </table>
   </div>  
     <%= paginate @expenseledgers %>
+
   <div class="row">
     <div class="col-md-6">  
       <p>
@@ -109,6 +113,6 @@
       </div>
     </div>
   </div>  
+<% end %> 
 
-
-<% end %>  
+ 

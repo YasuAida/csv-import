@@ -37,7 +37,7 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("stockreturns.csv") { |f| f.puts(current_user.stockreturns.to_download) }      
       zipfile.get_output_stream("stocks.csv") { |f| f.puts(current_user.stocks.to_download) }
       zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(current_user.subexpenses.to_download) }
-      zipfile.get_output_stream("users.csv") { |f| f.puts(current_user.users.to_download) }      
+      zipfile.get_output_stream("users.csv") { |f| f.puts(User.to_download) }      
       zipfile.get_output_stream("vouchers.csv") { |f| f.puts(current_user.vouchers.to_download) }
     end
     

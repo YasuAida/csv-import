@@ -2,10 +2,10 @@
   <div class="panel_container">
     <div class="panel panel-default">
     	<div class="panel-heading">
-    	  ダミー計上商品（売上のキャンセル処理がされる前に商品が売れてしまった時に入力します。）
+    	  <p>ダミー計上商品</P>
     	</div>
-      <div class="panel-body"></div> 
-    </div>
+    	<p><h3>（売上のキャンセル処理がされる前に商品が売れてしまった時に入力します。）</h3></P>
+    </div>	
   </div>      
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -51,9 +51,9 @@
       </tr>
       <% end %>
     </tbody>
-<% content_for :foot do %> 
-    <tbody class="footer">
-      <%= form_for(@dummy_stock) do |f| %>
+<% content_for :foot do %>
+    <%= form_for(@dummy_stock) do |f| %>
+      <tbody class="footer">
         <tr>
           <td class="update"></td>        
           <td class="number"><%= f.text_field :stock_id, :size => "4"%></td> 
@@ -67,8 +67,8 @@
           <td class="amount"></td>
           <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm'%></td>
         </tr>    
-      <% end %>
-    </tbody>
+      </tbody>
+    <% end %>
   </table>
   <%= paginate @dummy_stocks %>
   

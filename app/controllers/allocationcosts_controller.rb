@@ -110,7 +110,7 @@ class AllocationcostsController < ApplicationController
     import_to_stockledger    
     
     @q = current_user.stocks.search(params[:q])
-    @stocks = @q.result(distinct: true).order(:date).page(params[:page])
+    @stocks = @q.result(distinct: true).order(:date).page(params[:page]).per(300)
     
     render 'show'
     p "処理概要 #{Time.now - start_time}s"

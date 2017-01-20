@@ -7,7 +7,7 @@ class ExpenseledgersController < ApplicationController
   def index
     @all_expenseledgers = current_user.expenseledgers.all
     @expenseledger = current_user.expenseledgers.build
-    @expenseledgers = current_user.expenseledgers.all.order(date: :desc).page(params[:page])
+    @expenseledgers = current_user.expenseledgers.all.order(date: :desc).page(params[:page]).per(300)
     
     respond_to do |format|
       format.html

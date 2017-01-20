@@ -1,18 +1,23 @@
-<h1>商品有高帳</h1>
-
-<%= search_form_for(@q, url: stockledgers_path) do |f| %>
-  <%= f.label :sku_eq, "SKUで検索" %>
-  <%= f.search_field :sku_eq %>
-<%= f.submit %>
-<% end %>
-
-<%= search_form_for(@q, url: stockledgers_path) do |f| %>
-  <%= f.label :asin_cont, "ASINで検索" %>
-  <%= f.search_field :asin_cont %>
-<%= f.submit %>
-<% end %>
-
-<div class="container">
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  商品有高帳
+    	</div>
+      <div class="panel-body">
+        <%= search_form_for(@q, url: stockledgers_path) do |f| %>
+          <%= f.label :sku_eq, "SKUで検索" %>
+          <%= f.search_field :sku_eq %>
+        <%= f.submit "検索", class: 'btn btn-default'%>
+        <% end %>      
+        <%= search_form_for(@q, url: stockledgers_path) do |f| %>
+          <%= f.label :asin_cont, "ASINで検索" %>
+          <%= f.search_field :asin_cont %>
+        <%= f.submit "検索", class: 'btn btn-default'%>
+        <% end %>
+      </div> 
+    </div>
+  </div>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
@@ -27,6 +32,7 @@
         <th class="amount">金額</th>
       </tr>
     </thead>
+<% end %>
     <tbody>
       <% @stockledgers.each do |stockledger| %>
       <tr>
@@ -57,10 +63,9 @@
         <td class="amount"><%= addcomma(total_amount.to_i) %></td>
       </tr>
     </tbody>
-    <%= paginate @stockledgers %>
   </table>
-</div>
 
+<%= paginate @stockledgers %>
 <p>
   Download:
   <%= link_to "CSV形式でダウンロード", stockledgers_path(format: "csv") %>

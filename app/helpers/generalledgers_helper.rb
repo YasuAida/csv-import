@@ -351,7 +351,7 @@ module GeneralledgersHelper
  
   def import_from_stockledgers(journalpatterns)
     #「商品有高帳」FBAから商品を戻した場合
-    @return_goods = current_user.return_goods.all 
+    @return_goods = current_user.return_goods.where.not(stock_id: nil)
     @return_goods.each do |return_good|
       find_pattern = journalpatterns.find_by(ledger: "商品有高帳",pattern: "FBAから商品を戻した場合")
       g_ledger = current_user.generalledgers.build(date: return_good.date)

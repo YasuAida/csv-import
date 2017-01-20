@@ -1,16 +1,28 @@
-<h1>仕入返品台帳</h1>
-    
-  <%= search_form_for(@q, url: stockreturns_path) do |f| %>
-    <%= f.label :sku_eq, "SKUで検索" %>
-    <%= f.search_field :sku_eq %>
-    <%= f.submit "検索" %>
-    <%= f.label :asin_cont, "ASINで検索" %>
-    <%= f.search_field :asin_cont %>
-    <%= f.submit "検索" %>
-    <%= f.label :goods_name_cont, "商品名で検索" %>
-    <%= f.search_field :goods_name_cont %>
-    <%= f.submit "検索" %>
-  <% end %>
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	  仕入返品台帳
+      </div>
+      <div class="panel-body">    
+        <%= search_form_for(@q, url: stockreturns_path) do |f| %>
+          <%= f.label :sku_eq, "SKUで検索" %>
+          <%= f.search_field :sku_eq %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+        <%= search_form_for(@q, url: stockreturns_path) do |f| %>
+          <%= f.label :asin_cont, "ASINで検索" %>
+          <%= f.search_field :asin_cont %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+        <%= search_form_for(@q, url: stockreturns_path) do |f| %>        
+          <%= f.label :goods_name_cont, "商品名で検索" %>
+          <%= f.search_field :goods_name_cont %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
+      </div>
+    </div>  
+  </div>
   
   <div class="container" id='aj-form'>
     <!--クリックイベントを作る為に外包するIDをを作成-->
@@ -34,6 +46,7 @@
           <th class="update"></th>
         </tr>
       </thead>
+<% end %>
       <tbody>   
         <% @stockreturns.each do |stockreturn| %>
         <tr> 
@@ -73,7 +86,10 @@
           <% end %>
         </tr>
         <% end %>
-        <%= form_for(@stockreturn) do |f| %>
+      </tbody>
+<% content_for :foot do %>
+      <%= form_for(@stockreturn) do |f| %>
+        <tbody class="footer">
           <tr>
             <td class="update"></td>
             <td class="middle"><%= f.text_field :stock_id, :size=> "4"%></td>
@@ -91,8 +107,9 @@
             <td class="account"><%= f.text_field :currency, :size=> "8"%></td>
             <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm'%></td>
           </tr>
-        <% end %>
-      </tbody>
+        </tbody>
+      <% end %>
     </table>
     <%= paginate @stockreturns %>
   </div>
+<% end %>

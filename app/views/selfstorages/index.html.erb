@@ -5,15 +5,11 @@
     	  自己保管商品
       </div>
       <div class="panel-body">
-        <div class="row form-inline">
-          <div class="col-sm-3"> 
-            <%= search_form_for(@q, url: selfstorages_path) do |f| %>
-              <%= f.label :sku_eq, "ＳＫＵで検索" %>
-              <%= f.search_field :sku_eq %>
-              <%= f.submit "検索" %>
-            <% end %>
-          </div>  
-        </div> 
+        <%= search_form_for(@q, url: selfstorages_path) do |f| %>
+          <%= f.label :sku_eq, "ＳＫＵで検索" %>
+          <%= f.search_field :sku_eq %>
+          <%= f.submit "検索", class: 'btn btn-default' %>
+        <% end %>
       </div> 
     </div>
   </div>
@@ -66,18 +62,18 @@
       <% end %>
     </tbody>
 <% content_for :foot do %>
-    <tbody class="footer"> 
-      <%= form_for(@selfstorage) do |f| %>
+    <%= form_for(@selfstorage) do |f| %>
+      <tbody class="footer"> 
         <tr>
-            <td class="update"></td>
-            <td class="middle"></td>
-            <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
-            <td class="large"></td>          
-            <td class="content"></td>   
-            <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm' %></td>
+          <td class="update"></td>
+          <td class="middle"></td>
+          <td class="order_num"><%= f.text_field :sku, :size => "18"%></td>
+          <td class="large"></td>          
+          <td class="content"></td>   
+          <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm' %></td>
         </tr>
-      <% end %>
-    </tbody>
+      </tbody>
+    <% end %>
     <%= paginate @selfstorages %>
   </table>
 <% end %>

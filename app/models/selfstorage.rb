@@ -1,5 +1,5 @@
 class Selfstorage < ActiveRecord::Base
-  validates :sku, uniqueness: true, presence: true
+  validates :user_id, uniqueness: { scope: [:sku] }, presence: true
 
   belongs_to :user
   
@@ -18,11 +18,12 @@ class Selfstorage < ActiveRecord::Base
   end
   
   def self.to_download
-    headers = %w(ID SKU) 
+    headers = %w(ID user_id SKU) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
           row.id,
+          row.user_id,
           row.sku
        ]
       csv << csv_column_values

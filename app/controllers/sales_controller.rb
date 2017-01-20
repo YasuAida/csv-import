@@ -4,9 +4,9 @@ class SalesController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @sales = current_user.sales.all
+    @all_sales = current_user.sales.all
     @q = current_user.sales.search(params[:q])
-    #@sales = @q.result(distinct: true).page(params[:page])
+    @sales = @q.result(distinct: true).page(params[:page])
   end
 
   def upload
@@ -33,6 +33,17 @@ class SalesController < ApplicationController
     import_to_pladmin
       
     redirect_to pladmins_path      
+  end
+
+  def receipt
+    @sales = current_user.sales.where.not(kind_of_transaction: "Amazonに支払う額 | 出品者からの返済額")
+  end
+  
+  def receipt_update
+    @update_sales = current_user.sales.where(money_receive: params[:money_receive])
+    @update_sales.each do |update_sale|
+      update_sale.update()
+    end
   end
 
 end

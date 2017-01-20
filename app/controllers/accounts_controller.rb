@@ -35,6 +35,6 @@ class AccountsController < ApplicationController
   end
   
   def set_accounts
-    @update_account = Account.find(params[:id])
+    @update_account = current_user.accounts.find(params[:id])
   end  
 end

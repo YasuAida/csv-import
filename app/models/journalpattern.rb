@@ -1,14 +1,15 @@
 class Journalpattern < ActiveRecord::Base
-  validates :taxcode, uniqueness: { scope: [:ledger, :pattern, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode] }
+  validates :user_id, uniqueness: { scope: [:taxcode, :ledger, :pattern, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode] }
   
   belongs_to :user
     
   def self.to_download
-    headers = %w(ID 税コード 元帳 パターン 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード)
+    headers = %w(ID user_id 税コード 元帳 パターン 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
         row.id,
+        row.user_id,
         row.taxcode,
         row.ledger,
         row.pattern,

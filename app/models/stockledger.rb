@@ -4,7 +4,7 @@ class Stockledger < ActiveRecord::Base
   belongs_to :return_good
 
   def self.to_csv
-    headers = %w(Stock_id 日付 SKU ASIN 商品名 分類 数量 単価 金額) 
+    headers = %w(仕入ID 日付 SKU ASIN 商品名 分類 数量 単価 金額) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -25,11 +25,12 @@ class Stockledger < ActiveRecord::Base
   end
   
   def self.to_download
-    headers = %w(ID Stock_id 日付 SKU ASIN 商品名 分類 数量 単価 金額)
+    headers = %w(ID user_id 仕入ID 日付 SKU ASIN 商品名 分類 数量 単価 金額)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
           row.id,
+          row.user_id,
           row.stock_id,
           row.transaction_date,
           row.sku,

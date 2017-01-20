@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>せどり会計システム</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
+  <head>
+    <title>せどり会計システム</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
   <body>
     <%= render 'layouts/header' %>
   
@@ -21,8 +21,7 @@
     <% if notice %>
       <div class="alert alert-info">
         <%= notice %>
-      </div>
-      
+      </div>      
     <% end %>
   </body>
 </html>

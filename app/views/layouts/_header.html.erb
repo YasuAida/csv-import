@@ -1,7 +1,7 @@
-<header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="height 100%; margin 0px;">
-    <div class="container">
-      <%= link_to "せどり会計", root_path, id: "logo" %>
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "せどり会計", root_path, id: "logo" %>
+    <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", '#' %></li>
@@ -23,8 +23,8 @@
         <% else %>
           <li><%= link_to "ログイン", login_path %></li>
         <% end %>
-      </ul> 
-    </div>
-  </nav>
+      </ul>
+    </nav>
+  </div>
 </header>
 
