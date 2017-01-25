@@ -8,7 +8,7 @@ class Pladmin < ActiveRecord::Base
   has_many :generalledgers, dependent: :destroy
     
   def self.to_csv
-    headers = %w(仕入ID 日付 注文番号 SKU 商品名 個数 売上先 売上高 手数料 原価 送料 入金日 手数料支払日 送料支払日) 
+    headers = %w(取引ID 仕入ID 日付 注文番号 SKU 商品名 個数 売上先 売上高 手数料 原価 送料 入金日 手数料支払日 送料支払日) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -35,7 +35,7 @@ class Pladmin < ActiveRecord::Base
   end
     
   def self.to_download
-    headers = %w(ID user_id 仕入ID 日付 注文番号 SKU 商品名 個数 売上先 売上高 手数料 原価 送料 入金日 手数料支払日 送料支払日)
+    headers = %w(ID user_id 取引ID 仕入ID 日付 注文番号 SKU 商品名 個数 売上先 売上高 手数料 原価 送料 入金日 手数料支払日 送料支払日)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [

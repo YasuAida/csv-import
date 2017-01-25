@@ -6,7 +6,7 @@ class Voucher < ActiveRecord::Base
   has_many :generalledgers, dependent: :destroy
 
   def self.to_csv
-    headers = %w(日付 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード 金額 摘要 取引先)
+    headers = %w(日付 取引ID 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード 金額 摘要 取引先)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -29,7 +29,7 @@ class Voucher < ActiveRecord::Base
   end  
     
   def self.to_download
-    headers = %w(ID	user_id 日付 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード 金額 摘要 取引先)
+    headers = %w(ID	user_id 取引ID 日付 借方勘定科目 借方補助科目 借方税コード 貸方勘定科目 貸方補助科目 貸方税コード 金額 摘要 取引先)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [

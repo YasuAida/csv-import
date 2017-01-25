@@ -21,7 +21,8 @@ class StockledgersController < ApplicationController
     end
     
     #「返還」及び「SKU付替」に係るstockledgersの作成
-     current_user.return_goods.all.each do |return_good|
+    @return_goods = current_user.return_goods.where.not(stock_id: nil)
+    @return_goods.each do |return_good|
       sku_stock = current_user.stocks.find(return_good.stock_id)
       ex_price_unit = sku_stock.grandtotal / sku_stock.number
       price_unit = BigDecimal(ex_price_unit.to_s).round(0)      

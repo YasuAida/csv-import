@@ -5,7 +5,7 @@ class MultiChannel < ActiveRecord::Base
   belongs_to :sale
   
   def self.to_csv
-    headers = %w(注文番号 SKU) 
+    headers = %w(取引ID 日付 注文番号 SKU 個数) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
           csv_column_values = [
@@ -22,7 +22,7 @@ class MultiChannel < ActiveRecord::Base
   end
     
   def self.to_download
-    headers = %w(ID user_id 注文番号 SKU)
+    headers = %w(ID user_id 取引ID 日付 注文番号 SKU 個数)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [

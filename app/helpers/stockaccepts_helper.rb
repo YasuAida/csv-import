@@ -32,9 +32,9 @@ module StockacceptsHelper
   def asin_addition_to_stockaccept
     @stockaccepts = current_user.stockaccepts.all
     @stockaccepts.each do |stockaccept|
-      @listingreports = current_user.listingreports.where(sku: stockaccept.sku)
-      if @listingreports.present?
-        stockaccept.asin = @listingreports.first.asin
+      target_listingreports = current_user.listingreports.where(sku: stockaccept.sku)
+      if target_listingreports.present?
+        stockaccept.asin = target_listingreports.first.asin
       end
       stockaccept.save
     end

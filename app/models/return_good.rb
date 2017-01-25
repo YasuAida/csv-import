@@ -7,7 +7,7 @@ class ReturnGood < ActiveRecord::Base
   has_many :generalledgers, dependent: :destroy
     
   def self.to_csv
-    headers = %w(日付 注文番号 返還前SKU 新SKU 個数) 
+    headers = %w(日付 取引ID 仕入ID 注文番号 返還前SKU 新SKU 個数) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -26,7 +26,7 @@ class ReturnGood < ActiveRecord::Base
   end
   
   def self.to_download
-    headers = %w(ID user_id 仕入ID 日付 注文番号 返還前SKU 新SKU 個数) 
+    headers = %w(ID user_id 取引ID 仕入ID 日付 注文番号 返還前SKU 新SKU 個数) 
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [

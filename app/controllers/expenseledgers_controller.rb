@@ -52,7 +52,6 @@ class ExpenseledgersController < ApplicationController
   def update
     params[:expenseledger][:amount] = params[:expenseledger][:amount].gsub(",","") if params[:expenseledger][:amount].present?    
     if @update_expenseledger.update(expenseledger_params)
-      @update_expenseledger.gl_flag = false
       @update_expenseledger.save
       redirect_to expenseledgers_path, notice: "データを編集しました"
     else

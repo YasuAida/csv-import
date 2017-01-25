@@ -28,9 +28,31 @@ class MultiChannelsController < ApplicationController
   #損益管理シートへSKUと商品名を入力
     current_user.multi_channels.all.each do |multi|
       sku_pladmin = current_user.pladmins.find_by(date: multi.date, order_num: multi.order_num, sku: nil)
-      if sku_pladmin.present?
+      multi_number = current_user.multi_channels.where(date: multi.date, order_num: multi.order_num).count
+      ex_pladmins = current_user.pladmins.where(date: multi.date, order_num: multi.order_num)
+      old_pladmins = ex_pladmins.where.not(sku: nil)
+      
+      if old_pladmins.present? && multi_number > 1
+        old_pladmins.each do |old_pladmin|
+          if old_pladmin.sku == multi.sku
+            break
+          end
+        end
+        
+        new_pladmin = current_user.pladmins.build(sale_id: multi.sale_id, date: multi.date, order_num: multi.order_num, sku: multi.sku, quantity: multi.number, sale_place: "その他")
+        
+        sku_stocks = current_user.stocks.where(sku: multi.sku)
+        sku_stockaccepts = current_user.stockaccepts.where(sku: multi.sku) 
+        if sku_stocks.present?
+          new_pladmin.goods_name = sku_stocks.first.goods_name + "（マルチ発送分）"
+        elsif sku_stockaccepts.present?
+          new_pladmin.goods_name = sku_stockaccepts.first.goods_name + "（マルチ発送分）" 
+        end
+        new_pladmin.save
+      elsif sku_pladmin.present?
         sku_pladmin.sku = multi.sku
         sku_pladmin.quantity = multi.number
+        
         sku_stocks = current_user.stocks.where(sku: multi.sku)
         sku_stockaccepts = current_user.stockaccepts.where(sku: multi.sku) 
         if sku_stocks.present?
@@ -39,8 +61,6 @@ class MultiChannelsController < ApplicationController
           sku_pladmin.goods_name = sku_stockaccepts.first.goods_name + "（マルチ発送分）" 
         end
         sku_pladmin.save
-      else
-        current_user.pladmins.create(sale_id: multi.sale_id, date: multi.date, order_num: multi.order_num, sku: multi.sku, quantity: multi.number, sale_place: "その他")            
       end
     end
     
@@ -54,7 +74,7 @@ class MultiChannelsController < ApplicationController
           ex_shipping_cost = total_shipping_cost / multi_number
           shipping_cost = BigDecimal(ex_shipping_cost.to_s).round(0)
           pay_date_pladmin = target_pladmins.where.not(shipping_pay_date: nil)
-          pay_date = pay_date_pladmin.shipping_pay_date
+          pay_date = pay_date_pladmin.first.shipping_pay_date
           
           target_pladmins.each do |target_pladmin|
             target_pladmin.update(shipping_cost: shipping_cost, shipping_pay_date: pay_date)
