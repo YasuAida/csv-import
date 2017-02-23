@@ -1,5 +1,49 @@
 Rails.application.routes.draw do
 
+  resources :yafuokus , only: [:index, :create, :update] do
+    collection do
+      get 'blank_form'
+      post 'upload'     
+    end
+  end
+  get 'yafuokus/destroy'
+
+  resources :yahoo_shoppings, only: [ :index, :create, :update]do
+    collection do
+      post 'receipt_upload' 
+      post 'payment_upload'       
+    end
+  end
+  get 'yahoo_shoppings/destroy'
+
+  resources :rakuten_settings, only: [ :index, :create, :update]
+  get 'rakuten_settings/destroy'
+
+  resources :rakuten_costs, only: [ :index, :create, :update]do
+    collection do
+      post 'pc_upload'
+      post 'mobile_upload'       
+    end
+  end
+  get 'rakuten_costs/destroy'
+
+  resources :rakutens, only: [ :index, :create, :update]do
+    collection do
+      get 'nyukin'
+      get 'commission'
+      get 'blank_form'
+      post 'past_data_upload'
+      post 'past_point_upload'      
+      post 'csv_upload'
+      post 'point_upload'
+      post 'credit_upload'
+      post 'bank_upload'
+      post 'multi_upload' 
+      post 'rakuten_upload'       
+    end
+  end
+  get 'rakutens/destroy'
+
   get 'settings/index'
 
   resources :selfstorages, only: [ :index, :create, :update, :destroy]

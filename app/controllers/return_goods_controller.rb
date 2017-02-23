@@ -5,7 +5,7 @@ class ReturnGoodsController < ApplicationController
   def index
     @return_good = current_user.return_goods.build
     @q = current_user.return_goods.search(params[:q])
-    @return_goods = @q.result(distinct: true).page(params[:page])
+    @return_goods = @q.result(distinct: true).order(date: :desc).page(params[:page])
     @all_return_goods = current_user.return_goods.all
     
     respond_to do |format|

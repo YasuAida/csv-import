@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  order_num: MyString
+  order_date: 2017-01-30
+  sale_date: 2017-01-30
+  kind_of_card: MyString
+  brand: MyString
+  content: MyString
+  installment: MyString
+  receipt_amount: 1
+  rate: 1.5
+
+two:
+  user_id: 
+  order_num: MyString
+  order_date: 2017-01-30
+  sale_date: 2017-01-30
+  kind_of_card: MyString
+  brand: MyString
+  content: MyString
+  installment: MyString
+  receipt_amount: 1
+  rate: 1.5

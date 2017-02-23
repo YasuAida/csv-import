@@ -5,10 +5,10 @@
     	  在庫受領レポート
     	</div>
       <div class="panel-body">   	
-        <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
+        <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
           <label>在庫受領レポート取り込み:</label>
           <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false%>
-          <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+          <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
         <% end %>        
         <%= search_form_for(@q, url: stockaccepts_path) do |f| %>
           <%= f.label :sku_eq, "出品者SKUで検索" %>
@@ -34,14 +34,12 @@
         <tr>
           <th class="small">ID</th>
           <th class="account">日付</th>
-          <th class="order_num">FNSKU</th>
-          <th class="order_num">出品者SKU</th>
+          <th class="large">FNSKU</th>
+          <th class="large">出品者SKU</th>
           <th class="content">商品名</th>
           <th class="rate">数量</th>
-          <th>　</th>
-          <th class="order_num">FBA納品番号</th>
+          <th class="large">FBA納品番号</th>
           <th class="rate">FC</th>
-          <th>　</th>      
           <th class="asin">ASIN</th>      
         </tr>
       </thead>
@@ -51,17 +49,17 @@
           <tr>
             <th class="small"><%= stockaccept.id %></th>
             <td class="account"><%= stockaccept.date %></td>
-            <td class="order_num"><%= stockaccept.fnsku %></td>
-            <td class="order_num"><%= stockaccept.sku %></td>
+            <td class="large"><%= stockaccept.fnsku %></td>
+            <td class="large"><%= stockaccept.sku %></td>
             <td class="content"><%= stockaccept.goods_name %></td>
             <td class="rate"><%= stockaccept.quantity %></td>
-            <td>　</td>
-            <td class="order_num"><%= stockaccept.fba_number %></td>
-            <td class="rate"><%= stockaccept.fc %></td>
-            <td>　</td>        
+            <td class="large"><%= stockaccept.fba_number %></td>
+            <td class="rate"><%= stockaccept.fc %></td>  
             <td class="asin"><%= stockaccept.asin %></td>        
           </tr>
         <% end %>
       </tbody>
     </table>
+  <%= paginate @stockaccepts %>
   </div>
+

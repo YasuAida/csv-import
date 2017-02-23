@@ -19,7 +19,7 @@ module ApplicationHelper
             object.rate = BigDecimal(check_exchange.rate.to_s).round(2) /100            
           end
           
-      elsif ex_currency.method == "外貨×100÷為替レート"
+      elsif ex_currency.method == "外貨÷為替レート×100"
         check_exchange = current_user.exchanges.find_by(date: object.date, country: object.currency)
         #存在しなければcheck_exchangeにはnilが入るので
           unless check_exchange.nil?
@@ -71,7 +71,7 @@ module ApplicationHelper
           object.rate = BigDecimal(check_exchange.rate.to_s).round(2) /100            
         end
         
-    elsif ex_currency.method == "外貨×100÷為替レート"
+    elsif ex_currency.method == "外貨÷為替レート×100"
       check_exchange = current_user.exchanges.find_by(date: object.date, country: object.currency)
       #存在しなければcheck_exchangeにはnilが入るので
         unless check_exchange.nil?

@@ -33,7 +33,7 @@
         </tr>
       </thead>
 <% end %>
-      <tbody>
+      <tbody class="expenseledgers">
         <% @exchanges.each do |exchange| %>
           <tr>
             <%= form_for(exchange, url: exchange_path(exchange.id), remote: true) do |f| %>
@@ -63,5 +63,6 @@
         <% end %>      
       </tbody>
     </table>
+    <%= paginate @exchanges %>
   </div>    
-  <%= paginate @exchanges %>
+

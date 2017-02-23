@@ -32,7 +32,7 @@
                 <% end %>
                 <% display_title += array_title[count_title -1] %>
               <% end %>
-            <td class="detail"><%= f.collection_select :method, ExpenseMethod.all, :method, :method, {include_blank: "現在の選択値:" + display_title.to_s, include_hidden: false}, {multiple: true, class: "method_select"}%></td>
+            <td class="detail"><%= f.collection_select :method, current_user.expense_methods.all, :method, :method, {include_blank: "現在の選択値:" + display_title.to_s, include_hidden: false}, {multiple: true, class: "method_select"}%></td>
             <td class="update"><%= f.submit '更新', class: 'btn btn-default btn-sm' %></td>
           <% end %>
         </tr>

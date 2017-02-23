@@ -5,7 +5,7 @@ class MultiChannelsController < ApplicationController
   def index
     @all_multi_channels = current_user.multi_channels.all
     @q = current_user.multi_channels.search(params[:q])
-    @multi_channels = @q.result(distinct: true).page(params[:page]).per(100) 
+    @multi_channels = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(100) 
     @multi_channel = current_user.multi_channels.build
     
     respond_to do |format|
@@ -105,7 +105,7 @@ class MultiChannelsController < ApplicationController
   
   private
   def multi_channel_params
-    params.require(:multi_channel).permit(:sale_id, :date, :order_num, :sku, :number)
+    params.require(:multi_channel).permit(:sale_id, :date, :order_num, :sku, :number, :destroy_check)
   end
   
   def set_multi_channel

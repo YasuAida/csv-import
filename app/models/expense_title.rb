@@ -1,7 +1,6 @@
 class ExpenseTitle < ActiveRecord::Base
   validates :user_id, uniqueness: { scope: [:item, :method] }, presence: true
   validates :item, presence: true
-  validates :method, presence: true
   
   belongs_to :user
   

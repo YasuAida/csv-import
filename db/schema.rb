@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170120023334) do
+ActiveRecord::Schema.define(version: 20170221080655) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -288,6 +288,118 @@ ActiveRecord::Schema.define(version: 20170120023334) do
   add_index "pladmins", ["stock_id"], name: "index_pladmins_on_stock_id"
   add_index "pladmins", ["user_id"], name: "index_pladmins_on_user_id"
 
+  create_table "point_coupons", force: :cascade do |t|
+    t.string   "order_num"
+    t.integer  "shop_coupon"
+    t.integer  "use_point"
+    t.integer  "use_coupon"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "user_id"
+  end
+
+  add_index "point_coupons", ["user_id"], name: "index_point_coupons_on_user_id"
+
+  create_table "rakuten_costs", force: :cascade do |t|
+    t.date     "billing_date"
+    t.integer  "pc_usage_fee"
+    t.integer  "mobile_usage_fee"
+    t.integer  "pc_vest_point"
+    t.integer  "mobile_vest_point"
+    t.integer  "affiliate_reward"
+    t.integer  "affiliate_system_fee"
+    t.integer  "r_card_plus"
+    t.integer  "system_improvement_fee"
+    t.integer  "open_shop_fee"
+    t.date     "payment_date"
+    t.integer  "sales_bracket"
+    t.float    "pc_rate"
+    t.float    "mobile_rate"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "user_id"
+    t.boolean  "destroy_check",          default: false, null: false
+  end
+
+  add_index "rakuten_costs", ["user_id"], name: "index_rakuten_costs_on_user_id"
+
+  create_table "rakuten_settings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "start_sales"
+    t.float    "pc_rate"
+    t.float    "mobile_rate"
+    t.boolean  "destroy_check",   default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "end_sales"
+    t.integer  "pc_addition"
+    t.integer  "mobile_addition"
+  end
+
+  add_index "rakuten_settings", ["user_id"], name: "index_rakuten_settings_on_user_id"
+
+  create_table "rakuten_temps", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "order_num"
+    t.date     "order_date"
+    t.date     "sale_date"
+    t.string   "kind_of_card"
+    t.string   "brand"
+    t.string   "content"
+    t.string   "installment"
+    t.integer  "receipt_amount"
+    t.float    "rate"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.date     "closing_date"
+    t.date     "money_receipt_date"
+    t.integer  "total_sales"
+  end
+
+  add_index "rakuten_temps", ["user_id"], name: "index_rakuten_temps_on_user_id"
+
+  create_table "rakutens", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "order_num"
+    t.date     "sale_date"
+    t.string   "goods_name"
+    t.string   "pc_mobile"
+    t.integer  "unit_price"
+    t.integer  "number"
+    t.integer  "shipping_cost"
+    t.integer  "consumption_tax"
+    t.integer  "cod_fee"
+    t.integer  "shop_coupon"
+    t.integer  "commission"
+    t.integer  "vest_point"
+    t.integer  "system_improvement"
+    t.integer  "credit_commission"
+    t.integer  "data_processing"
+    t.string   "settlement"
+    t.integer  "use_point"
+    t.integer  "use_coupon"
+    t.date     "money_receipt_date"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "sku"
+    t.integer  "total_sales"
+    t.integer  "total_commissions"
+    t.boolean  "destroy_check",      default: false, null: false
+    t.date     "closing_date"
+    t.string   "option"
+    t.date     "order_date"
+    t.integer  "receipt_amount"
+    t.date     "point_receipt_date"
+    t.string   "kind_of_card"
+    t.integer  "shipping_payment"
+    t.date     "billing_date"
+    t.integer  "minyukin"
+  end
+
+  add_index "rakutens", ["user_id"], name: "index_rakutens_on_user_id"
+
   create_table "return_goods", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "sale_id"
@@ -469,5 +581,51 @@ ActiveRecord::Schema.define(version: 20170120023334) do
 
   add_index "vouchers", ["sale_id"], name: "index_vouchers_on_sale_id"
   add_index "vouchers", ["user_id"], name: "index_vouchers_on_user_id"
+
+  create_table "yafuokus", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "stock_id"
+    t.date     "date"
+    t.string   "order_num"
+    t.string   "sku"
+    t.integer  "unit_price"
+    t.integer  "number",              default: 1
+    t.integer  "sales_amount"
+    t.integer  "cogs_amount"
+    t.integer  "commission"
+    t.integer  "shipping_cost"
+    t.date     "money_receipt_date"
+    t.date     "shipping_pay_date"
+    t.boolean  "destroy_check",       default: false, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "sale_place"
+    t.date     "commission_pay_date"
+    t.string   "goods_name"
+  end
+
+  add_index "yafuokus", ["stock_id"], name: "index_yafuokus_on_stock_id"
+  add_index "yafuokus", ["user_id"], name: "index_yafuokus_on_user_id"
+
+  create_table "yahoo_shoppings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.date     "date"
+    t.string   "order_id"
+    t.integer  "unit_price"
+    t.integer  "number",             default: 1
+    t.integer  "sales_amount"
+    t.integer  "commission"
+    t.integer  "cogs_amount"
+    t.integer  "shipping_cost"
+    t.date     "money_receipt_date"
+    t.date     "shipping_pay_date"
+    t.boolean  "destroy_check",      default: false, null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "sku"
+    t.string   "goods_name"
+  end
+
+  add_index "yahoo_shoppings", ["user_id"], name: "index_yahoo_shoppings_on_user_id"
 
 end

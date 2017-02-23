@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
   include StocksHelper
   include ApplicationHelper
-  before_action :set_stock, only: [ :update, :destroy]
+  before_action :set_stock, only: [ :update]
   before_action :logged_in_user
 
   def index

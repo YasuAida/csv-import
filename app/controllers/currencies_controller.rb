@@ -9,7 +9,7 @@ class CurrenciesController < ApplicationController
   end
   
   def create
-    current_user.currencies.build(currency_params)
+    current_user.currencies.create(currency_params)
     redirect_to currencies_path , notice: 'データを保存しました'
   end
   

@@ -1,0 +1,109 @@
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+        楽天請求管理シート
+    	</div>
+      <div class="panel-body">
+        <%= search_form_for(@q, url: rakuten_costs_path, html: {class: 'date_form'}) do |f| %>           
+          <%= f.label :billing_date, "課金期間終了日で検索"%>
+          <%= f.date_select :billing_date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+          <%= f.date_select :billing_date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+          <%= f.submit "検索", class: 'btn btn-default' %>            
+        <% end %>
+      </div>
+        <div style="display: inline-block">   
+          <%= form_tag({action: 'pc_upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
+            <label>RMSシステム利用明細（PC）取込み:</label>
+            <%= file_field :pc_upload, :datafile, {class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+            <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+          <% end %>  
+        </div>
+        <div style="display: inline-block">   
+          <%= form_tag({action: 'mobile_upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
+            <label>RMSシステム利用明細(モバイル)取込み:</label>
+            <%= file_field :mobile_upload, :datafile, {class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+            <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+          <% end %>  
+        </div> 
+    </div>
+  </div>
+
+  <div class="table-responsive">  
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th class="update"><a href= ./rakuten_costs/destroy class="btn btn-default btn-sm">削除</th>
+          <th class="date">課金期間<br>終了日<br>（課金日）</th>            
+          <th class="amount">ＲＭＳシステム<br>利用料</th>      
+          <th class="amount">ＲＭＳシステム<br>利用料<br>（モバイル）</th>
+          <th class="amount">楽天スーパーポイントﾄ付与料<br>（通常売上）</th>
+          <th class="amount">楽天スーパーポイントﾄ付与料<br>（モバイル）</th>>
+          <th class="amount">スーパーアフィリエイト<br>成果報酬</th>
+          <th class="amount">スーパーアフィリエイト<br>システム利用料</th>          
+          <th class="amount">Ｒ－ＣＡＲＤ<br>ＰＬＵＳ</th> 
+          <th class="amount" style="font-size: 10px;">モールにおける取引の安全性及び利便性の向上のためのシステム利用料</th>
+          <th class="amount">ＲＭＳ出店料</th>         
+          <th class="date">支払日</th>          
+          <th class="update">更新</th>          
+        </tr>
+      </thead>
+<% end %>
+      <tbody class="expenseledgers">
+        <% @rakuten_costs.each do |rakuten_cost|  %>
+        <tr>
+          <%= form_for(rakuten_cost, url: rakuten_cost_path(rakuten_cost.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= rakuten_cost.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>       
+            <td class="date"><%= f.text_field :billing_date, :size => 8 %></td>          
+            <td class="amount"><%= f.text_field :pc_usage_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+            <td class="amount"><%= f.text_field :mobile_usage_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+            <td class="amount"><%= f.text_field :pc_vest_point, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>                    
+            <td class="amount"><%= f.text_field :mobile_vest_point, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td> 
+            <td class="amount"><%= f.text_field :affiliate_reward, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>      
+            <td class="amount"><%= f.text_field :affiliate_system_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+            <td class="amount"><%= f.text_field :r_card_plus, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+            <td class="amount"><%= f.text_field :system_improvement_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+            <td class="amount"><%= f.text_field :open_shop_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>            
+            <td class="date"><%= f.text_field :payment_date, :size => 8 %></td>
+            <td class="update" id="submit-<%= rakuten_cost.id %>"><%= f.submit "更新", class: 'btn btn-default btn-sm'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= rakuten_cost.id %>").change(function(e){
+                $('#edit_rakuten_cost_<%= rakuten_cost.id %>').submit();
+              });
+            </script>
+          <% end %> 
+        </tr>  
+        <% end %>
+      </tbody>
+<% content_for :foot do %> 
+        <%= form_for(@rakuten_cost) do |f|  %>
+      <tbody class="footer">
+        <tr>
+          <td class="update"></td>
+          <td class="date"><%= f.text_field :billing_date, :size => 8 %></td>          
+          <td class="amount"><%= f.text_field :pc_usage_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :mobile_usage_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :pc_vest_point, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>                    
+          <td class="amount"><%= f.text_field :mobile_vest_point, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td> 
+          <td class="amount"><%= f.text_field :affiliate_reward, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>      
+          <td class="amount"><%= f.text_field :affiliate_system_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :r_card_plus, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :system_improvement_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="amount"><%= f.text_field :open_shop_fee, :size => 8, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>          
+          <td class="date"><%= f.text_field :payment_date, :size => 8 %></td>   
+          <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-sm'%></td>
+        </tr> 
+        <% end %>
+      </tbody>
+    </table>
+  <%= paginate @rakuten_costs %>
+  </div>
+
+  <div style="display: inline-block;">
+    <p>Download:
+      <%= link_to "CSV形式でダウンロード", rakuten_costs_path(format: "csv") %>
+    </p>
+  </div>
+<% end %>

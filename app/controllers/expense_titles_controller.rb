@@ -1,5 +1,5 @@
 class ExpenseTitlesController < ApplicationController
-  before_action :set_expense_title, only: [ :destroy] 
+  before_action :set_expense_title, only: [:destroy] 
   before_action :logged_in_user
   
   def index
@@ -19,6 +19,7 @@ class ExpenseTitlesController < ApplicationController
   
   def update
     @update_expense_title = current_user.expense_titles.find_by(item: params[:expense_title][:item])
+    @update_expense_title.method = params[:expense_title][:method]
     if @update_expense_title.save
       redirect_to expense_titles_show_path , notice: 'データを更新しました'
     else

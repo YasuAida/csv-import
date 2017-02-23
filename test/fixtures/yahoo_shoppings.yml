@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  date: 2017-02-20
+  order_id: MyString
+  unit_price: 1
+  number: 1
+  sales_amount: 1
+  settlement: MyString
+  settle_commission: 1
+  affiliate_commission: 1
+  point_commission: 1
+  total_commissions: 1
+  cogs_amount: 1
+  shipping_cost: 1
+  money_receipt_date: 2017-02-20
+  shipping_pay_date: 2017-02-20
+  destroy_check: false
+
+two:
+  user_id: 
+  date: 2017-02-20
+  order_id: MyString
+  unit_price: 1
+  number: 1
+  sales_amount: 1
+  settlement: MyString
+  settle_commission: 1
+  affiliate_commission: 1
+  point_commission: 1
+  total_commissions: 1
+  cogs_amount: 1
+  shipping_cost: 1
+  money_receipt_date: 2017-02-20
+  shipping_pay_date: 2017-02-20
+  destroy_check: false

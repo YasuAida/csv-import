@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  stock_id: 
+  date: 2017-02-20
+  order_num: MyString
+  sku: MyString
+  unit_price: 1
+  number: 1
+  sales_amount: 1
+  cogs_amount: 1
+  commission: 1
+  shipping_cost: 1
+  money_receipt_date: 2017-02-20
+  shipping_pay_date: 2017-02-20
+  destroy_check: false
+
+two:
+  user_id: 
+  stock_id: 
+  date: 2017-02-20
+  order_num: MyString
+  sku: MyString
+  unit_price: 1
+  number: 1
+  sales_amount: 1
+  cogs_amount: 1
+  commission: 1
+  shipping_cost: 1
+  money_receipt_date: 2017-02-20
+  shipping_pay_date: 2017-02-20
+  destroy_check: false

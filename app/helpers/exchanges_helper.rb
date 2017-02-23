@@ -17,6 +17,8 @@ module ExchangesHelper
     CSV.foreach('./tmp/exchange/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
     # rowの値のみを配列化
       row_value = row.to_h.values
+      # row_valueからカンマを除く
+      row_value = row_value.map{|o| o.gsub(",","").gsub("¥","").gsub("\\","") if o.present? } 
     # Zipで合体後にハッシュ化
       row_hash = @column.zip(row_value).to_h
   

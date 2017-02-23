@@ -25,6 +25,11 @@ class User < ActiveRecord::Base
   has_many :multi_channels, dependent: :destroy
   has_many :periods, dependent: :destroy  
   has_many :pladmins, dependent: :destroy
+  has_many :point_coupons, dependent: :destroy  
+  has_many :rakuten_costs, dependent: :destroy
+  has_many :rakuten_settings, dependent: :destroy  
+  has_many :rakuten_temps, dependent: :destroy  
+  has_many :rakutens, dependent: :destroy  
   has_many :return_goods, dependent: :destroy
   has_many :sales, dependent: :destroy
   has_many :selfstorages, dependent: :destroy
@@ -34,6 +39,8 @@ class User < ActiveRecord::Base
   has_many :stockreturns, dependent: :destroy
   has_many :subexpenses, dependent: :destroy
   has_many :vouchers, dependent: :destroy
+  has_many :yafuokus, dependent: :destroy    
+  has_many :yahoo_shoppings, dependent: :destroy  
   
   def self.to_download
     headers = %w(ID 名前 郵便番号 住所 電話番号 メールアドレス パスワード)

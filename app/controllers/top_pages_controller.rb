@@ -29,6 +29,10 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("multi_channels.csv") { |f| f.puts(current_user.multi_channels.to_download) }
       zipfile.get_output_stream("periods.csv") { |f| f.puts(current_user.periods.to_download) }
       zipfile.get_output_stream("pladmins.csv") { |f| f.puts(current_user.pladmins.to_download) }
+      zipfile.get_output_stream("point_coupons.csv") { |f| f.puts(current_user.point_coupons.to_download) }      
+      zipfile.get_output_stream("rakuten_costs.csv") { |f| f.puts(current_user.rakuten_costs.to_download) }   
+      zipfile.get_output_stream("rakuten_settings.csv") { |f| f.puts(current_user.rakuten_settings.to_download) }      
+      zipfile.get_output_stream("rakutens.csv") { |f| f.puts(current_user.rakutens.to_download) }
       zipfile.get_output_stream("return_goods.csv") { |f| f.puts(current_user.return_goods.to_download) }
       zipfile.get_output_stream("sales.csv") { |f| f.puts(current_user.sales.to_download) }
       zipfile.get_output_stream("selfstorages.csv") { |f| f.puts(current_user.selfstorages.to_download) }      
@@ -39,6 +43,8 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(current_user.subexpenses.to_download) }
       zipfile.get_output_stream("users.csv") { |f| f.puts(User.to_download) }      
       zipfile.get_output_stream("vouchers.csv") { |f| f.puts(current_user.vouchers.to_download) }
+      zipfile.get_output_stream("yafuokus.csv") { |f| f.puts(current_user.yafuokus.to_download) }      
+      zipfile.get_output_stream("yahoo_shoppings.csv") { |f| f.puts(current_user.yahoo_shoppings.to_download) }      
     end
     
     send_file(zipfile_name, type: 'application/zip' , filename: "csv.zip")
@@ -87,7 +93,15 @@ class TopPagesController < ApplicationController
         when "periods.csv" then
           periods_import(datafile)          
         when "pladmins.csv" then
-          pladmins_import(datafile)       
+          pladmins_import(datafile)
+        when "point_coupons.csv" then
+          point_coupons_import(datafile)
+        when "rakuten_costs.csv" then
+          rakuten_costs_import(datafile)
+        when "rakuten_settings.csv" then
+          rakuten_settings_import(datafile)
+        when "rakutens.csv" then
+          rakutens_import(datafile) 
         when "return_goods.csv" then
           return_goods_import(datafile)       
         when "sales.csv" then
@@ -107,7 +121,11 @@ class TopPagesController < ApplicationController
         when "users.csv" then
           users_import(datafile) 
         when "vouchers.csv" then
-          vouchers_import(datafile) 
+          vouchers_import(datafile)
+        when "yafuokus.csv" then
+          yafuokus_import(datafile) 
+        when "yahoo_shoppings.csv" then
+          yahoo_shoppings_import(datafile) 
       end 
     #ファイルの削除
       file_close(datafile)

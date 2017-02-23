@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_num: MyString
+  shop_coupon: 1
+  use_point: 1
+  use_coupon: 1
+
+two:
+  order_num: MyString
+  shop_coupon: 1
+  use_point: 1
+  use_coupon: 1

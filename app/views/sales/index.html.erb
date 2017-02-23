@@ -5,30 +5,30 @@
         トランザクションの概要
       </div>
       <div class="panel-body">
-        <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
+        <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
           <label>Amazon取引データ取込み:</label>
           <%= file_field :upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
-          <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+          <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
         <% end %>     
         <%= search_form_for(@q, url: sales_path) do |f| %>
           <%= f.label :order_num_cont, "注文番号で検索" %>
           <%= f.search_field :order_num_cont %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
+          <%= f.submit "検索", class: 'btn btn-default btn-sm'%>
         <% end %>     
         <%= search_form_for(@q, url: sales_path) do |f| %>
           <%= f.label :sku_eq, "SKUで検索" %>
           <%= f.search_field :sku_eq %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
+          <%= f.submit "検索", class: 'btn btn-default btn-sm'%>
         <% end %>
         <%= search_form_for(@q, url: sales_path) do |f| %>
           <%= f.label :detail_of_payment_cont, "支払の詳細で検索" %>
           <%= f.search_field :detail_of_payment_cont %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
+          <%= f.submit "検索", class: 'btn btn-default btn-sm'%>
         <% end %>         
         <%= search_form_for(@q, url: sales_path) do |f| %>            
           <%= f.label :goods_name_cont, "商品名で検索" %>
           <%= f.search_field :goods_name_cont %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
+          <%= f.submit "検索", class: 'btn btn-default btn-sm'%>
         <% end %> 
       </div>
     </div>

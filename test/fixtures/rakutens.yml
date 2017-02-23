@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_num: MyString
+  sale_date: 2017-01-25
+  goods_name: MyString
+  pc_mobile: MyString
+  unit_price: 1
+  number: 1
+  shipping_cost: 1
+  consumption_tax: 1
+  cod_fee: 1
+  shop_coupon: 1
+  commission: 1
+  vest_point: 1
+  system_improvement: 1
+  credit_commission: 1
+  data_processing: 1
+  settlement: MyString
+  use_point: 1
+  use_coupon: 1
+  receipt_date: 2017-01-25
+
+two:
+  order_num: MyString
+  sale_date: 2017-01-25
+  goods_name: MyString
+  pc_mobile: MyString
+  unit_price: 1
+  number: 1
+  shipping_cost: 1
+  consumption_tax: 1
+  cod_fee: 1
+  shop_coupon: 1
+  commission: 1
+  vest_point: 1
+  system_improvement: 1
+  credit_commission: 1
+  data_processing: 1
+  settlement: MyString
+  use_point: 1
+  use_coupon: 1
+  receipt_date: 2017-01-25
