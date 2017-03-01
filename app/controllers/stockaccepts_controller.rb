@@ -4,7 +4,7 @@ class StockacceptsController < ApplicationController
   
   def index
     @q = current_user.stockaccepts.search(params[:q])
-    @stockaccepts = @q.result(distinct: true).order(date: :desc).page(params[:page])
+    @stockaccepts = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(150)
   end
   
   def upload

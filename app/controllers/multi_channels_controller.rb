@@ -10,7 +10,7 @@ class MultiChannelsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv { send_data @multi_channels.to_csv, type: 'text/csv; charset=shift_jis', filename: "multi_channels.csv" }
+      format.csv { send_data @multi_channels.to_download, type: 'text/csv; charset=shift_jis', filename: "multi_channels.csv" }
     end
   end
 

@@ -25,9 +25,9 @@ require 'date'
   has_many :dummy_stocks, dependent: :destroy  
   has_many :pladmins, dependent: :destroy
   has_many :yafuokus, dependent: :destroy
-
-  def self.to_csv
-    headers = %w(日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額) 
+    
+  def self.to_download
+    headers = %w(日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -49,8 +49,8 @@ require 'date'
     end
     csv_data.encode(Encoding::SJIS, :invalid => :replace, :undef => :replace, :replace => "?")
   end
-    
-  def self.to_download
+  
+  def self.admin_download
     headers = %w(ID user_id 日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|

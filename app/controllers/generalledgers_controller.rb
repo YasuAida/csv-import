@@ -44,7 +44,7 @@ class GeneralledgersController < ApplicationController
     @all_generalledgers = current_user.generalledgers.all
     respond_to do |format|
       format.html
-      format.csv { send_data @all_generalledgers.to_csv, type: 'text/csv; charset=shift_jis', filename: "generalledgers.csv" } 
+      format.csv { send_data @all_generalledgers.to_download, type: 'text/csv; charset=shift_jis', filename: "generalledgers.csv" } 
     end 
   end
   

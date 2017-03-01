@@ -9,7 +9,21 @@ class ExpenseRelation < ActiveRecord::Base
   has_many :generalledgers, dependent: :destroy
   
   def self.to_download
-    headers = %w(ID user_id Stock_id Subexpense_id)
+    headers = %w(仕入ID 付随費用ID)
+    csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
+      all.each do |row|
+          csv_column_values = [
+            row.stock_id,
+            row.subexpense_id
+          ]
+          csv << csv_column_values
+      end
+  end
+  csv_data.encode(Encoding::SJIS)
+  end
+
+  def self.admin_download
+    headers = %w(ID user_id 仕入ID 付随費用ID)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
           csv_column_values = [

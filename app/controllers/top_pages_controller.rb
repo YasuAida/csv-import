@@ -40,8 +40,7 @@ class TopPagesController < ApplicationController
       zipfile.get_output_stream("stockledgers.csv") { |f| f.puts(current_user.stockledgers.to_download) }
       zipfile.get_output_stream("stockreturns.csv") { |f| f.puts(current_user.stockreturns.to_download) }      
       zipfile.get_output_stream("stocks.csv") { |f| f.puts(current_user.stocks.to_download) }
-      zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(current_user.subexpenses.to_download) }
-      zipfile.get_output_stream("users.csv") { |f| f.puts(User.to_download) }      
+      zipfile.get_output_stream("subexpenses.csv") { |f| f.puts(current_user.subexpenses.to_download) } 
       zipfile.get_output_stream("vouchers.csv") { |f| f.puts(current_user.vouchers.to_download) }
       zipfile.get_output_stream("yafuokus.csv") { |f| f.puts(current_user.yafuokus.to_download) }      
       zipfile.get_output_stream("yahoo_shoppings.csv") { |f| f.puts(current_user.yahoo_shoppings.to_download) }      
@@ -118,8 +117,6 @@ class TopPagesController < ApplicationController
           stocks_import(datafile) 
         when "subexpenses.csv" then
           subexpenses_import(datafile)
-        when "users.csv" then
-          users_import(datafile) 
         when "vouchers.csv" then
           vouchers_import(datafile)
         when "yafuokus.csv" then

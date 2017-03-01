@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221080655) do
+ActiveRecord::Schema.define(version: 20170227034842) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 20170221080655) do
     t.boolean  "destroy_check", default: false, null: false
   end
 
-  add_index "exchanges", ["date", "country"], name: "exchange_index", unique: true
   add_index "exchanges", ["user_id"], name: "index_exchanges_on_user_id"
 
   create_table "expense_methods", force: :cascade do |t|
@@ -479,8 +478,6 @@ ActiveRecord::Schema.define(version: 20170221080655) do
     t.string   "classification"
   end
 
-  add_index "stockledgers", ["asin"], name: "index_stockledgers_on_asin"
-  add_index "stockledgers", ["sku"], name: "index_stockledgers_on_sku"
   add_index "stockledgers", ["stock_id"], name: "index_stockledgers_on_stock_id"
   add_index "stockledgers", ["user_id"], name: "index_stockledgers_on_user_id"
 

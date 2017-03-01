@@ -3,422 +3,451 @@
 * {
   font-size: 12px;
 }
-td{
-  height: 10px;
-  vertical-align: center;
-}
-/* エラー時に良い感じに色をつけてくれる */
-.field_with_errors {
-  @extend .has-error;
-  .form-control {
-    color: $state-danger-text;
+
+/* header */
+  #logo {
+    float: left;
+    margin-right: 10px;
+    font-size: 1.7em;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    padding-top: 9px;
+    font-weight: bold;
   }
-}
+  #logo:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+  .panel {
+    margin: 0px;
+  }
+ .panel-default { 
+    width: 1900px;
+    
+  }
+  #edit-default.panel-default {    
+    height: 130px;
+  }
+  #new-default.panel-default {    
+    height: 180px;
+  }
+  #copy-default.panel-default {    
+    height: 275px;
+  }  
+  .panel-heading{
+    width: 1900px; 
+    padding: 10px;  
+    text-align: left;
+    font-size: 2em;
+    height: 45px;
+    background-color: #fff;
+    vertical-align: bottom;
+  }
+  .panel-body{
+    padding: 0px;  
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+    height: 50px;
+    width: 100%;
+    vertical-align: center;
+  }
+  #new-body.panel-body {
+    height: 60px;
+  }   
+/* header */
+
 /* エラー時に良い感じに色をつけてくれる */
-/* layoutsで使用 */
-#logo {
-  float: left;
-  font-size: 1.7em;
-  font-weight: bold;
-  color: #fff;
-}
-#logo:hover {
-  color: #fff;
-  text-decoration: none;
-}
-h1 {
-  margin: 0px;
-  font-size: 3em;
-  letter-spacing: -2px;
-  text-align: left;
-  vertical-align: center;
-}
-/* layoutsで使用 */
-body {
-  padding-top: 40px;
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 2050px;
-  height: 100%;  
-}
-.container {
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 2050px;
-}
-.panel {
-  margin: 0px;
-}
-.panel_container {
-  padding-top: 0px;   
-  margin-left: 0px;
-  margin-right: 0px;
-}
-.panel-heading{
-  padding: 0px;  
-  text-align: left;
-  font-size: 2.5em;
-  height: 50px;
-  background-color: #fff;
-}
-.panel-body{
-  padding: 0px;  
-  display: inline-block;
-  text-align: left;
-  font-weight: bold;
-  height: 70px;
-  width: 2050px;
-  vertical-align: center;
-}
-.table {
-  margin-bottom: 0px;
-  border-collapse: collapse;
-  width: 2050px;   /* ポイント */
-}
-.table-responsive{
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 1600px;   /*ポイント */
-  width: 2050px;    /*ポイント */  
-}
-.table-responsive.rakuten{
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 1600px;   /*ポイント */
-  width: 1950px;    /*ポイント */  
-}
-thead {
-  float: left;     /*ポイント*/
-  overflow: hidden;  /*ポイント */
-}
-tbody {
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 675px;   /*ポイント */
-  width: 2050px;    /*ポイント */
-}
-tbody.footer {
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 50px;    /*ポイント */
-  width: 2050px;    /*ポイント */
-}
-tbody.accounts {
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 750px;   /*ポイント */
-  width: 2050px;    /*ポイント */
-}
-tbody.expenseledgers {
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 600px;   /*ポイント */
-  width: 2050px;    /*ポイント */
-}
-tbody.rakutens {
-  float: left;     /*ポイント */
-  overflow: auto;  /*ポイント */
-  height: 550px;   /*ポイント */
-  width: 1950px;    /*ポイント */
-}
+  .field_with_errors {
+    @extend .has-error;
+    .form-control {
+      color: $state-danger-text;
+    }
+  }
+/* エラー時に良い感じに色をつけてくれる */
+
+/* body */
+  .container {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    overflow: auto;
+  }
+  body {
+    padding-top: 40px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 1900px;
+    height: 100%;
+    overflow: auto;
+  }  
+  .table {
+    margin-bottom: 0px;
+    border-collapse: collapse;
+    width: 1900px;   /* ポイント */
+    overflow: auto;
+  }
+  .table-bordered{
+    border: 0px;
+  }
+  .table-responsive{
+    width: 1900px;    /*ポイント */
+    overflow: auto;
+      .rakuten{
+      width: 1900px;    /*ポイント */  
+      }
+  }
+  thead {
+    float: left;     /*ポイント*/
+    overflow: hidden;  /*ポイント */
+  }
+  tbody {
+    float: left;     /*ポイント */
+    overflow: auto;  /*ポイント */
+    height: 675px;   /*ポイント */
+    width: 1900px;    /*ポイント */
+  }
+  tbody.accounts {
+    height: 750px;   /*ポイント */
+  }
+  tbody.stocks {
+    height: 650px;   /*ポイント */
+  }
+  tbody.expenseledgers {
+    height: 600px;   /*ポイント */
+  }
+  tbody.rakutens {
+    height: 550px;   /*ポイント */
+  }
+  tbody.copy_body {
+    height: 450px;   /*ポイント */
+  }
+  tbody.copy_head {
+    height: 200px;   /*ポイント */
+  }  
+  tbody.footer {
+    height: 35px;    /*ポイント */
+  }
+/* body */
+
 /* searchで使用 */
-#disposal_search, #exchange_search, #generalledger_search, #selfstorage_search, #stockledger_search, #stockreturn_search{
-  display: inline-block;
-  padding-left: 5px;   
-  width: 300px;
-  height:35px;
-}
-#multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #yafuoku_search, #yahoo_shopping_search{
-  display: inline-block;
-  padding-left: 5px;   
-  width: 350px;
-  height:35px;
-}
-.pladmin_form, .generalledger_form{
-  display: inline-block;
-  padding-left: 5px;   
-  width: 50px;
-  height:30px;
-}
-#generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
-  display: inline-block;
-  padding-left: 5px;   
-  width: 550px;
-  height:35px;
-}
-.edit_expense_title{
-  padding-left: 5px;   
-  width: 550px;
-  height:35px;
-}
-.form_tag{
-  padding-left: 5px;   
-  width: 350px;
-  height:35px;  
-}
-.new_subexpense{
-  height:0px;    
-}
+  #disposal_search, #exchange_search, #generalledger_search, #selfstorage_search, #stockledger_search, #stockreturn_search{
+    display: inline-block;
+    padding-left: 5px;   
+    width: 300px;
+    height: 35px;
+  }
+  #multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #yafuoku_search, #yahoo_shopping_search{
+    display: inline-block;
+    padding-left: 5px;   
+    width: 350px;
+    height: 35px;
+  }
+  .pladmin_form, .generalledger_form{
+    display: inline-block;
+    padding-top: 5px; 
+    padding-left: 5px;   
+    width: 50px;
+    height: 25px;
+  }
+  #generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #stock_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
+    display: inline-block;
+    padding-left: 5px;   
+    width: 525px;
+    height: 35px;
+    vertical-align: center;
+  }
+  #q_date_gteq_1i, #q_date_lteq_1i{
+    width: 70px;
+    height: 30px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+  }
+  #q_date_gteq_2i, #q_date_lteq_2i{
+    width: 55px;
+    height: 30px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+  }
+  #q_date_gteq_3i, #q_date_lteq_3i{
+    width: 55px;
+    height: 30px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+  }
+  .edit_expense_title{
+    padding-left: 5px;   
+    width: 550px;
+    height: 35px;
+  }
+  .form_tag{
+    padding-left: 5px;   
+    width: 450px;
+    height: 35px;  
+  }
+  .new_subexpense{
+    height: 0px;    
+  }
 /* searchで使用 */
+
 /* ajaxで使用 */
-#aj-form{
-  padding: 0px;  
-}
+  #aj-form{
+    padding: 0px;
+  }
 /* ajaxで使用 */
-th.small {
+
+th{
   text-align: center;
-  width: 46px;    /* ポイント */
 }
-td.small {
-  text-align: right;
-  width: 46px;    /* ポイント */
-}
-th.rate {
-  text-align: center;
-  width: 60px;    /* ポイント */
-}
-td.rate {
-  text-align: right;
-  width: 60px;    /* ポイント */
-}
-.update {
-  text-align: center;
-  width: 70px;    /* ポイント */
-}
-/* stocksのIDで使用 */
-th.half {
-  text-align: center;
-  width: 70px;    /* ポイント */
-}
-td.half {
+    th.small {
+      width: 46px;    /* ポイント */
+    }
+    th.rate {
+      width: 60px;    /* ポイント */
+    }
+    th.half {
+      width: 70px;    /* ポイント */
+    }
+    th.right {
+      width: 70px;    /* ポイント */
+    }
+    th.middle {
+      width: 80px;    /* ポイント */
+    }
+    th.number {
+      width: 80px;    /* ポイント */
+    }
+    th.date {
+      width: 90px;    /* ポイント */
+    }
+    th.amount {
+      width: 95px;    /* ポイント */
+    }
+    th.account {
+      width: 95px;    /* ポイント */
+    }
+    th.large {
+      width: 120px;    /* ポイント */
+    }
+    th.asin {  
+      width: 130px;    /* ポイント */
+    }
+    th.standard {
+      width: 140px;    /* ポイント */
+    }
+    th.middle_large {
+      width: 150px;    /* ポイント */
+    }
+    th.order_num {
+      width: 170px;    /* ポイント */
+    }
+    th.reference {
+      width: 200px;    
+    }
+    th.detail { 
+      width: 240px;    /* ポイント */
+    }
+    th.content {
+      width: 300px;    /* ポイント */
+    }
+
+
+td{
   text-align: left;
-  width: 70px;    /* ポイント */
 }
-th.right {
-  text-align: center;
-  width: 70px;    /* ポイント */
-}
-td.right {
-  text-align: right;
-  width: 70px;    /* ポイント */
-}
-/* stocksのIDで使用 */
-th.middle {
-  text-align: center;
-  width: 80px;    /* ポイント */
-}
-td.middle {
-  text-align: left;
-  width: 80px;    /* ポイント */
-}
-th.number {
-  text-align: center;
-  width: 80px;    /* ポイント */
-}
-td.number {
-  text-align: right;
-  width: 80px;    /* ポイント */
-}
-th.date {
-  text-align: center;
-  width: 90px;    /* ポイント */
-}
-td.date {
-  width: 90px;    /* ポイント */
-}
-th.amount {
-  text-align: center;
-  width: 95px;    /* ポイント */
-}
-td.amount {
-  text-align: right;
-  width: 95px;    /* ポイント */
-}
-th.account {
-  text-align: center;
-  width: 95px;    /* ポイント */
-} 
-td.account {
-  text-align: left;
-  width: 95px;    /* ポイント */
-}
-th.company {
-  text-align: center;
-  width: 105px;    /* ポイント */
-}
-td.company {
-  text-align: center;
-  width: 105px;    /* ポイント */
-}
-th.large {
-  text-align: center;
-  width: 120px;    /* ポイント */
-}
-td.large {
-  text-align: left;
-  width: 120px;    /* ポイント */
-}
-th.asin {  
-  text-align: center;
-  width: 130px;    /* ポイント */
-} 
-td.asin {
-  text-align: left;
-  width: 130px;    /* ポイント */
-}
-th.standard {
-  text-align: center;
-  width: 140px;    /* ポイント */
-} 
-td.standard {
-  text-align: left;
-  width: 140px;    /* ポイント */
-}
-th.middle_large {
-  text-align: center;
-  width: 150px;    /* ポイント */
-}
-td.middle_large {
-  text-align: left;
-  width: 150px;    /* ポイント */
-}
-th.order_num {
-  text-align: center;
-  width: 170px;    /* ポイント */
-} 
-td.order_num {
-  text-align: left;
-  width: 170px;    /* ポイント */
-}
-/* generalledger,multi_channelで使用 */
-th.reference {
-  text-align: center;
-  width: 200px;    
-} 
-td.reference {
-  text-align: center;
-  width: 200px; 
-} 
-/* generalledger,multi_channelで使用 */
-th.detail { 
-  text-align: center;
-  width: 240px;    /* ポイント */
-} 
-td.detail {
-  text-align: left;
-  width: 240px;    /* ポイント */
-} 
-th.content {
-  text-align: center;
-  width: 300px;    /* ポイント */
-}
-td.content { 
-  text-align: left;
-  width: 300px;    
-}
-.bootstrap-filestyle {
-  display: inline-block;
-}
+    td.half {
+      width: 70px;    /* ポイント */
+    }
+    td.middle {
+      width: 80px;    /* ポイント */
+    }
+    td.date {
+      width: 90px;    /* ポイント */
+    }
+    td.account {
+      width: 95px;    /* ポイント */
+    }
+    td.large {
+      width: 120px;    /* ポイント */
+    }
+    td.asin {
+      width: 130px;    /* ポイント */
+    }
+    td.standard {
+      width: 140px;    /* ポイント */
+    }
+    td.middle_large {
+      width: 150px;    /* ポイント */
+    }
+    td.order_num {
+      width: 170px;    /* ポイント */
+    }
+    td.detail {
+      width: 240px;    /* ポイント */
+    } 
+    td.content { 
+      width: 300px;    
+    }
+
+    td.small {
+      text-align: right; 
+      width: 46px;    /* ポイント */
+    }
+    td.rate {
+      text-align: right; 
+      width: 60px;    /* ポイント */
+    }
+    td.right {
+      text-align: right; 
+      width: 70px;    /* ポイント */
+    }
+    td.number {
+      text-align: right; 
+      width: 80px;    /* ポイント */
+    }
+    td.amount {
+      text-align: right; 
+      width: 95px;    /* ポイント */
+    }
+
+  .update {
+    text-align: center;
+    width: 70px;    /* ポイント */
+  }
+  .company {
+    text-align: center;
+    width: 105px;    /* ポイント */
+  }
+  .reference {
+    text-align: center;
+    width: 200px;    
+  }
+
+/* bootstrap */
+  .bootstrap-filestyle {
+    display: inline-block;
+  }
+  .icon-span-filestyle {
+    height: 15px;
+    font-size: 10px;    
+  }
+  .filestyle {
+    height: 15px;
+    font-size: 10px;    
+  }  
+/* bootstrap */
+
 /* financial_statementsで使用 */
-thead.financial {
-  float: none;
-}
-tbody.financial {
-  float: none;
-  height: auto;
-}
-.blue_line {
-  background-color: AliceBlue;
-}
-.yellow_line {
-  background-color: LightYellow;
-}
+  thead.financial {
+    float: none;
+  }
+  tbody.financial {
+    float: none;
+    height: auto;
+  }
+  .blue_line {
+    background-color: AliceBlue;
+  }
+  .yellow_line {
+    background-color: LightYellow;
+  }
 /* financial_statementsで使用 */
+
 /* currenciesで使用 */
-td select {
-  text-align: left;
-  width: 150px;
-  height: 26px;
-}
+  td select {
+    text-align: left;
+    width: 150px;
+    height: 26px;
+  }
 /* currenciesで使用 */
+
 /* subexpensesで使用 */
-th.subexpense { 
-  text-align: center;
-  width: 507px; 
-}
-td.subexpense {
-  padding: 0px;    
-  text-align: left;
-  width: 507px; 
-}
-#subexpense_item, #subexpense_currency {
-  text-align: left;
-  width: 120px;
-  height: 26px;
-}
-.subexpense select{
-  width: 480px;
-  overflow-y: auto;
-  overflow-x: auto;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  height: 480px;
-}
+  th.subexpense { 
+    text-align: center;
+    width: 507px; 
+  }
+  td.subexpense {
+    padding: 0px;    
+    text-align: left;
+    width: 507px; 
+  }
+  #subexpense_item, #subexpense_currency {
+    text-align: left;
+    width: 120px;
+    height: 26px;
+  }
+  .subexpense select{
+    width: 480px;
+    overflow-y: auto;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    height: 480px;
+  }
 /* subexpensesで使用 */
+
 /* expense_titlesで使用 */
-.method_select {  
-  text-align: left;
-  overflow-y: auto;
-  overflow-x: auto;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  width: 220px;
-  height: 26px;
-}
+  .method_select {  
+    text-align: left;
+    overflow-y: auto;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    width: 220px;
+    height: 26px;
+  }
 /* expense_titlesで使用 */
+
 /* accountsで使用 */
-td .account_select {  
-  text-align: left;
-  width: 115px;
-  height: 26px;
-}
+  td .account_select {  
+    text-align: left;
+    width: 115px;
+    height: 26px;
+  }
 /* accountsで使用 */
+
 /* rakutensで使用 */
-#rakuten_kind_of_card {
-  padding-left: 5px;   
-  width: 60px;
-  height:25px;
-}
-.form_tag_rakuten{
-  padding-left: 5px;   
-  width: 400px;
-  height:35px;  
-}
+  #rakuten_kind_of_card {
+    padding-left: 5px;   
+    width: 60px;
+    height:25px;
+  }
+  .form_tag_rakuten{
+    padding-left: 5px;   
+    width: 400px;
+    height:35px;  
+  }
 /* rakutensで使用 */
+
 /* usersで使用 */
-.new_user {
-  padding-left: 50px;  
-  width: 550px;
-  height:450px;
-}
-.form_control{
-  width: 400px;
-  text-align: center;
-}
-.user_form{
-  padding: 0px;  
-}
-.form-group.col-sm-8{
-  margin: 0px;
-  padding: 10px;
-}
-.col-sm-4{
-  margin: 0px;
-  padding: 10px;
-}  
+  .new_user {
+    padding-left: 50px;  
+    width: 550px;
+    height:450px;
+  }
+  .form_control{
+    width: 400px;
+    text-align: center;
+  }
+  .user_form{
+    padding: 0px;  
+  }
+  .form-group.col-sm-8{
+    margin: 0px;
+    padding: 10px;
+  }
+  .col-sm-4{
+    margin: 0px;
+    padding: 10px;
+  }  
 /* usersで使用 */
+
 /* sessionsで使用 */
-form {
-  padding-left: 50px;  
-  width: 400px;
-  height:200px;
-}
+  form {
+    padding-left: 50px;  
+    width: 400px;
+    height:200px;
+  }
 /* sessionsで使用 */

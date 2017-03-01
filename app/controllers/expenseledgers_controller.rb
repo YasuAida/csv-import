@@ -11,7 +11,7 @@ class ExpenseledgersController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv { send_data @all_expenseledgers.to_csv, type: 'text/csv; charset=shift_jis', filename: "expenseledgers.csv" }
+      format.csv { send_data @all_expenseledgers.to_download, type: 'text/csv; charset=shift_jis', filename: "expenseledgers.csv" }
     end
   end
   

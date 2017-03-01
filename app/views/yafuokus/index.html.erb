@@ -62,7 +62,7 @@
         </tr>
       </thead>
 <% end %>
-      <tbody class="rakutens">
+      <tbody class="expenseledgers">
         <% @yafuokus.each do |yafuoku|  %>
         <tr>
           <%= form_for(yafuoku, url: yafuoku_path(yafuoku.id), remote: true) do |f| %>

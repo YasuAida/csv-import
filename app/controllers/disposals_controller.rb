@@ -10,7 +10,7 @@ class DisposalsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv { send_data @disposals.to_csv, type: 'text/csv; charset=shift_jis', filename: "disposals.csv" }
+      format.csv { send_data @disposals.to_download, type: 'text/csv; charset=shift_jis', filename: "disposals.csv" }
     end  
   end
   

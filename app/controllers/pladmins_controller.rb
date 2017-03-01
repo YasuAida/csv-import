@@ -12,7 +12,7 @@ class PladminsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv { send_data @all_pladmins.to_csv, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
+      format.csv { send_data @all_pladmins.to_download, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
     end
   end
   

@@ -6,12 +6,7 @@ class VouchersController < ApplicationController
   def index
     @all_vouchers = current_user.vouchers.all
     @vouchers = current_user.vouchers.all.order(date: :desc).page(params[:page])
-    @voucher = current_user.vouchers.build
-
-    respond_to do |format|
-      format.html
-      format.csv { send_data @all_vouchers.to_csv, type: 'text/csv; charset=shift_jis', filename: "vouchers.csv" }
-    end      
+    @voucher = current_user.vouchers.build    
   end
 
   def blank_form

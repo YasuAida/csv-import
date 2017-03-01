@@ -6,7 +6,7 @@ class SalesController < ApplicationController
   def index
     @all_sales = current_user.sales.all
     @q = current_user.sales.search(params[:q])
-    @sales = @q.result(distinct: true).page(params[:page])
+    @sales = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(300)
   end
 
   def upload

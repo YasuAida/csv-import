@@ -11,7 +11,7 @@ class RakutensController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv { send_data @all_rakutens.to_csv, type: 'text/csv; charset=shift_jis', filename: "rakutens.csv" }
+      format.csv { send_data @all_rakutens.to_download, type: 'text/csv; charset=shift_jis', filename: "rakutens.csv" }
     end
   end
 

@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   has_many :yafuokus, dependent: :destroy    
   has_many :yahoo_shoppings, dependent: :destroy  
   
-  def self.to_download
+  def self.admin_download
     headers = %w(ID 名前 郵便番号 住所 電話番号 メールアドレス パスワード)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|

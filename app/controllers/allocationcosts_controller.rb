@@ -123,7 +123,7 @@ class AllocationcostsController < ApplicationController
     @all_allocationcosts = current_user.allocationcosts.all
     respond_to do |format|
       format.html
-      format.csv { send_data @all_allocationcosts.to_csv, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" } 
+      format.csv { send_data @all_allocationcosts.to_download, type: 'text/csv; charset=shift_jis', filename: "allocationcosts.csv" } 
     end 
   end
 

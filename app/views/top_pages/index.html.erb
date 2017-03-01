@@ -1,35 +1,128 @@
-<% content_for :head do %> 
-  <div class="panel_container">
-    <div class="panel panel-default">
-    	<div class="panel-heading">
-    	</div>
-    	<div class="panel-body">
-    	</div>
-    </div>
+<div class="panel_container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active" role="presentation">
+          <a aria-controls="tab_a" data-toggle="tab" href="#tab_a" role="tab" class="tab">仕入台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_b" data-toggle="tab" href="#tab_b" role="tab" class="tab">商品有高帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_c" data-toggle="tab" href="#tab_c" role="tab" class="tab">付随費用台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_d" data-toggle="tab" href="#tab_d" role="tab" class="tab">損益管理シート</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_e" data-toggle="tab" href="#tab_e" role="tab" class="tab">経費台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_f" data-toggle="tab" href="#tab_f" role="tab" class="tab">振替台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_g" data-toggle="tab" href="#tab_g" role="tab" class="tab">在庫受領レポート</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_h" data-toggle="tab" href="#tab_h" role="tab" class="tab">FBAからの返還商品台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_i" data-toggle="tab" href="#tab_i" role="tab" class="tab">廃棄商品台帳</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_j" data-toggle="tab" href="#tab_j" role="tab" class="tab">ダウンロード</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_k" data-toggle="tab" href="#tab_k" role="tab" class="tab">ダウンロード</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_l" data-toggle="tab" href="#tab_l" role="tab" class="tab">アップロード</a>
+        </li>
+        <li role="presentation">
+          <a aria-controls="tab_m" data-toggle="tab" href="#tab_m" role="tab" class="tab">会計期間</a>
+        </li>            
+      </ul>
+    </div>                  
+    <div class="tab-content">
+      <div class="tab-pane active" id="tab_a" role="tabpanel">
+      </div>
+      
+      <div class="tab-pane" id="tab_b" role="tabpanel">
+          
+      </div>
+      
+      <div class="tab-pane" id="tab_c" role="tabpanel">
+             
+      </div>
+      
+      <div class="tab-pane" id="tab_d" role="tabpanel">
+          
+      </div>
+      
+      <div class="tab-pane" id="tab_e" role="tabpanel">
+          
+      </div>
+          
+      <div class="tab-pane" id="tab_f" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>
+      
+      <div class="tab-pane" id="tab_g" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>          
+          
+      <div class="tab-pane" id="tab_h" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>
+          
+      <div class="tab-pane" id="tab_i" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>
+                    
+      <div class="tab-pane" id="tab_j" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>
+          
+      <div class="tab-pane" id="tab_k" role="tabpanel">
+        <p>
+          BackUp:
+          <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
+        </p>
+      </div>
+                    
+      <div class="tab-pane" id="tab_l" role="tabpanel">
+        <%= form_tag({action: 'upload'}, {multipart: true}) do %>
+          <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
+          <%= submit_tag "アップロード", class: 'btn btn-default'%>
+        <% end %>
+      </div>
+                       
+      <div class="tab-pane" id="tab_m" role="tabpanel">
+         <tr>
+          <th>事業開始年月日</th>
+        </tr>
+        <tr>
+          <%= form_for(@period) do |f|  %>        
+            <td><%= f.text_field :period_start %></td>
+            <td><%= f.submit "期首登録"%></td>
+          <% end %>
+        </tr>
+      </div>          
+  	</div>
   </div>
-<table>
-  <tr>
-    <th></th>
-  <tr>
-  <tr>
-    <p>
-      BackUp:
-      <%= link_to "ダウンロード", download_top_pages_path(format: "csv") %>
-    </p>
-    
-    <%= form_tag({action: 'upload'}, {multipart: true}) do %>
-      <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
-      <%= submit_tag "アップロード", class: 'btn btn-default'%>
-    <% end %>
-  <tr>
-  <tr>
-    <th>事業開始年月日</th>
-  </tr>
-  <tr>
-    <%= form_for(@period) do |f|  %>        
-      <td><%= f.text_field :period_start %></td>
-      <td><%= f.submit "期首登録"%></td>
-    <% end %>
-  </tr>
-</table>
-<% end %>
+</div>

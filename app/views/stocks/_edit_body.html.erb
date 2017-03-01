@@ -1,0 +1,43 @@
+    <tbody class="stocks">
+      <% @stocks = current_user.stocks.where(id: (@stock.id..(@stock.id + 25))) %>
+      <% @stocks.each do |stock| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="stock-<%= stock.id %>">
+          <%= form_for(stock, url: stock_path(stock.id), remote: true) do |f|  %>
+            <td class="update" id="check-<%= stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="half"><%= stock.id %></td>
+            <td class="account"><%= stock.date%></td>
+            <td class="order_num"><%= stock.sku%></td>
+            <td class="asin"><%= stock.asin %></td>
+            <td class="content"><%= stock.goods_name %></td>
+            <td class="rate"><%= stock.number%></td>            
+        
+          <% ex_currency = current_user.currencies.find_by(name: stock.currency) %>
+          <% if ex_currency.method == "外貨×為替レート" %>
+            <td class="amount"><%= stock.unit_price %></td>
+          <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(2) %>
+            <td class="amount"><%= addcomma(sub_total.to_f) %></td>
+          <% else %>
+            <td class="amount"><%= stock.unit_price%></td>
+          <% sub_total = stock.number.to_i * BigDecimal(stock.unit_price.to_s).round(0) %>
+            <td class="amount"><%= addcomma(sub_total.to_i) %></td>
+          <% end %>
+              
+            <td class="rate"><%= stock.rate %></td>
+            <td class="amount"><%= addcomma(stock.goods_amount.to_i) unless stock.goods_amount.nil? %></td>
+            <td class="account"><%= stock.money_paid%></td>
+            <td class="account"><%= stock.purchase_from%></td>             
+            <td class="account"><%= stock.currency%></td>
+            <td class="update" id="submit-<%= stock.id %>"><%= link_to "修正", edit_stock_path(stock), class: 'btn btn-default btn-sm'%></td>
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= stock.id %>").change(function(e){
+                $('#edit_stock_<%= stock.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

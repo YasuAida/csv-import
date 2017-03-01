@@ -1,0 +1,26 @@
+<% content_for :head do %> 
+  <div class="panel_container">
+    <div class="panel panel-default">
+    	<div class="panel-heading">
+    	</div>
+    	<div class="panel-body">
+    	</div>
+    </div>
+  </div>
+<table>
+  <thead>
+    <tr>
+      <lable>バックアップ</lable>
+      <%= link_to "ダウンロード", admin_download_administraters_path(format: "csv") %>
+    </tr>      
+  </thead>
+  <tbody>
+    <tr>
+      <%= form_tag({action: 'admin_upload'}, {multipart: true}) do %>
+        <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
+        <%= submit_tag "アップロード", class: 'btn btn-default'%>
+      <% end %>
+    </tr>
+  </tbody> 
+</table>
+<% end %>

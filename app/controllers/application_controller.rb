@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include SessionsHelper
   helper_method :addcomma, :erase_zero
+  before_action :set_request_from
   
   def addcomma(num)
     temp = num.to_s # 逆順にしない。単に文字列に変換するだけ
@@ -49,7 +50,15 @@ class ApplicationController < ActionController::Base
       return num
     end
   end
-
+  
+  def return_back
+    if request.referer
+      redirect_to :back and return true
+    elsif @request_from
+      redirect_to @request_from and return true
+    end
+  end
+  
   private
   def logged_in_user
     unless logged_in?
@@ -57,5 +66,13 @@ class ApplicationController < ActionController::Base
       flash[:danger] = "ログインしてください"
       redirect_to login_url
     end
+  end
+  
+  def set_request_from
+    if session[:request_from]
+      @request_from = session[:request_from]
+    end
+    # 現在のURLを保存しておく
+    session[:request_from] = request.original_url
   end
 end

@@ -52,7 +52,7 @@
           <th class="middle">仕入ID</th>            
           <th class="account">日付</th>      
           <th class="order_num">注文ID</th>
-          <th class="large">SKU</th>
+          <th class="asin">SKU</th>
           <th class="content">商品名</th>
           <th class="amount">単価</th>          
           <th class="rate">個数</th>            
@@ -75,7 +75,7 @@
             <td class="middle"></td>
             <td class="account"><%= f.text_field :date, :size => 8 %></td>          
             <td class="order_num"><%= f.text_field :order_id, :size => 18 %></td>
-            <td class="large"><%= f.text_field :sku, :size => 12 %></td>
+            <td class="asin"><%= f.text_field :sku, :size => 13 %></td>
             <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
             <td class="amount"><%= f.text_field :unit_price, :size => 6, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>            
             <td class="rate"><%= f.text_field :number, :size => 1, :style=>"text-align:right"%></td>              
@@ -103,7 +103,7 @@
           <td class="middle"></td>          
           <td class="account"></td>
           <td class="order_num"></td>
-          <td class="large"></td>
+          <td class="asin"></td>
           <td class="content" style="text-align:right"></td> 
           <td class="amount">合計</td>
             <% total_number = @yahoo_shoppings.group(:id, :number).sum(:number).values.inject(:+) %> 
@@ -131,7 +131,7 @@
           <td class="middle"></td>
           <td class="account"><%= f.text_field :date, :size => 8 %></td>
           <td class="order_num"><%= f.text_field :order_id, :size => 18 %></td>
-          <td class="large"><%= f.text_field :sku, :size => 12 %></td>
+          <td class="asin"><%= f.text_field :sku, :size => 13 %></td>
           <td class="content"><%= f.text_field :goods_name, :size => 42 %></td>
           <td class="amount"><%= f.text_field :unit_price, :size => 6, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>           
           <td class="rate"><%= f.text_field :number, :size => 1, :style=>"text-align:right"%></td>               

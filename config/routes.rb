@@ -1,4 +1,29 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+
+  root to: 'top_pages#index'
+  get    'signup', to: 'users#new'
+  get    'login' , to: 'sessions#new'
+  post   'login' , to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
+
+  resources :users
+  
+  get 'top_pages/index'
+
+  resources :top_pages, only: [ :index] do
+    collection do
+      get 'download'
+      post 'upload'
+    end
+  end
+
+  resources :administraters, only: [ :index] do
+    collection do
+      get 'admin_download'
+      post 'admin_upload'
+    end
+  end
 
   resources :yafuokus , only: [:index, :create, :update] do
     collection do
@@ -57,25 +82,6 @@ Rails.application.routes.draw do
     collection do
       get 'bs'
       get 'pl'
-    end
-  end
-  
-  get 'sessions/new'
-
-  root to: 'top_pages#index'
-  get    'signup', to: 'users#new'
-  get    'login' , to: 'sessions#new'
-  post   'login' , to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
-
-  resources :users
-  
-  get 'top_pages/index'
-
-  resources :top_pages, only: [ :index] do
-    collection do
-      get 'download'
-      post 'upload'
     end
   end
   
@@ -153,9 +159,12 @@ Rails.application.routes.draw do
   resources :subexpenses, only: [ :index, :create, :show, :update] 
   get 'subexpenses/destroy'
   
-  resources :stocks, only: [ :index, :create, :update] do
+  resources :stocks, only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
+    end
     collection do
-      post 'upload'       
+      post 'upload'
       get 'sku'
     end
   end

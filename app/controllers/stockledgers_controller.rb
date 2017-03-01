@@ -56,7 +56,7 @@ class StockledgersController < ApplicationController
     @all_stockledgers = current_user.stockledgers.all
     respond_to do |format|
       format.html
-      format.csv { send_data @all_stockledgers.to_csv, type: 'text/csv; charset=shift_jis', filename: "stockledgers.csv" } 
+      format.csv { send_data @all_stockledgers.to_download, type: 'text/csv; charset=shift_jis', filename: "stockledgers.csv" } 
     end 
   end
   
