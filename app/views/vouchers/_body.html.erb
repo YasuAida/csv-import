@@ -1,0 +1,48 @@
+    <tbody class="stocks">
+      <% @vouchers.each do |voucher|  %>
+        <!--Ajax用に固有のidを設定-->      
+        <tr id="voucher-<%= voucher.id %>">
+          <%= form_for(voucher, url: voucher_path(voucher.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= voucher.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= voucher.sale_id %></td>            
+            <td class="account"><%= voucher.date %></td>          
+            <td class="account"><%= voucher.debit_account %></td>
+            <td class="large"><%= voucher.debit_subaccount %></td>              
+            <td class="account"><%= voucher.debit_taxcode %></td>              
+            <td class="account"><%= voucher.credit_account %></td>
+            <td class="large"><%= voucher.credit_subaccount %></td>              
+            <td class="account"><%= voucher.credit_taxcode %></td>
+            <td class="amount"><%= addcomma(voucher.amount.to_i) %></td>
+            <td class="content" style="white-space:nowrap;"><%= voucher.content %></td>
+            <td class="company"><%= voucher.trade_company %></td>        
+            <td class="update" id="submit-<%= voucher.id %>"><%= link_to "修正", edit_voucher_path(voucher), class: 'btn btn-default btn-sm'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= voucher.id %>").change(function(e){
+                $('#edit_voucher_<%= voucher.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+        <tr>
+          <td class="update"></td>           
+          <td class="middle"></td>
+          <td class="account"></td>
+          <td class="account"></td>
+          <td class="large"></td>
+          <td class="account"></td>
+          <td class="account"></td>
+          <td class="large"></td>
+          <td class="account">合計</td>
+            <% total_amount = @vouchers.group(:id, :amount).sum(:amount).values.inject(:+) %>        
+          <td class="amount"><%= addcomma(total_amount.to_i) %></td> 
+          <td class="content"></td>
+          <td class="company"></td>      
+          <td class="update"></td>
+        </tr>
+    </tbody>
+  </table>
+  <%= paginate @vouchers %>
+</div>

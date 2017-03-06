@@ -1,0 +1,35 @@
+    <tbody class="stocks">
+      <% @multi_channels = current_user.multi_channels.where(id: (@multi_channel.id..(@multi_channel.id + 25))) %>
+      <% @multi_channels.each do |multi_channel| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="multi_channel-<%= multi_channel.id %>">
+          <%= form_for(multi_channel, url: multi_channel_path(multi_channel), remote: true) do |f|  %>
+            <td class="update" id="check-<%= multi_channel.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= multi_channel.sale_id %></td>
+            <td class="account"><%= multi_channel.date %></td> 
+            <td class="reference"><%= multi_channel.order_num %></td>              
+            <td class="large"><%= multi_channel.sku %></td>
+            
+          <% sku_stock = current_user.stocks.find_by(sku: multi_channel.sku) %>
+          <% sku_stockaccept = current_user.stockaccepts.find_by(sku: multi_channel.sku) %>
+          
+          <% if sku_stockaccept.present? %>
+            <% multi_goods_name = sku_stockaccept.goods_name %>
+          <% elsif sku_stock.present? %>
+            <% multi_goods_name = sku_stock.goods_name %>
+          <% end %>
+            <td class="content"><%= multi_goods_name %></td>
+            <td class="rate"><%= multi_channel.number %></td> 
+            <td class="update" id="submit-<%= multi_channel.id %>"><%= link_to "修正", edit_multi_channel_path(multi_channel), class: 'btn btn-default btn-xs'%></td>
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= multi_channel.id %>").change(function(e){
+                $('#edit_multi_channel_<%= multi_channel.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

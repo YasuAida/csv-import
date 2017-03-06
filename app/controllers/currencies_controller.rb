@@ -1,16 +1,29 @@
 class CurrenciesController < ApplicationController
-  before_action :set_currency, only: [ :update]
+  before_action :set_currency, only: [:edit, :update, :copy]
   before_action :logged_in_user
   
-  def index
-    @currency = current_user.currencies.build   
-    @currencies = current_user.currencies.all
+  def index   
+    @q = current_user.currencies.search(params[:q])
+    @currencies = @q.result(distinct: true).page(params[:page])
+    @currency = current_user.currencies.build
     @upload_currencies = current_user.currencies.where.not(name: "円")
+  end
+  
+  def new
+    @q = current_user.currencies.search(params[:q])
+    @currencies = @q.result(distinct: true).page(params[:page])
+    @currency = current_user.currencies.build  
   end
   
   def create
     current_user.currencies.create(currency_params)
     redirect_to currencies_path , notice: 'データを保存しました'
+  end
+  
+  def edit
+    @q = current_user.currencies.search(params[:q])
+    @currencies = @q.result(distinct: true).page(params[:page]) 
+    @currency = @update_currency
   end
   
   def update

@@ -1,19 +1,62 @@
 class PladminsController < ApplicationController
   include PladminsHelper  
-  before_action :set_pladmin, only: [ :update]
+  before_action :set_pladmin, only: [:edit, :update, :copy]
   before_action :logged_in_user
   
   def index
-    @pladmin = current_user.pladmins.build
-    
     @all_pladmins = current_user.pladmins.all
     @q = current_user.pladmins.order(date: :desc).search(params[:q])
     @pladmins = @q.result(distinct: true).page(params[:page]).per(100)
+    @pladmin = current_user.pladmins.build
     
     respond_to do |format|
       format.html
       format.csv { send_data @all_pladmins.to_download, type: 'text/csv; charset=shift_jis', filename: "pladmins.csv" }
     end
+  end
+  
+  def new
+    @q = current_user.pladmins.order(date: :desc).search(params[:q])
+    @pladmins = @q.result(distinct: true).page(params[:page]).per(100)
+    @pladmin = current_user.pladmins.build   
+  end
+  
+  def create
+    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
+    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
+    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
+    @pladmin = current_user.pladmins.build(pladmin_params)
+    @pladmin.save
+    redirect_to pladmins_path, notice: 'データを保存しました'
+  end
+ 
+  def edit
+    @q = current_user.pladmins.order(date: :desc).search(params[:q])
+    @pladmins = @q.result(distinct: true).page(params[:page]).per(100)     
+    @pladmin = @update_pladmin
+  end
+  
+  def update
+    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
+    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
+    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
+    if @update_pladmin.update(pladmin_params)
+      @update_pladmin.save
+      redirect_to pladmins_path, notice: "データを編集しました"
+    else
+      render "update"
+    end
+  end
+   
+  def copy
+    @copy_pladmin = @update_pladmin.dup
+    @copy_pladmins = current_user.pladmins.where(sale_id: @copy_pladmin.sale_id, date: @copy_pladmin.date, order_num: @copy_pladmin.order_num, goods_name: @copy_pladmin.goods_name, money_receive: @copy_pladmin.money_receive, sale_place: @copy_pladmin.sale_place)
+    @copy_pladmin.sku = @copy_pladmin.sku + "(" + @copy_pladmins.count.to_s + ")"
+    if @copy_pladmin.save
+      @copy_pladmins = current_user.pladmins.where(sale_id: @copy_pladmin.sale_id, date: @copy_pladmin.date, order_num: @copy_pladmin.order_num, goods_name: @copy_pladmin.goods_name, money_receive: @copy_pladmin.money_receive, sale_place: @copy_pladmin.sale_place)
+    else
+      redirect_to :back 
+    end  
   end
   
   def blank_form
@@ -32,27 +75,6 @@ class PladminsController < ApplicationController
     file_close(data[:datafile])
 
     redirect_to pladmins_path
-  end
-  
-  def create
-    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
-    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
-    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
-    @pladmin = current_user.pladmins.build(pladmin_params)
-    @pladmin.save
-    redirect_to pladmins_path, notice: 'データを保存しました'
-  end
-  
-  def update
-    params[:pladmin][:sale_amount] = params[:pladmin][:sale_amount].gsub(",","") if params[:pladmin][:sale_amount].present?
-    params[:pladmin][:commission] = params[:pladmin][:commission].gsub(",","") if params[:pladmin][:commission].present?
-    params[:pladmin][:cgs_amount] = params[:pladmin][:cgs_amount].gsub(",","") if params[:pladmin][:cgs_amount].present?
-    if @update_pladmin.update(pladmin_params)
-      @update_pladmin.save
-      redirect_to pladmins_path, notice: "データを編集しました"
-    else
-      render "update"
-    end
   end
 
   def destroy

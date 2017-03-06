@@ -5,11 +5,11 @@ class StocksController < ApplicationController
   before_action :logged_in_user
 
   def index
+    @all_stocks = current_user.stocks.all
     @q = current_user.stocks.search(params[:q])
     @stocks = @q.result(distinct: true).order(date: :desc).page(params[:page])
     @stock = current_user.stocks.new
     
-    @all_stocks = current_user.stocks.all
     respond_to do |format|
       format.html
       format.csv { send_data @all_stocks.to_download, type: 'text/csv; charset=shift_jis', filename: "stocks.csv" }
@@ -19,7 +19,7 @@ class StocksController < ApplicationController
   def new
     @q = current_user.stocks.search(params[:q])
     @stocks = @q.result(distinct: true).order(id: :desc).page(params[:page])
-    @stock = current_user.stocks.new    
+    @stock = current_user.stocks.build   
   end
   
   def create
@@ -43,7 +43,6 @@ class StocksController < ApplicationController
     @stock = @update_stock
   end
 
-  # Ajax用にリダイレクトを破棄
   def update
     params[:stock][:unit_price] = params[:stock][:unit_price].gsub(",","") if params[:stock][:unit_price].present?    
     if @update_stock.update(stock_params)
@@ -51,7 +50,7 @@ class StocksController < ApplicationController
       @update_stock.stockledgers.destroy_all
       @update_stock.save
       
-      redirect_to stocks_path 
+      redirect_to :back 
     else
       redirect_to :back 
     end
@@ -68,12 +67,10 @@ class StocksController < ApplicationController
       goods_amount_new_stock(@copy_stock)
       @copy_stock.save
  
-    @copy_stocks = current_user.stocks.where(date: @copy_stock.date, asin: @copy_stock.asin, goods_name: @copy_stock.goods_name, unit_price: @copy_stock.unit_price, money_paid: @copy_stock.money_paid, purchase_from: @copy_stock.purchase_from)
-    
+    @copy_stocks = current_user.stocks.where(date: @copy_stock.date, asin: @copy_stock.asin, goods_name: @copy_stock.goods_name, unit_price: @copy_stock.unit_price, money_paid: @copy_stock.money_paid, purchase_from: @copy_stock.purchase_from)    
     else
       redirect_to :back 
-    end
-    
+    end  
   end
   
   def upload    

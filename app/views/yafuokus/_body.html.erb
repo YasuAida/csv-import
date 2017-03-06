@@ -1,0 +1,62 @@
+    <tbody class="stocks">
+      <% @yafuokus.each do |yafuoku|  %>
+        <!--Ajax用に固有のidを設定-->      
+        <tr id="yafuoku-<%= yafuoku.id %>">
+          <%= form_for(yafuoku, url: yafuoku_path(yafuoku.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= yafuoku.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>      
+            <td class="account"><%= yafuoku.date %></td>          
+            <td class="order_num"><%= yafuoku.order_num %></td>
+            <td class="large"><%= yafuoku.sku %></td>
+            <td class="content"><%= yafuoku.goods_name %></td>
+            <td class="company"><%= yafuoku.sale_place %></td>            
+            <td class="amount"><%= yafuoku.unit_price %></td>            
+            <td class="rate"><%= yafuoku.number %></td>              
+            <td class="amount"><%= addcomma(yafuoku.sales_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(yafuoku.cogs_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(yafuoku.commission.to_i) %></td>            
+            <td class="amount"><%= addcomma(yafuoku.shipping_cost.to_i) %></td>
+            <% profit = yafuoku.sales_amount.to_i - yafuoku.commission.to_i - yafuoku.cogs_amount.to_i - yafuoku.shipping_cost.to_i %>
+            <td class="amount" style="text-align:right"><%= addcomma(profit)%></td>
+            <td class="account"><%= yafuoku.money_receipt_date %></td>
+            <td class="account"><%= yafuoku.commission_pay_date %></td> 
+            <td class="account"><%= yafuoku.shipping_pay_date %></td>         
+            <td class="update" id="submit-<%= yafuoku.id %>"><%= link_to "更新", edit_yafuoku_path(yafuoku), class: 'btn btn-default btn-sm'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= yafuoku.id %>").change(function(e){
+                $('#edit_yafuoku_<%= yafuoku.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+        <tr>
+          <td class="update"></td>           
+          <td class="account"></td>
+          <td class="order_num"></td>
+          <td class="large"></td>
+          <td class="content" style="text-align:right"></td>
+          <td class="company"></td>
+          <td class="amount">合計</td>
+            <% total_number = @yafuokus.group(:id, :number).sum(:number).values.inject(:+) %> 
+          <td class="rate"><%= addcomma(total_number.to_i) %></td>
+            <% total_sales_amount = @yafuokus.group(:id, :sales_amount).sum(:sales_amount).values.inject(:+) %>        
+          <td class="amount"><%= addcomma(total_sales_amount.to_i) %></td>
+            <% total_cgs_amount = @yafuokus.group(:id, :cogs_amount).sum(:cogs_amount).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_cgs_amount.to_i) %></td>
+            <% total_commission = @yafuokus.group(:id, :commission).sum(:commission).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_commission.to_i) %></td>
+            <% total_shipping_cost = @yafuokus.group(:id, :shipping_cost).sum(:shipping_cost).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_shipping_cost.to_i) %></td>
+            <% total_profit = total_sales_amount.to_i - total_cgs_amount.to_i -  total_commission.to_i - total_shipping_cost.to_i %>
+          <td class="amount"><%= addcomma(total_profit.to_i) %></td>   
+          <td class="account"></td>
+          <td class="account"></td>
+          <td class="account"></td>          
+          <td class="update"></td>
+        </tr>
+    </tbody>
+  </table>
+  <%= paginate @yafuokus %>
+</div>

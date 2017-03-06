@@ -1,0 +1,30 @@
+    <tbody class="expenseledgers">
+      <% @journalpatterns = current_user.journalpatterns.where(id: (@journalpattern.id..(@journalpattern.id + 25))) %>
+      <% @journalpatterns.each do |journalpattern| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="journalpattern-<%= journalpattern.id %>">
+          <%= form_for(journalpattern, url: journalpattern_path(journalpattern), remote: true) do |f|  %>
+            <td class="update" id="check-<%= journalpattern.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= journalpattern.taxcode %></td>
+            <td class="large"><%= journalpattern.ledger %></td>
+            <td class="middle_large"><%= journalpattern.pattern %></td>
+            <td class="large"><%= journalpattern.debit_account %></td>
+            <td class="large"><%= journalpattern.debit_subaccount %></td>
+            <td class="middle"><%= journalpattern.debit_taxcode %></td>
+            <td class="large"><%= journalpattern.credit_account %></td>
+            <td class="large"><%= journalpattern.credit_subaccount %></td>
+            <td class="middle"><%= journalpattern.credit_taxcode %></td>
+            <td class="update" id="submit-<%= journalpattern.id %>"><%= link_to "修正", edit_journalpattern_path(journalpattern), class: 'btn btn-default btn-xs'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= journalpattern.id %>").change(function(e){
+                $('#edit_journalpattern_<%= journalpattern.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

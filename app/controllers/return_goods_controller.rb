@@ -1,5 +1,5 @@
 class ReturnGoodsController < ApplicationController
-  before_action :set_return_good, only: [ :update] 
+  before_action :set_return_good, only: [:edit, :update, :copy]
   before_action :logged_in_user
   
   def index
@@ -14,6 +14,12 @@ class ReturnGoodsController < ApplicationController
     end  
   end
   
+  def new
+    @q = current_user.return_goods.search(params[:q])
+    @return_goods = @q.result(distinct: true).order(date: :desc).page(params[:page])
+    @return_good = current_user.return_goods.build   
+  end
+  
   def create
     @return_good = current_user.return_goods.build(return_good_params)
     if @return_good.save
@@ -23,14 +29,31 @@ class ReturnGoodsController < ApplicationController
     end
   end
   
-  def update
-    if @update_return_good.update(return_good_params)    
-      redirect_to return_goods_path , notice: 'データを更新しました'
-    else
-      redirect_to return_goods_path , notice: 'データの更新に失敗しました'
-    end
+  def edit
+    @q = current_user.return_goods.search(params[:q])
+    @return_goods = @q.result(distinct: true).order(date: :desc).page(params[:page])    
+    @return_good = @update_return_good
   end
   
+  def update
+    if @update_return_good.update(return_good_params)    
+      redirect_to :back 
+    else
+      redirect_to :back 
+    end
+  end
+
+  def copy
+    @copy_return_good = @update_return_good.dup
+    @copy_return_goods = current_user.return_goods.where(date: @copy_return_good.date, sale_id: @copy_return_good.sale_id, stock_id: @copy_return_good.stock_id, order_num: @copy_return_good.order_num, old_sku: @copy_return_good.old_sku, number: @copy_return_good.number)
+    @copy_return_good.new_sku = @copy_return_good.new_sku + "(" + @copy_return_goods.count.to_s + ")"
+    if @copy_return_good.save 
+      @copy_return_goods = current_user.return_goods.where(date: @copy_return_good.date, sale_id: @copy_return_good.sale_id, stock_id: @copy_return_good.stock_id, order_num: @copy_return_good.order_num, old_sku: @copy_return_good.old_sku, number: @copy_return_good.number)
+    else
+      redirect_to :back 
+    end  
+  end
+
   def destroy
     current_user.return_goods.where(destroy_check: true).destroy_all
     redirect_to return_goods_path, notice: 'データを削除しました'

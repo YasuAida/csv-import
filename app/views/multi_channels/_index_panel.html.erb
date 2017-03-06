@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  マルチチャンネルＳＫＵ登録(一覧画面)
+	  <%= link_to "新規登録画面へ", new_multi_channel_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body">
+    <%= search_form_for(@q, url: multi_channels_path) do |f| %>
+      <%= f.label :order_num_cont, "注文番号で検索" %>
+      <%= f.search_field :order_num_cont %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>
+    <%= search_form_for(@q, url: multi_channels_path) do |f| %>
+      <%= f.label :sku_eq, "ＳＫＵで検索" %>
+      <%= f.search_field :sku_eq %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>
+  </div>
+</div>

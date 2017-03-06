@@ -1,0 +1,19 @@
+    <tbody class="stocks">
+      <% @stockaccepts = current_user.stockaccepts.where(id: (@stockaccept.id..(@stockaccept.id + 25))) %>
+      <% @stockaccepts.each do |stockaccept| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="stockaccept-<%= stockaccept.id %>">
+          <td class="account"><%= stockaccept.date %></td>
+          <td class="large"><%= stockaccept.fnsku %></td>
+          <td class="large"><%= stockaccept.sku %></td>
+          <td class="content"><%= stockaccept.goods_name %></td>
+          <td class="rate"><%= stockaccept.quantity %></td>
+          <td class="large"><%= stockaccept.fba_number %></td>
+          <td class="rate"><%= stockaccept.fc %></td>  
+          <td class="asin"><%= stockaccept.asin %></td> 
+          <td class="update" id="submit-<%= stockaccept.id %>"><%= link_to "修正", edit_stockaccept_path(stockaccept), class: 'btn btn-default btn-sm'%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

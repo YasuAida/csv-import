@@ -1,0 +1,24 @@
+    <tbody class="stocks">
+      <% @exchanges.each do |exchange| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="exchange-<%= exchange.id %>">
+          <%= form_for(exchange, url: exchange_path(exchange.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= exchange.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="account"><%= exchange.date %></td>
+            <td class="account"><%= exchange.country %></td>
+            <td class="middle"><%= exchange.rate %></td>
+            <td class="update" id="exchange-<%= exchange.id %>"><%= link_to "修正", edit_exchange_path(exchange), class: 'btn btn-default btn-xs'%></td> 
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= exchange.id %>").change(function(e){
+                $('#edit_exchange_<%= exchange.id %>').submit();
+              });
+            </script>                    
+          <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @exchanges %>
+</div>

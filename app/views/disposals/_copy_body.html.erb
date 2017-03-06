@@ -1,0 +1,38 @@
+    <tbody class="rakutens">
+      <% @disposals = current_user.disposals.where(id: ((@update_disposal.id - 15)..@update_disposal.id)) %>
+      <% @disposals.each do |disposal| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="disposal-<%= disposal.id %>">
+          <%= form_for(disposal, url: disposal_path(disposal.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= disposal.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= disposal.sale_id %></td>             
+            <td class="number"><%= f.text_field :stock_id, readonly: true, :size=> "4", :style=>"text-align:right"%></td>
+            <td class="account"><%= f.text_field :date, :size => "8"%></td>     
+            <td class="order_num"><%= f.text_field :order_num, readonly: true, :size => "16"%></td>
+            <td class="large"><%= f.text_field :sku, :size => "11"%></td>
+            
+          <% stock_name = current_user.stocks.find_by(sku: disposal.sku) %>
+          <% return_good = current_user.return_goods.find_by(new_sku: disposal.sku) %>
+          <% if stock_name.present? %>
+            <td class="content"><%= stock_name.goods_name %></td>
+          <% elsif return_good.present?%>
+          <% stock_name = current_user.stocks.find_by(sku: return_good.old_sku) %>          
+            <td class="content"><%= stock_name.goods_name if stock_name.present? %></td>
+          <% else %>
+            <td class="content"></td>
+          <% end %>
+          
+            <td class="rate"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>          
+            <td class="update" id="submit-<%= disposal.id %>"><%= f.submit "更新", class: 'btn btn-default btn-sm'%></td>
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= disposal.id %>").change(function(e){
+                $('#edit_disposal_<%= disposal.id %>').submit();
+              });
+            </script>                    
+            <% end %> 
+        </tr>
+      <% end %>
+  </table>
+</div>

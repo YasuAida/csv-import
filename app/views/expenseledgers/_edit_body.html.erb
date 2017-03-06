@@ -1,0 +1,45 @@
+    <tbody class="stocks">
+      <% @expenseledgers = current_user.expenseledgers.where(id: (@expenseledger.id..(@expenseledger.id + 25))) %>
+      <% @expenseledgers.each do |expenseledger| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="expenseledger-<%= expenseledger.id %>">
+          <%= form_for(expenseledger, url: expenseledger_path(expenseledger.id), remote: true) do |f| %>
+              <td class="update" id="check-<%= expenseledger.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+              <td class="middle"><%= expenseledger.sale_id %></td>                
+              <td class="account"><%= expenseledger.date %></td>
+              <td class="asin"><%= expenseledger.account_name %></td>
+            
+            <% ex_currency = current_user.currencies.find_by(name: expenseledger.currency) %>
+            <% if ex_currency.method == "外貨×為替レート" %>  
+              <td class="amount"><%= addcomma(expenseledger.amount.to_i) %></td>
+              <td class="rate"><%= expenseledger.rate.to_f %></td>
+            <% elsif ex_currency.method == "外貨÷100×為替レート" %>
+              <td class="amount"><%= addcomma(expenseledger.amount.to_i) %></td>
+              <td class="rate"><%= expenseledger.rate.to_f %></td>            
+            <% else %>
+              <td class="amount"><%= addcomma(expenseledger.amount.to_i) %></td>
+              <td class="rate"><%= expenseledger.rate.to_f %></td>
+            <% end %>
+  
+            <% ex_total = expenseledger.amount.to_f * expenseledger.rate.to_f %>
+            <% total = BigDecimal(ex_total.to_s).round(0) %>
+              <td class="amount"><%= addcomma(total.to_i) %></td>
+              
+              <td class="account"><%= expenseledger.money_paid %></td>
+              <td class="company"><%= expenseledger.purchase_from %></td>
+              <td class="account"><%= expenseledger.currency %></td>
+              <td class="content"><%= expenseledger.content %></td>
+              <td class="update" id="submit-<%= expenseledger.id %>"><%= link_to "修正", edit_expenseledger_path(expenseledger), class: 'btn btn-default btn-xs'%></td>
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= expenseledger.id %>").change(function(e){
+                $('#edit_expenseledger_<%= expenseledger.id %>').submit();
+              });
+            </script>                    
+          <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

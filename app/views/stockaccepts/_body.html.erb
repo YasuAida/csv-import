@@ -1,0 +1,18 @@
+    <tbody class="stocks">
+      <% @stockaccepts.each do |stockaccept| %>
+        <tr>
+          <td class="account"><%= stockaccept.date %></td>
+          <td class="large"><%= stockaccept.fnsku %></td>
+          <td class="large"><%= stockaccept.sku %></td>
+          <td class="content"><%= stockaccept.goods_name %></td>
+          <td class="rate"><%= stockaccept.quantity %></td>
+          <td class="large"><%= stockaccept.fba_number %></td>
+          <td class="rate"><%= stockaccept.fc %></td>  
+          <td class="asin"><%= stockaccept.asin %></td>
+          <td class="update" id="submit-<%= stockaccept.id %>"><%= link_to "修正", edit_stockaccept_path(stockaccept), class: 'btn btn-default btn-xs'%></td>          
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @stockaccepts %>
+</div>

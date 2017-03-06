@@ -1,0 +1,69 @@
+    <tbody class="stocks">
+      <% @pladmins.each do |pladmin| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="pladmin-<%= pladmin.id %>">
+          <%= form_for(pladmin, url: pladmin_path(pladmin.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= pladmin.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>      
+            <td class="middle"><%= pladmin.stock_id if pladmin.stock_id.present? %></td>
+            <td class="account"><%= pladmin.date %></td>          
+            <td class="order_num"><%= pladmin.order_num %></td>
+            <td class="large"><%= pladmin.sku %></td>
+            <td class="content"><%= pladmin.goods_name %></td>
+            <td class="rate"><%= pladmin.quantity %></td>            
+            <td class="company"><%= pladmin.sale_place %></td>        
+            <td class="amount"><%= addcomma(pladmin.sale_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(pladmin.cgs_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(pladmin.commission.to_i) %></td>
+            <td class="amount"><%= addcomma(pladmin.shipping_cost.to_i) %></td>
+            <% profit = pladmin.sale_amount.to_i - pladmin.commission.to_i - pladmin.cgs_amount.to_i - pladmin.shipping_cost.to_i %>
+            <td class="amount" style="text-align:right"><%= addcomma(profit.to_i)%></td>
+            <td class="account"><%= pladmin.money_receive %></td>
+            <td class="account"><%= pladmin.commission_pay_date %></td>        
+            <td class="account"><%= pladmin.shipping_pay_date %></td>        
+            <td class="update" id="submit-<%= pladmin.id %>"><%= link_to "修正", edit_pladmin_path(pladmin), class: 'btn btn-default btn-xs'%></td>            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= pladmin.id %>").change(function(e){
+                $('#edit_pladmin_<%= pladmin.id %>').submit();
+              });
+            </script>
+          <% end %> 
+        </tr> 
+      <% end %>
+        <tr>
+          <td class="update"></td>      
+          <td class="middle"></td>          
+          <td class="account"></td>
+          <td class="order_num"></td>
+          <td class="large"></td>
+          <td class="content" style="text-align:right">合計</td>
+            <% total_quantity = @pladmins.group(:id, :quantity).sum(:quantity).values.inject(:+) %>  
+          <td class="rate"><%= addcomma(total_quantity.to_i) %></td>         
+          <td class="company"></td>
+            <% total_sale_amount = @pladmins.group(:id, :sale_amount).sum(:sale_amount).values.inject(:+) %>        
+          <td class="amount"><%= addcomma(total_sale_amount.to_i) %></td>
+            <% total_cgs_amount = @pladmins.group(:id, :cgs_amount).sum(:cgs_amount).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_cgs_amount.to_i) %></td>
+            <% total_commission = @pladmins.group(:id, :commission).sum(:commission).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_commission.to_i) %></td>
+            <% total_shipping_cost = @pladmins.group(:id, :shipping_cost).sum(:shipping_cost).values.inject(:+) %>            
+          <td class="amount"><%= addcomma(total_shipping_cost.to_i) %></td>
+            <% if total_sale_amount.present? && total_cgs_amount.present? && total_commission.present? && total_shipping_cost.present? %>
+              <% total_profit = total_sale_amount - total_cgs_amount -  total_commission - total_shipping_cost %>
+            <% elsif total_sale_amount.present? && total_cgs_amount.present? && total_commission.present? && total_shipping_cost.blank? %> 
+              <% total_profit = total_sale_amount - total_cgs_amount -  total_commission %>
+            <% elsif total_sale_amount.present? && total_cgs_amount.present? && total_commission.blank? && total_shipping_cost.present? %> 
+              <% total_profit = total_sale_amount - total_cgs_amount -  total_shipping_cost %>
+            <% elsif total_sale_amount.present? && total_cgs_amount.present? && total_commission.blank? && total_shipping_cost.blank? %> 
+              <% total_profit = total_sale_amount - total_cgs_amount %>              
+            <% end %> 
+          <td class="amount"><%= addcomma(total_profit.to_i) %></td>   
+          <td class="account"></td>
+          <td class="account"></td>
+          <td class="account"></td>
+          <td class="update"></td>
+        </tr>
+    </tbody>
+   </table>
+   <%= paginate @pladmins %>
+</div>

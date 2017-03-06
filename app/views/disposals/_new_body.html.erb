@@ -1,0 +1,39 @@
+      <tbody class="expenseledgers">
+        <% @disposals.each do |disposal| %>
+          <!--Ajax用に固有のidを設定-->
+          <tr id="disposal-<%= disposal.id %>">
+            <%= form_for(disposal, url: disposal_path(disposal.id), remote: true) do |f| %>
+              <td class="update" id="check-<%= disposal.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+              <td class="number"><%= disposal.sale_id %></td>             
+              <td class="number"><%= disposal.stock_id %></td>
+              <td class="account"><%= disposal.date %></td>     
+              <td class="order_num"><%= disposal.order_num %></td>
+              <td class="large"><%= disposal.sku %></td>
+              
+            <% stock_name = current_user.stocks.find_by(sku: disposal.sku) %>
+            <% return_good = current_user.return_goods.find_by(new_sku: disposal.sku) %>
+            <% if stock_name.present? %>
+              <td class="content"><%= stock_name.goods_name %></td>
+            <% elsif return_good.present?%>
+            <% stock_name = current_user.stocks.find_by(sku: return_good.old_sku) %>          
+              <td class="content"><%= stock_name.goods_name if stock_name.present? %></td>
+            <% else %>
+              <td class="content"></td>
+            <% end %>
+            
+              <td class="rate"><%= disposal.number %></td>          
+              <td class="update" id="disposal-<%= disposal.id %>"><%= link_to "修正", edit_disposal_path(disposal), class: 'btn btn-default btn-xs'%></td>    
+                
+              <!--チェックボックス更新用JQuery-->
+              <script>
+                $("#check-<%= disposal.id %>").change(function(e){
+                  $('#edit_disposal_<%= disposal.id %>').submit();
+                });
+              </script>                    
+              <% end %> 
+          </tr>
+        <% end %>
+      </tbody>      
+    </table>
+  </div>
+</div>

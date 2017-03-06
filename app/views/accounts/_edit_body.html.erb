@@ -1,0 +1,25 @@
+    <tbody class="stocks">
+      <% @accounts = current_user.accounts.where(id: (@account.id..(@account.id + 25))) %>
+      <% @accounts.each do |account| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="account-<%= account.id %>">
+          <%= form_for(account, url: account_path(account.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= account.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="asin"><%= account.account %></td>          
+            <td class="asin"><%= account.debit_credit %></td>
+            <td class="asin"><%= account.bs_pl %></td>
+            <td class="asin"><%= account.display_position %></td>            
+            <td class="update" id="account-<%= account.id %>"><%= link_to "修正", edit_account_path(account), class: 'btn btn-default btn-xs'%></td> 
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= account.id %>").change(function(e){
+                $('#edit_account_<%= account.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>      
+      <% end %>
+    </tbody>
+  </table>
+</div>

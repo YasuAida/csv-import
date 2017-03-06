@@ -1,5 +1,5 @@
 class MultiChannelsController < ApplicationController
-  before_action :set_multi_channel, only: [ :update]  
+  before_action :set_multi_channel, only: [:edit, :update, :copy]
   before_action :logged_in_user  
   
   def index
@@ -14,6 +14,12 @@ class MultiChannelsController < ApplicationController
     end
   end
 
+  def new
+    @q = current_user.multi_channels.search(params[:q])
+    @multi_channels = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(100) 
+    @multi_channel = current_user.multi_channels.build   
+  end
+
   def create
     params[:multi_channel][:sku] = params[:multi_channel][:sku].gsub(" ","")
     @multi_channel = current_user.multi_channels.build(multi_channel_params)
@@ -22,6 +28,30 @@ class MultiChannelsController < ApplicationController
     else
       redirect_to multi_channels_path , notice: 'データの保存に失敗しました'  
     end
+  end
+
+  def edit
+    @q = current_user.multi_channels.search(params[:q])
+    @multi_channels = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(100)    
+    @multi_channel = @update_multi_channel
+  end
+  
+  def update
+    params[:multi_channel][:sku] = @update_multi_channel.sku.gsub(" ","")
+    @update_multi_channel.update(multi_channel_params)
+    
+    redirect_to multi_channels_path , notice: '保存しました'
+  end
+   
+  def copy
+    @copy_multi_channel = @update_multi_channel.dup
+    @copy_multi_channels = current_user.multi_channels.where(sale_id: @copy_multi_channel.sale_id, order_num: @copy_multi_channel.order_num, date: @copy_multi_channel.date)
+    @copy_multi_channel.sku = @copy_multi_channel.sku + "(" + @copy_multi_channels.count.to_s + ")"
+    if @copy_multi_channel.save
+      @copy_multi_channels = current_user.multi_channels.where(sale_id: @copy_multi_channel.sale_id, order_num: @copy_multi_channel.order_num, date: @copy_multi_channel.date)
+    else
+      redirect_to :back 
+    end  
   end
   
   def sku
@@ -89,13 +119,6 @@ class MultiChannelsController < ApplicationController
       end
     end
     redirect_to pladmins_path , notice: 'SKUと商品名の転記が終了しました'    
-  end
-  
-  def update
-    params[:multi_channel][:sku] = params[:multi_channel][:sku].gsub(" ","")
-    @multi_channel.update(multi_channel_params)
-    
-    redirect_to multi_channels_path , notice: '保存しました'
   end  
   
   def destroy
@@ -109,6 +132,6 @@ class MultiChannelsController < ApplicationController
   end
   
   def set_multi_channel
-    @multi_channel = current_user.multi_channels.find(params[:id])
+    @update_multi_channel = current_user.multi_channels.find(params[:id])
   end
 end

@@ -1,0 +1,48 @@
+<div class="panel panel-default" id='copy-default'>
+	<div class="panel-heading">
+	  経費台帳(コピー画面)
+	  <%= link_to "一覧画面へ", expenseledgers_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "新規登録画面へ", new_expenseledger_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body">
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th class="update"><a href= ./expenseledgers/destroy class="btn btn-default btn-sm">削除</th>           
+        <th class="account">日付</th>
+        <th class="asin">勘定科目</th>
+        <th class="amount">金額(外貨)</th>
+        <th class="account" >支払日</th>
+        <th class="company">購入先</th>
+        <th class="account">通貨</th>
+        <th class="content">摘要</th>
+        <th class="account"></th>           
+      </tr>
+      </thead>
+      <tbody class="copy_head">
+        <% @copy_expenseledgers.each do |expenseledger|  %>
+          <tr>
+            <%= form_for(expenseledger, url: expenseledger_path(expenseledger), remote: true) do |f|  %>
+              <td class="update" id="check-<%= expenseledger.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>                    
+              <td class="account"><%= f.text_field :date, :size=> "7"%></td>
+              <td class="asin"><%= f.text_field :account_name, :size=> "12"%></td>
+              <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right"%></td>
+              <td class="account"><%= f.text_field :money_paid, :size=> "7"%></td>
+              <td class="company"><%= f.text_field :purchase_from, :size=> "8"%></td>
+              <td class="account"><%= f.text_field :currency, :size=> "7"%></td>
+              <td class="content"><%= f.text_field :content, :size => "36"%></td>
+              <td class="account" id="submit-<%= expenseledger.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%><%= link_to "コピー", copy_expenseledger_path(expenseledger), class: 'btn btn-default btn-xs'%></td>
+            
+              <!--チェックボックス更新用JQuery-->
+              <script>
+                $("#check-<%= expenseledger.id %>").change(function(e){
+                  $('#edit_expenseledger_<%= expenseledger.id %>').submit();
+                });
+              </script>  
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>      
+    </table>
+  </div>
+</div>

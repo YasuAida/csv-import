@@ -1,0 +1,31 @@
+<div class="panel panel-default" id="rakuten-cost-default">
+  <div class="panel-heading">
+    楽天請求管理シート(一覧画面)
+    <%= link_to "新規登録画面へ", new_rakuten_cost_path, class: 'btn btn-default btn-sm'%>	  
+  </div>
+  <div class="panel-body">
+    <%= search_form_for(@q, url: rakuten_costs_path, html: {class: 'date_form'}) do |f| %>           
+      <%= f.label :billing_date, "課金期間終了日で検索"%>
+      <%= f.date_select :billing_date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+      <%= f.date_select :billing_date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>            
+    <% end %>
+    <br>
+    <h4>CSVデータの取込み:</h4>
+	<div style="display: inline-block">   
+	  <%= form_tag({action: 'pc_upload'}, {multipart: true, class: "long_form_tag"}) do %>
+	    <label>RMSシステム利用明細（PC）取込み:</label>
+	    <%= file_field :pc_upload, :datafile, {class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+	    <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
+	  <% end %>  
+	</div>
+	<br>
+	<div style="display: inline-block">   
+	  <%= form_tag({action: 'mobile_upload'}, {multipart: true, class: "long_form_tag"}) do %>
+	    <label>RMSシステム利用明細(モバイル)取込み:</label>
+	    <%= file_field :mobile_upload, :datafile, {class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+	    <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
+	  <% end %>  
+	</div> 
+  </div>
+</div>

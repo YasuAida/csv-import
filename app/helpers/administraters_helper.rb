@@ -607,7 +607,7 @@ module AdministratersHelper
 
   def stocks_import(file_name)
       # 先にDBのカラム名を用意
-      @column = [:id, :user_id, :date, :sku, :asin, :goods_name, :number, :unit_price, :rate, :goods_amount, :money_paid, :purchase_from, :currency, :grandtotal]
+      @column = [:id, :user_id, :date, :sku, :asin, :goods_name, :unit_price, :number, :rate, :goods_amount, :money_paid, :purchase_from, :currency, :grandtotal]
       
       CSV.foreach('./tmp/administrater/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
         # rowの値のみを配列化
@@ -618,8 +618,8 @@ module AdministratersHelper
         row_hash[:id] = row_hash[:id].to_i
         row_hash[:user_id] = row_hash[:user_id].to_i 
         row_hash[:date] = Date.parse(row_hash[:date]).to_date if row_hash[:date].present?
-        row_hash[:number] = row_hash[:number].to_i if row_hash[:number].present?
         row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f if row_hash[:unit_price].present?
+        row_hash[:number] = row_hash[:number].to_i if row_hash[:number].present?
         row_hash[:rate] = row_hash[:rate].to_f if row_hash[:rate].present?
         row_hash[:goods_amount] = row_hash[:goods_amount].to_i if row_hash[:goods_amount].present?
         row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date if row_hash[:money_paid].present?

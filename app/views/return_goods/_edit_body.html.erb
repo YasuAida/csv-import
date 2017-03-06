@@ -1,0 +1,30 @@
+    <tbody class="stocks">
+      <% @return_goods = current_user.return_goods.where(id: (@return_good.id..(@return_good.id + 25))) %>
+      <% @return_goods.each do |return_good| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="return_good-<%= return_good.id %>">
+          <%= form_for(return_good, url: return_good_path(return_good.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= return_good.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="middle"><%= return_good.sale_id %></td>               
+            <td class="middle"><%= return_good.stock_id %></td>            
+            <td class="account"><%= return_good.date %></td>     
+            <td class="order_num"><%= return_good.order_num %></td>
+            <td class="large"><%= return_good.old_sku %></td>
+            <td class="large"><%= return_good.new_sku %></td>
+          <% stockaccept_name = current_user.stockaccepts.find_by(sku: return_good.old_sku) %>
+            <td class="content"><%= stockaccept_name.goods_name if stockaccept_name.present? %></td>          
+            <td class="rate"><%= return_good.number %></td>
+            <td class="update" id="submit-<%= return_good.id %>"><%= link_to "修正", edit_return_good_path(return_good), class: 'btn btn-default btn-sm'%></td>
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= return_good.id %>").change(function(e){
+                $('#edit_return_good_<%= return_good.id %>').submit();
+              });
+            </script>                    
+          <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

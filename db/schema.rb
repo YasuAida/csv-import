@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227034842) do
+ActiveRecord::Schema.define(version: 20170304064005) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -216,9 +216,10 @@ ActiveRecord::Schema.define(version: 20170227034842) do
     t.string   "credit_account"
     t.string   "credit_subaccount"
     t.string   "credit_taxcode"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "ledger"
+    t.boolean  "destroy_check",     default: false, null: false
   end
 
   add_index "journalpatterns", ["user_id"], name: "index_journalpatterns_on_user_id"

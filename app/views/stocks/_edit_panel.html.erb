@@ -12,21 +12,20 @@
           <th class="order_num">SKU</th>
           <th class="asin">ASIN</th>
           <th class="content">商品名</th>
-          <th class="rate">個数</th>
           <th class="amount">単価</th>
+          <th class="rate">個数</th>
           <th class="account">支払日</th>
           <th class="account">購入先</th>
           <th class="account">通貨</th>
           <th class="account"></th>
         </tr>
       </thead>
-      <%= form_for(@stock, url: stock_path(@stock), remote: true) do |f|  %>
+      <%= form_for(@stock, url: stock_path(@stock)) do |f|  %>
         <tbody class="footer">
           <td class="account"><%= f.text_field :date, :size=> "7"%></td>
           <td class="order_num"><%= f.text_field :sku, :size => "16"%></td>
           <td class="asin"><%= f.text_field :asin, :size => "10" %></td>
-          <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "36"%></td>
-          <td class="rate" id="submit-<%= @stock.id %>"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>            
+          <td class="content" style="white-space:nowrap;"><%= f.text_field :goods_name, :size => "36"%></td>            
                       
         <% ex_currency = current_user.currencies.find_by(name: @stock.currency) %>
         <% if ex_currency.method == "外貨×為替レート" %>
@@ -34,7 +33,8 @@
         <% else %>
           <td class="amount"><%= f.text_field :unit_price, :size=> "5", :style=>"text-align:right", data: { autonumeric: {mDec: 0} }%></td>
         <% end %>
-            
+
+          <td class="rate" id="submit-<%= @stock.id %>"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>            
           <td class="account"><%= f.text_field :money_paid, :size=> "7"%></td>
           <td class="account"><%= f.text_field :purchase_from, :size=> "7"%></td>             
           <td class="account"><%= f.text_field :currency, :size=> "7"%></td>

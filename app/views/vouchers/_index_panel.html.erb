@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+    振替台帳(一覧画面)
+	  <%= link_to "新規登録画面へ", new_voucher_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body">
+    <%= search_form_for(@q, url: vouchers_path) do |f| %>   
+      <%= f.label :debit_account_cont, "借方勘定科目で検索" %>
+      <%= f.search_field :debit_account_cont, placeholder: "部分一致"%>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: vouchers_path) do |f| %>   
+      <%= f.label :credit_account_cont, "貸方勘定科目で検索" %>
+      <%= f.search_field :credit_account_cont, placeholder: "部分一致"%>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: vouchers_path) do |f| %>          
+      <%= f.label :content_cont, "摘要で検索" %>
+      <%= f.search_field :content_cont, placeholder: "部分一致"%>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: vouchers_path, html: {class: 'date_form'}) do |f| %>           
+      <%= f.label :date, "日付で検索"%>
+      <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+      <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-sm' %>            
+    <% end %>
+  </div>
+</div>

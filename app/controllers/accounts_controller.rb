@@ -1,10 +1,17 @@
 class AccountsController < ApplicationController
-  before_action :set_accounts, only: [ :update]
+  before_action :set_accounts, only: [:edit, :update, :copy]
   before_action :logged_in_user
 
   def index
+    @q = current_user.accounts.order(:bs_pl).order(display_position: :desc).search(params[:q])
+    @accounts = @q.result(distinct: true).page(params[:page])
     @account = current_user.accounts.build
-    @accounts = current_user.accounts.all.order(:bs_pl).order(display_position: :desc)
+  end
+  
+  def new
+    @q = current_user.accounts.order(:bs_pl).order(display_position: :desc).search(params[:q])
+    @accounts = @q.result(distinct: true).page(params[:page])
+    @account = current_user.accounts.build 
   end
   
   def create
@@ -14,6 +21,12 @@ class AccountsController < ApplicationController
     else
       redirect_to accounts, notice: 'データの保存に失敗しました'
     end
+  end
+  
+  def edit
+    @q = current_user.accounts.order(:bs_pl).order(display_position: :desc).search(params[:q])
+    @accounts = @q.result(distinct: true).page(params[:page])
+    @account = @update_account
   end
   
   def update 

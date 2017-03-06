@@ -1,0 +1,31 @@
+<div class="panel panel-default" id='rakuten-default'>
+	<div class="panel-heading">
+	  勘定科目一覧(修正画面)
+	  <%= link_to "一覧画面へ", accounts_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "新規登録画面へ", new_account_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body" id='new-body'>
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+       <tr>
+          <th class="asin">勘定科目名</th>
+          <th class="asin">貸借区分</th>
+          <th class="asin">ＰＬ／ＢＳ<br>区分</th>
+          <th class="asin">表示区分</th>          
+          <th class="update">更新</th>          
+        </tr>
+      </thead>
+      <%= form_for(@account, url: currency_path(@account)) do |f|  %>
+        <tbody class="footer">
+          <tr>
+            <td class="asin"><%= f.text_field :account, :size=> "10"%></td>            
+            <td class="asin"><%= f.select :debit_credit, ["借方","貸方"],{},{class: "account_select"} %></td>
+            <td class="asin"><%= f.select :bs_pl, ["ＢＳ","ＰＬ"] ,{},{class: "account_select"}%></td>
+            <td class="asin"><%= f.select :display_position, ["売上高","売上原価","販売管理費","営業外損益","資産","負債","純資産"],{},{class: "account_select"} %></td>     
+            <td class="update"><%= f.submit "更新", class: 'btn btn-default btn-xs' %></td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>

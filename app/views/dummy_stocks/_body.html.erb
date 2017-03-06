@@ -1,0 +1,31 @@
+    <tbody class="stocks">
+      <% @dummy_stocks.each do |dummy_stock| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="dummy_stock-<%= dummy_stock.id %>">
+          <%= form_for(dummy_stock, url: dummy_stock_path(dummy_stock), remote: true) do |f|  %>
+            <td class="update" id="check-<%= dummy_stock.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>      
+            <td class="number"><%= dummy_stock.stock_id%></td>            
+            <td class="account"><%= dummy_stock.sale_date%></td>
+            <td class="account"><%= dummy_stock.cancel_date%></td>
+          <% @base_stock = current_user.stocks.find(dummy_stock.stock_id) %>          
+            <td class="large"><%= @base_stock.sku %></td>
+            <td class="asin"><%= @base_stock.asin %></td>
+            <td class="content"><%= @base_stock.goods_name %></td>
+            <td class="amount"><%= @base_stock.goods_amount %></td>   
+            <td class="rate"><%= dummy_stock.number%></td>       
+            <td class="amount"><%= @base_stock.grandtotal %></td>          
+            <td class="update" id="submit-<%= dummy_stock.id %>"><%= link_to "修正", edit_dummy_stock_path(dummy_stock), class: 'btn btn-default btn-xs'%></td>
+   
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= dummy_stock.id %>").change(function(e){
+                $('#edit_dummy_stock_<%= dummy_stock.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @dummy_stocks %>
+</div>

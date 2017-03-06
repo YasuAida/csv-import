@@ -1,0 +1,82 @@
+<div class="panel panel-default" id='upload-default'>
+	<div class="panel-heading">
+	  楽天損益管理シート(データアップロード画面)
+      <%= link_to "楽天入金管理シートへ" , nyukin_rakutens_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", rakutens_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body">
+    <h4>過去データの取込み:</h4>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'past_data_upload'}, {multipart: true, class: "form_tag"}) do %>
+        <label>過去取引データ取り込み:</label>
+        <%= file_field :past_data_upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
+        <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm' %>  
+      <% end %>
+    </div>
+    <br>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'past_point_upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
+        <label>過去ポイントデータ取り込み:</label>
+        <%= file_field :past_point_upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
+        <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm' %>  
+      <% end %>
+    </div>
+    
+    <br>
+    <br>
+    <h4>CSVダウンロードデータ取込み:</h4>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'csv_upload'}, {multipart: true, class: "form_tag"}) do %>
+        <label>CSVデータ取込み:</label>
+        <%= file_field :csv_upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
+        <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm' %>  
+      <% end %>
+    </div>
+    
+　　<br>
+    <br>
+    <h4>決済・口座管理データ取込み:</h4>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'credit_upload'}, {multipart: true, class: "form_tag"}) do %>
+        <label>カード決済データ（TransferDetail）取込み:</label>
+        <%= file_field :credit_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
+      <% end %>  
+    </div> 
+    <br>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'multi_upload'}, {multipart: true, class: "long_form_tag"}) do %>
+        <label>楽天マルチ決済データ（nyukin_meisai）取込み:</label>
+        <%= file_field :multi_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+      <% end %>  
+    </div>
+    <br>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'rakuten_upload'}, {multipart: true, class: "long_form_tag"}) do %>
+        <label>楽天バンク決済データ（BankDetailList）取込み:</label>
+        <%= file_field :rakuten_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+      <% end %>  
+    </div>
+    <br>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'bank_upload'}, {multipart: true, class: "long_form_tag"}) do %>
+        <label>楽天口座決済データ（BankReceive）取込み:</label>
+        <%= file_field :bank_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default'%>
+      <% end %>  
+    </div>
+   
+    <br>
+    <br>
+    <h4>明細管理データ取込み:</h4>
+    <div style="display: inline-block">   
+      <%= form_tag({action: 'point_upload'}, {multipart: true, class: "form_tag"}) do %>
+        <label>ポイント付与明細（InvestList）取込み:</label>
+        <%= file_field :point_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
+        <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
+      <% end %>  
+    </div>
+  </div>
+</div>

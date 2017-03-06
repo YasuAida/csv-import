@@ -1,5 +1,5 @@
 class StockreturnsController < ApplicationController
-  before_action :set_stockreturn, only: [ :update]
+  before_action :set_stockreturn, only: [:edit, :update, :copy]
   include StocksHelper
   include ApplicationHelper
   before_action :logged_in_user  
@@ -8,6 +8,12 @@ class StockreturnsController < ApplicationController
     @stockreturn = current_user.stockreturns.build
     @q = current_user.stockreturns.search(params[:q])
     @stockreturns = @q.result(distinct: true).page(params[:page])
+  end
+  
+  def new
+    @q = current_user.stockreturns.search(params[:q])
+    @stockreturns = @q.result(distinct: true).order(id: :desc).page(params[:page])
+    @stockreturn = current_user.stockreturns.build   
   end
   
   def create
@@ -29,25 +35,47 @@ class StockreturnsController < ApplicationController
     end
   end
 
+  def edit
+    @q = current_user.stockreturns.search(params[:q])
+    @stockreturns = @q.result(distinct: true).order(date: :desc).page(params[:page])    
+    @stockreturn = @update_stockreturn
+  end
+
   def update
     params[:stockreturn][:unit_price] = params[:stockreturn][:unit_price].gsub(",","") if params[:stockreturn][:unit_price].present?    
     if @update_stockreturn.update(stockreturn_params)
-      flash.now[:alert] = "データを更新しました。"
       goods_amount_new_stock(@update_stockreturn)
     #grandtotalの計算 
       allocation_amount_sum = current_user.allocationcosts.where(stock_id: @update_stockreturn.stock_id).sum(:allocation_amount)
       @update_stockreturn.grandtotal = @update_stockreturn.goods_amount + allocation_amount_sum      
       @update_stockreturn.save
       
-      redirect_to stockreturns_path , notice: 'データを保存しました'
+      redirect_to :back
     else
-      redirect_to stockreturns_path , notice: 'データの保存に失敗しました'
+      redirect_to :back
     end
+  end
+
+  def copy
+    @copy_stockreturn = @update_stockreturn.dup
+    @copy_stockreturns = current_user.stockreturns.where(date: @copy_stockreturn.date, asin: @copy_stockreturn.asin, goods_name: @copy_stockreturn.goods_name, unit_price: @copy_stockreturn.unit_price, money_paid: @copy_stockreturn.money_paid, purchase_from: @copy_stockreturn.purchase_from)
+    @copy_stockreturn.sku = @copy_stockreturn.sku + "(" + @copy_stockreturns.count.to_s + ")"
+    if @copy_stockreturn.save
+    #為替レートの付与
+      rate_import_new_object(@copy_stockreturn)
+    #商品金額の確定
+      goods_amount_new_stock(@copy_stockreturn)
+      @copy_stockreturn.save
+ 
+    @copy_stockreturns = current_user.stockreturns.where(date: @copy_stockreturn.date, asin: @copy_stockreturn.asin, goods_name: @copy_stockreturn.goods_name, unit_price: @copy_stockreturn.unit_price, money_paid: @copy_stockreturn.money_paid, purchase_from: @copy_stockreturn.purchase_from)    
+    else
+      redirect_to :back 
+    end  
   end
   
   def destroy
     current_user.stockreturns.where(destroy_check: true).destroy_all
-    redirect_to stockreturns_path, notice: 'データを削除しました'
+    redirect_to stockreturns_path
   end
   
   private

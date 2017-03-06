@@ -1,13 +1,36 @@
 class ExchangesController < ApplicationController
   include ExchangesHelper
-  before_action :set_exchange, only: [ :update] 
+  before_action :set_exchange, only: [:edit, :update, :copy] 
   before_action :logged_in_user
   
   def index
-    #@exchanges = current_user.exchanges.all
     @q = current_user.exchanges.search(params[:q])
-    @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(300)
+    @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(150)
     @exchange = current_user.exchanges.build
+  end
+
+  def new
+    @q = current_user.exchanges.search(params[:q])
+    @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(150)
+    @exchange = current_user.exchanges.build 
+  end
+  
+  def create
+    @exchange = current_user.exchanges.build(exchange_params)
+    @exchange.save
+    redirect_to exchanges_path , notice: '保存しました'    
+  end
+  
+  def edit
+    @q = current_user.exchanges.search(params[:q])
+    @exchanges = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(150) 
+    @exchange = @update_exchange
+  end
+  
+  def update
+    if @update_exchange.update(exchange_params)
+      redirect_to exchanges_path , notice: '保存しました'
+    end
   end
   
   def upload
@@ -22,18 +45,6 @@ class ExchangesController < ApplicationController
     redirect_to exchanges_path
   end
   
-  def create
-    @exchange = current_user.exchanges.build(exchange_params)
-    @exchange.save
-    redirect_to exchanges_path , notice: '保存しました'    
-  end
-  
-  def update
-    if @exchange.update(exchange_params)
-      redirect_to exchanges_path , notice: '保存しました'
-    end
-  end
-  
   def destroy
     current_user.exchanges.where(destroy_check: true).destroy_all
     redirect_to exchanges_path, notice: 'データを削除しました'
@@ -45,6 +56,6 @@ class ExchangesController < ApplicationController
   end
   
   def set_exchange
-    @exchange = current_user.exchanges.find(params[:id])
+    @update_exchange = current_user.exchanges.find(params[:id])
   end
 end

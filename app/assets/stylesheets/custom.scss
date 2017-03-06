@@ -29,12 +29,24 @@
   #edit-default.panel-default {    
     height: 130px;
   }
+  #rakuten-default.panel-default {    
+    height: 140px;
+  }
+  #journalpattern-default.panel-default {    
+    height: 160px;
+  }  
   #new-default.panel-default {    
     height: 180px;
   }
+  #rakuten-cost-default.panel-default {    
+    height: 190px;
+  }
   #copy-default.panel-default {    
-    height: 275px;
-  }  
+    height: 282px;
+  }
+  #upload-default.panel-default {    
+    height: 1000px;
+  }
   .panel-heading{
     width: 1900px; 
     padding: 10px;  
@@ -45,7 +57,8 @@
     vertical-align: bottom;
   }
   .panel-body{
-    padding: 0px;  
+    padding: 0px;
+    width: 1900px;
     display: inline-block;
     text-align: left;
     font-weight: bold;
@@ -53,9 +66,6 @@
     width: 100%;
     vertical-align: center;
   }
-  #new-body.panel-body {
-    height: 60px;
-  }   
 /* header */
 
 /* エラー時に良い感じに色をつけてくれる */
@@ -109,7 +119,10 @@
     width: 1900px;    /*ポイント */
   }
   tbody.accounts {
-    height: 750px;   /*ポイント */
+    height: 740px;   /*ポイント */
+  }
+  tbody.entrypatterns {
+    height: 700px;   /*ポイント */
   }
   tbody.stocks {
     height: 650px;   /*ポイント */
@@ -124,21 +137,21 @@
     height: 450px;   /*ポイント */
   }
   tbody.copy_head {
-    height: 200px;   /*ポイント */
+    height: 160px;   /*ポイント */
   }  
   tbody.footer {
-    height: 35px;    /*ポイント */
+    height: 37px;    /*ポイント */
   }
 /* body */
 
 /* searchで使用 */
-  #disposal_search, #exchange_search, #generalledger_search, #selfstorage_search, #stockledger_search, #stockreturn_search{
+  #exchange_search, #generalledger_search, #selfstorage_search, #stockledger_search, #stockreturn_search{
     display: inline-block;
     padding-left: 5px;   
     width: 300px;
     height: 35px;
   }
-  #multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #yafuoku_search, #yahoo_shopping_search{
+  #disposal_search, #multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #voucher_search, #yafuoku_search, #yahoo_shopping_search{
     display: inline-block;
     padding-left: 5px;   
     width: 350px;
@@ -151,10 +164,10 @@
     width: 50px;
     height: 25px;
   }
-  #generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #stock_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
+  #generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #return_good_search.date_form, #stockaccept_search.date_form, #stockreturn_search.date_form, #stock_search.date_form, #voucher_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
     display: inline-block;
     padding-left: 5px;   
-    width: 525px;
+    width: 535px;
     height: 35px;
     vertical-align: center;
   }
@@ -189,16 +202,15 @@
     width: 450px;
     height: 35px;  
   }
+  .long_form_tag{
+    padding-left: 5px;   
+    width: 510px;
+    height: 35px;  
+  }  
   .new_subexpense{
     height: 0px;    
   }
 /* searchで使用 */
-
-/* ajaxで使用 */
-  #aj-form{
-    padding: 0px;
-  }
-/* ajaxで使用 */
 
 th{
   text-align: center;
@@ -213,7 +225,7 @@ th{
       width: 70px;    /* ポイント */
     }
     th.right {
-      width: 70px;    /* ポイント */
+      width: 73px;    /* ポイント */
     }
     th.middle {
       width: 80px;    /* ポイント */
@@ -244,9 +256,6 @@ th{
     }
     th.order_num {
       width: 170px;    /* ポイント */
-    }
-    th.reference {
-      width: 200px;    
     }
     th.detail { 
       width: 240px;    /* ポイント */
@@ -303,7 +312,7 @@ td{
     }
     td.right {
       text-align: right; 
-      width: 70px;    /* ポイント */
+      width: 73px;    /* ポイント */
     }
     td.number {
       text-align: right; 
@@ -326,6 +335,10 @@ td{
     text-align: center;
     width: 200px;    
   }
+  .yahoo_shopping {
+    text-align: center;
+    width: 220px;    
+  }  
 
 /* bootstrap */
   .bootstrap-filestyle {
@@ -361,7 +374,7 @@ td{
   td select {
     text-align: left;
     width: 150px;
-    height: 26px;
+    height: 25px;
   }
 /* currenciesで使用 */
 
@@ -404,7 +417,7 @@ td{
   td .account_select {  
     text-align: left;
     width: 115px;
-    height: 26px;
+    height: 25px;
   }
 /* accountsで使用 */
 

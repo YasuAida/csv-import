@@ -1,0 +1,45 @@
+    <tbody class="stocks">
+      <% @stockreturns = current_user.stockreturns.where(id: (@stockreturn.id..(@stockreturn.id + 25))) %>
+      <% @stockreturns.each do |stockreturn| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="stockreturn-<%= stockreturn.id %>">
+          <%= form_for(stockreturn, url: stockreturn_path(stockreturn), remote: true) do |f|  %>
+            <td class="update" id="check-<%= stockreturn.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="half"><%= stockreturn.stock_id %></td>
+            <td class="account"><%= stockreturn.date %></td>
+            <td class="large"><%= stockreturn.sku %></td>
+            <td class="asin"><%= stockreturn.asin %></td>
+            <td class="content" style="white-space:nowrap;"><%= stockreturn.goods_name %></td>       
+                  
+          <% ex_currency = current_user.currencies.find_by(name: stockreturn.currency) %>
+          <% if ex_currency.method == "外貨×為替レート" %>
+            <td class="amount"><%= stockreturn.unit_price %></td>
+            <td class="rate"><%= stockreturn.number %></td>
+          <% sub_total = stockreturn.number.to_i * BigDecimal(stockreturn.unit_price.to_s).round(2) %>
+            <td class="amount"><%= addcomma(sub_total.to_f) %></td>
+          <% else %>
+            <td class="amount"><%= stockreturn.unit_price %></td>
+            <td class="rate"><%= stockreturn.number %></td>
+          <% sub_total = stockreturn.number.to_i * BigDecimal(stockreturn.unit_price.to_s).round(0) %>
+            <td class="amount"><%= addcomma(sub_total.to_i) %></td>
+          <% end %>
+             
+            <td class="rate"><%= stockreturn.rate %></td>
+            <td class="amount"><%= addcomma(stockreturn.goods_amount.to_i) unless stockreturn.goods_amount.nil? %></td>
+            <td class="account"><%= stockreturn.money_paid %></td>
+            <td class="account"><%= stockreturn.purchase_from %></td>             
+            <td class="account"><%= stockreturn.currency %></td>
+            <td class="update" id="submit-<%= stockreturn.id %>"><%= link_to "修正", edit_stockreturn_path(stockreturn), class: 'btn btn-default btn-sm'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= stockreturn.id %>").change(function(e){
+                $('#edit_stockreturn_<%= stockreturn.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

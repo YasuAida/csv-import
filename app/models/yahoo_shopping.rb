@@ -1,6 +1,6 @@
 class YahooShopping < ActiveRecord::Base
     
-  validates :user_id, uniqueness: { scope: [ :order_id] }    
+  validates :user_id, uniqueness: { scope: [ :order_id, :sku] }    
     
   belongs_to :user
   

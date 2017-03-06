@@ -1,6 +1,6 @@
 class RakutensController < ApplicationController
   include RakutensHelper
-  before_action :set_rakuten, only: [ :update]
+  before_action :set_rakuten, only: [:edit, :edit_nyukin, :update, :copy]
   before_action :logged_in_user
   
   def index
@@ -19,9 +19,117 @@ class RakutensController < ApplicationController
     @q = current_user.rakutens.search(params[:q])
     @rakutens = @q.result(distinct: true).page(params[:page]).per(150)    
   end
+ 
+  def new
+    @q = current_user.rakutens.search(params[:q])
+    @rakutens = @q.result(distinct: true).page(params[:page]).per(150)
+    @rakuten = current_user.rakutens.build   
+  end
+
+  def create
+    params[:rakuten][:unit_price] = params[:rakuten][:unit_price].gsub(",","") if params[:rakuten][:unit_price].present?
+    params[:rakuten][:shipping_cost] = params[:rakuten][:shipping_cost].gsub(",","") if params[:rakuten][:shipping_cost].present?
+    params[:rakuten][:consumption_tax] = params[:rakuten][:consumption_tax].gsub(",","") if params[:rakuten][:consumption_tax].present?
+    params[:rakuten][:cod_fee] = params[:rakuten][:cod_fee].gsub(",","") if params[:rakuten][:cod_fee].present?
+    params[:rakuten][:shop_coupon] = params[:rakuten][:shop_coupon].gsub(",","") if params[:rakuten][:shop_coupon].present?
+    params[:rakuten][:commission] = params[:rakuten][:commission].gsub(",","") if params[:rakuten][:commission].present?
+    params[:rakuten][:vest_point] = params[:rakuten][:vest_point].gsub(",","") if params[:rakuten][:vest_point].present?
+    params[:rakuten][:system_improvement] = params[:rakuten][:system_improvement].gsub(",","") if params[:rakuten][:system_improvement].present?
+    params[:rakuten][:credit_commission] = params[:rakuten][:credit_commission].gsub(",","") if params[:rakuten][:credit_commission].present?
+    params[:rakuten][:use_point] = params[:rakuten][:use_point].gsub(",","") if params[:rakuten][:use_point].present?
+    params[:rakuten][:use_coupon] = params[:rakuten][:use_coupon].gsub(",","") if params[:rakuten][:use_coupon].present?
+    params[:rakuten][:receipt_amount] = params[:rakuten][:receipt_amount].gsub(",","") if params[:rakuten][:receipt_amount].present?
+   
+    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '楽天カード'
+
+      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      credit_commission = receipt_amount * 0.0265
+      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
+    end
+    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '一般カード'
+      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      credit_commission = receipt_amount * 0.0360
+      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
+    end
+    
+    params[:rakuten][:total_sales] = params[:rakuten][:unit_price].to_i * params[:rakuten][:number].to_i + params[:rakuten][:shipping_cost].to_i + params[:rakuten][:consumption_tax].to_i + params[:rakuten][:cod_fee].to_i + params[:rakuten][:shop_coupon].to_i
+    params[:rakuten][:total_commissions] = params[:rakuten][:commission].to_i * params[:rakuten][:vest_point].to_i + params[:rakuten][:system_improvement].to_i + params[:rakuten][:credit_commission].to_i
+    
+    @rakuten = current_user.rakutens.build(rakuten_params)
+    if @rakuten.save
+      redirect_to new_stock_path
+    else
+      redirect_to new_stock_path
+    end
+  end
+  
+  def edit
+    @q = current_user.rakutens.search(params[:q])
+    @rakutens = @q.result(distinct: true).page(params[:page]).per(150)     
+    @rakuten = @update_rakuten
+  end
+
+  def edit_nyukin
+    @q = current_user.rakutens.search(params[:q])
+    @rakutens = @q.result(distinct: true).page(params[:page]).per(150)     
+    @rakuten = @update_rakuten
+  end
+
+  def update
+    params[:rakuten][:unit_price] = params[:rakuten][:unit_price].gsub(",","") if params[:rakuten][:unit_price].present?
+    params[:rakuten][:shipping_cost] = params[:rakuten][:shipping_cost].gsub(",","") if params[:rakuten][:shipping_cost].present?
+    params[:rakuten][:consumption_tax] = params[:rakuten][:consumption_tax].gsub(",","") if params[:rakuten][:consumption_tax].present?
+    params[:rakuten][:cod_fee] = params[:rakuten][:cod_fee].gsub(",","") if params[:rakuten][:cod_fee].present?
+    params[:rakuten][:shop_coupon] = params[:rakuten][:shop_coupon].gsub(",","") if params[:rakuten][:shop_coupon].present?
+    params[:rakuten][:commission] = params[:rakuten][:commission].gsub(",","") if params[:rakuten][:commission].present?
+    params[:rakuten][:vest_point] = params[:rakuten][:vest_point].gsub(",","") if params[:rakuten][:vest_point].present?
+    params[:rakuten][:system_improvement] = params[:rakuten][:system_improvement].gsub(",","") if params[:rakuten][:system_improvement].present?
+    params[:rakuten][:credit_commission] = params[:rakuten][:credit_commission].gsub(",","") if params[:rakuten][:credit_commission].present?
+    params[:rakuten][:data_processing] = params[:rakuten][:data_processing].gsub(",","") if params[:rakuten][:data_processing].present?
+    params[:rakuten][:use_point] = params[:rakuten][:use_point].gsub(",","") if params[:rakuten][:use_point].present?
+    params[:rakuten][:use_coupon] = params[:rakuten][:use_coupon].gsub(",","") if params[:rakuten][:use_coupon].present?
+    params[:rakuten][:receipt_amount] = params[:rakuten][:receipt_amount].gsub(",","") if params[:rakuten][:receipt_amount].present?
+   
+    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '楽天カード'
+
+      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      credit_commission = receipt_amount * 0.0265
+      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
+    end
+    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '一般カード'
+      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      credit_commission = receipt_amount * 0.0360
+      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
+    end
+    
+    params[:rakuten][:total_sales] = params[:rakuten][:unit_price].to_i * params[:rakuten][:number].to_i + params[:rakuten][:shipping_cost].to_i + params[:rakuten][:consumption_tax].to_i + params[:rakuten][:cod_fee].to_i + params[:rakuten][:shop_coupon].to_i
+    params[:rakuten][:total_commissions] = params[:rakuten][:commission].to_i * params[:rakuten][:vest_point].to_i + params[:rakuten][:system_improvement].to_i + params[:rakuten][:credit_commission].to_i
+    
+    if @update_rakuten.update(rakuten_params)
+      redirect_to rakutens_path, notice: "データを編集しました"
+    else
+      redirect_to rakutens_path, notice: "データの編集に失敗しました"
+    end
+  end
+  
+  def copy
+    @copy_rakuten = @update_rakuten.dup
+    @copy_rakutens = current_user.rakutens.where(order_num: @copy_rakuten.order_num, sale_date: @copy_rakuten.sale_date, goods_name: @copy_rakuten.goods_name, unit_price: @copy_rakuten.unit_price, money_receipt_date: @copy_rakuten.money_receipt_date)
+    @copy_rakuten.sku = @copy_rakuten.sku + "(" + @copy_rakutens.count.to_s + ")"
+    if @copy_rakuten.save
+      @copy_rakutens = current_user.rakutens.where(order_num: @copy_rakuten.order_num, sale_date: @copy_rakuten.sale_date, goods_name: @copy_rakuten.goods_name, unit_price: @copy_rakuten.unit_price, money_receipt_date: @copy_rakuten.money_receipt_date)
+    else
+      redirect_to :back 
+    end  
+  end
   
   def blank_form
     render "index"
+  end
+
+  def upload
+    @q = current_user.rakutens.search(params[:q])
+    @rakutens = @q.result(distinct: true).page(params[:page]).per(150)  
   end
 
   def past_data_upload 
@@ -228,42 +336,6 @@ class RakutensController < ApplicationController
     end    
     
   redirect_to rakutens_path    
-  end
-
-  def update
-    params[:rakuten][:unit_price] = params[:rakuten][:unit_price].gsub(",","") if params[:rakuten][:unit_price].present?
-    params[:rakuten][:shipping_cost] = params[:rakuten][:shipping_cost].gsub(",","") if params[:rakuten][:shipping_cost].present?
-    params[:rakuten][:consumption_tax] = params[:rakuten][:consumption_tax].gsub(",","") if params[:rakuten][:consumption_tax].present?
-    params[:rakuten][:cod_fee] = params[:rakuten][:cod_fee].gsub(",","") if params[:rakuten][:cod_fee].present?
-    params[:rakuten][:shop_coupon] = params[:rakuten][:shop_coupon].gsub(",","") if params[:rakuten][:shop_coupon].present?
-    params[:rakuten][:commission] = params[:rakuten][:commission].gsub(",","") if params[:rakuten][:commission].present?
-    params[:rakuten][:vest_point] = params[:rakuten][:vest_point].gsub(",","") if params[:rakuten][:vest_point].present?
-    params[:rakuten][:system_improvement] = params[:rakuten][:system_improvement].gsub(",","") if params[:rakuten][:system_improvement].present?
-    params[:rakuten][:credit_commission] = params[:rakuten][:credit_commission].gsub(",","") if params[:rakuten][:credit_commission].present?
-    params[:rakuten][:data_processing] = params[:rakuten][:data_processing].gsub(",","") if params[:rakuten][:data_processing].present?
-    params[:rakuten][:use_point] = params[:rakuten][:use_point].gsub(",","") if params[:rakuten][:use_point].present?
-    params[:rakuten][:use_coupon] = params[:rakuten][:use_coupon].gsub(",","") if params[:rakuten][:use_coupon].present?
-    params[:rakuten][:total_sales] = params[:rakuten][:total_sales].gsub(",","") if params[:rakuten][:total_sales].present?    
-    params[:rakuten][:total_commissions] = params[:rakuten][:total_commissions].gsub(",","") if params[:rakuten][:total_commissions].present?
-    params[:rakuten][:receipt_amount] = params[:rakuten][:receipt_amount].gsub(",","") if params[:rakuten][:receipt_amount].present?
-   
-    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '楽天カード'
-
-      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
-      credit_commission = receipt_amount * 0.0265
-      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
-    end
-    if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '一般カード'
-      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
-      credit_commission = receipt_amount * 0.0360
-      params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
-    end    
-    
-    if @update_rakuten.update(rakuten_params)
-      redirect_to rakutens_path, notice: "データを編集しました"
-    else
-      redirect_to rakutens_path, notice: "データの編集に失敗しました"
-    end
   end
   
   def destroy

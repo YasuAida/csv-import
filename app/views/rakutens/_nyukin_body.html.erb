@@ -1,0 +1,29 @@
+    <tbody class="expenseledgers">
+      <% @rakutens.each do |rakuten|  %>
+      <tr>
+        <%= form_for(rakuten, url: rakuten_path(rakuten.id), remote: true) do |f| %>
+          <td class="update" id="check-<%= rakuten.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>       
+          <td class="date"><%= rakuten.sale_date %></td>          
+          <td class="reference"><%= rakuten.order_num %></td>
+          <td class="content"><%= rakuten.goods_name %></td>
+          <td class="right"><%= rakuten.total_sales %></td>
+          <td class="right"><%= rakuten.use_point %></td>
+          <td class="right"><%= rakuten.use_coupon %></td>
+          <td class="right"><%= rakuten.credit_commission %></td>                  
+          <td class="right"><%= rakuten.receipt_amount %></td>
+          <td class="right"><%= rakuten.minyukin %></td>            
+          <td class="update" id="submit-<%= rakuten.id %>"><%= link_to "修正", edit_nyukin_rakuten_path(rakuten), class: 'btn btn-default btn-xs'%></td>
+          
+          <!--チェックボックス更新用JQuery-->
+          <script>
+            $("#check-<%= rakuten.id %>").change(function(e){
+              $('#edit_rakuten_<%= rakuten.id %>').submit();
+            });
+          </script>
+        <% end %> 
+      </tr>  
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @rakutens %>
+</div>

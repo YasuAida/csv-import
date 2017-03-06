@@ -1,0 +1,42 @@
+<div class="panel panel-default" id='edit-default'>
+	<div class="panel-heading">
+	  トランザクションの概要(修正画面)
+	  <%= link_to "一覧画面へ", sales_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body" id='new-body'>
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th class="account">日付</th>
+          <th class="order_num">注文番号</th>
+          <th class="large">SKU</th>
+          <th class="order_num">トランザクションの種類</th>
+          <th class="order_num">支払いの種類</th>
+          <th class="order_num">支払いの詳細</th>
+          <th class="amount">金額</th>
+          <th class="rate">数量</th>
+          <th class="content">商品名</th>
+          <th class="account">入金日</th>
+          <th class="account">処理</th>
+          <td class="update"></th>
+        </tr>
+      </thead>
+      <%= form_for(@sale, url: sale_path(@sale)) do |f|  %>
+        <tbody class="footer">
+          <td class="account"><%= f.text_field :date, :size=> "7" %></td>
+          <td class="order_num"><%= f.text_field :order_num, :size=> "18" %></td>
+          <td class="large"><%= f.text_field :sku, :size => "11"%></td>
+          <td class="order_num"><%= f.text_field :kind_of_transaction, :size=> "18" %></td>
+          <td class="order_num"><%= f.text_field :kind_of_payment, :size=> "18" %></td>
+          <td class="order_num"><%= f.text_field :detail_of_payment, :size=> "18" %></td>
+          <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="rate"><%= f.text_field :quantity, :size=> "2", :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
+          <td class="content"><%= f.text_field :goods_name, :size => "36"%></td>
+          <td class="account"><%= f.text_field :money_receive, :size=> "7" %></td>
+          <td class="account"><%= f.text_field :handling, :size=> "7" %></td>       
+          <td class="update" id="submit-<%= @sale.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%></td>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -5,7 +5,7 @@ require 'date'
       self.date.strftime("%Y/%m/%d") + ' ' + self.asin + ' ' + self.goods_name + ' ' + self.number.to_s + '個'
   end
 
-  validates :user_id, uniqueness: { scope: [:sku, :asin, :date, :goods_name, :number, :unit_price, :money_paid, :purchase_from] }
+  validates :user_id, uniqueness: { scope: [:sku, :asin, :date, :goods_name, :unit_price, :number, :money_paid, :purchase_from] }
   validates :asin, presence: true
   validates :date, presence: true
   validates :number, presence: true
@@ -27,7 +27,7 @@ require 'date'
   has_many :yafuokus, dependent: :destroy
     
   def self.to_download
-    headers = %w(日付 SKU ASIN 商品名 個数 単価 レート 小計(円貨) 支払日 購入先 通貨 総額)
+    headers = %w(日付 SKU ASIN 商品名 単価 個数 レート 小計(円貨) 支払日 購入先 通貨 総額)
     csv_data = CSV.generate(headers: headers, write_headers: true, force_quotes: true) do |csv|
       all.each do |row|
         csv_column_values = [
@@ -35,8 +35,8 @@ require 'date'
           row.sku,
           row.asin,
           row.goods_name,
-          row.number,
           row.unit_price,
+          row.number,
           row.rate,
           row.goods_amount,
           row.money_paid,
@@ -61,8 +61,8 @@ require 'date'
           row.sku,
           row.asin,
           row.goods_name,
-          row.number,
           row.unit_price,
+          row.number,
           row.rate,
           row.goods_amount,
           row.money_paid,

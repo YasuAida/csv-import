@@ -1,0 +1,26 @@
+    <tbody class="stocks">
+      <% @entrypatterns.each do |entrypattern| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="entrypattern-<%= entrypattern.id %>">
+          <%= form_for(entrypattern, url: entrypattern_path(entrypattern), remote: true) do |f|  %>
+            <td class="update" id="check-<%= entrypattern.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="account"><%= entrypattern.sku %></td>
+            <td class="order_num"><%= entrypattern.kind_of_transaction %></td>
+            <td class="order_num"><%= entrypattern.kind_of_payment %></td>
+            <td class="order_num"><%= entrypattern.detail_of_payment %></td>
+            <td class="order_num"><%= entrypattern.handling %></td>
+            <td class="update" id="submit-<%= entrypattern.id %>"><%= link_to "修正", edit_entrypattern_path(entrypattern), class: 'btn btn-default btn-xs'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= entrypattern.id %>").change(function(e){
+                $('#edit_entrypattern_<%= entrypattern.id %>').submit();
+              });
+            </script>         
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @entrypatterns %>
+</div>

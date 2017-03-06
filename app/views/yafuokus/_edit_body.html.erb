@@ -1,0 +1,34 @@
+    <tbody class="stocks">
+      <% @yafuokus = current_user.yafuokus.where(id: (@yafuoku.id..(@yafuoku.id + 25))) %>
+      <% @yafuokus.each do |yafuoku|  %>
+        <!--Ajax用に固有のidを設定-->      
+        <tr id="yafuoku-<%= yafuoku.id %>">
+          <%= form_for(yafuoku, url: yafuoku_path(yafuoku.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= yafuoku.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>      
+            <td class="account"><%= yafuoku.date %></td>          
+            <td class="order_num"><%= yafuoku.order_num %></td>
+            <td class="large"><%= yafuoku.sku %></td>
+            <td class="content"><%= yafuoku.goods_name %></td>
+            <td class="company"><%= yafuoku.sale_place %></td>            
+            <td class="amount"><%= yafuoku.unit_price %></td>            
+            <td class="rate"><%= yafuoku.number %></td>              
+            <td class="amount"><%= addcomma(yafuoku.sales_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(yafuoku.cogs_amount.to_i) %></td>
+            <td class="amount"><%= addcomma(yafuoku.commission.to_i) %></td>            
+            <td class="amount"><%= addcomma(yafuoku.shipping_cost.to_i) %></td>
+            <% profit = yafuoku.sales_amount.to_i - yafuoku.commission.to_i - yafuoku.cogs_amount.to_i - yafuoku.shipping_cost.to_i %>
+            <td class="amount" style="text-align:right"><%= addcomma(profit)%></td>
+            <td class="account"><%= yafuoku.money_receipt_date %></td>
+            <td class="account"><%= yafuoku.commission_pay_date %></td>            
+            <td class="account"><%= yafuoku.shipping_pay_date %></td>         
+            <td class="update" id="submit-<%= yafuoku.id %>"><%= link_to "更新", edit_yafuoku_path(yafuoku), class: 'btn btn-default btn-sm'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= yafuoku.id %>").change(function(e){
+                $('#edit_yafuoku_<%= yafuoku.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>

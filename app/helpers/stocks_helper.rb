@@ -16,8 +16,8 @@ module StocksHelper
       row_hash = @column.zip(row_value).to_h
       # データー型の変換
       row_hash[:date] = Date.parse(row_hash[:date]).to_date if row_hash[:date].present?
-      row_hash[:number] = row_hash[:number].to_i if row_hash[:number].present?
       row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f if row_hash[:unit_price].present?
+      row_hash[:number] = row_hash[:number].to_i if row_hash[:number].present?
       row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date if row_hash[:money_paid].present?
       row_hash[:rate] = row_hash[:rate].to_f if row_hash[:rate].present?        
       row_hash[:goods_amount] = row_hash[:goods_amount].to_i if row_hash[:goods_amount].present?

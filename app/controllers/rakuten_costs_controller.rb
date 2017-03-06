@@ -1,10 +1,16 @@
 class RakutenCostsController < ApplicationController
   include RakutenCostsHelper
-  before_action :set_rakuten_cost, only: [ :update]
+  before_action :set_rakuten_cost, only: [:edit, :update, :copy]
   before_action :logged_in_user
   
   def index
     @all_rakuten_costs = current_user.rakuten_costs.all
+    @q = current_user.rakuten_costs.search(params[:q])
+    @rakuten_costs = @q.result(distinct: true).page(params[:page]).per(150)
+    @rakuten_cost = current_user.rakuten_costs.build  
+  end
+ 
+  def new
     @q = current_user.rakuten_costs.search(params[:q])
     @rakuten_costs = @q.result(distinct: true).page(params[:page]).per(150)
     @rakuten_cost = current_user.rakuten_costs.build  
@@ -23,6 +29,12 @@ class RakutenCostsController < ApplicationController
     current_user.rakuten_costs.create(rakuten_cost_params)
 
     redirect_to rakuten_costs_path, notice: 'データを保存しました'
+  end
+ 
+  def edit
+    @q = current_user.rakuten_costs.search(params[:q])
+    @rakuten_costs = @q.result(distinct: true).page(params[:page]).per(150)    
+    @rakuten_cost = @update_rakuten_cost
   end
 
   def update

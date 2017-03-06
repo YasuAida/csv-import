@@ -1,0 +1,14 @@
+    <tbody class="stocks">
+      <% @listingreports.each do |listingreport| %>
+        <tr>
+          <td class="large"><%= listingreport.sku %></td>
+          <td class="asin"><%= listingreport.asin %></td>
+          <td class="amount"><%= addcomma(listingreport.price.to_i) %></td>
+          <td class="rate"><%= listingreport.quantity %></td>
+          <td class="update" id="submit-<%= listingreport.id %>"><%= link_to "修正", edit_listingreport_path(listingreport), class: 'btn btn-default btn-xs'%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @listingreports %>
+</div>

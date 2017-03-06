@@ -1,12 +1,18 @@
 class RakutenSettingsController < ApplicationController
-  before_action :set_rakuten_setting, only: [ :update]
+  before_action :set_rakuten_setting, only: [:edit, :update, :copy]
   before_action :logged_in_user
   
   def index
     @all_rakuten_settings = current_user.rakuten_settings.all
     @q = current_user.rakuten_settings.search(params[:q])
-    @rakuten_settings = @q.result(distinct: true)
+    @rakuten_settings = @q.result(distinct: true).page(params[:page]).per(50)
     @rakuten_setting = current_user.rakuten_settings.build  
+  end
+  
+  def new
+    @q = current_user.rakuten_settings.search(params[:q])
+    @rakuten_settings = @q.result(distinct: true).page(params[:page]).per(50)
+    @rakuten_setting = current_user.rakuten_settings.build 
   end
 
   def create
@@ -30,6 +36,12 @@ class RakutenSettingsController < ApplicationController
     current_user.rakuten_settings.create(rakuten_setting_params)
 
     redirect_to rakuten_settings_path, notice: 'データを保存しました'
+  end
+  
+  def edit
+    @q = current_user.rakuten_settings.search(params[:q])
+    @rakuten_settings = @q.result(distinct: true).page(params[:page]).per(50)    
+    @rakuten_setting = @update_rakuten_setting
   end
 
   def update

@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  FBAからの返還商品台帳(一覧画面)
+	  <%= link_to "新規登録画面へ", new_return_good_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body"> 
+    <%= search_form_for(@q, url: return_goods_path) do |f| %>
+      <%= f.label :old_sku_eq, "返還前ＳＫＵで検索" %>
+      <%= f.search_field :old_sku_eq %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>
+    <%= search_form_for(@q, url: return_goods_path) do |f| %>
+      <%= f.label :new_sku_eq, "新ＳＫＵで検索" %>
+      <%= f.search_field :new_sku_eq %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>
+    <%= search_form_for(@q, url: return_goods_path, html: {class: 'date_form'}) do |f| %>           
+      <%= f.label :date, "日付で検索"%>
+      <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+      <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>            
+    <% end %>
+  </div>
+</div>

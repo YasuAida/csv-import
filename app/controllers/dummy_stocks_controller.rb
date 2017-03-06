@@ -1,14 +1,19 @@
 class DummyStocksController < ApplicationController
   include DummyStocksHelper
   include StockledgersHelper  
-  before_action :set_dummy_stock, only: [ :update]
+  before_action :set_dummy_stock, only: [:edit, :update]
   before_action :logged_in_user
 
   def index
-    #@dummy_stocks = current_user.dummy_stocks.all
-    @dummy_stock = current_user.dummy_stocks.build
     @q = current_user.dummy_stocks.search(params[:q])
     @dummy_stocks = @q.result(distinct: true).page(params[:page])
+    @dummy_stock = current_user.dummy_stocks.build
+  end
+
+  def new
+    @q = current_user.dummy_stocks.search(params[:q])
+    @dummy_stocks = @q.result(distinct: true).page(params[:page])
+    @dummy_stock = current_user.dummy_stocks.build  
   end
   
   def create
@@ -23,6 +28,12 @@ class DummyStocksController < ApplicationController
     else
       redirect_to dummy_stocks_path , notice: 'データの保存に失敗しました'
     end
+  end
+ 
+  def edit
+    @q = current_user.dummy_stocks.search(params[:q])
+    @dummy_stocks = @q.result(distinct: true).page(params[:page])     
+    @dummy_stock = @update_dummy_stock
   end
 
   def destroy

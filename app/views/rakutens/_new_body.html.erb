@@ -1,0 +1,40 @@
+      <tbody class="expenseledgers">
+        <% @rakutens.each do |rakuten|  %>
+          <tr id="rakuten-<%= rakuten.id %>">
+            <%= form_for(rakuten, url: rakuten_path(rakuten.id), remote: true) do |f| %>
+              <td class="update" id="check-<%= rakuten.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>       
+              <td class="date"><%= rakuten.sale_date %></td>          
+              <td class="reference"><%= rakuten.order_num %></td>
+              <td class="large"><%= rakuten.sku %></td>
+              <td class="content"><%= rakuten.goods_name %></td>            
+              <td class="half"><%= rakuten.kind_of_card %></td>            
+              <td class="right"><%= addcomma(rakuten.unit_price.to_i) %></td> 
+              <td class="rate"><%= rakuten.number %></td>
+                <% goods_price = rakuten.unit_price.to_i * rakuten.number.to_i %>            
+              <td class="right"><%= addcomma(goods_price.to_i) %></td>
+                <% other_revenue = rakuten.shipping_cost.to_i + rakuten.consumption_tax.to_i + rakuten.cod_fee.to_i + rakuten.shop_coupon.to_i %> 
+              <td class="right"><%= addcomma(other_revenue.to_i) %></td>             
+              <td class="right"><%= addcomma(rakuten.total_sales.to_i) %></td>
+              <td class="right"></td>
+              <td class="right"><%= addcomma(rakuten.commission.to_i) %></td>
+              <td class="right"><%= addcomma(rakuten.vest_point.to_i) %></td>
+              <td class="right"><%= addcomma(rakuten.system_improvement.to_i) %></td>
+              <td class="right"><%= addcomma(rakuten.credit_commission.to_i) %></td>            
+              <td class="right"><%= addcomma(rakuten.total_commissions.to_i) %></td>            
+              <td class="right"><%= addcomma(rakuten.shipping_payment.to_i) %></td> 
+              <td class="right" style="text-align:right"></td>
+              <td class="update" id="submit-<%= rakuten.id %>"><%= link_to "修正", edit_rakuten_path(rakuten), class: 'btn btn-default btn-xs'%></td>
+                
+              <!--チェックボックス更新用JQuery-->
+              <script>
+                $("#check-<%= rakuten.id %>").change(function(e){
+                  $('#edit_rakuten_<%= rakuten.id %>').submit();
+                });
+              </script>                    
+            <% end %> 
+          </tr>
+        <% end %>
+      </tbody>      
+    </table>
+  </div>
+</div>

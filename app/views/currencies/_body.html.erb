@@ -1,0 +1,23 @@
+    <tbody class="accounts">
+      <% @currencies.each do |currency| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="currency-<%= currency.id %>">
+          <%= form_for(currency, url: currency_path(currency.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= currency.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="order_num"><%= currency.name %></td>            
+            <td class="order_num"><%= currency.method %></td>
+            <td class="update" id="currency-<%= currency.id %>"><%= link_to "修正", edit_currency_path(currency), class: 'btn btn-default btn-xs'%></td> 
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= currency.id %>").change(function(e){
+                $('#edit_currency_<%= currency.id %>').submit();
+              });
+            </script>
+          <% end %>         
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @currencies %>
+</div>

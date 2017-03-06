@@ -25,26 +25,124 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :yafuokus , only: [:index, :create, :update] do
+  get 'settings/index'
+
+  resources :selfstorages, only: [ :index, :create, :update, :destroy]
+
+  
+  resources :periods, only: [ :index, :create]
+
+  resources :financial_statements, only: [ :index] do
+    collection do
+      get 'bs'
+      get 'pl'
+    end
+  end
+
+  resources :generalledgers, only: [:index, :destroy] do
+    collection do
+      get 'show'
+    end    
+  end
+
+  resources :stockledgers, only: [:index] do
+    collection do
+      get 'show'      
+      get 'stock_list'
+    end
+  end
+
+  resources :allocationcosts, only: [:index] do
+    collection do
+      get 'show'
+    end    
+  end
+
+  resources :expense_titles, only: [ :index, :create, :update, :destroy]
+  get 'expense_titles/show'
+
+
+  resources :subexpenses, only: [ :index, :create, :show, :update] 
+  get 'subexpenses/destroy'
+  
+  resources :accounts, only: [:index, :new, :create, :edit, :update]
+  get 'accounts/destroy'
+
+  resources :currencies, only: [:index, :new, :create, :edit, :update]
+  get 'currencies/destroy'
+
+  resources :disposals, only: [ :index, :new, :create, :edit, :update]do
+    member do
+      get 'copy'      
+    end
+  end
+  get 'disposals/destroy'
+
+  resources :dummy_stocks , only: [ :index, :new, :create, :edit, :update]   
+  get 'dummy_stocks/destroy'
+  
+  resources :entrypatterns, only: [ :index, :new, :create, :edit, :update]do
+    member do
+      get 'copy'      
+    end
+  end
+  get 'entrypatterns/destroy' 
+
+  get 'expense_methods/index'
+
+  resources :exchanges, only: [:index, :new, :create, :edit, :update] do
+    collection do
+      post 'upload'
+    end
+  end
+  get 'exchanges/destroy'
+  
+  resources :expenseledgers, only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
+    end
     collection do
       get 'blank_form'
       post 'upload'     
     end
   end
-  get 'yafuokus/destroy'
+  get 'expenseledgers/destroy'
 
-  resources :yahoo_shoppings, only: [ :index, :create, :update]do
-    collection do
-      post 'receipt_upload' 
-      post 'payment_upload'       
+  resources :journalpatterns, only: [ :index, :new, :create, :edit, :update]do
+    member do
+      get 'copy'      
     end
   end
-  get 'yahoo_shoppings/destroy'
+  get 'journalpatterns/destroy'
 
-  resources :rakuten_settings, only: [ :index, :create, :update]
-  get 'rakuten_settings/destroy'
+  resources :listingreports, only: [:index, :edit, :update] do
+    collection do
+      post 'upload'
+    end
+  end  
+  
+  resources :multi_channels, only: [:index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
+    end
+    collection do
+      get 'sku'
+    end
+  end
+  get 'multi_channels/destroy'
+ 
+  resources :pladmins , only: [:index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
+    end
+    collection do
+      get 'blank_form'
+      post 'upload'     
+    end
+  end
+  get 'pladmins/destroy'
 
-  resources :rakuten_costs, only: [ :index, :create, :update]do
+  resources :rakuten_costs, only: [ :index, :new, :create, :edit, :update]do
     collection do
       post 'pc_upload'
       post 'mobile_upload'       
@@ -52,8 +150,17 @@ Rails.application.routes.draw do
   end
   get 'rakuten_costs/destroy'
 
-  resources :rakutens, only: [ :index, :create, :update]do
+  resources :rakuten_settings, only: [ :index, :new, :create, :edit, :update] do
+  end  
+  get 'rakuten_settings/destroy'
+  
+  resources :rakutens, only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'
+      get 'edit_nyukin'
+    end
     collection do
+      get 'upload'
       get 'nyukin'
       get 'commission'
       get 'blank_form'
@@ -69,95 +176,34 @@ Rails.application.routes.draw do
   end
   get 'rakutens/destroy'
 
-  get 'settings/index'
-
-  resources :selfstorages, only: [ :index, :create, :update, :destroy]
-  
-  resources :disposals, only: [ :index, :create, :update]
-  get 'disposals/destroy'
-  
-  resources :periods, only: [ :index, :create]
-
-  resources :financial_statements, only: [ :index] do
-    collection do
-      get 'bs'
-      get 'pl'
+  resources :return_goods, only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
     end
   end
-  
-  resources :vouchers, only: [ :index, :create, :update]do
-    collection do
-      get 'blank_form'
-      post 'upload'
-    end
-  end
-  get 'vouchers/destroy'
-  
-  resources :return_goods, only: [ :index, :create, :update]
   get 'return_goods/destroy'
-  
-  resources :multi_channels, only: [ :index, :create, :update] do
+
+  resources :sales , only: [:index, :edit, :update] do
     collection do
-      get 'sku'
+      post 'upload'
+      get  'handling'
+      get  'pladmin'
+      get  'receipt'      
     end
   end
-  get 'multi_channels/destroy'
-
-  resources :generalledgers, only: [:index, :destroy] do
-    collection do
-      get 'show'
-    end    
-  end
-
-  resources :expenseledgers, only: [ :index, :create, :update] do
-    collection do
-      get 'blank_form'
-      post 'upload'     
-    end
-  end
-  get 'expenseledgers/destroy'
-
-  resources :stockledgers, only: [:index] do
-    collection do
-      get 'show'      
-      get 'stock_list'
-    end
-  end
-
-  resources :allocationcosts, only: [:index] do
-    collection do
-      get 'show'
-    end    
-  end
-  
-  resources :currencies, only: [:index, :create, :update]
-  get 'currencies/destroy'
-
-  resources :exchanges, only: [:index, :create, :update] do
+ 
+  resources :stockaccepts, only: [:index, :edit, :update] do
     collection do
       post 'upload'
     end
   end
-  get 'exchanges/destroy'
-  
-  resources :stockaccepts, only: [:index] do
-    collection do
-      post 'upload'
+ 
+  resources :stockreturns , only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
     end
   end
-
-  resources :listingreports, only: [:index] do
-    collection do
-      post 'upload'
-    end
-  end  
-
-  resources :expense_titles, only: [ :index, :create, :update, :destroy]
-  get 'expense_titles/show'
-
-
-  resources :subexpenses, only: [ :index, :create, :show, :update] 
-  get 'subexpenses/destroy'
+  get 'stockreturns/destroy'
   
   resources :stocks, only: [ :index, :new, :create, :edit, :update] do
     member do
@@ -170,38 +216,38 @@ Rails.application.routes.draw do
   end
   get 'stocks/destroy'
   
-  resources :pladmins , only: [:index, :create, :update] do
+  resources :vouchers, only: [ :index, :new, :create, :edit, :update]do
+    member do
+      get 'copy'      
+    end
+    collection do
+      get 'blank_form'
+      post 'upload'
+    end
+  end
+  get 'vouchers/destroy'
+  
+  resources :yafuokus , only: [ :index, :new, :create, :edit, :update] do
+    member do
+      get 'copy'      
+    end
     collection do
       get 'blank_form'
       post 'upload'     
     end
   end
-  get 'pladmins/destroy'
-
-  resources :sales , only: [:index] do
+  get 'yafuokus/destroy'
+  
+  resources :yahoo_shoppings, only: [ :index, :new, :create, :edit, :update]do
+    member do
+      get 'copy'      
+    end
     collection do
-      post 'upload'
-      get  'handling'
-      get  'pladmin'
-      get  'receipt'      
+      post 'receipt_upload' 
+      post 'payment_upload'       
     end
   end
-  
-  resources :stockreturns , only: [ :index, :create, :update] 
-  get 'stockreturns/destroy'
-  
-  resources :dummy_stocks , only: [ :index, :create, :update]   
-  get 'dummy_stocks/destroy'
-  
-  resources :accounts, only: [ :index, :create, :update]
-  get 'accounts/destroy'
-
-  resources :entrypatterns, only: [ :index, :create, :update]
-  get 'entrypatterns/destroy'
-
-  resources :journalpatterns, only: [ :index, :create, :update, :destroy]  
-
-  get 'expense_methods/index'
+  get 'yahoo_shoppings/destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
