@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'sessions/new'
 
   root to: 'top_pages#index'
@@ -57,13 +58,6 @@ Rails.application.routes.draw do
       get 'show'
     end    
   end
-
-  resources :expense_titles, only: [ :index, :create, :update, :destroy]
-  get 'expense_titles/show'
-
-
-  resources :subexpenses, only: [ :index, :create, :show, :update] 
-  get 'subexpenses/destroy'
   
   resources :accounts, only: [:index, :new, :create, :edit, :update]
   get 'accounts/destroy'
@@ -96,6 +90,12 @@ Rails.application.routes.draw do
     end
   end
   get 'exchanges/destroy'
+
+  resources :expense_shows, only: [ :index, :create, :edit, :update]
+  get 'expense_shows/destroy'
+
+  resources :expense_titles, only: [ :index, :create, :edit, :update]   
+  get 'expense_titles/destroy'
   
   resources :expenseledgers, only: [ :index, :new, :create, :edit, :update] do
     member do
@@ -215,6 +215,9 @@ Rails.application.routes.draw do
     end
   end
   get 'stocks/destroy'
+
+  resources :subexpenses, only: [ :index, :new, :create, :edit, :update] 
+  get 'subexpenses/destroy'
   
   resources :vouchers, only: [ :index, :new, :create, :edit, :update]do
     member do

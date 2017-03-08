@@ -1,16 +1,10 @@
-class ExpenseTitlesController < ApplicationController
+class ExpenseShowsController < ApplicationController
   before_action :set_expense_title, only: [:edit, :update]
   before_action :logged_in_user
   
   def index
     @expense_titles = current_user.expense_titles.all
     @expense_title = current_user.expense_titles.build
-  end
-  
-  def create
-    @expense_title = current_user.expense_titles.build(expense_title_params)
-    @expense_title.save
-    redirect_to expense_titles_path
   end
   
   def edit
@@ -21,15 +15,15 @@ class ExpenseTitlesController < ApplicationController
   
   def update
     if @update_expense_title.update(expense_title_params)
-      redirect_to expense_titles_path
+      redirect_to expense_shows_path
     else
-      redirect_to expense_titles_path
+      redirect_to expense_shows_path
     end
   end
   
   def destroy
     current_user.expense_titles.where(destroy_check: true).destroy_all
-    redirect_to expense_titles_path
+    redirect_to expense_shows_path
   end
 
   private
@@ -39,5 +33,5 @@ class ExpenseTitlesController < ApplicationController
   
   def set_expense_title
     @update_expense_title = current_user.expense_titles.find(params[:id])
-  end
+  end  
 end

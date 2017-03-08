@@ -91,7 +91,7 @@
                 <% 0.upto(count_period-1) do |i| %>
                   <% target_period = @show_periods[i] %>
                   <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "売上高合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                  <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                 <% end %>
               </tr>
             <% else %>        
@@ -101,7 +101,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: sale_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="financial"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
               <% end %>
@@ -110,7 +110,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "売上高合計") %>
-                    <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
             <% end %>                
@@ -121,7 +121,7 @@
                 <% 0.upto(count_period-1) do |i| %>
                   <% target_period = @show_periods[i] %>
                   <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "売上原価合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                  <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                 <% end %>
               </tr>
             <% else %> 
@@ -131,7 +131,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: cgs_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="financial"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
               <% end %>
@@ -140,7 +140,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "売上原価合計") %>
-                    <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>              
                 </tr>
             <% end %>
@@ -150,7 +150,7 @@
               <% 0.upto(count_period-1) do |i| %>
                 <% target_period = @show_periods[i] %>
                 <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "売上総利益") %>
-                <td class="yellow_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                <td class="yellow_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
               <% end %>
             </tr>
           <%# 販売管理費金額の表示%>
@@ -160,7 +160,7 @@
                 <% 0.upto(count_period-1) do |i| %>
                   <% target_period = @show_periods[i] %>
                   <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "販売管理費合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                  <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                 <% end %>
               </tr>
             <% else %> 
@@ -170,7 +170,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: sga_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="financial"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
               <% end %>
@@ -179,7 +179,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "販売管理費合計") %>
-                    <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>              
                 </tr>
             <% end %>
@@ -189,7 +189,7 @@
               <% 0.upto(count_period-1) do |i| %>
                 <% target_period = @show_periods[i] %>
                 <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "営業利益") %>
-                <td class="yellow_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                <td class="yellow_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
               <% end %>
             </tr>
           <%# 営業外損益額の表示%>
@@ -200,7 +200,7 @@
                 <% 0.upto(count_period-1) do |i| %>
                   <% target_period = @show_periods[i] %>
                   <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "営業外損益合計") %>
-                  <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                  <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                 <% end %>
               </tr>
             <% else %> 
@@ -210,7 +210,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: other_account.account) %>
-                    <td align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="financial"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>
                 </tr>
               <% end %>
@@ -219,7 +219,7 @@
                   <% 0.upto(count_period-1) do |i| %>
                     <% target_period = @show_periods[i] %>
                     <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "営業外損益合計") %>
-                    <td class="blue_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                    <td class="blue_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                   <% end %>              
                 </tr>
             <% end %>
@@ -231,7 +231,7 @@
                 <% 0.upto(count_period-1) do |i| %>
                   <% target_period = @show_periods[i] %>
                   <% target_data = current_user.financial_statements.find_by(period_start: target_period.period_start, monthly_yearly: target_period.monthly_yearly, account: "税前利益") %>
-                  <td class="yellow_line" align="right"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
+                  <td class="yellow_line"><%= addcomma(target_data.amount.to_i) if target_data.present? %></td>               
                 <% end %>
               </tr>
             <% end %>            

@@ -23,7 +23,7 @@
         <th class="account"></th>          
       </tr>
       </thead>
-      <%= form_for(@pladmin, url: stock_path(@pladmin)) do |f|  %>
+      <%= form_for(@pladmin, url: pladmin_path(@pladmin)) do |f|  %>
         <tbody class="footer">          
           <td class="account"><%= f.text_field :date, :size => 7 %></td>          
           <td class="order_num"><%= f.text_field :order_num, :size => 18 %></td>

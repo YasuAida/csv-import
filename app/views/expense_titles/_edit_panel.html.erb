@@ -1,0 +1,24 @@
+<div class="panel panel-default" id='edit-default'>
+	<div class="panel-heading">
+	  付随費用登録(諸掛項目修正画面)
+	  <%= link_to "一覧画面へ", expense_titles_path, class: 'btn btn-default btn-sm'%>
+	</div>
+  <div class="panel-body" id='new-body'>
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>      
+        <tr>
+          <th class="order_num">諸掛項目</th>
+          <th class="update">更新</th>      
+        </tr>         
+      </thead>
+      <%= form_for(@expense_title, url: expense_title_path(@expense_title)) do |f|  %>
+        <tbody class="footer">
+          <tr>
+            <td class="order_num"><%= f.text_field :item, :size=> "16"%></td>                
+            <td class="update" id="submit-<%= @expense_title.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%></td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>

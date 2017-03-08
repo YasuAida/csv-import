@@ -43,7 +43,10 @@
   }
   #copy-default.panel-default {    
     height: 282px;
-  }
+  } 
+  #expense-title-default.panel-default {    
+    height: 900px;
+  }  
   #upload-default.panel-default {    
     height: 1000px;
   }
@@ -136,6 +139,9 @@
   tbody.copy_body {
     height: 450px;   /*ポイント */
   }
+  tbody.subexpenses {
+    height: 270px;   /*ポイント */
+  }  
   tbody.copy_head {
     height: 160px;   /*ポイント */
   }  
@@ -263,7 +269,9 @@ th{
     th.content {
       width: 300px;    /* ポイント */
     }
-
+    th.subexpense { 
+      width: 507px; 
+    }
 
 td{
   text-align: left;
@@ -300,6 +308,9 @@ td{
     } 
     td.content { 
       width: 300px;    
+    }
+    td.subexpense {
+      width: 507px; 
     }
 
     td.small {
@@ -364,10 +375,16 @@ td{
   }
   .blue_line {
     background-color: AliceBlue;
+    text-align: right; 
   }
   .yellow_line {
     background-color: LightYellow;
+    text-align: right; 
   }
+  td.financial{
+    text-align: right; 
+  }
+  
 /* financial_statementsで使用 */
 
 /* currenciesで使用 */
@@ -379,26 +396,22 @@ td{
 /* currenciesで使用 */
 
 /* subexpensesで使用 */
-  th.subexpense { 
-    text-align: center;
-    width: 507px; 
-  }
-  td.subexpense {
-    padding: 0px;    
-    text-align: left;
-    width: 507px; 
-  }
-  #subexpense_item, #subexpense_currency {
+  #subexpense_item {
     text-align: left;
     width: 120px;
-    height: 26px;
+    height: 25px;
+  }
+  #subexpense_currency {
+    text-align: left;
+    width: 80px;
+    height: 25px;
   }
   .subexpense select{
     width: 480px;
     overflow-y: auto;
     overflow-x: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    height: 480px;
+    height: 240px;
   }
 /* subexpensesで使用 */
 

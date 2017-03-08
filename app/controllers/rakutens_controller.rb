@@ -42,12 +42,12 @@ class RakutensController < ApplicationController
    
     if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '楽天カード'
 
-      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      receipt_amount = params[:rakuten][:total_sales].to_i - params[:rakuten][:use_point].to_i - params[:rakuten][:use_coupon].to_i
       credit_commission = receipt_amount * 0.0265
       params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
     end
     if params[:rakuten][:kind_of_card].present? && params[:rakuten][:kind_of_card] == '一般カード'
-      receipt_amount = params[:rakuten][:total_sales].to_i - @update_rakuten.use_point.to_i - @update_rakuten.use_coupon.to_i
+      receipt_amount = params[:rakuten][:total_sales].to_i - params[:rakuten][:use_point].to_i - params[:rakuten][:use_coupon].to_i
       credit_commission = receipt_amount * 0.0360
       params[:rakuten][:credit_commission] = BigDecimal(credit_commission.to_s).round(0)
     end
@@ -57,9 +57,9 @@ class RakutensController < ApplicationController
     
     @rakuten = current_user.rakutens.build(rakuten_params)
     if @rakuten.save
-      redirect_to new_stock_path
+      redirect_to new_rakuten_path
     else
-      redirect_to new_stock_path
+      redirect_to new_rakuten_path
     end
   end
   

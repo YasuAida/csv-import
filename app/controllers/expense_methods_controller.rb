@@ -18,7 +18,7 @@ class ExpenseMethodsController < ApplicationController
       e.save
     end
     
-    redirect_to expense_titles_show_path
+    redirect_to expense_shows_path
   end
 end  
 

@@ -35,14 +35,7 @@
       <% end %>
       
         <td class="number"><%= f.text_field :number, :size => "2", :style=>"text-align:right"%></td>          
-        <td class="account" id="submit-<%= @disposal.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%><%= link_to "コピー", copy_disposal_path(@disposal), class: 'btn btn-default btn-xs'%></td>
-          
-        <!--チェックボックス更新用JQuery-->
-        <script>
-          $("#check-<%= @disposal.id %>").change(function(e){
-            $('#edit_disposal_<%= @disposal.id %>').submit();
-          });
-        </script>                    
+        <td class="account" id="submit-<%= @disposal.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%><%= link_to "コピー", copy_disposal_path(@disposal), class: 'btn btn-default btn-xs'%></td>                 
       <% end %> 
     </table>
   </div>

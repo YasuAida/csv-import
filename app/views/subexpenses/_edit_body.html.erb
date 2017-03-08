@@ -1,0 +1,43 @@
+    <tbody class="copy_body">
+      <% @subexpenses = current_user.subexpenses.where(id: (@subexpense.id..(@subexpense.id + 25))) %>
+      <% @subexpenses.each do |subexpense| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="subexpense-<%= subexpense.id %>">
+        <%= form_for(subexpense, url: subexpense_path(subexpense), remote: true) do |f| %>
+          <td class="update" id="check-<%= subexpense.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+          <td class="standard"><%= subexpense.item %></td>
+
+          <td class="subexpense">
+            <% subexpense.expense_relation_stocks.all.each do |stock| %>
+              <%= stock.date %> <%= stock.asin %> <%= stock.goods_name %><br>
+            <% end %>
+          </td>
+          <td class="account"><%= subexpense.date %></td>
+          
+        <% ex_currency = current_user.currencies.find_by(name: subexpense.currency) %>
+        <% if ex_currency.method == "外貨×為替レート" %>              
+          <td class="amount"><%= addcomma(subexpense.amount.to_f) %></td>
+        <% else %>
+          <td class="amount"><%= addcomma(subexpense.amount.to_i) %></td>
+        <% end %>
+        
+          <td class="rate"><%= subexpense.rate %></td>
+        <% yen_amount = BigDecimal(subexpense.amount.to_s).round(2) * subexpense.rate %>
+          <td class="amount"><%= addcomma(yen_amount.to_i) %></td>        
+          <td class="account"><%= subexpense.purchase_from %></td>
+          <td class="account"><%= subexpense.currency %></td>
+          <td class="account"><%= subexpense.money_paid %></td>
+          <td class="update" id="submit-<%= subexpense.id %>"><%= link_to "修正", edit_subexpense_path(subexpense), class: 'btn btn-default btn-xs'%></td>
+            
+          <!--チェックボックス更新用JQuery-->
+          <script>
+            $("#check-<%= subexpense.id %>").change(function(e){
+              $('#edit_subexpense_<%= subexpense.id %>').submit();
+            });
+          </script>                    
+        <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

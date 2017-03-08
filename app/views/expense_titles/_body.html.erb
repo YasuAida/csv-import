@@ -1,0 +1,29 @@
+    <tbody class="accounts">
+      <% @expense_titles.each do |expense_title| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="expense_title-<%= expense_title.id %>">
+          <%= form_for(expense_title, url: expense_title_path(expense_title.id), remote: true) do |f| %> 
+            <td class="update" id="check-<%= expense_title.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>     
+            <td class="order_num"><%= expense_title.item %></td>            
+            <td class="update" id="expense_title-<%= expense_title.id %>"><%= link_to "修正", edit_expense_title_path(expense_title), class: 'btn btn-default btn-xs'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= expense_title.id %>").change(function(e){
+                $('#edit_expense_title_<%= expense_title.id %>').submit();
+              });
+            </script> 
+          <% end %>
+        </tr>
+      <% end %>
+     <tr>
+        <%= form_for (@expense_title) do |f| %>
+          <td class="update"></td>
+          <td class="order_num"><%= f.text_field :item, :size=> "20"%></td>
+          <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-xs'%></td>     
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+  <td>全ての登録が終わりましたら、こちらをクリックしてください。<%= link_to "終了", expense_methods_index_path, class: "btn btn-default" %></td>
+</div>

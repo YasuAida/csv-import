@@ -1,0 +1,22 @@
+    <tbody>
+      <% @expense_titles.each do |expense_title| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="expense_title-<%= expense_title.id %>">
+          <%= form_for(expense_title, url: expense_show_path(expense_title.id), remote: true) do |f| %> 
+            <td class="update" id="check-<%= expense_title.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>    
+            <td class="order_num"><%= expense_title.item %></td>
+            <td class="detail"><%= expense_title.method.gsub(/\"/, "").gsub(" ", "").gsub("[", "").gsub("]", "") if expense_title.method.present? %></td>
+            <td class="update" id="expense_title-<%= expense_title.id %>"><%= link_to "修正", edit_expense_show_path(expense_title), class: 'btn btn-default btn-xs'%></td>
+               
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= expense_title.id %>").change(function(e){
+                $('#edit_expense_title_<%= expense_title.id %>').submit();
+              });
+            </script> 
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

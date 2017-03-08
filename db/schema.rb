@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304064005) do
+ActiveRecord::Schema.define(version: 20170306001700) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -131,9 +131,10 @@ ActiveRecord::Schema.define(version: 20170304064005) do
   create_table "expense_titles", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "item"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "method"
+    t.boolean  "destroy_check", default: false, null: false
   end
 
   add_index "expense_titles", ["user_id"], name: "index_expense_titles_on_user_id"
