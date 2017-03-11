@@ -1,9 +1,26 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="rakuten-default">
 	<div class="panel-heading">
 	  経費台帳(一覧画面)
 	  <%= link_to "新規登録画面へ", new_expenseledger_path, class: 'btn btn-default btn-sm'%>
 	</div>
-  <div class="panel-body"> 
+  <div class="panel-body">
+      <%= search_form_for(@q, url: expenseledgers_path) do |f| %>   
+      <%= f.label :account_name_cont, "勘定科目で検索" %>
+      <%= f.search_field :account_name_cont, placeholder: "部分一致"%>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: expenseledgers_path) do |f| %>          
+      <%= f.label :content_cont, "摘要で検索" %>
+      <%= f.search_field :content_cont, placeholder: "部分一致"%>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: expenseledgers_path, html: {class: 'date_form'}) do |f| %>           
+      <%= f.label :date, "日付で検索"%>
+      <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>〜
+      <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-sm' %>            
+    <% end %>
+    <br>
     <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
       <label>CSVデータの取込み:</label>
       <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>

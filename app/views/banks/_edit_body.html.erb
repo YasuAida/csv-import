@@ -1,0 +1,24 @@
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-condensed">  
+    <tbody class="stocks">
+      <% @banks = current_user.banks.all %>
+      <% @banks.each do |bank| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="bank-<%= bank.id %>">
+          <%= form_for(bank, url: bank_path(bank.id), remote: true) do |f| %> 
+            <td class="update" id="check-<%= bank.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>     
+            <td class="order_num"><%= f.text_field :name, :size=> "20"%></td>            
+            <td class="update" id="bank-<%= bank.id %>"><%= link_to "修正", edit_bank_path(bank), class: 'btn btn-default btn-xs'%></td>
+            
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= bank.id %>").change(function(e){
+                $('#edit_bank_<%= bank.id %>').submit();
+              });
+            </script> 
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -7,7 +7,7 @@ module StocksHelper
   
   def file_import_stock(file_name)
     # 先にDBのカラム名を用意
-    @column = [:date, :asin, :goods_name, :unit_price, :number, :money_paid, :purchase_from, :currency, :sku, :rate, :goods_amount]
+    @column = [:date, :sku, :asin, :goods_name, :unit_price, :number, :money_paid, :purchase_from, :currency]
     
     CSV.foreach('./tmp/stock/'+ file_name.original_filename, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
       # rowの値のみを配列化
@@ -19,8 +19,6 @@ module StocksHelper
       row_hash[:unit_price] = row_hash[:unit_price].gsub(/,/, "").to_f if row_hash[:unit_price].present?
       row_hash[:number] = row_hash[:number].to_i if row_hash[:number].present?
       row_hash[:money_paid] = Date.parse(row_hash[:money_paid]).to_date if row_hash[:money_paid].present?
-      row_hash[:rate] = row_hash[:rate].to_f if row_hash[:rate].present?        
-      row_hash[:goods_amount] = row_hash[:goods_amount].to_i if row_hash[:goods_amount].present?
       
       current_user.stocks.create(row_hash)
 

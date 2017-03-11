@@ -50,17 +50,6 @@ class SalesController < ApplicationController
     redirect_to pladmins_path      
   end
 
-  def receipt
-    @sales = current_user.sales.where.not(kind_of_transaction: "Amazonに支払う額 | 出品者からの返済額")
-  end
-  
-  def receipt_update
-    @update_sales = current_user.sales.where(money_receive: params[:money_receive])
-    @update_sales.each do |update_sale|
-      update_sale.update()
-    end
-  end
-
   private
   def sale_params
     params.require(:sale).permit(:date, :order_num, :sku, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :amount, :quantity, :goods_name, :money_receive, :handling)

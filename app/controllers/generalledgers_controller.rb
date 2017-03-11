@@ -1,6 +1,6 @@
 class GeneralledgersController < ApplicationController
   include GeneralledgersHelper
-  before_action :set_generalledger, only: [ :destroy]
+  before_action :set_generalledger, only: [:edit, :update]
   before_action :logged_in_user
 
   def index
@@ -46,14 +46,31 @@ class GeneralledgersController < ApplicationController
       format.html
       format.csv { send_data @all_generalledgers.to_download, type: 'text/csv; charset=shift_jis', filename: "generalledgers.csv" } 
     end 
+  end  
+ 
+  def edit
+    @q = current_user.generalledgers.search(params[:q])
+    @generalledgers = @q.result(distinct: true).order(date: :desc).page(params[:page]).per(100)    
+    @generalledger = @update_generalledger
+  end
+  
+  def update
+    params[:generalledger][:amount] = params[:generalledger][:amount].gsub(",","") if params[:generalledger][:amount].present?
+    @update_generalledger.update(generalledger_params)
+    
+    redirect_to generalledgers_path
   end
   
   def destroy
-    @update_generalledger.destroy
-    redirect_to generalledgers_path, notice: 'データを削除しました'
+    current_user.generalledgers.where(destroy_check: true).destroy_all
+    redirect_to generalledgers_path
   end
   
-  private  
+  private
+  def generalledger_params
+    params.require(:generalledger).permit(:date, :debit_account, :debit_subaccount, :debit_taxcode, :credit_account, :credit_subaccount, :credit_taxcode, :content, :trade_company, :amount, :destroy_check)
+  end 
+ 
   def set_generalledger
     @update_generalledger = current_user.generalledgers.find(params[:id])
   end

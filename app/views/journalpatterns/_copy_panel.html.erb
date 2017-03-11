@@ -8,7 +8,6 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
-          <th class="update"><a href= ./journalpatterns/destroy class="btn btn-default btn-xs" >削除</th>
           <th class="middle">税抜/税込</th>
           <th class="large">帳票</th>
           <th class="middle_large">パターン</th>
@@ -24,8 +23,7 @@
       <tbody class="copy_head">
         <% @copy_journalpatterns.each do |journalpattern|  %>
           <tr>
-            <%= form_for(journalpattern, url: journalpattern_path(journalpattern), remote: true) do |f|  %>
-              <td class="update" id="check-<%= journalpattern.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>            
+            <%= form_for(journalpattern, url: journalpattern_path(journalpattern)) do |f|  %>           
               <td class="middle"><%= f.text_field :taxcode, :size=> "4"%></td>
               <td class="large"><%= f.text_field :ledger, :size=> "10"%></td>
               <td class="middle_large"><%= f.text_field :pattern, :size=> "14"%></td>
@@ -36,13 +34,6 @@
               <td class="large"><%= f.text_field :credit_subaccount, :size=> "10"%></td>
               <td class="middle"><%= f.text_field :credit_taxcode, :size=> "4"%></td>                   
               <td class="account" id="submit-<%= journalpattern.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%><%= link_to "コピー", copy_journalpattern_path(journalpattern), class: 'btn btn-default btn-xs'%></td>
-            
-              <!--チェックボックス更新用JQuery-->
-              <script>
-                $("#check-<%= journalpattern.id %>").change(function(e){
-                  $('#edit_journalpattern_<%= journalpattern.id %>').submit();
-                });
-              </script>  
             <% end %>
           </tr>
         <% end %>

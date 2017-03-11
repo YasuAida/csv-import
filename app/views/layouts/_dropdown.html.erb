@@ -1,0 +1,147 @@
+<div class="panel panel-default" style="padding-top: 40px; border: 0px;">
+  <div class="panel-heading" id="top_page">
+    <ul class="nav navbar-nav navbar-left">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Amazonデータ取込み <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "トランザクションの概要", sales_path %></li>
+          <li><%= link_to "入金額確認レポートの作成", summaries_create_path %></li>          
+          <li><%= link_to "損益管理シート/パターン登録", entrypatterns_path %></li>
+          <li><%= link_to "処理データの付与" , handling_sales_path %></li>          
+          <li><%= link_to "出品レポート", listingreports_path %></li>
+          <li><%= link_to "在庫受領レポート", stockaccepts_path %></li>
+          <li><%= link_to "入金額確認レポートの表示", summaries_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          仕入データ <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "仕入台帳", stocks_path %></li>
+          <li><%= link_to "付随費用台帳", subexpenses_path %></li>
+          <li><%= link_to "仕入返品台帳", stockreturns_path %></li>
+          <li><%= link_to "仕入台帳にSKUデータを付与", sku_stocks_path %></li>
+          <li><%= link_to "単価計算表", allocationcosts_path %></li>
+          <li><%= link_to "付随費用項目一覧", expense_shows_path %></li>          
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          在庫管理データ <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "商品有高帳", stockledgers_path %></li>
+          <li><%= link_to "在庫台帳", stock_list_stockledgers_path %></li>
+          <li><%= link_to "FBAからの返還商品台帳", return_goods_path %></li>
+          <li><%= link_to "廃棄商品台帳", disposals_path %></li>
+          <li><%= link_to "マルチチャンネルＳＫＵ登録", multi_channels_path %></li>
+          <li><%= link_to "ダミー計上商品", dummy_stocks_path %></li>            
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          経費・振替台帳 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "経費台帳", expenseledgers_path %></li>
+          <li><%= link_to "振替台帳", vouchers_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          損益管理データ <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "損益管理シートの作成" , pladmin_sales_path %></li>
+          <li><%= link_to "損益管理シートの表示", pladmins_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          財務諸表・帳簿 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "仕訳帳の作成", generalledgers_path %></li> 
+          <li><%= link_to "財務諸表の作成", generalledgers_path %></li>
+          <li><%= link_to "損益計算書", pl_financial_statements_path %></li>
+          <li><%= link_to "貸借対照表", bs_financial_statements_path %></li>
+          <li><%= link_to "仕訳帳の表示", generalledgers_show_path %></li>
+          <li><%= link_to "仕訳パターン登録", journalpatterns_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          為替レート <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "為替レート", exchanges_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          楽天 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "楽天損益管理シート", rakutens_path %></li>
+          <li><%= link_to "楽天入金管理シート", nyukin_rakutens_path %></li>
+          <li><%= link_to "データアップロード画面", upload_rakutens_path %></li>
+          <li><%= link_to "楽天設定シート", rakuten_settings_path %></li>
+          <li><%= link_to "楽天請求管理シート", rakuten_costs_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          ヤフーショッピング <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "ヤフーショッピング管理シート", yahoo_shoppings_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          その他損益管理 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "その他損益管理シート", yafuokus_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          設定 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "設定一覧", settings_index_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          初期登録 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "付随費用登録", expense_titles_path %></li>
+          <li><%= link_to "通貨登録", currencies_path %></li>
+          <li><%= link_to "勘定科目一覧", accounts_path %></li>
+          <li><%= link_to "銀行口座登録", banks_path %></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          バックアップ <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "ダウンロード", download_top_pages_path(format: "csv") %></li>
+          <li>
+              <%= form_tag({ :controller => 'top_pages', :action => 'upload' }, {multipart: true, class: "long_form_tag"}) do %>
+                <label style="font-weight: normal;">　 アップロード</label>
+                <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
+                <%= submit_tag "upload", class: 'btn btn-default'%>
+              <% end %>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

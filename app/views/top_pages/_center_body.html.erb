@@ -1,0 +1,110 @@
+<div class="panel-group col-sm-4">
+  <div class="panel panel-default">
+    <div class="panel-heading" id=header>
+      管理帳票一覧
+    </div>
+  </div>
+  <div class="panel panel-default two">
+    <div class="panel-heading" id=title>
+      （１）在庫管理帳票
+    </div>
+    <div class="panel-body" id="two">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "商品有高帳" , stockledgers_show_path %></li>
+          <div class="explanation">
+            <p>商品の仕入、販売、キャンセル、廃棄等の流れが、SKU、ASINごとに一目で分かる帳票です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "在庫台帳" , stock_list_stockledgers_path %></li>
+          <div class="explanation">
+            <p><%= link_to "商品有高帳" , stockledgers_path %>が販売したものを含め全ての商品についての明細であるのに対して、在庫台帳は未販売の商品のみの帳票です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "単価計算表" , allocationcosts_path %></li>
+          <div class="explanation">
+            <p><%= link_to "単価計算表" , allocationcosts_path %>は、商品の購入価額に、商品を仕入れるのに必要な送料、手数料、関税等の付随費用を足した単価が分かる帳票です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default two">
+    <div class="panel-heading" id=title>
+      （２）損益管理帳票
+    </div>
+    <div class="panel-body" id="two">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "損益管理シート" , pladmins_path %></li>
+          <div class="explanation">
+            <p>一つ一つの商品の販売について利益がいくら出たのかが分かる帳票です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "ヤフーショッピング管理シート" , yahoo_shoppings_path %></li>
+          <div class="explanation">
+            <p>ヤフーショッピングで売った商品を管理するシートです。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "その他損益管理シート" , yafuokus_path %></li>
+          <div class="explanation">
+            <p>Amazonやヤフーショッピング以外で売った商品を管理するシートです。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default two">
+    <div class="panel-heading" id=title>
+      （３）財務諸表
+    </div>
+    <div class="panel-body" id="two">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "損益計算書" , pl_financial_statements_path %></li>
+          <div class="explanation">
+            <p>損益計算書とは一定期間における経営成績を示す決算書です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "貸借対照表" , bs_financial_statements_path %></li>
+          <div class="explanation">
+            <p>貸借対照表とは一定時点における資産、負債及び資本の状態（財政状態）を示す計算表です。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "仕訳帳" , generalledgers_path %></li>
+          <div class="explanation">
+            <p>仕訳帳とは、損益計算書や貸借対照表の基になるもので、一つの取引を二つの要素に分けて記録したものを集めたものです。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default two">
+    <div class="panel-heading" id=title>
+      （４）Amazon帳票
+    </div>
+    <div class="panel-body" id="two">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "トランザクションの概要" , sales_path %></li>
+          <div class="explanation">
+            <p>Amazonの提供する商品の販売代金と手数料の一覧です。</P>
+          </div>
+        <li class="title"><%= link_to "出品レポート" , listingreports_path %></li>
+          <div class="explanation">
+            <p>Amazonの提供する今まで出品した商品のリストです。出品を取り消したものなど一部リストに含まれないものも含まれますが役にたつ帳票です。</P>
+          </div>
+        <li class="title"><%= link_to "在庫受領レポート" , stockaccepts_path %></li>
+          <div class="explanation">
+            <p>Amazonが受領した商品の一覧です。在庫の履歴を追うのにとても役に立ちます。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <script>
+    $(function(){
+      $("#two.panel-body:not(:first)").css("display","none");
+      $("#title.panel-heading").click(function(){
+        if($("+#two.panel-body",this).css("display")=="none"){
+          $("#two.panel-body").slideUp("fast");
+          $("+#two.panel-body",this).slideDown("fast");
+        }
+      });
+    });
+  </script>
+</div>

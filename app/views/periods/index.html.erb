@@ -1,29 +1,24 @@
-<% content_for :head do %> 
-  <div class="panel_container">
-    <div class="panel panel-default">
-    	<div class="panel-heading">
-    	  会計期間
-    	 </div>
-    </div>
-  </div>
-  
-  <table>
-    <thead>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  会計期間
+	 </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th class="company">月次／年次</th>
+      <th class="company">開始年月日</th>
+      <th class="company">終了年月日</th>
+    </tr>
+  </thead>   
+  <tbody class="accounts">
+    <% @periods.each do |period| %>
       <tr>
-        <th class="company">月次／年次</th>
-        <th class="company">開始年月日</th>
-        <th class="company">終了年月日</th>
+        <td class="company"><%= period.monthly_yearly %></td>
+        <td class="company"><%= period.period_start %></td>
+        <td class="company"><%= period.period_end %></td>
       </tr>
-    </thead>
-<% end %>      
-    <tbody class="accounts">
-      <% @periods.each do |period| %>
-        <tr>
-          <td class="company"><%= period.monthly_yearly %></td>
-          <td class="company"><%= period.period_start %></td>
-          <td class="company"><%= period.period_end %></td>
-        </tr>
-      <% end %>
-    </tbody>
-    <%= paginate @periods %>
-  </table>
+    <% end %>
+  </tbody>
+  <%= paginate @periods %>
+</table>

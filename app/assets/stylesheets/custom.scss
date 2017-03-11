@@ -9,56 +9,152 @@
     float: left;
     margin-right: 10px;
     font-size: 1.7em;
-    color: #fff;
+    color: black;
     text-transform: uppercase;
     letter-spacing: -1px;
-    padding-top: 9px;
+    padding-top: 5px;
+    padding-left: 5px;
     font-weight: bold;
   }
   #logo:hover {
     color: #fff;
     text-decoration: none;
   }
+
+/* nav */
+  .dropdown-menu {
+    li {
+      height: 30px;
+      }
+    }  
+  .download {  
+    a{
+    font-size: 14px;
+    text-decoration: underline;
+    font-weight: normal;
+      }
+    }
+  .navbar {
+    min-height: 40px;
+  }
+  .navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+/* li */
+  li.title{
+    font-size: 18px;
+    font-weight: normal;
+    a{
+      font-size: 18px;
+      text-decoration: underline;    
+    }  
+  }
+  .explanation{
+    font-size: 18px;
+    line-height: 120%;
+    a{
+      text-decoration: underline;   
+    }
+  }
+  .space{
+    font-size: 2px;
+  }
+/* panel */  
   .panel {
     margin: 0px;
   }
- .panel-default { 
-    width: 1900px;
+  .panel-group.col-sm-4 {
+     width: 610px;
+     padding-left: 5px;
+     padding-right: 5px;
+     padding-top: 2px;
+  }
+  /* panel-default */ 
+    .panel.panel-default{
+      padding-top: 0px;  
+    }
+    hr{
+      margin: 1px;
+      color: black;
+    }
+    #box.panel-default{
+      width: 300px;
+      height: 200px;
+    }
+    .panel.panel-default.one{
+      margin-top: 0px;
+      width: 600px;
+    }
+    .panel.panel-default.two{
+      margin-top: 0px;
+      width: 600px;
+    }
+    .panel.panel-default.three{
+      margin-top: 0px;
+      width: 600px;
+    }
+    #edit-default.panel-default {    
+      height: 130px;
+    }
+    #rakuten-default.panel-default {    
+      height: 140px;
+    }
+    #journalpattern-default.panel-default {    
+      height: 160px;
+    }  
+    #new-default.panel-default {    
+      height: 180px;
+    }
+    #rakuten-cost-default.panel-default {    
+      height: 200px;
+    }
+    #copy-default.panel-default {    
+      height: 282px;
+    } 
+    #expense-title-default.panel-default {    
+      height: 900px;
+    }  
+    #upload-default.panel-default {    
+      height: 1000px;
+    }
+  
+  /* panel-heading */
+    .panel-heading{
+      padding: 5px 5px;  
+      text-align: left;
+      font-size: 1.7em;
+      height: 35px;
+      background-color: #08C1F9;
+      vertical-align: bottom;
+    }
+    #top{
+      padding-top: 30px; 
+    }
+    #top_page.panel-heading{
+      padding: 0px;  
+      height: 30px;
+      vertical-align: center;
+      font-size: 14px;
+      background-color: white;
+    }
+    #title.panel-heading{
+      padding: 0px;
+      height: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: LightYellow;
+    }
+    #header.panel-heading{
+      padding-top: 5px;
+      height: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      background-color: AliceBlue;
+    }
     
-  }
-  #edit-default.panel-default {    
-    height: 130px;
-  }
-  #rakuten-default.panel-default {    
-    height: 140px;
-  }
-  #journalpattern-default.panel-default {    
-    height: 160px;
-  }  
-  #new-default.panel-default {    
-    height: 180px;
-  }
-  #rakuten-cost-default.panel-default {    
-    height: 190px;
-  }
-  #copy-default.panel-default {    
-    height: 282px;
-  } 
-  #expense-title-default.panel-default {    
-    height: 900px;
-  }  
-  #upload-default.panel-default {    
-    height: 1000px;
-  }
-  .panel-heading{
-    width: 1900px; 
-    padding: 10px;  
-    text-align: left;
-    font-size: 2em;
-    height: 45px;
-    background-color: #fff;
-    vertical-align: bottom;
-  }
   .panel-body{
     padding: 0px;
     width: 1900px;
@@ -69,7 +165,6 @@
     width: 100%;
     vertical-align: center;
   }
-/* header */
 
 /* エラー時に良い感じに色をつけてくれる */
   .field_with_errors {
@@ -78,23 +173,26 @@
       color: $state-danger-text;
     }
   }
-/* エラー時に良い感じに色をつけてくれる */
 
 /* body */
+  body {
+    padding-top: 40px;
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 100%;
+    overflow: auto;
+  }  
   .container {
     margin-left: 0px;
     margin-right: 0px;
     width: 100%;
     overflow: auto;
   }
-  body {
-    padding-top: 40px;
-    margin-left: 0px;
-    margin-right: 0px;
-    width: 1900px;
-    height: 100%;
-    overflow: auto;
-  }  
+  .container-fluid {
+    padding: 5px;
+  }
+
+/* table */
   .table {
     margin-bottom: 0px;
     border-collapse: collapse;
@@ -106,6 +204,7 @@
   }
   .table-responsive{
     width: 1900px;    /*ポイント */
+    height: 100%;
     overflow: auto;
       .rakuten{
       width: 1900px;    /*ポイント */  
@@ -114,51 +213,57 @@
   thead {
     float: left;     /*ポイント*/
     overflow: hidden;  /*ポイント */
-  }
-  tbody {
-    float: left;     /*ポイント */
-    overflow: auto;  /*ポイント */
-    height: 675px;   /*ポイント */
-    width: 1900px;    /*ポイント */
-  }
-  tbody.accounts {
-    height: 740px;   /*ポイント */
-  }
-  tbody.entrypatterns {
-    height: 700px;   /*ポイント */
-  }
-  tbody.stocks {
-    height: 650px;   /*ポイント */
-  }
-  tbody.expenseledgers {
-    height: 600px;   /*ポイント */
-  }
-  tbody.rakutens {
-    height: 550px;   /*ポイント */
-  }
-  tbody.copy_body {
-    height: 450px;   /*ポイント */
-  }
-  tbody.subexpenses {
-    height: 270px;   /*ポイント */
-  }  
-  tbody.copy_head {
-    height: 160px;   /*ポイント */
-  }  
-  tbody.footer {
-    height: 37px;    /*ポイント */
-  }
-/* body */
+  
+  /* tbody */  
+    }
+    tbody {
+      float: left;     /*ポイント */
+      overflow: auto;  /*ポイント */
+      height: 675px;   /*ポイント */
+      width: 1900px;    /*ポイント */
+    }
+    tbody.entrypatterns {
+      height: 700px;   /*ポイント */
+    }
+    tbody.accounts {
+      height: 680px;   /*ポイント */
+    }
+    tbody.stocks {
+      height: 650px;   /*ポイント */
+    }
+    tbody.sales {
+      height: 615px;   /*ポイント */
+    }
+    tbody.expenseledgers {
+      height: 595px;   /*ポイント */
+    }
+    tbody.rakutens {
+      height: 550px;   /*ポイント */
+    }
+    tbody.copy_body {
+      height: 450px;   /*ポイント */
+    }
+    tbody.subexpenses {
+      height: 270px;   /*ポイント */
+    }  
+    tbody.copy_head {
+      height: 160px;   /*ポイント */
+    }  
+    tbody.footer {
+      height: 37px;    /*ポイント */
+    }
 
-/* searchで使用 */
+/* search */
   #exchange_search, #generalledger_search, #selfstorage_search, #stockledger_search, #stockreturn_search{
     display: inline-block;
+    padding-top: 5px; 
     padding-left: 5px;   
     width: 300px;
     height: 35px;
   }
-  #disposal_search, #multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #voucher_search, #yafuoku_search, #yahoo_shopping_search{
+  #disposal_search, #expenseledger_search, #multi_channel_search, #pladmin_search, #rakuten_search, #return_good_search, #sale_search, #stock_search, #stockaccept_search, #voucher_search, #yafuoku_search, #yahoo_shopping_search{
     display: inline-block;
+    padding-top: 5px; 
     padding-left: 5px;   
     width: 350px;
     height: 35px;
@@ -170,8 +275,9 @@
     width: 50px;
     height: 25px;
   }
-  #generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #return_good_search.date_form, #stockaccept_search.date_form, #stockreturn_search.date_form, #stock_search.date_form, #voucher_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
+  #expenseledger_search.date_form,#generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #return_good_search.date_form, #stockaccept_search.date_form, #stockreturn_search.date_form, #stock_search.date_form, #voucher_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
     display: inline-block;
+    padding-top: 5px; 
     padding-left: 5px;   
     width: 535px;
     height: 35px;
@@ -216,8 +322,8 @@
   .new_subexpense{
     height: 0px;    
   }
-/* searchで使用 */
 
+/* th */
 th{
   text-align: center;
 }
@@ -273,6 +379,7 @@ th{
       width: 507px; 
     }
 
+/* td */
 td{
   text-align: left;
 }
@@ -363,9 +470,9 @@ td{
     height: 15px;
     font-size: 10px;    
   }  
-/* bootstrap */
 
-/* financial_statementsで使用 */
+
+/* financial_statements */
   thead.financial {
     float: none;
   }
@@ -384,18 +491,15 @@ td{
   td.financial{
     text-align: right; 
   }
-  
-/* financial_statementsで使用 */
 
-/* currenciesで使用 */
+/* currencies */
   td select {
     text-align: left;
     width: 150px;
     height: 25px;
   }
-/* currenciesで使用 */
 
-/* subexpensesで使用 */
+/* subexpenses */
   #subexpense_item {
     text-align: left;
     width: 120px;
@@ -413,9 +517,8 @@ td{
     -ms-overflow-style: -ms-autohiding-scrollbar;
     height: 240px;
   }
-/* subexpensesで使用 */
 
-/* expense_titlesで使用 */
+/* expense_titles */
   .method_select {  
     text-align: left;
     overflow-y: auto;
@@ -424,7 +527,6 @@ td{
     width: 220px;
     height: 26px;
   }
-/* expense_titlesで使用 */
 
 /* accountsで使用 */
   td .account_select {  
@@ -432,7 +534,6 @@ td{
     width: 115px;
     height: 25px;
   }
-/* accountsで使用 */
 
 /* rakutensで使用 */
   #rakuten_kind_of_card {
@@ -445,7 +546,6 @@ td{
     width: 400px;
     height:35px;  
   }
-/* rakutensで使用 */
 
 /* usersで使用 */
   .new_user {
@@ -457,23 +557,53 @@ td{
     width: 400px;
     text-align: center;
   }
-  .user_form{
-    padding: 0px;  
-  }
-  .form-group.col-sm-8{
+  .form-group{
+    .col-sm-8{
     margin: 0px;
     padding: 10px;
+    }
+  }  
+  .col-sm-3{
+    margin: 0px; 
+    padding-top: 5px; 
+    padding-bottom: 5px;
+      p{
+      margin: 0px; 
+      padding-top: 5px; 
+      padding-bottom: 5px;
+      }
+  }
+  .control-label{
+    margin: 0px; 
+    padding-top: 5px; 
+    padding-bottom: 5px;
+  }
+  #user_start_date{
+    font-size: 12px;
   }
   .col-sm-4{
     margin: 0px;
     padding: 10px;
   }  
-/* usersで使用 */
 
 /* sessionsで使用 */
   form {
     padding-left: 50px;  
     width: 400px;
-    height:200px;
+    height: 200px;
   }
-/* sessionsで使用 */
+
+/* footerで使用 */
+footer {
+  border-top: 1px solid#e7e7e7;
+  background-color: #f8f8f8;
+  text-align: center;
+  height:45px;
+}
+
+.copyright {
+  padding: 20px;
+  font-size: 12px;
+  color: #666;
+  height:45px;
+}

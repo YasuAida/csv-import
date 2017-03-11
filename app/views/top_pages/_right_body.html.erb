@@ -1,0 +1,30 @@
+<div class="panel-group col-sm-4">
+  <div class="panel panel-default">
+    <div class="panel-heading" id=header>
+      その他の機能
+    </div>
+  </div>
+  <div class="panel panel-default three">
+    <div class="panel-heading" id=title>
+      （１）データ管理
+    </div>
+    <div class="panel-body">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "バックアップデータのダウンロード" , download_top_pages_path %></li>
+          <div class="explanation">
+            <p>バックアップ用のCSVファイルをダウンロードできます。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title">バックアップデータのアップロード</li>
+          <%= form_tag({ :controller => 'top_pages', :action => 'upload' }, {multipart: true, class: "long_form_tag"}) do %>
+            <%= file_field :upload, :datafile,  class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false, multiple: true %>
+            <%= submit_tag "upload", class: 'btn btn-default'%>
+          <% end %>
+          <div class="explanation">
+            <p>バックアップ用のCSVファイルをこちらからアップロードします。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>

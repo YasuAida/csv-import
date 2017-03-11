@@ -8,16 +8,18 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
-  
-    <nav class="navbar navbar-fixed-top" style="padding-top: 50px; margin: 0px; border: 0px;">
-      <%= yield :head %>
-    </nav>    
-    
-    <%= yield %>
+    <div class="container-fluid">
+      <header class="navbar navbar-fixed-top">    
+        <%= render 'layouts/header' %>
+        <%= render 'layouts/dropdown' %>
+      </header>
       
-    <%= yield :foot %>
-
+      <%= yield %>
+      
+    </div>  
   </body>
+  <footer>
+    <div class="copyright">© 2017 Aida Inc.</div>
+  </footer>
 </html>
 

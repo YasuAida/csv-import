@@ -1,2 +1,16 @@
-<h1>Settings#index</h1>
-<p>Find me in app/views/settings/index.html.erb</p>
+<div class="panel panel-default" id="box">
+  <div class="panel-heading" id="title">
+    CSV取込みフォーマット
+  </div>
+  <div class="panel-body">
+    <ul>
+      <li class="download"><%= link_to "為替レート", blank_form_currencies_path(format: "csv") %></li>
+      <li class="download"><%= link_to "経費台帳", blank_form_expenseledgers_path(format: "csv") %></li>
+      <li class="download"><%= link_to "損益管理シート", blank_form_pladmins_path(format: "csv") %></li>
+      <li class="download"><%= link_to "楽天損益管理シート", blank_form_rakutens_path(format: "csv") %></li>
+      <li class="download"><%= link_to "仕入台帳", blank_form_stocks_path(format: "csv") %></li>
+      <li class="download"><%= link_to "振替台帳", blank_form_vouchers_path(format: "csv") %></li>
+      <li class="download"><%= link_to "その他損益管理シート", blank_form_yafuokus_path(format: "csv") %></li>
+    </ul>
+  </div>
+</div>

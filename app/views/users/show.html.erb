@@ -1,72 +1,108 @@
-<% content_for :head do %> 
-  <div class="panel_container" style="padding-left: 100px; width: 700px">
-    <div class="panel panel-default" style="height: 500px">
-    	<div class="panel-heading">
-    	  会員登録情報
-    	</div>
-      <div class="panel-body user_form" >
-        <%= form_for(@user) do |f| %>
-          <%= render 'shared/error_messages', object: f.object %>
-          <div class="row" style="padding: 0px;">
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>名前:</p>
-              </div>
-              <div class="form-group col-sm-9" >
-                <%= f.text_field :name, class: 'form-control' %>
-              </div>
-            </div> 
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>ふりがな:</p>
-              </div>
-              <div class="form-group col-sm-9">
-                <%= f.text_field :furigana, class: 'form-control' %>
-              </div>
-            </div>              
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>郵便番号:</p>
-              </div>
-              <div class="form-group col-sm-9"> 
-                <%= f.text_field :postal_code, class: 'form-control' %>
-              </div>
+<div class="panel_container" style="padding-left: 100px; width: 700px">
+  <div class="panel panel-default">
+  	<div class="panel-heading">
+  	  会員登録情報
+  	</div>
+    <div class="panel-body" >
+      <%= form_for(@user) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <div class="row" style="padding: 0px; width: 500px;">
+          <div>　</div>
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>お名前:</p>
             </div>
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>住所:</p>
-              </div>
-              <div class="form-group col-sm-9"> 
-                <%= f.text_field :address, class: 'form-control' %>
-              </div>
+            <div class="form-group col-sm-9" >
+              <%= f.text_field :name, class: 'form-control' %>
             </div>
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>メールアドレス:</p>
-              </div>
-              <div class="form-group col-sm-9"> 
-                <%= f.email_field :email, class: 'form-control' %>
-              </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>ふりがな:</p>
             </div>
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>パスワード:</p>
-              </div>
-              <div class="form-group col-sm-9">  
-                <%= f.password_field :password, class: 'form-control' %>
-              </div>
+            <div class="form-group col-sm-9">
+              <%= f.text_field :furigana, class: 'form-control' %>
             </div>
-            <div style="display: inline;">
-              <div class="col-sm-3">  
-                <p>パスワード（確認）:</p>
-              </div>
-            <div class="form-group col-sm-9">  
-              <%= f.password_field :password_confirmation, class: 'form-control' %>
-            </div>      
-              <%= f.submit "更新", class: "btn btn-primary" %>
-          </div> 
-        <% end %>       
-      </div> 
-    </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>郵便番号:</p>
+            </div>
+            <div class="form-group col-sm-9"> 
+              <%= f.text_field :postal_code, class: 'form-control' %>
+            </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>ご住所:</p>
+            </div>
+            <div class="form-group col-sm-9"> 
+              <%= f.text_field :address, class: 'form-control' %>
+            </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>電話番号:</p>
+            </div>
+            <div class="form-group col-sm-9"> 
+              <%= f.text_field :telephone_number, class: 'form-control' %>
+            </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>メールアドレス:</p>
+            </div>
+            <div class="form-group col-sm-9"> 
+              <%= f.email_field :email, class: 'form-control' %>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputCompany" class="col-md-3 control-label">事業形態:</label>
+            <div class="col-md-9" style="padding-top: 5px; padding-bottom: 10px;">
+              <label><%= f.radio_button :entity, "individual", {:checked => true} %>個人事業主</label>
+              <label><%= f.radio_button :entity, "corporation" %>法人</label>
+            </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>開業日:</p>
+            </div>
+            <div class="form-group col-sm-9"> 
+              <%= f.date_field :start_date, class: 'form-control' %>
+            </div>
+          </div>
+          
+          <div style="display: inline;">
+            <div class="col-sm-3">  
+              <p>会計期末:</p>
+            </div>
+            <div class="form-group col-sm-2" style="display: inline;"> 
+              <%= f.text_field :closing_date, class: 'form-control' %>
+            </div>
+            <div class="col-sm-7" style="padding-left: 0px; padding-top: 10px; padding-bottom: 10px; margin-bottom: 12px; ">月</div>
+          </div>
+          
+          <div class="form-group" style="display: inline;">
+            <label for="inputCompany" class="col-md-3 control-label" >消費税経理方式:</label>
+            <div class="col-md-9" style="padding-top: 5px; padding-bottom: 5px;">
+              <label><%= f.radio_button :consumption_tax, "include", {:checked => true} %>免税事業者/課税事業者(税込経理方式)</label>
+              <label><%= f.radio_button :consumption_tax, "exclude" %>課税事業者(税抜経理方式)</label>
+            </div>
+          </div>
+          
+          <div style="text-align: center;">
+            <%= f.submit "更新", class: "btn btn-primary" %>
+          </div>
+          <div>　</div>
+        </div> 
+      <% end %>       
+    </div> 
   </div>
-<% end %>
+</div>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  closing_date: 2017-03-09
+  total_sales: 1
+  bank: MyString
+  money_receipt_date: 2017-03-09
+
+two:
+  closing_date: 2017-03-09
+  total_sales: 1
+  bank: MyString
+  money_receipt_date: 2017-03-09

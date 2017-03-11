@@ -1,23 +1,21 @@
-<% content_for :head do %> 
-  <div class="panel_container">
-    <div class="panel panel-default">
-    	<div class="panel-heading">
-    	  在庫台帳
-      </div>
-      <div class="panel-body">
-        <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
-          <%= f.label :sku_eq, "SKUで検索" %>
-          <%= f.search_field :sku_eq %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
-        <% end %>  
-        <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
-          <%= f.label :asin_cont, "ASINで検索" %>
-          <%= f.search_field :asin_cont %>
-          <%= f.submit "検索", class: 'btn btn-default'%>
-        <% end %>
-      </div> 
-    </div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  在庫台帳
   </div>
+  <div class="panel-body">
+    <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
+      <%= f.label :sku_eq, "SKUで検索" %>
+      <%= f.search_field :sku_eq %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>  
+    <%= search_form_for(@q, url: stock_list_stockledgers_path) do |f| %>
+      <%= f.label :asin_cont, "ASINで検索" %>
+      <%= f.search_field :asin_cont %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
+    <% end %>
+  </div> 
+</div>
+<div class="table-responsive">
   <table class="table table-bordered table-condensed">
     <thead>
       <tr>
@@ -31,7 +29,7 @@
         <th class="amount">金額</th>
       </tr>
     </thead>
-<% end %>
+
     <tbody class="account">
       <% @stocks.each do |stock| %>
         <tr>
@@ -51,7 +49,7 @@
         </tr>
       <% end %>
     </tbody>
-<% content_for :foot do %> 
+
     <tbody>
       <% total_number = 0 %>
       <% total_amount = 0 %>
@@ -71,4 +69,4 @@
         </tr>
     </tbody>
   </table>
-<% end %>
+</div>

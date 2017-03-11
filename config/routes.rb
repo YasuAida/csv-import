@@ -3,21 +3,11 @@ Rails.application.routes.draw do
   get 'sessions/new'
 
   root to: 'top_pages#index'
+  
   get    'signup', to: 'users#new'
   get    'login' , to: 'sessions#new'
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-
-  resources :users
-  
-  get 'top_pages/index'
-
-  resources :top_pages, only: [ :index] do
-    collection do
-      get 'download'
-      post 'upload'
-    end
-  end
 
   resources :administraters, only: [ :index] do
     collection do
@@ -29,40 +19,24 @@ Rails.application.routes.draw do
   get 'settings/index'
 
   resources :selfstorages, only: [ :index, :create, :update, :destroy]
-
   
-  resources :periods, only: [ :index, :create]
-
-  resources :financial_statements, only: [ :index] do
-    collection do
-      get 'bs'
-      get 'pl'
-    end
-  end
-
-  resources :generalledgers, only: [:index, :destroy] do
-    collection do
-      get 'show'
-    end    
-  end
-
-  resources :stockledgers, only: [:index] do
-    collection do
-      get 'show'      
-      get 'stock_list'
-    end
-  end
+  resources :accounts, only: [:index, :new, :create, :edit, :update]
+  get 'accounts/destroy'  
 
   resources :allocationcosts, only: [:index] do
     collection do
       get 'show'
     end    
   end
-  
-  resources :accounts, only: [:index, :new, :create, :edit, :update]
-  get 'accounts/destroy'
 
-  resources :currencies, only: [:index, :new, :create, :edit, :update]
+  resources :banks, only: [ :index, :create, :edit, :update]   
+  get 'banks/destroy'
+
+  resources :currencies, only: [:index, :new, :create, :edit, :update]do
+    collection do
+      get 'blank_form'   
+    end
+  end
   get 'currencies/destroy'
 
   resources :disposals, only: [ :index, :new, :create, :edit, :update]do
@@ -108,6 +82,17 @@ Rails.application.routes.draw do
   end
   get 'expenseledgers/destroy'
 
+  resources :financial_statements, only: [ :index] do
+    collection do
+      get 'bs'
+      get 'pl'
+    end
+  end
+
+  resources :generalledgers, only: [:index, :edit, :update] 
+  get 'generalledgers/show'
+  get 'generalledgers/destroy'
+
   resources :journalpatterns, only: [ :index, :new, :create, :edit, :update]do
     member do
       get 'copy'      
@@ -130,6 +115,8 @@ Rails.application.routes.draw do
     end
   end
   get 'multi_channels/destroy'
+
+  resources :periods, only: [ :index]
  
   resources :pladmins , only: [:index, :new, :create, :edit, :update] do
     member do
@@ -187,8 +174,7 @@ Rails.application.routes.draw do
     collection do
       post 'upload'
       get  'handling'
-      get  'pladmin'
-      get  'receipt'      
+      get  'pladmin'    
     end
   end
  
@@ -197,7 +183,14 @@ Rails.application.routes.draw do
       post 'upload'
     end
   end
- 
+
+  resources :stockledgers, only: [:index] do
+    collection do 
+      get 'stock_list'
+    end
+  end
+  get 'stockledgers/show'
+  
   resources :stockreturns , only: [ :index, :new, :create, :edit, :update] do
     member do
       get 'copy'      
@@ -212,12 +205,30 @@ Rails.application.routes.draw do
     collection do
       post 'upload'
       get 'sku'
+      get 'blank_form'
     end
   end
   get 'stocks/destroy'
 
   resources :subexpenses, only: [ :index, :new, :create, :edit, :update] 
   get 'subexpenses/destroy'
+
+  resources :summaries, only: [ :index, :update] 
+  get 'summaries/create'  
+  get 'summaries/destroy'
+
+  resources :top_pages, only: [ :index] do
+    collection do
+      get 'download'
+      post 'upload'
+    end
+  end
+
+  resources :users, only: [ :index, :show, :new, :create, :update] do
+    collection do
+      get 'period'
+    end
+  end
   
   resources :vouchers, only: [ :index, :new, :create, :edit, :update]do
     member do

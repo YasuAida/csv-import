@@ -1,0 +1,52 @@
+    <tbody class="stocks">
+      <% @generalledgers = current_user.generalledgers.where(id: (@generalledger.id..(@generalledger.id + 25))) %>
+      <% @generalledgers.each do |generalledger| %>
+        <!--Ajax用に固有のidを設定-->
+        <tr id="generalledger-<%= generalledger.id %>">
+          <%= form_for(generalledger, url: generalledger_path(generalledger.id), remote: true) do |f| %>
+              <td class="update" id="check-<%= generalledger.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            
+            <% if generalledger.pladmin_id.present? %>
+              <td class="account">損益管理シート</td>
+            <% elsif generalledger.stock_id.present? %>
+              <td class="account">仕入台帳</td>
+            <% elsif generalledger.stockreturn_id.present? %>
+              <td class="account">仕入返品台帳</td>
+            <% elsif generalledger.return_good_id.present? %>
+              <td class="account">返還商品台帳</td>
+            <% elsif generalledger.disposal_id.present? %>
+              <td class="account">廃棄商品台帳</td>
+            <% elsif generalledger.expenseledger_id.present? %>
+              <td class="account">経費台帳</td>
+            <% elsif generalledger.voucher_id.present? %>
+              <td class="account">振替台帳</td>
+            <% elsif generalledger.subexpense_id.present? %>
+              <td class="account">付随費用台帳</td>
+            <% elsif generalledger.expense_relation_id.present? %>
+              <td class="account">単価計算表</td>          
+            <% end %>
+            
+            <td class="account"><%= generalledger.date %></td>
+            <td class="account"><%= generalledger.debit_account %></td>
+            <td class="large"><%= generalledger.debit_subaccount %></td>              
+            <td class="middle"><%= generalledger.debit_taxcode %></td>              
+            <td class="account"><%= generalledger.credit_account %></td>              
+            <td class="large"><%= generalledger.credit_subaccount %></td>              
+            <td class="middle"><%= generalledger.credit_taxcode %></td>
+            <td class="amount"><%= addcomma(generalledger.amount.to_i) %></td>              
+            <td class="content"><%= generalledger.content %></td>
+            <td class="company"><%= generalledger.trade_company %></td>
+            <td class="update" id="submit-<%= generalledger.id %>"><%= link_to "修正", edit_generalledger_path(generalledger), class: 'btn btn-default btn-xs'%></td>
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= generalledger.id %>").change(function(e){
+                $('#edit_generalledger_<%= generalledger.id %>').submit();
+              });
+            </script>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

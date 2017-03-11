@@ -1,0 +1,204 @@
+<div class="panel-group col-sm-4">
+  <div class="panel panel-default">
+    <div class="panel-heading" id=header>
+      データ入力作業一覧
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （１）必要な登録を済ませましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "付随費用" , expense_shows_path %>の登録</li>
+          <div class="explanation">
+            <p>商品を仕入れる際に、送料や関税等を支払う場合には、これらの費用を商品価格に按分する基準を設定します。登録の方法はこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "通貨" , currencies_path %>の登録</li>
+          <div class="explanation">
+            <p>商品を輸入する時など外国の通貨で代金を支払う場合には、通貨の登録が必要になります。登録の方法はこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "勘定科目" , accounts_path %>の登録</li>
+          <div class="explanation">
+            <p>サービス開始時に主な勘定科目の登録は済ませておりますが、他に必要な勘定科目がある場合には勘定科目を追加する必要があります。追加の方法はこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "銀行口座" , banks_path %>の登録</li>
+          <div class="explanation">
+            <p>このシステムでは普通預金は銀行口座ごとに管理しており、銀行口座の登録が必要になります。登録の方法はこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （２）Amazonデータの取込みを行いましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "トランザクションの概要" , sales_path %>の取込み</li>
+          <div class="explanation">
+            <p>Amazon管理画面からトランザクションデータをダウンロードいただき、このデータを当システムに取り込んでいただきます。取込方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "入金額確認レポート" , summaries_path %>の作成</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりましたら、正しく取込みが行われているかを入金額確認レポートを使って確認していただきます。このレポートの詳細については
+            こちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "損益管理シート/パターン登録" , entrypatterns_path %>の確認</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , stocks_path %>の取込みが終わりましたら、<%= link_to "損益管理シート/パターン登録" , entrypatterns_path %>に登録の漏れがないか確認していただきます。
+            このレポートの詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title">トランザクションの概要に<%= link_to "処理データの付与" , handling_sales_path %></li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , stocks_path %>の「処理」欄に、<%= link_to "損益管理シート/パターン登録" , entrypatterns_path %>に基づいて、トランザクションの概要の一件一件を管理帳票上で
+            どのように扱うかデータを付与します。詳細についてはこちらをご参照ください。</P>
+          </div>  
+        <li class="title"><%= link_to "出品レポート" , listingreports_path %>の取込み</li>
+          <div class="explanation">
+            <p>Amazon管理画面から出品レポートをダウンロードいただき、このデータを当システムに取り込んでいただきます。取込方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "在庫受領レポート" , stockaccepts_path %>の取込み</li>
+          <div class="explanation">
+            <p>Amazon管理画面から在庫受領レポートをダウンロードいただき、このデータを当システムに取り込んでいただきます。入力の前に<%= link_to "出品レポート" , listingreports_path %>の取込みを済ませて
+            いただく必要があります。取込方法についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （３）仕入データの入力を行いましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "為替レート" , exchanges_path %>の作成</li>
+          <div class="explanation">
+            <p>外国通貨で決済を行っている場合はまず為替レートの入力が必要になります。ＣＳＶファイルによる取込みもできます。入力、取込みの方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "仕入台帳" , stocks_path %>の作成</li>
+          <div class="explanation">
+            <p>商品の仕入データを入力していただきます。ＣＳＶファイルによる取込みもできます。入力、取込みの方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "仕入台帳にSKUデータを付与" , sku_stocks_path %>の登録</li>
+          <div class="explanation">
+            <p>仕入台帳にSKUデータの入力が無い場合、<%= link_to "出品レポート" , listingreports_path %>と<%= link_to "在庫受領レポート" , stockaccepts_path %>の内容を基にSKUを推測して入力を行います。
+            詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "付随費用台帳" , subexpenses_path %>の作成</li>
+          <div class="explanation">
+            <p>付随費用のデータを入力していただきます。入力の方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "単価計算表" , stockreturns_path %>の作成</li>
+          <div class="explanation">
+            <p>商品購入額に各付随費用を加算した商品単価を計算を計算します。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "仕入返品台帳" , stockreturns_path %>の登録</li>
+          <div class="explanation">
+            <p>仕入れた商品を返品した時に入力していただく台帳になります。入力の方法についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （４）在庫データの入力を行いましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "FBAからの返還商品台帳" , return_goods_path %>の作成</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、FBA倉庫から手元に戻した商品の一覧が作成されます。しかしデータを取り込んだだけでは在庫管理に必要なSKU情報がないため、
+            管理画面をチェックしながらSKU情報を入力していただきます。チェック及び入力の方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "廃棄商品台帳" , disposals_path %>の登録</li>
+          <div class="explanation">
+            <p>商品を廃棄した場合に入力していただく台帳になります。入力の方法についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "マルチチャンネルＳＫＵ登録" , multi_channels_path %>の登録</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、Amazonのマルチチャンネルサービスを使って発送した商品の一覧が作成されます。しかしデータを取り込んだだけでは在庫管理に
+            必要なSKU情報がないため、管理画面をチェックしながらSKU情報を入力していただきます。チェック及び入力の方法についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （５）管理帳票の作成
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "損益管理シートの作成" , pladmin_sales_path %></li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>のデータを使って、<%= link_to "損益管理シート" , pladmins_path %>の売上高と手数料を計算します。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "商品有高帳" , stockledgers_path %>の作成</li>
+          <div class="explanation">
+            <p>在庫の販売状況や保有状況が分かる商品有高帳の作成、及び<%= link_to "損益管理シート" , pladmins_path %>に原価データを付与します。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （６）経費／振替データの入力を行いましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "経費台帳" , expenseledgers_path %>の作成</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、Amazonから請求される経費については入力が終わっていますが、その他の経費については入力が必要です。入力の方法については
+            こちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "振替台帳" , vouchers_path %>の登録</li>
+          <div class="explanation">
+            <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、Amazon関連の振替データについては入力が終わっていますが、その他の振替データについては入力が必要です。入力の方法に
+            ついてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default one">
+    <div class="panel-heading" id=title>
+      （７）財務諸表の作成を行いましょう
+    </div>
+    <div class="panel-body" id="one">
+      <ol>
+        <div class="space">　</div>
+        <li class="title"><%= link_to "仕訳帳" , generalledgers_path %>の作成</li>
+          <div class="explanation">
+            <p>経費／振替データまで入力が終わりましたら、財務諸表の基になる仕訳帳の作成を行います。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <li class="title"><%= link_to "財務諸表" , financial_statements_path %>の作成</li>
+          <div class="explanation">
+            <p>仕訳帳の作成が終わりましたら、仕訳帳の内容を基に財務諸表（貸借対照表と損益計算書）を作成します。詳細についてはこちらをご参照ください。</P>
+          </div>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+  <script>
+    $(function(){
+      $("#one.panel-body:not(:first)").css("display","none");
+      $("#title.panel-heading").click(function(){
+        if($("+#one.panel-body",this).css("display")=="none"){
+          $("#one.panel-body").slideUp("fast");
+          $("+#one.panel-body",this).slideDown("fast");
+        }
+      });
+    });
+  </script>
+</div>

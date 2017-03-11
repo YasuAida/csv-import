@@ -73,6 +73,10 @@ class StocksController < ApplicationController
     end  
   end
   
+  def blank_form
+    render "index"
+  end
+  
   def upload    
     data = params[:upload]
     #ファイルの登録

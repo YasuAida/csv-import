@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   
   has_many :accounts, dependent: :destroy
   has_many :allocationcosts, dependent: :destroy
+  has_many :banks, dependent: :destroy
   has_many :currencies, dependent: :destroy
   has_many :disposals, dependent: :destroy
   has_many :dummy_stocks, dependent: :destroy  
@@ -38,6 +39,7 @@ class User < ActiveRecord::Base
   has_many :stockledgers, dependent: :destroy
   has_many :stockreturns, dependent: :destroy
   has_many :subexpenses, dependent: :destroy
+  has_many :summaries, dependent: :destroy
   has_many :vouchers, dependent: :destroy
   has_many :yafuokus, dependent: :destroy    
   has_many :yahoo_shoppings, dependent: :destroy  

@@ -6,7 +6,6 @@ class CurrenciesController < ApplicationController
     @q = current_user.currencies.search(params[:q])
     @currencies = @q.result(distinct: true).page(params[:page])
     @currency = current_user.currencies.build
-    @upload_currencies = current_user.currencies.where.not(name: "円")
   end
   
   def new
@@ -32,6 +31,11 @@ class CurrenciesController < ApplicationController
     else
       redirect_to currencies_path, notice: "データの編集に失敗しました"
     end
+  end
+  
+  def blank_form
+    @upload_currencies = current_user.currencies.where.not(name: "円")
+    render "index"
   end
   
   def destroy

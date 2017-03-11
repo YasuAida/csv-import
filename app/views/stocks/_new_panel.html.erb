@@ -36,11 +36,5 @@
         </tbody>
       <% end %>
     </table>
-    <br>
-    <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
-      <label>CSVファイルの取込みはこちらから：</label>
-      <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>
-      <%= submit_tag "UPLOAD", class: 'btn btn-default' %>
-    <% end %>
   </div>
 </div>

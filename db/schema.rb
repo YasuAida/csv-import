@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306001700) do
+ActiveRecord::Schema.define(version: 20170309080039) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 20170306001700) do
 
   add_index "allocationcosts", ["stock_id"], name: "index_allocationcosts_on_stock_id"
   add_index "allocationcosts", ["user_id"], name: "index_allocationcosts_on_user_id"
+
+  create_table "banks", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "destroy_check", default: false, null: false
+  end
+
+  add_index "banks", ["user_id"], name: "index_banks_on_user_id"
 
   create_table "currencies", force: :cascade do |t|
     t.integer  "user_id"
@@ -191,9 +201,10 @@ ActiveRecord::Schema.define(version: 20170306001700) do
     t.string   "credit_taxcode"
     t.string   "content"
     t.string   "trade_company"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "amount"
+    t.boolean  "destroy_check",       default: false, null: false
   end
 
   add_index "generalledgers", ["disposal_id"], name: "index_generalledgers_on_disposal_id"
@@ -546,6 +557,19 @@ ActiveRecord::Schema.define(version: 20170306001700) do
 
   add_index "subexpenses", ["user_id"], name: "index_subexpenses_on_user_id"
 
+  create_table "summaries", force: :cascade do |t|
+    t.integer  "user_id"
+    t.date     "closing_date"
+    t.integer  "total_sales"
+    t.string   "bank"
+    t.date     "money_receipt_date"
+    t.boolean  "destroy_check",      default: false, null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "summaries", ["user_id"], name: "index_summaries_on_user_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "postal_code"
@@ -553,9 +577,13 @@ ActiveRecord::Schema.define(version: 20170306001700) do
     t.string   "telephone_number"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "furigana"
+    t.string   "consumption_tax"
+    t.string   "entity"
+    t.date     "start_date"
+    t.integer  "closing_date",     default: 12
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -4,12 +4,12 @@ class EntrypatternsController < ApplicationController
   
   def index
     @q = current_user.entrypatterns.search(params[:q])
-    @entrypatterns = @q.result(distinct: true).page(params[:page]).per(150)
+    @entrypatterns = @q.result(distinct: true).page(params[:page])
   end
 
   def new
     @q = current_user.entrypatterns.search(params[:q])
-    @entrypatterns = @q.result(distinct: true).page(params[:page]).per(150)
+    @entrypatterns = @q.result(distinct: true).page(params[:page])
     @entrypattern = current_user.entrypatterns.build  
   end
   
@@ -21,7 +21,7 @@ class EntrypatternsController < ApplicationController
 
   def edit
     @q = current_user.entrypatterns.search(params[:q])
-    @entrypatterns = @q.result(distinct: true).page(params[:page]).per(150)  
+    @entrypatterns = @q.result(distinct: true).page(params[:page]) 
     @entrypattern = @update_entrypattern
   end
   
