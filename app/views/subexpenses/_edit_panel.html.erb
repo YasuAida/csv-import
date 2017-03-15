@@ -1,8 +1,8 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 	  仕入台帳(修正画面)
-	  <%= link_to "一覧画面へ", subexpenses_path, class: 'btn btn-default btn-sm'%>
-	  <%= link_to "新規登録画面へ", new_subexpense_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", subexpenses_path, class: 'btn btn-default btn-xs'%>
+	  <%= link_to "新規登録画面へ", new_subexpense_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <%= form_tag("/subexpenses/" + @subexpense.id.to_s + "/edit", class: "form_tag", method: "get") do %>

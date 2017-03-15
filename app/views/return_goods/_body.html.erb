@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="return_goods">
       <% @return_goods.each do |return_good| %>
         <!--Ajax用に固有のidを設定-->
         <tr id="return_good-<%= return_good.id %>">
@@ -11,7 +11,7 @@
             <td class="large"><%= return_good.old_sku %></td>
             <td class="large"><%= return_good.new_sku %></td>
           <% stockaccept_name = current_user.stockaccepts.find_by(sku: return_good.old_sku) %>
-            <td class="content"><%= stockaccept_name.goods_name if stockaccept_name.present?%></td>          
+            <td class="content"><%= stockaccept_name.goods_name if stockaccept_name.present? %></td>          
             <td class="rate"><%= return_good.number %></td>
             <td class="update" id="submit-<%= return_good.id %>"><%= link_to "修正", edit_return_good_path(return_good), class: 'btn btn-default btn-xs'%></td>
               

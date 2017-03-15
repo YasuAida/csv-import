@@ -23,7 +23,6 @@
           <div class="explanation">
             <p><%= link_to "単価計算表" , allocationcosts_path %>は、商品の購入価額に、商品を仕入れるのに必要な送料、手数料、関税等の付随費用を足した単価が分かる帳票です。詳細についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -46,7 +45,6 @@
           <div class="explanation">
             <p>Amazonやヤフーショッピング以外で売った商品を管理するシートです。詳細についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -69,7 +67,6 @@
           <div class="explanation">
             <p>仕訳帳とは、損益計算書や貸借対照表の基になるもので、一つの取引を二つの要素に分けて記録したものを集めたものです。詳細についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -92,13 +89,12 @@
           <div class="explanation">
             <p>Amazonが受領した商品の一覧です。在庫の履歴を追うのにとても役に立ちます。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
   <script>
     $(function(){
-      $("#two.panel-body:not(:first)").css("display","none");
+      $("#two.panel-body:not(:last)").css("display","none");
       $("#title.panel-heading").click(function(){
         if($("+#two.panel-body",this).css("display")=="none"){
           $("#two.panel-body").slideUp("fast");

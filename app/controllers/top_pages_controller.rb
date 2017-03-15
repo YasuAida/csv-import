@@ -130,5 +130,8 @@ class TopPagesController < ApplicationController
 
     redirect_to top_pages_path
   end
-  
+
+  def help
+    
+  end
 end

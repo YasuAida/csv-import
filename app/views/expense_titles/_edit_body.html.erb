@@ -1,6 +1,6 @@
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-condensed">  
-    <tbody class="stocks">
+    <tbody class="edit_entrypatterns">
       <% @expense_titles = current_user.expense_titles.where(id: (@expense_title.id..(@expense_title.id + 25))) %>
       <% @expense_titles.each do |expense_title| %>
         <!--Ajax用に固有のidを設定-->

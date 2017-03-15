@@ -2,7 +2,7 @@
 <nav>
   <ul class="nav navbar-nav navbar-right">
     <li><%= link_to "Home", root_path %></li>
-    <li><%= link_to "ヘルプ", '#' %></li>
+    <li><%= link_to "ヘルプ", help_top_pages_path %></li>
     <% if logged_in? %>
       <li><%= link_to "お客様情報", user_path(current_user) %></li>
       <li><%= link_to "ログアウト", logout_path, method: "delete" %></li>

@@ -1,4 +1,4 @@
-    <tbody class="copy_body">
+    <tbody class="copy_stocks">
       <% @vouchers = current_user.vouchers.where(id: ((@update_voucher.id - 15)..@update_voucher.id)) %>
       <% @vouchers.each do |voucher|  %>
         <!--Ajax用に固有のidを設定-->      

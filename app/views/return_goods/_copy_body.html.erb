@@ -1,4 +1,4 @@
-    <tbody class="rakutens">
+    <tbody class="copy_multi_channels">
       <% @return_goods = current_user.return_goods.where(id: ((@update_return_good.id - 15)..@update_return_good.id)) %>
       <% @return_goods.each do |return_good| %>
         <tr id="return_good-<%= return_good.id %>">

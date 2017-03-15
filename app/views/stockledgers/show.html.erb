@@ -1,3 +1,4 @@
+<%= render 'layouts/dropdown' %>
 <div class="panel panel-default">
 	<div class="panel-heading">
 	  商品有高帳
@@ -30,7 +31,7 @@
         <th class="amount">金額</th>
       </tr>
     </thead>
-    <tbody class="stocks">
+    <tbody class="stockledgers">
       <% @stockledgers.each do |stockledger| %>
       <tr>
         <td class="middle"><%= stockledger.stock_id %></td>            

@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_listingreports">
       <% @listingreports = current_user.listingreports.where(id: (@listingreport.id..(@listingreport.id + 25))) %>
       <% @listingreports.each do |listingreport| %>
         <!--Ajax用に固有のidを設定-->
@@ -7,7 +7,7 @@
           <td class="asin"><%= listingreport.asin %></td>
           <td class="amount"><%= addcomma(listingreport.price.to_i) %></td>
           <td class="rate"><%= listingreport.quantity %></td>
-          <td class="update" id="submit-<%= listingreport.id %>"><%= link_to "修正", edit_listingreport_path(listingreport), class: 'btn btn-default btn-sm'%></td>
+          <td class="update" id="submit-<%= listingreport.id %>"><%= link_to "修正", edit_listingreport_path(listingreport), class: 'btn btn-default btn-xs'%></td>
         </tr>
       <% end %>
     </tbody>

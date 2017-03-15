@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="vouchers">
       <% @vouchers.each do |voucher|  %>
         <!--Ajax用に固有のidを設定-->      
         <tr id="voucher-<%= voucher.id %>">
@@ -15,7 +15,7 @@
             <td class="amount"><%= addcomma(voucher.amount.to_i) %></td>
             <td class="content" style="white-space:nowrap;"><%= voucher.content %></td>
             <td class="company"><%= voucher.trade_company %></td>        
-            <td class="update" id="submit-<%= voucher.id %>"><%= link_to "修正", edit_voucher_path(voucher), class: 'btn btn-default btn-sm'%></td>
+            <td class="update" id="submit-<%= voucher.id %>"><%= link_to "修正", edit_voucher_path(voucher), class: 'btn btn-default btn-xs'%></td>
             
             <!--チェックボックス更新用JQuery-->
             <script>

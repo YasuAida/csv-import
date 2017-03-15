@@ -1,4 +1,4 @@
-    <tbody class="copy_body">
+    <tbody class="new_subexpenses">
       <% @subexpenses = current_user.subexpenses.where(id: (@subexpense.id..(@subexpense.id + 25))) %>
       <% @subexpenses.each do |subexpense| %>
         <!--Ajax用に固有のidを設定-->

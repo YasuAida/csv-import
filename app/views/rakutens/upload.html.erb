@@ -1,10 +1,11 @@
-<div class="panel panel-default" id='upload-default'>
+<%= render 'layouts/dropdown' %>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  楽天損益管理シート(データアップロード画面)
-      <%= link_to "楽天入金管理シートへ" , nyukin_rakutens_path, class: 'btn btn-default btn-sm'%>
-	  <%= link_to "一覧画面へ", rakutens_path, class: 'btn btn-default btn-sm'%>
+      <%= link_to "楽天入金管理シートへ" , nyukin_rakutens_path, class: 'btn btn-default btn-xs'%>
+	  <%= link_to "一覧画面へ", rakutens_path, class: 'btn btn-default btn-xs'%>
 	</div>
-  <div class="panel-body">
+  <div class="panel-body" style="height: 790px;">
     <h4>過去データの取込み:</h4>
     <div style="display: inline-block">   
       <%= form_tag({action: 'past_data_upload'}, {multipart: true, class: "form_tag"}) do %>

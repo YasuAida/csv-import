@@ -1,3 +1,4 @@
+<%= render 'layouts/dropdown' %>
 <div class="panel panel-default">
 	<div class="panel-heading">
     単価計算表
@@ -6,17 +7,17 @@
     <%= search_form_for(@q, url: allocationcosts_path) do |f| %>
       <%= f.label :sku_eq, "SKUで検索" %>
       <%= f.search_field :sku_eq %>
-      <%= f.submit "検索", class: 'btn btn-default' %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
     <% end %>
     <%= search_form_for(@q, url: allocationcosts_path) do |f| %>
       <%= f.label :asin_cont, "ASINで検索" %>
       <%= f.search_field :asin_cont %>
-      <%= f.submit "検索", class: 'btn btn-default' %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
     <% end %>
     <%= search_form_for(@q, url: allocationcosts_path) do |f| %>
       <%= f.label :goods_name_cont, "商品名で検索" %>
       <%= f.search_field :goods_name_cont %>
-      <%= f.submit "検索", class: 'btn btn-default' %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
     <% end %>
   </div> 
 </div>

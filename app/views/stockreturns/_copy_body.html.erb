@@ -1,4 +1,4 @@
-    <tbody class="rakutens">
+    <tbody class="copy_stockreturns">
       <% @stockreturns = current_user.stockreturns.where(id: ((@update_stockreturn.id - 15)..@update_stockreturn.id)) %>
       <% @stockreturns.each do |stockreturn| %>
         <tr id="stockreturn-<%= stockreturn.id %>">

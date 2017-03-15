@@ -1,4 +1,4 @@
-    <tbody class="rakutens">
+    <tbody class="copy_pladmins">
       <% @pladmins = current_user.pladmins.where(id: ((@update_pladmin.id - 15)..@update_pladmin.id)) %>
       <% @pladmins.each do |pladmin| %>
         <!--Ajax用に固有のidを設定-->

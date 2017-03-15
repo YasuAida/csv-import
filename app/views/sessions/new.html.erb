@@ -1,11 +1,11 @@
 <div class="panel_container" style="padding-left: 100px; width: 500px;">
   <div class="panel panel-default" style="margin-top: 30px; height: 250px; width: 500px;">
-  	<div class="panel-heading" style="width: 500px;">
+  	<div class="panel-heading" id="title">
   	  ログイン
   	</div>
-    <div class="panel-body" >
+    <div class="panel-body" style="padding-top: 10px;" >
       <%= form_for(:session, url: login_path) do |f| %>
-  
+        
         <%= f.label :email %>
         <%= f.email_field :email, class: 'form-control' %>
   
@@ -17,10 +17,10 @@
     </div>
   </div>
   <div class="panel panel-default" style="height: 250px; width: 500px;">
-  	<div class="panel-heading" style="width: 500px;" >
+  	<div class="panel-heading" id="title">
   	  新規会員登録
   	</div>
-    <div class="panel-body" style="padding-top: 20px; padding-left: 50px; width: 500px;" >      
+    <div class="panel-body" style="padding-top: 20px; padding-left: 50px;" >      
       <p>会員登録をお済でない場合は、まずは会員登録をお願いします</p>
       <%= link_to "新規登録", signup_path, class: "btn btn-primary"%>
     </div>

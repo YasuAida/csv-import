@@ -1,7 +1,8 @@
-<div class="panel panel-default" id="expense-title-default">
+<%= render 'layouts/dropdown' %>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  付随費用登録(修正画面)
-	  <%= link_to "一覧画面へ", expense_titles_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", expense_titles_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <table class="table table-striped table-bordered table-condensed">
@@ -12,7 +13,7 @@
           <th class="update"></th>      
         </tr>      
       </thead>
-      <tbody class="stocks">
+      <tbody class="expense_shows">
         <% @expense_titles = current_user.expense_titles.where(id: (@expense_title.id..(@expense_title.id + 25))) %>              
         <% @expense_titles.each do |expense_title| %>
           <!--Ajax用に固有のidを設定-->

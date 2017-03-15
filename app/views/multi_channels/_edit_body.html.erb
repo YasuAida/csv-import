@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_multi_channels">
       <% @multi_channels = current_user.multi_channels.where(id: (@multi_channel.id..(@multi_channel.id + 25))) %>
       <% @multi_channels.each do |multi_channel| %>
         <!--Ajax用に固有のidを設定-->

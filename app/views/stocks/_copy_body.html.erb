@@ -1,4 +1,4 @@
-    <tbody class="rakutens">
+    <tbody class="copy_stocks">
       <% @stocks = current_user.stocks.where(id: ((@update_stock.id - 15)..@update_stock.id)) %>
       <% @stocks.order(id: :desc).each do |stock| %>
         <!--Ajax用に固有のidを設定-->
@@ -29,7 +29,7 @@
             <td class="account"><%= stock.money_paid%></td>
             <td class="account"><%= stock.purchase_from%></td>             
             <td class="account"><%= stock.currency%></td>
-            <td class="update" id="submit-<%= stock.id %>"><%= link_to "修正", edit_stock_path(stock), class: 'btn btn-default btn-sm'%></td>
+            <td class="update" id="submit-<%= stock.id %>"><%= link_to "修正", edit_stock_path(stock), class: 'btn btn-default btn-xs'%></td>
             <!--チェックボックス更新用JQuery-->
             <script>
               $("#check-<%= stock.id %>").change(function(e){

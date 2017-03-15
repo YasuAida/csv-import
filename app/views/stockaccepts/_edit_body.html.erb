@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_sales">
       <% @stockaccepts = current_user.stockaccepts.where(id: (@stockaccept.id..(@stockaccept.id + 25))) %>
       <% @stockaccepts.each do |stockaccept| %>
         <!--Ajax用に固有のidを設定-->

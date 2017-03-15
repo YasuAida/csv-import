@@ -1,7 +1,7 @@
-<div class="panel panel-default" id='rakuten-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  楽天設定シート(新規登録画面)
-	  <%= link_to "一覧画面へ", rakuten_settings_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", rakuten_settings_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <table class="table table-striped table-bordered table-condensed">
@@ -9,7 +9,7 @@
         <tr>
           <th class="large">設定期間<br>開始日</th>          
           <th class="large">設定期間<br>終了日</th>            
-          <th class="large">売上金額</th>      
+          <th class="rank">売上金額</th>      
           <th class="amount">ＰＣ料率</th>
           <th class="amount">モバイル料率</th>          
           <th class="update">更新</th>
@@ -20,7 +20,7 @@
           <tr>
             <td class="large"><%= f.text_field :start_date, :size => 7 %>から</td>
             <td class="large"><%= f.text_field :end_date, :size => 7, :placeholder => '未定は空欄' %>まで</td>       
-            <td class="large"><%= f.text_field :end_sales, :size => 8, :placeholder => '最後は空欄', :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %>まで</td>
+            <td class="rank"><%= f.text_field :end_sales, :size => 8, :placeholder => '最後は空欄', :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %>まで</td>
             <td class="amount"><%= f.text_field :pc_rate, :size => 6, :style=>"text-align:right" %>％</td>
             <td class="amount"><%= f.text_field :mobile_rate, :size => 6, :style=>"text-align:right" %>％</td> 
             <td class="update" id="submit-<%= @rakuten_setting.id %>"><%= f.submit "登録", class: 'btn btn-default btn-xs'%></td>

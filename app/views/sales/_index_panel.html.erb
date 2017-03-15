@@ -1,4 +1,4 @@
-<div class="panel panel-default" id="edit-default">
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  トランザクションの概要(一覧画面)
 	</div>
@@ -27,12 +27,6 @@
       <%= f.label :money_receive_eq, "締め日で検索" %>
       <%= f.search_field :money_receive_eq %>
       <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
-    <% end %> 
-    <br>
-    <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag_rakuten"}) do %>
-      <label>CSVデータの取込み:</label>
-      <%= file_field :upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false}%>
-      <%= submit_tag "UPLOAD", class: 'btn btn-default btn-sm'%>
-    <% end %>     
+    <% end %>      
   </div>
 </div>

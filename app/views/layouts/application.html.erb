@@ -8,14 +8,11 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div class="container-fluid">
-      <header class="navbar navbar-fixed-top">    
-        <%= render 'layouts/header' %>
-        <%= render 'layouts/dropdown' %>
-      </header>
-      
-      <%= yield %>
-      
+    <header class="navbar navbar-fixed-top">    
+      <%= render 'layouts/header' %>
+    </header>
+    <div class="container-fluid">      
+      <%= yield %>    
     </div>  
   </body>
   <footer>

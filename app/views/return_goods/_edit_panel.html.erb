@@ -1,8 +1,8 @@
-<div class="panel panel-default" id='edit-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  FBAからの返還商品台帳(修正画面)
-	  <%= link_to "一覧画面へ", return_goods_path, class: 'btn btn-default btn-sm'%>
-	  <%= link_to "新規登録画面へ", new_return_good_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", return_goods_path, class: 'btn btn-default btn-xs'%>
+	  <%= link_to "新規登録画面へ", new_return_good_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body" id='new-body'>
     <table class="table table-striped table-bordered table-condensed">
@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <%= form_for(@return_good, url: return_good_path(@return_good)) do |f|  %>
-        <tbody class="footer">
+        <tbody>
           <td class="number"><%= f.text_field :sale_id, :size => "4", :style=>"text-align:right" %></td>               
           <td class="number"><%= f.text_field :stock_id, :size => "4", :style=>"text-align:right" %></td>            
           <td class="account"><%= f.text_field :date, :size => "8"%></td>     

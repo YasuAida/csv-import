@@ -1,4 +1,4 @@
-    <tbody class="rakutens">
+    <tbody class="copy_multi_channels">
       <% @multi_channels = current_user.multi_channels.where(id: ((@update_multi_channel.id - 15)..@update_multi_channel.id)) %>
       <% @multi_channels.order(id: :desc).each do |multi_channel| %>
         <!--Ajax用に固有のidを設定-->

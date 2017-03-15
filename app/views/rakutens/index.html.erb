@@ -1,10 +1,4 @@
+<%= render 'layouts/dropdown' %>
 <%= render "index_panel" %>
 <%= render "header" %>
 <%= render "body" %>
-
-<div style="display: inline-block;">
-  <label>　過去データ入力フォーマットはこちらからダウンロードしてください:</label>
-  <%= link_to "フォーマット出力", blank_form_rakutens_path(format: "csv"), class: "btn btn-primary btn-sm" %>
-  <label>　過去ポイントデータ入力フォーマットはこちらからダウンロードしてください:</label>
-  <%= link_to "フォーマット出力", blank_form_rakutens_path(format: "csv"), class: "btn btn-primary btn-sm" %>
-</div>

@@ -16,10 +16,6 @@
     padding-left: 5px;
     font-weight: bold;
   }
-  #logo:hover {
-    color: #fff;
-    text-decoration: none;
-  }
 
 /* nav */
   .dropdown-menu {
@@ -29,17 +25,30 @@
     }  
   .download {  
     a{
-    font-size: 14px;
-    text-decoration: underline;
-    font-weight: normal;
+    font-size: 14px; text-decoration: underline; font-weight: normal;
       }
     }
   .navbar {
-    min-height: 40px;
+    min-height: 35px; margin: 0px
   }
   .navbar-nav > li > a {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 5px; padding-bottom: 5px;
+  }
+
+/* body */
+  body {
+    margin-left: 0px; margin-right: 0px;
+    height: 100%;
+    overflow: auto;
+  } 
+  .container-fluid {
+    margin-top: 40px; padding: 0px; height: 100%;
+  }
+  .container {
+    margin: 0px;
+    width: 100%;
+    padding-left: 5px;
+    overflow: auto;
   }
 
 /* li */
@@ -52,11 +61,20 @@
     }  
   }
   .explanation{
-    font-size: 18px;
-    line-height: 120%;
-    a{
-      text-decoration: underline;   
+    p{
+      padding-left: 5px;
+      font-size: 16px;
+      font-weight: normal;
     }
+    a{
+      font-size: 16px;
+      font-weight: normal;
+      text-decoration: underline;
+    }
+  }
+  ol.report li a{
+    font-size: 16px;
+    text-decoration: underline;  
   }
   .space{
     font-size: 2px;
@@ -67,18 +85,19 @@
   }
   .panel-group.col-sm-4 {
      width: 610px;
-     padding-left: 5px;
-     padding-right: 5px;
-     padding-top: 2px;
+     padding-left: 5px; padding-right: 5px; padding-top: 2px;
+  }
+  .panel-group.col-sm-2 {
+     width: 270px;
+     padding-left: 5px; padding-right: 5px; padding-top: 2px;
   }
   /* panel-default */ 
     .panel.panel-default{
-      padding-top: 0px;  
+      padding-top: 0px;
     }
-    hr{
-      margin: 1px;
-      color: black;
-    }
+    .panel.panel-default.menu{
+      padding-top: 0px;
+    }  
     #box.panel-default{
       width: 300px;
       height: 200px;
@@ -95,49 +114,30 @@
       margin-top: 0px;
       width: 600px;
     }
-    #edit-default.panel-default {    
-      height: 130px;
-    }
-    #rakuten-default.panel-default {    
-      height: 140px;
-    }
-    #journalpattern-default.panel-default {    
-      height: 160px;
-    }  
-    #new-default.panel-default {    
-      height: 180px;
-    }
-    #rakuten-cost-default.panel-default {    
-      height: 200px;
-    }
-    #copy-default.panel-default {    
-      height: 282px;
-    } 
-    #expense-title-default.panel-default {    
-      height: 900px;
-    }  
-    #upload-default.panel-default {    
-      height: 1000px;
-    }
   
   /* panel-heading */
     .panel-heading{
       padding: 5px 5px;  
       text-align: left;
-      font-size: 1.7em;
-      height: 35px;
+      font-size: 20px;
+      height: 100%;
       background-color: #08C1F9;
       vertical-align: bottom;
-    }
+    } 
     #top{
       padding-top: 30px; 
     }
-    #top_page.panel-heading{
+    #top_page{
+      margin-top: 0px;
       padding: 0px;  
       height: 30px;
       vertical-align: center;
       font-size: 14px;
-      background-color: white;
+      background-color: Blue;
+      font-weight: bolder;
+    }
+    .dropdown-toggle{
+      color: white; 
     }
     #title.panel-heading{
       padding: 0px;
@@ -161,9 +161,17 @@
     display: inline-block;
     text-align: left;
     font-weight: bold;
-    height: 50px;
     width: 100%;
     vertical-align: center;
+  }
+  #new-body.panel-body{
+    height: 80px;
+  }
+  #rakuten-body.panel-body{
+    height: 90px;
+  } 
+  #edit-body.panel-body{
+    height: 105px;
   }
 
 /* エラー時に良い感じに色をつけてくれる */
@@ -172,24 +180,6 @@
     .form-control {
       color: $state-danger-text;
     }
-  }
-
-/* body */
-  body {
-    padding-top: 40px;
-    margin-left: 0px;
-    margin-right: 0px;
-    height: 100%;
-    overflow: auto;
-  }  
-  .container {
-    margin-left: 0px;
-    margin-right: 0px;
-    width: 100%;
-    overflow: auto;
-  }
-  .container-fluid {
-    padding: 5px;
   }
 
 /* table */
@@ -219,38 +209,160 @@
     tbody {
       float: left;     /*ポイント */
       overflow: auto;  /*ポイント */
-      height: 675px;   /*ポイント */
       width: 1900px;    /*ポイント */
     }
-    tbody.entrypatterns {
-      height: 700px;   /*ポイント */
+    tbody.accounts {             /* entrypatterns/index, subexpense/index */
+      height: 680px;   
     }
-    tbody.accounts {
-      height: 680px;   /*ポイント */
+    tbody.new_accounts {         /* entrypatterns/new, /exchanges/new, rakuten_costs/new */
+      height: 610px;      
     }
-    tbody.stocks {
-      height: 650px;   /*ポイント */
+    tbody.edit_accounts {
+      height: 685px;   
+    }
+    tbody.edit_entrypatterns {   /* exchanges/edit, expense_titles/edit */
+      height: 670px;   
+    }
+    tbody.exchanges {             
+      height: 645px;   
+    }
+    tbody.expense_shows {        /* expense_shows/edit */    
+      height: 755px;   
+    }
+    tbody.expense_titles {          
+      height: 720px;   
+    }
+    tbody.expenseledgers {        /* pladmins/index */
+      height: 630px;   
+    }
+    tbody.new_expenseledgers {    /* pladmins/new */
+      height: 600px;   
+    }
+    tbody.edit_expenseledgers {   /* pladmins/edit */
+      height: 660px;   
+    }
+    tbody.copy_expenseledgers {
+      height: 540px;   
+    } 
+    tbody.generalledgers{         
+      height: 630px;   
+    }
+   tbody.journalpatterns {          
+      height: 725px;   
+    }
+   tbody.new_journalpatterns {          
+      height: 625px;   
+    }
+   tbody.edit_journalpatterns {          
+      height: 620px;   
+    }
+    tbody.copy_journalpatterns {
+      height: 505px;   
+    } 
+    tbody.listingreports {
+      height: 685px;   
+    }
+    tbody.edit_listingreports {
+      height: 675px;   
+    }
+    tbody.multi_channels {
+      height: 720px;   
+    }
+    tbody.new_multi_channels {
+      height: 675px;   
+    }
+    tbody.edit_multi_channels {   /* rakuten_settings/edit */
+      height: 660px;   
+    }
+    tbody.copy_multi_channels {   /* return_goods/copy */
+      height: 555px;   
+    }
+    tbody.copy_pladmins {
+      height: 550px;   
+    }
+    tbody.rakuten_costs {
+      height: 580px;   
+    }
+    tbody.edit_rakuten_costs {
+      height: 610px;   
+    }
+    tbody.rakuten_settings {
+      height: 745px;   
+    }
+    tbody.new_rakuten_settings {
+      height: 655px;   
+    }    
+    tbody.rakutens {
+      height: 630px;   
+    }
+    tbody.edit_rakutens {
+      height: 680px;   
+    }
+    tbody.copy_rakutens {
+      height: 550px;   
+    }
+    tbody.nyukin_edit_rakutens {
+      height: 655px;   
+    }
+    tbody.return_goods {
+      height: 640px;   
+    }
+    tbody.new_return_goods {      /* stockreturns/new, vouchers/new */
+      height: 685px;   
+    }
+    tbody.edit_return_goods {
+      height: 670px;   
     }
     tbody.sales {
-      height: 615px;   /*ポイント */
+      height: 650px;   
     }
-    tbody.expenseledgers {
-      height: 595px;   /*ポイント */
+    tbody.edit_sales {             /* stockaccepts/edit, stockreturns/edit */
+      height: 675px;   
     }
-    tbody.rakutens {
-      height: 550px;   /*ポイント */
+    tbody.stockaccepts {
+      height: 645px;   
+    }
+    tbody.stockledgers {
+      height: 650px;   
+    }
+    tbody.stocklists {
+      height: 695px;   
+    }
+    tbody.stockreturns {          /* yafuokus/index */         
+      height: 715px;   
+    }
+    tbody.copy_stockreturns {          
+      height: 555px;   
+    }
+    tbody.stocks {          
+      height: 640px;   
+    }
+    tbody.new_stocks {
+      height: 610px;   
+    }
+    tbody.edit_stocks {            /* vouchers/edit */
+      height: 670px;   
+    }
+    tbody.copy_stocks {            /* vouchers/copy */
+      height: 555px;   
+    }
+    tbody.new_subexpenses {
+      height: 435px;   
+    }
+    tbody.summaries {
+      height: 755px;   
+    }
+    tbody.vouchers {
+      height: 715px;   
     }
     tbody.copy_body {
-      height: 450px;   /*ポイント */
+      height: 450px;   
     }
-    tbody.subexpenses {
-      height: 270px;   /*ポイント */
-    }  
     tbody.copy_head {
-      height: 160px;   /*ポイント */
+      height: 160px;   
     }  
     tbody.footer {
-      height: 37px;    /*ポイント */
+      height: 37px;    
     }
 
 /* search */
@@ -322,58 +434,65 @@
   .new_subexpense{
     height: 0px;    
   }
+  #new_period{
+    height: 40px;
+    vertical-align: center;
+  }
 
 /* th */
 th{
   text-align: center;
 }
     th.small {
-      width: 46px;    /* ポイント */
+      width: 46px;    
     }
     th.rate {
-      width: 60px;    /* ポイント */
+      width: 60px;    
     }
     th.half {
-      width: 70px;    /* ポイント */
+      width: 70px;    
     }
     th.right {
-      width: 73px;    /* ポイント */
+      width: 73px;    
     }
     th.middle {
-      width: 80px;    /* ポイント */
+      width: 80px;    
     }
     th.number {
-      width: 80px;    /* ポイント */
+      width: 80px;    
     }
     th.date {
-      width: 90px;    /* ポイント */
+      width: 90px;    
     }
     th.amount {
-      width: 95px;    /* ポイント */
+      width: 95px;    
     }
     th.account {
-      width: 95px;    /* ポイント */
+      width: 95px;    
     }
     th.large {
-      width: 120px;    /* ポイント */
+      width: 120px;    
     }
+    th.rank {
+      width: 120px;    
+    }    
     th.asin {  
-      width: 130px;    /* ポイント */
+      width: 130px;    
     }
     th.standard {
-      width: 140px;    /* ポイント */
+      width: 140px;    
     }
     th.middle_large {
-      width: 150px;    /* ポイント */
+      width: 150px;    
     }
     th.order_num {
-      width: 170px;    /* ポイント */
+      width: 170px;    
     }
     th.detail { 
-      width: 240px;    /* ポイント */
+      width: 240px;    
     }
     th.content {
-      width: 300px;    /* ポイント */
+      width: 300px;   
     }
     th.subexpense { 
       width: 507px; 
@@ -384,34 +503,34 @@ td{
   text-align: left;
 }
     td.half {
-      width: 70px;    /* ポイント */
+      width: 70px;   
     }
     td.middle {
-      width: 80px;    /* ポイント */
+      width: 80px;    
     }
     td.date {
-      width: 90px;    /* ポイント */
+      width: 90px;    
     }
     td.account {
-      width: 95px;    /* ポイント */
+      width: 95px;    
     }
     td.large {
-      width: 120px;    /* ポイント */
+      width: 120px;    
     }
     td.asin {
-      width: 130px;    /* ポイント */
+      width: 130px;    
     }
     td.standard {
-      width: 140px;    /* ポイント */
+      width: 140px;    
     }
     td.middle_large {
-      width: 150px;    /* ポイント */
+      width: 150px;   
     }
     td.order_num {
-      width: 170px;    /* ポイント */
+      width: 170px;    
     }
     td.detail {
-      width: 240px;    /* ポイント */
+      width: 240px;   
     } 
     td.content { 
       width: 300px;    
@@ -422,32 +541,35 @@ td{
 
     td.small {
       text-align: right; 
-      width: 46px;    /* ポイント */
+      width: 46px;    
     }
     td.rate {
       text-align: right; 
-      width: 60px;    /* ポイント */
+      width: 60px;    
     }
     td.right {
       text-align: right; 
-      width: 73px;    /* ポイント */
+      width: 73px;    
     }
     td.number {
       text-align: right; 
-      width: 80px;    /* ポイント */
+      width: 80px;    
     }
     td.amount {
       text-align: right; 
-      width: 95px;    /* ポイント */
+      width: 95px;    
     }
-
+    td.rank {
+      text-align: right; 
+      width: 120px;    
+    }    
   .update {
     text-align: center;
-    width: 70px;    /* ポイント */
+    width: 70px;    
   }
   .company {
     text-align: center;
-    width: 105px;    /* ポイント */
+    width: 105px;    
   }
   .reference {
     text-align: center;
@@ -466,11 +588,12 @@ td{
     height: 15px;
     font-size: 10px;    
   }
-  .filestyle {
-    height: 15px;
-    font-size: 10px;    
-  }  
-
+  label.btn.btn-default{
+    padding: 2px 5px;  
+  }
+  input.btn.btn-default.btn-xs{
+    padding: 3px 5px;  
+  }
 
 /* financial_statements */
   thead.financial {
@@ -594,16 +717,69 @@ td{
   }
 
 /* footerで使用 */
-footer {
-  border-top: 1px solid#e7e7e7;
-  background-color: #f8f8f8;
-  text-align: center;
-  height:45px;
-}
+  footer {
+    border-top: 1px solid#e7e7e7;
+    background-color: #f8f8f8;
+    text-align: center;
+    height:45px;
+    position:relative;
+    bottom: 0px;
+  }
+  
+  .copyright {
+    padding: 20px;
+    font-size: 12px;
+    color: #666;
+    height:45px;
+  }
 
-.copyright {
-  padding: 20px;
-  font-size: 12px;
-  color: #666;
-  height:45px;
-}
+/* help */
+  #help_page{
+    margin:0 auto;
+    width: 1500px
+  }
+  #help_menu li a{
+    font-size: 18px;
+  }
+    /* 矢印 */
+    .arrow {
+    display:inline-block;
+    height:10px;
+    width:40px;
+    background-color:black;
+    position:relative;
+    top:15px;
+    }
+    
+    .arrow:before {
+      position:absolute;
+      content:"";
+      width:0;
+      height:0;
+      border:20px solid transparent;
+      border-left:20px solid black;
+      left:40px;
+      top:-15px;
+    }
+
+    /* 上向き矢印 */
+    .up_arrow{
+    display:inline-block;
+    position: relative;
+    width: 160px;
+    height: 50px;
+    border-bottom: 10px solid black;
+    border-right: 10px solid black;
+    box-sizing: border-box;
+    }
+    
+    .up_arrow::after{
+      content: "";
+      position: absolute;
+      bottom: 32px;
+      right: -18px;
+      border-bottom: 14px solid black;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+    }  
+

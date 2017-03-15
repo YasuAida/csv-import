@@ -1,8 +1,8 @@
-<div class="panel panel-default" id='edit-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  仕入返品台帳(修正画面)
-	  <%= link_to "一覧画面へ", stockreturns_path, class: 'btn btn-default btn-sm'%>
-	  <%= link_to "新規登録画面へ", new_stockreturn_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", stockreturns_path, class: 'btn btn-default btn-xs'%>
+	  <%= link_to "新規登録画面へ", new_stockreturn_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body" id='new-body'>
     <table class="table table-striped table-bordered table-condensed">
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <%= form_for(@stockreturn, url: stockreturn_path(@stockreturn)) do |f|  %>
-        <tbody class="footer">
+        <tbody>
           <td class="account"><%= f.text_field :date, :size=> "7"%></td>
           <td class="large"><%= f.text_field :sku, :size => "11"%></td>
           <td class="asin"><%= f.text_field :asin, :size => "10" %></td>

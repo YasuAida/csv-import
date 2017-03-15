@@ -46,7 +46,12 @@ class ReturnGoodsController < ApplicationController
   def copy
     @copy_return_good = @update_return_good.dup
     @copy_return_goods = current_user.return_goods.where(date: @copy_return_good.date, sale_id: @copy_return_good.sale_id, stock_id: @copy_return_good.stock_id, order_num: @copy_return_good.order_num, old_sku: @copy_return_good.old_sku, number: @copy_return_good.number)
-    @copy_return_good.new_sku = @copy_return_good.new_sku + "(" + @copy_return_goods.count.to_s + ")"
+    if @copy_return_good.new_sku.present?
+      @copy_return_good.new_sku = @copy_return_good.new_sku + "(" + @copy_return_goods.count.to_s + ")"
+    else
+      @copy_return_good.new_sku = "(" + @copy_return_goods.count.to_s + ")"
+    end
+    
     if @copy_return_good.save 
       @copy_return_goods = current_user.return_goods.where(date: @copy_return_good.date, sale_id: @copy_return_good.sale_id, stock_id: @copy_return_good.stock_id, order_num: @copy_return_good.order_num, old_sku: @copy_return_good.old_sku, number: @copy_return_good.number)
     else

@@ -27,7 +27,6 @@
           <div class="explanation">
             <p>このシステムでは普通預金は銀行口座ごとに管理しており、銀行口座の登録が必要になります。登録の方法はこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -66,7 +65,6 @@
             <p>Amazon管理画面から在庫受領レポートをダウンロードいただき、このデータを当システムに取り込んでいただきます。入力の前に<%= link_to "出品レポート" , listingreports_path %>の取込みを済ませて
             いただく必要があります。取込方法についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -102,7 +100,6 @@
           <div class="explanation">
             <p>仕入れた商品を返品した時に入力していただく台帳になります。入力の方法についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -127,7 +124,6 @@
             <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、Amazonのマルチチャンネルサービスを使って発送した商品の一覧が作成されます。しかしデータを取り込んだだけでは在庫管理に
             必要なSKU情報がないため、管理画面をチェックしながらSKU情報を入力していただきます。チェック及び入力の方法についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -146,7 +142,6 @@
           <div class="explanation">
             <p>在庫の販売状況や保有状況が分かる商品有高帳の作成、及び<%= link_to "損益管理シート" , pladmins_path %>に原価データを付与します。詳細についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -167,7 +162,6 @@
             <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりますと、Amazon関連の振替データについては入力が終わっていますが、その他の振替データについては入力が必要です。入力の方法に
             ついてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
@@ -186,13 +180,12 @@
           <div class="explanation">
             <p>仕訳帳の作成が終わりましたら、仕訳帳の内容を基に財務諸表（貸借対照表と損益計算書）を作成します。詳細についてはこちらをご参照ください。</P>
           </div>
-        <div class="space">　</div>
       </ol>
     </div>
   </div>
   <script>
     $(function(){
-      $("#one.panel-body:not(:first)").css("display","none");
+      $("#one.panel-body:not(:last)").css("display","none");
       $("#title.panel-heading").click(function(){
         if($("+#one.panel-body",this).css("display")=="none"){
           $("#one.panel-body").slideUp("fast");

@@ -1,9 +1,10 @@
+<%= render 'layouts/dropdown' %>
 <div class="panel_container" style="padding-left: 100px; width: 700px">
   <div class="panel panel-default">
-  	<div class="panel-heading">
-  	  会員登録情報
+  	<div class="panel-heading" style="text-align: center;">
+  	  登録情報
   	</div>
-    <div class="panel-body" >
+    <div class="panel-body" style="height: 790px;">
       <%= form_for(@user) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <div class="row" style="padding: 0px; width: 500px;">

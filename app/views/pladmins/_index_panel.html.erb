@@ -1,7 +1,7 @@
-<div class="panel panel-default" id="rakuten-default">
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  損益管理シート(一覧画面)
-	  <%= link_to "新規登録画面へ", new_pladmin_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "新規登録画面へ", new_pladmin_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <%= search_form_for(@q, url: pladmins_path) do |f| %>   
@@ -25,12 +25,5 @@
       <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control pladmin_form" %>
       <%= f.submit "検索", class: 'btn btn-default btn-xs' %>            
     <% end %>
-    <div style="display: inline-block">   
-      <%= form_tag({action: 'upload'}, {multipart: true, class: "form_tag"}) do %>
-        <label>CSVデータの取り込み:</label>
-        <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
-        <%= submit_tag "UPLOAD", class: 'btn btn-default' %>  
-      <% end %>
-    </div>  
   </div>
 </div>

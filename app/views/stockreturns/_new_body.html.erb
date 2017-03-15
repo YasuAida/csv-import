@@ -1,4 +1,4 @@
-    <tbody class="expenseledgers">
+    <tbody class="new_return_goods">
         <% @stockreturns.each do |stockreturn|  %>
           <tr>
             <%= form_for(stockreturn, url: stockreturn_path(stockreturn), remote: true) do |f|  %>
@@ -27,7 +27,7 @@
               <td class="account"><%= stockreturn.money_paid %></td>
               <td class="account"><%= stockreturn.purchase_from %></td>             
               <td class="account"><%= stockreturn.currency %></td>
-              <td class="update" id="submit-<%= stockreturn.id %>"><%= link_to "修正", edit_stockreturn_path(stockreturn), class: 'btn btn-default btn-sm'%></td>
+              <td class="update" id="submit-<%= stockreturn.id %>"><%= link_to "修正", edit_stockreturn_path(stockreturn), class: 'btn btn-default btn-xs'%></td>
               
               <!--チェックボックス更新用JQuery-->
               <script>

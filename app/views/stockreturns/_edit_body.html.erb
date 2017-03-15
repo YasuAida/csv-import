@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_sales">
       <% @stockreturns = current_user.stockreturns.where(id: (@stockreturn.id..(@stockreturn.id + 25))) %>
       <% @stockreturns.each do |stockreturn| %>
         <!--Ajax用に固有のidを設定-->
@@ -29,7 +29,7 @@
             <td class="account"><%= stockreturn.money_paid %></td>
             <td class="account"><%= stockreturn.purchase_from %></td>             
             <td class="account"><%= stockreturn.currency %></td>
-            <td class="update" id="submit-<%= stockreturn.id %>"><%= link_to "修正", edit_stockreturn_path(stockreturn), class: 'btn btn-default btn-sm'%></td>
+            <td class="update" id="submit-<%= stockreturn.id %>"><%= link_to "修正", edit_stockreturn_path(stockreturn), class: 'btn btn-default btn-xs'%></td>
             
             <!--チェックボックス更新用JQuery-->
             <script>

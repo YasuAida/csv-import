@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_return_goods">
       <% @return_goods = current_user.return_goods.where(id: (@return_good.id..(@return_good.id + 25))) %>
       <% @return_goods.each do |return_good| %>
         <!--Ajax用に固有のidを設定-->

@@ -1,3 +1,4 @@
+<%= render 'layouts/dropdown' %>
 <div class="panel panel-default">
 	<div class="panel-heading">
 	  在庫台帳
@@ -29,8 +30,7 @@
         <th class="amount">金額</th>
       </tr>
     </thead>
-
-    <tbody class="account">
+    <tbody class="stocklists">
       <% @stocks.each do |stock| %>
         <tr>
         <% if stock.stockledgers.sum(:grandtotal) != 0 %>          

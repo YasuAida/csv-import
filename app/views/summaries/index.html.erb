@@ -1,3 +1,4 @@
+<%= render 'layouts/dropdown' %>
 <div class="panel panel-default">
   <div class="panel-heading">
     入金額確認レポート
@@ -15,7 +16,7 @@
         <td class="update"></th>
       </tr>
     </thead>
-    <tbody class="stocks">
+    <tbody class="summaries">
       <% @summaries.each do |summary| %>
         <tr>
           <%= form_for(summary, url: summary_path(summary), remote: true) do |f|  %>

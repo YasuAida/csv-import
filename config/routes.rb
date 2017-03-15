@@ -219,6 +219,7 @@ Rails.application.routes.draw do
 
   resources :top_pages, only: [ :index] do
     collection do
+      get 'help'
       get 'download'
       post 'upload'
     end

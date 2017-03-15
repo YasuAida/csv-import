@@ -1,0 +1,80 @@
+<%= render 'layouts/dropdown' %>
+<div class="row" id="help_page">
+  <div class="panel-group col-sm-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        メニュー
+      </div>
+      <div class="panel-body">
+        <ul id="help_menu">
+          <div class="space">　</div>
+          <li><%= link_to "はじめに", expense_titles_path %></li>
+          <li><%= link_to "通貨登録", currencies_path %></li>
+          <li><%= link_to "勘定科目一覧", accounts_path %></li>
+          <li><%= link_to "銀行口座登録", banks_path %></li>     
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel-group col-sm-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        はじめに
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>せどり会計はアマゾンを中心としたプラットフォームを使ってご商売をされている方のための管理ツールです。</p>
+          <p>プラットフォームを利用したご商売は、入金の管理や請求書を出す必要がほとんどありませんが、一方で取引件数がかなりの数になるため、
+            会計ソフトなどへの入力の手間がかなりあります。</p>
+          <%= image_tag 'data_input.jpg', :alt => '入力に手間取るイラスト', :size => '150x150'%>
+          
+          <p>しかし、アマゾンなどのプラットフォームでは、テキスト形式による取引情報を取り出せるようなサービスを提供しております。</p>
+          <p>せどり会計は、このように取得したデータを基に損益管理や在庫管理から会計帳簿の作成までできるように作られております。</p>
+
+            <div style="display: inline-block; position: relative;">
+              <%= image_tag 'Text_File_Icon.png', :alt => 'テキストファイルアイコン', :size => '150x150'%>
+              <span style="position: absolute; top: 140px; left: 30px; width: 150px;">
+                アマゾンのデータ
+              </span>
+              
+              <div class="arrow"></div>
+              
+              <div style="position: absolute; top: 10px; left: 230px; width: 150px;">
+                <%= image_tag 'pc.png', :alt => 'パソコン', :size => '140x140'%>
+              </div>
+              <span style="position: absolute; top: 150px; left: 270px; width: 150px;">
+                せどり会計
+              </span>
+              
+              <div class="arrow" style="position: absolute; top: 85px; left: 390px;"></div>
+              
+              <div style="position: absolute; top: 30px; left: 475px; width: 150px;">
+                <%= image_tag 'admin.BMP', :alt => '管理台帳', :size => '180x120'%>
+              </div>
+              <span style="position: absolute; top: 150px; left: 550px; width: 150px;">
+                管理台帳
+              </span>
+　　　　　　　　　
+              <div class="arrow" style="position: absolute; top: 85px; left: 670px;"></div>
+              
+              <div style="position: absolute; top: 10px; left: 745px; width: 300px;">
+                <%= image_tag 'financial.BMP', :alt => '財務諸表', :size => '130x150'%>
+              </div>
+              <span style="position: absolute; top: 160px; left: 785px; width: 150px;">
+                財務諸表
+              </span>
+            </div>
+            <br>
+            <div style="display: inline-block; position: relative; padding-top: 15px; padding-left: 25px;">
+              <%= image_tag 'document.png', :alt => 'ドキュメントアイコン', :size => '100x128'%>
+              <span style="position: absolute; top: 140px; left: 30px; width: 150px;">
+                仕入・経費データ
+              </span>
+              <div class="up_arrow" style="margin-left: 25px;"></div>
+            </div>
+ 
+        </div><%# "explanation" %>
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+  </div><%# "panel-group col-sm-9" %>
+</div>

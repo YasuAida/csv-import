@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_entrypatterns">
       <% @exchanges = current_user.exchanges.where(id: (@exchange.id..(@exchange.id + 25))) %>
       <% @exchanges.each do |exchange| %>
        <tr>

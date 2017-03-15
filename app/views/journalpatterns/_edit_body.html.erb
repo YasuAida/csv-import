@@ -1,4 +1,4 @@
-    <tbody class="expenseledgers">
+    <tbody class="edit_journalpatterns">
       <% @journalpatterns = current_user.journalpatterns.where(id: (@journalpattern.id..(@journalpattern.id + 25))) %>
       <% @journalpatterns.each do |journalpattern| %>
         <!--Ajax用に固有のidを設定-->

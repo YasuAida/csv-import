@@ -1,7 +1,7 @@
-<div class="panel panel-default" id='new-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  ヤフーショッピング管理シート(新規登録画面)
-	  <%= link_to "一覧画面へ", yahoo_shoppings_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", yahoo_shoppings_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <table class="table table-striped table-bordered table-condensed">
@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <%= form_for(@yahoo_shopping) do |f|  %>
-        <tbody class="footer">
+        <tbody>
           <tr>
             <td class="account"><%= f.text_field :date, :size => 7 %></td>
             <td class="order_num"><%= f.text_field :order_id, :size => 18 %></td>
@@ -39,21 +39,6 @@
           </tr>
         </tbody>  
       <% end %>       
-    </table>
-    <br>
-    <div style="display: inline-block">
-      <%= form_tag({action: 'receipt_upload'}, {multipart: true, class: "long_form_tag"}) do %>
-        <label>CSVファイル（受取データ）の取込み：</label>
-        <%= file_field :receipt_upload, :datafile,{multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false} %>         
-        <%= submit_tag "UPLOAD", class: 'btn btn-default' %>  
-      <% end %>
-    </div>
-    <div style="display: inline-block">
-      <%= form_tag({action: 'payment_upload'}, {multipart: true, class: "long_form_tag"}) do %>
-        <label>CSVファイル（支払データ）の取込み：</label>
-        <%= file_field :payment_upload, :datafile, {multiple: true, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false} %>         
-        <%= submit_tag "UPLOAD", class: 'btn btn-default' %>  
-      <% end %>
-    </div>  
+    </table> 
   </div>
 </div>  

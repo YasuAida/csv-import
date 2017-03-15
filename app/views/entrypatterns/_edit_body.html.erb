@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_entrypatterns">
       <% @entrypatterns = current_user.entrypatterns.where(id: (@entrypattern.id..(@entrypattern.id + 25))) %>
       <% @entrypatterns.each do |entrypattern| %>
          <!--Ajax用に固有のidを設定-->

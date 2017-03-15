@@ -1,4 +1,4 @@
-      <tbody class="expenseledgers">
+      <tbody class="nyukin_edit_rakutens">
         <% @rakutens.each do |rakuten|  %>
           <tr id="rakuten-<%= rakuten.id %>">
             <%= form_for(rakuten, url: rakuten_path(rakuten.id), remote: true) do |f| %>

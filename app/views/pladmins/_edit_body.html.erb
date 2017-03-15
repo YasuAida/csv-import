@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_expenseledgers">
       <% @pladmins = current_user.pladmins.where(id: (@pladmin.id..(@pladmin.id + 25))) %>
       <% @pladmins.each do |pladmin| %>
         <!--Ajax用に固有のidを設定-->

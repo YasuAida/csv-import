@@ -1,0 +1,101 @@
+<div class="panel-group col-sm-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      登録
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+        <li><%= link_to "付随費用登録", expense_titles_path %></li>
+        <li><%= link_to "通貨登録", currencies_path %></li>
+        <li><%= link_to "勘定科目一覧", accounts_path %></li>
+        <li><%= link_to "銀行口座登録", banks_path %></li>     
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="panel-group col-sm-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      仕入
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+        <li><%= link_to "仕入台帳", stocks_path %></li>
+        <li><%= link_to "付随費用台帳", subexpenses_path %></li>
+        <li><%= link_to "仕入返品台帳", stockreturns_path %></li>
+        <li><%= link_to "単価計算表", allocationcosts_path %></li>
+        <li><%= link_to "為替レート", exchanges_path %></li>        
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="panel-group col-sm-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      出品・売上
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+        <li><%= link_to "トランザクションの概要", sales_path %></li>
+        <li><%= link_to "損益管理シート", pladmins_path %></li>
+        <li><%= link_to "マルチチャンネルＳＫＵ登録", multi_channels_path %></li>
+        <li><%= link_to "出品レポート", listingreports_path %></li>
+        <li><%= link_to "在庫受領レポート", stockaccepts_path %></li>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="panel-group col-sm-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      在庫
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+         <li><%= link_to "商品有高帳", stockledgers_path %></li>
+         <li><%= link_to "在庫台帳", stock_list_stockledgers_path %></li>
+         <li><%= link_to "FBAからの返還商品台帳", return_goods_path %></li>
+         <li><%= link_to "廃棄商品台帳", disposals_path %></li>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="panel-group col-sm-2">  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      記帳
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+        <li><%= link_to "経費台帳", expenseledgers_path %></li>
+        <li><%= link_to "振替台帳", vouchers_path %></li>
+        <li><%= link_to "仕訳帳", generalledgers_show_path %></li>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>  
+<div class="panel-group col-sm-2">  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      財務諸表
+    </div>
+    <div class="panel-body">
+      <ol class="report">
+        <div class="space">　</div>
+        <li><%= link_to "損益計算書", pl_financial_statements_path %></li>
+        <li><%= link_to "貸借対照表", bs_financial_statements_path %></li>
+        <div class="space">　</div>
+      </ol>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
-<div class="panel panel-default" id='rakuten-cost-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  楽天請求管理シート(修正画面)
-	  <%= link_to "一覧画面へ", rakuten_costs_path, class: 'btn btn-default btn-sm'%>
+	  <%= link_to "一覧画面へ", rakuten_costs_path, class: 'btn btn-default btn-xs'%>
 	</div>
   <div class="panel-body">
     <table class="table table-striped table-bordered table-condensed">
@@ -11,7 +11,7 @@
           <th class="amount">ＲＭＳシステム<br>利用料</th>      
           <th class="amount">ＲＭＳシステム<br>利用料<br>（モバイル）</th>
           <th class="amount">楽天スーパーポイントﾄ付与料<br>（通常売上）</th>
-          <th class="amount">楽天スーパーポイントﾄ付与料<br>（モバイル）</th>>
+          <th class="amount">楽天スーパーポイントﾄ付与料<br>（モバイル）</th>
           <th class="amount">スーパーアフィリエイト<br>成果報酬</th>
           <th class="amount">スーパーアフィリエイト<br>システム利用料</th>          
           <th class="amount">Ｒ－ＣＡＲＤ<br>ＰＬＵＳ</th> 
@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <%= form_for(@rakuten_cost, url: rakuten_cost_path(@rakuten_cost)) do |f|  %>
-        <tbody class="footer">
+        <tbody>
           <tr>    
             <td class="date"><%= f.text_field :billing_date, :size => 7 %></td>          
             <td class="amount"><%= f.text_field :pc_usage_fee, :size => 7, :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>

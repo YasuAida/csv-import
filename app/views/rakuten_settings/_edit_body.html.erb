@@ -1,4 +1,4 @@
-    <tbody class="stocks">
+    <tbody class="edit_multi_channels">
       <% @rakuten_settings = current_user.rakuten_settings.where(id: (@rakuten_setting.id..(@rakuten_setting.id + 25))) %>
       <% @rakuten_settings.each do |rakuten_setting| %>
         <!--Ajax用に固有のidを設定-->
@@ -11,10 +11,10 @@
             <% else %>
               <td class="large"><%= rakuten_setting.end_date %>まで</td>
             <% end %>
-            <td class="large"><%= rakuten_setting.end_sales %>まで</td>
+            <td class="rank"><%= rakuten_setting.end_sales %>まで</td>
             <td class="amount"><%= rakuten_setting.pc_rate %>％</td>
             <td class="amount"><%= rakuten_setting.mobile_rate %>％</td>                    
-            <td class="update" id="submit-<%= rakuten_setting.id %>"><%= link_to "修正", edit_rakuten_setting_path(rakuten_setting), class: 'btn btn-default btn-sm'%></td>
+            <td class="update" id="submit-<%= rakuten_setting.id %>"><%= link_to "修正", edit_rakuten_setting_path(rakuten_setting), class: 'btn btn-default btn-xs'%></td>
             
             <!--チェックボックス更新用JQuery-->
             <script>
