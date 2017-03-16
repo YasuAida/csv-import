@@ -11,11 +11,11 @@
           <th class="asin">貸借区分</th>
           <th class="asin">ＰＬ／ＢＳ区分</th>
           <th class="asin">表示区分</th>          
-          <th class="update">更新</th>          
+          <th class="update"></th>          
         </tr>
       </thead>
       <%= form_for(@account) do |f| %>
-        <tbody class="footer">
+        <tbody>
           <td class="asin"><%= f.text_field :account, :size=> "12"%></td>            
           <td class="asin"><%= f.select :debit_credit, ["借方","貸方"],{},{class: "account_select"} %></td>
           <td class="asin"><%= f.select :bs_pl, ["ＢＳ","ＰＬ"] ,{},{class: "account_select"}%></td>

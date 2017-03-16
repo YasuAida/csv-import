@@ -18,19 +18,24 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       
-      CSV.foreach('db/entrypattern.txt') do |row|
-        @entrypattern = current_user.entrypatterns.create(user_id: @user.id)
+      CSV.foreach('./db/entrypattern.csv') do |row|
+        @entrypattern = Entrypattern.new(user_id: @user.id)
+        @entrypattern.save
         @entrypattern.update(:sku => row[0], :kind_of_transaction => row[1], :kind_of_payment => row[2], :detail_of_payment => row[3], :handling => row[4])      
       end
-      CSV.foreach('db/journalpattern.txt') do |row|
-        @journalpattern = current_user.journalpatterns.create(user_id: @user.id)      
+      CSV.foreach('./db/journalpattern.csv') do |row|
+        @journalpattern = Journalpattern.new(user_id: @user.id)
+        @journalpattern.save
         @journalpattern.update(:taxcode => row[0], :ledger => row[1], :pattern => row[2], :debit_account => row[3], :debit_subaccount => row[4], :debit_taxcode => row[5], :credit_account => row[6], :credit_subaccount => row[7], :credit_taxcode => row[8])
       end
-      CSV.foreach('db/account.txt') do |row|
-        @account = current_user.accounts.create(user_id: @user.id) 
+      CSV.foreach('./db/account.csv') do |row|
+        @account = Account.new(user_id: @user.id) 
+        @account.save
         @account.update(:account => row[0], :debit_credit => row[1], :bs_pl => row[2], :display_position => row[3])
       end
-      current_user.currencies.create(name: '円', method: '換算無し', user_id: current_user.id)
+      @currency = Currency.new(user_id: @user.id)
+      @currency.save
+      @currency.update(name: '円', method: '換算無し')
       
       redirect_to @user
     else

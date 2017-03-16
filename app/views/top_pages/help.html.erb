@@ -1,24 +1,9 @@
 <%= render 'layouts/dropdown' %>
 <div class="row" id="help_page">
-  <div class="panel-group col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        メニュー
-      </div>
-      <div class="panel-body">
-        <ul id="help_menu">
-          <div class="space">　</div>
-          <li><%= link_to "はじめに", expense_titles_path %></li>
-          <li><%= link_to "通貨登録", currencies_path %></li>
-          <li><%= link_to "勘定科目一覧", accounts_path %></li>
-          <li><%= link_to "銀行口座登録", banks_path %></li>     
-        </ul>
-      </div>
-    </div>
-  </div>
+<%= render 'help_menu' %>
   <div class="panel-group col-sm-9">
-    <div class="panel panel-default">
-      <div class="panel-heading">
+    <div class="panel panel-default" id="start">
+      <div class="panel-heading" id="help_title">
         はじめに
       </div>
       <div class="panel-body">
@@ -30,7 +15,7 @@
           
           <p>しかし、アマゾンなどのプラットフォームでは、テキスト形式による取引情報を取り出せるようなサービスを提供しております。</p>
           <p>せどり会計は、このように取得したデータを基に損益管理や在庫管理から会計帳簿の作成までできるように作られております。</p>
-
+          
             <div style="display: inline-block; position: relative;">
               <%= image_tag 'Text_File_Icon.png', :alt => 'テキストファイルアイコン', :size => '150x150'%>
               <span style="position: absolute; top: 140px; left: 30px; width: 150px;">
@@ -48,19 +33,19 @@
               
               <div class="arrow" style="position: absolute; top: 85px; left: 390px;"></div>
               
-              <div style="position: absolute; top: 30px; left: 475px; width: 150px;">
-                <%= image_tag 'admin.BMP', :alt => '管理台帳', :size => '180x120'%>
+              <div style="position: absolute; top: 20px; left: 475px; width: 150px;">
+                <%= image_tag 'admin.BMP', :alt => '管理台帳', :size => '260x120'%>
               </div>
-              <span style="position: absolute; top: 150px; left: 550px; width: 150px;">
+              <span style="position: absolute; top: 150px; left: 570px; width: 150px;">
                 管理台帳
               </span>
 　　　　　　　　　
-              <div class="arrow" style="position: absolute; top: 85px; left: 670px;"></div>
+              <div class="arrow" style="position: absolute; top: 85px; left: 760px;"></div>
               
-              <div style="position: absolute; top: 10px; left: 745px; width: 300px;">
+              <div style="position: absolute; top: 10px; left: 835px; width: 300px;">
                 <%= image_tag 'financial.BMP', :alt => '財務諸表', :size => '130x150'%>
               </div>
-              <span style="position: absolute; top: 160px; left: 785px; width: 150px;">
+              <span style="position: absolute; top: 160px; left: 875px; width: 150px;">
                 財務諸表
               </span>
             </div>
@@ -71,10 +56,153 @@
                 仕入・経費データ
               </span>
               <div class="up_arrow" style="margin-left: 25px;"></div>
-            </div>
- 
+            </div>        
+          <br>
+          <br>
+          <p>このように、せどり会計は仕入・経費データを除いて、主にデータを取り込むことにより処理を行っております。</p>
+          <p>このため、同じデータを何度も取り込むのを防ぐため、基本的に同一のデータを取り込むことができない仕様になっております。</p>
+          <p>例えば、</p>
+          <div style="padding-left: 20px; padding-bottom: 20px;">
+            <%= image_tag 'double_entry.BMP', :alt => 'ドキュメントアイコン', :size => '806x213', :class => "border"%>
+          </div>
+          <p>この一行目と二行目のように、全く同じデータをせどり会計に取り込もうとしても、二つ目のデータは取り込まれません。</p>
+          <p>この場合には、図のように個数を「２」にして一行にしていただくか、いずれかの欄を修正していただく必要があることをご了承ください。</p>
+          
         </div><%# "explanation" %>
       </div><%# "panel-body" %>  
     </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="subexpense">
+      <div class="panel-heading" id="help_title">
+        付随費用の登録
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>外国から商品を仕入れる場合には、国際送料や関税がかかる場合がほとんどです。</p>
+          <p>商品を仕入れるのに代行業者を利用されている場合には、代行手数料等がかかってくる場合もあるでしょう。</p>
+          <p>国内より仕入れる場合でも、送料が請求されることが多いと思います。</p>
+          <p>このような商品を仕入れるのに必要となる費用を付随費用といいますが、まずどのような付随費用がかかるのか登録していただきます。</p>
+          <%= image_tag 'expense_titles1.BMP', :alt => '付随費用登録1', :size => '362x370', :class => "border"%>
+          <p>「登録」とあるボタンの左のマスに項目名を入力いただき「登録」ボタンを押していただきます。</p>
+          <p>全ての項目の登録が終了しましたら、一番下の方にある「全ての登録が終わりましたら、こちらをクリックしてください。」の横の「終了」ボタンを
+          押していただきます。</p>
+          <%= image_tag 'expense_titles2.BMP', :alt => '付随費用登録2', :size => '562x96', :class => "border"%>
+          <br>
+          <br>
+          <p>「終了」ボタンを押すと次のような画面になります。</p>
+          <%= image_tag 'expense_shows1.BMP', :alt => '付随費用登録3', :size => '632x348', :class => "border"%>
+          <p>ここで項目ごとに按分基準を設定していただきます。</p>
+          <p>按分基準とは付随費用をどのように各商品の価格に配分するかというルールです。</p>
+          <p>例えば、国際送料であれば個数で按分すればいいと思いますが、関税だと商品の価格に対してかかるので各商品金額で按分するのが妥当だと思います。</p>
+          <p>また、代行手数料だと外国内での送料に商品購入額を加算したものに何％と決められる場合もあると思います。</p>
+          <p>修正ボタンを押すと次のような画面になりますので、適切だと思われる按分基準を選択し「更新」ボタンを押してください。</p>
+          <%= image_tag 'expense_shows2.BMP', :alt => '付随費用登録4', :size => '503x608', :class => "border"%>
+          <p>全ての登録が終わりますと下記のようになります。</p>
+          <%= image_tag 'expense_shows3.BMP', :alt => '付随費用登録5', :size => '589x342', :class => "border"%>
+        </div><%# "explanation" %>
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="exchange">
+      <div class="panel-heading" id="help_title">
+        通貨の登録
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>外国から商品を仕入れる場合は、ほとんど外国通貨で商品代金を支払うでしょう。</p>
+          <p>外国通貨での決済がある場合には、こちらの画面で決済通貨を登録していただく必要があります。</p>
+          <%= image_tag 'currencies1.BMP', :alt => '通貨登録1', :size => '628x145', :class => "border"%>
+          <p>「新規登録画面へ」ボタンを押すと次の画面が出ますので、通貨の種類と換算方法を選び「登録」ボタンを押します。</p>
+          <%= image_tag 'currencies2.BMP', :alt => '通貨登録2', :size => '610x248', :class => "border"%>
+          <p>換算方法ですが、通常は「外貨×為替レート」を選んでください。</p>
+          <p>韓国ウォンなど通常100単位の為替レートが表示される通貨の場合は「外貨÷100×為替レート」を選んでください。</p>
+          <p>韓国ウォンなどで決済する場合で、外国の銀行が提供する為替レートで換算する場合には「外貨÷為替レート×100」を選んでください。</p>
+        </div><%# "explanation" %>
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="account">
+      <div class="panel-heading" id="help_title">
+        勘定科目の登録
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>初期設定で必要最小限の勘定科目は登録してあります。</p>
+          <p>しかし、追加で登録する必要のある勘定科目があると思いますので、必要な勘定科目を追加で登録してください。</p>
+          <%= image_tag 'accounts1.BMP', :alt => '勘定科目登録1', :size => '759x405', :class => "border"%>
+          <p>こちらの画面の「新規登録画面へ」を押しますと、</p>
+          <%= image_tag 'accounts2.BMP', :alt => '勘定科目登録2', :size => '768x475', :class => "border"%>
+          <p>このような登録画面が現れます。</p>
+          <p>「勘定科目名」には登録したい勘定科目の名前を入力します。</p>
+          <p>「貸借区分」には「借方」勘定科目か「貸方」勘定科目かを選びます。</p>
+          <p>「ＰＬ／ＢＳ区分」には「ＰＬ」勘定科目か「ＢＳ」勘定科目かを選びます。</p>
+          <p>「表示区分」には「売上高」、「売上原価」、「販売管理費」、「営業外損益」、「資産」、「負債」、「純資産」のいずれかを選びます。</p>
+          <p>ここまで選択しましたら「登録」ボタンを押して完了です。</p>
+        </div><%# "explanation" %>
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="bank">
+      <div class="panel-heading" id="help_title">
+        銀行口座の登録
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>せどり会計では普通預金の補助科目を銀行口座に設定しているため銀行口座を登録していただく必要があります。</p>
+          <p>よって、口座番号まで登録する必要はなく「三菱／本店」「住友／銀座」などご自身でお分かりになる程度に短く登録してください。</p>
+          <%= image_tag 'bank.BMP', :alt => '銀行口座登録', :size => '403x196', :class => "border"%>
+          <p>こちらの画面で、「登録」ボタンの横にある入力欄に銀行口座を入力し「登録」ボタンを押せば完了です。</p>
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="transaction">
+      <div class="panel-heading" id="help_title">
+        トランザクションの概要の取込み
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>トランザクションの概要はアマゾンの管理画面から入手できる売上と手数料のデータです。</p>
+          <p>アマゾンの管理画面の「レポート」⇒「ペイメント」と進んでいくと次の画面が現れます。</p>
+          <%= image_tag 'amazon1.BMP', :alt => 'トランザクションの概要1', :size => '830x204', :class => "border"%>
+          <p>こちらの画面で「トランザクション」タブをクリックすると次の画面が現れます。</p>
+          <%= image_tag 'amazon2.BMP', :alt => 'トランザクションの概要2', :size => '916x245', :class => "border"%>
+          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
+          <%= image_tag 'amazon3.BMP', :alt => 'トランザクションの概要3', :size => '800x210', :class => "border"%>
+          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
+          <%= image_tag 'amazon4.BMP', :alt => 'トランザクションの概要4', :size => '750x510', :class => "border"%>
+          <p>ダウンロードができましたら、「ファイル」⇒「名前を付けて保存（Ａ）」と進み、図のように名前を「XXXXXXXX.txt」（対象期間の末日を数字8桁で表し、末尾に「.txt」を付ける）
+          として保存してください。</p>
+          <%= image_tag 'amazon5.BMP', :alt => 'トランザクションの概要5', :size => '673x394', :class => "border"%>
+          <p>保存が終わりましたら、このページの上部にあるメニューの「CSVファイルの取込み」をクリックし、「トランザクションの概要：」の横にある「ファイル選択」をクリックした後、
+          先ほどダウンロードしたファイルを参照して「UPLOAD」ボタンを押します。</p>
+          <p>ファイルは一つだけでなく、同時に複数のファイルをアップロードすることができます。</p>
+        </div><%# "explanation" %>          
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+
+    <div class="panel panel-default" id="transaction">
+      <div class="panel-heading" id="help_title">
+        トランザクションの概要の取込み
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>トランザクションの概要はアマゾンの管理画面から入手できる売上と手数料のデータです。</p>
+          <p>アマゾンの管理画面の「レポート」⇒「ペイメント」と進んでいくと次の画面が現れます。</p>
+          <%= image_tag 'amazon1.BMP', :alt => 'トランザクションの概要1', :size => '830x204', :class => "border"%>
+          <p>こちらの画面で「トランザクション」タブをクリックすると次の画面が現れます。</p>
+          <%= image_tag 'amazon2.BMP', :alt => 'トランザクションの概要2', :size => '916x245', :class => "border"%>
+          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
+          <%= image_tag 'amazon3.BMP', :alt => 'トランザクションの概要3', :size => '800x210', :class => "border"%>
+          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
+          <%= image_tag 'amazon4.BMP', :alt => 'トランザクションの概要4', :size => '750x510', :class => "border"%>
+          <p>ダウンロードができましたら、「ファイル」⇒「名前を付けて保存（Ａ）」と進み、図のように名前を「XXXXXXXX.txt」（対象期間の末日を数字8桁で表し、末尾に「.txt」を付ける）
+          として保存してください。</p>
+          <%= image_tag 'amazon5.BMP', :alt => 'トランザクションの概要5', :size => '673x394', :class => "border"%>
+          <p>保存が終わりましたら、このページの上部にあるメニューの「CSVファイルの取込み」をクリックし、「トランザクションの概要：」の横にある「ファイル選択」をクリックした後、
+          先ほどダウンロードしたファイルを参照して「UPLOAD」ボタンを押します。</p>
+          <p>ファイルは一つだけでなく、同時に複数のファイルをアップロードすることができます。</p>
+        </div><%# "explanation" %>          
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>    
   </div><%# "panel-group col-sm-9" %>
 </div>

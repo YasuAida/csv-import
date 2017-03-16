@@ -1,4 +1,4 @@
-<div class="panel panel-default" id='edit-default'>
+<div class="panel panel-default">
 	<div class="panel-heading">
 	  通貨(新規登録画面)
 	  <%= link_to "一覧画面へ", currencies_path, class: 'btn btn-default btn-xs'%>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <%= form_for(@currency) do |f| %>
-        <tbody class="footer">
+        <tbody>
           <td class="order_num"><%= f.select :name, ['米ドル', 'ユーロ', 'カナダ・ドル','英ポンド', 'スイス･フラン', 'デンマーク・クローネ','ノルウェー・クローネ', 'スウェーデン・クローネ', 'オーストラリア・ドル','ニュージーランド・ドル', '香港ドル', 'マレーシア・リンギット','シンガポール・ドル', 'サウジ・リアル', 'UAEディルハム','中国・人民元', 'タイ・バーツ', 'インド・ルピー','パキスタン・ルピー', 'クウェート・ディナール', 'カタール・リアル','インドネシア・ルピア', 'メキシコ・ペソ', '韓国ウォン','フィリピン・ペソ', '南アフリカ･ランド', 'チェコ・コルナ','ロシア・ルーブル', 'ハンガリー・フォリント', 'ポーランド・ズロチ ', 'トルコ・リラ'], { include_blank: '選択して下さい'}, { class: "select" } %></td>
           <td class="order_num"><%= f.select :method, ['外貨×為替レート', '外貨÷100×為替レート', '外貨÷為替レート×100'], { include_blank: '選択して下さい'}, { class: "select"}%></td>
           <td class="update"><%= f.submit "登録", class: 'btn btn-default btn-xs' %></td>
