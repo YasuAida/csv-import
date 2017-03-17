@@ -177,6 +177,7 @@ Rails.application.routes.draw do
       get  'pladmin'    
     end
   end
+  get 'sales/destroy'
  
   resources :stockaccepts, only: [:index, :edit, :update] do
     collection do

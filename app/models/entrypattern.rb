@@ -1,5 +1,5 @@
 class Entrypattern < ActiveRecord::Base
-  validates :user_id, uniqueness: { scope: [:sku, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :handling] }
+  validates :user_id, uniqueness: { scope: [:sku, :kind_of_transaction, :kind_of_payment, :detail_of_payment] }
     
   belongs_to :user  
     

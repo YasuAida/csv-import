@@ -160,7 +160,8 @@
       text-align: center;
       background-color: AliceBlue;
     }
-    
+  
+  /* panel-body */  
   .panel-body{
     padding: 0px;
     width: 1900px;
@@ -397,34 +398,23 @@
     width: 50px;
     height: 25px;
   }
-  #expenseledger_search.date_form,#generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #return_good_search.date_form, #stockaccept_search.date_form, #stockreturn_search.date_form, #stock_search.date_form, #voucher_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
+  #expenseledger_search.date_form,#generalledger_search.date_form, #pladmin_search.date_form, #rakuten_search.date_form, #rakuten_cost_search.date_form, #return_good_search.date_form, #sale_search.date_form, #stockaccept_search.date_form, #stockreturn_search.date_form, #stock_search.date_form, #voucher_search.date_form, #yafuoku_search.date_form, #yahoo_shopping_search.date_form{
     display: inline-block;
-    padding-top: 5px; 
-    padding-left: 5px;   
-    width: 535px;
-    height: 35px;
+    padding-top: 5px; padding-left: 5px;   
+    width: 535px; height: 35px;
     vertical-align: center;
   }
-  #q_date_gteq_1i, #q_date_lteq_1i{
-    width: 70px;
-    height: 30px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-bottom: 0px;
+  #q_date_gteq_1i, #q_date_lteq_1i, #q_money_receive_gteq_1i, #q_money_receive_lteq_1i{
+    width: 70px;  height: 30px;
+    padding-top: 0px; padding-left: 0px; padding-bottom: 0px;
   }
-  #q_date_gteq_2i, #q_date_lteq_2i{
-    width: 55px;
-    height: 30px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-bottom: 0px;
+  #q_date_gteq_2i, #q_date_lteq_2i, #q_money_receive_gteq_2i, #q_money_receive_lteq_2i{
+    width: 55px; height: 30px;
+    padding-top: 0px; padding-left: 0px; padding-bottom: 0px;
   }
-  #q_date_gteq_3i, #q_date_lteq_3i{
-    width: 55px;
-    height: 30px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-bottom: 0px;
+  #q_date_gteq_3i, #q_date_lteq_3i, #q_money_receive_gteq_3i, #q_money_receive_lteq_3i{
+    width: 55px; height: 30px;
+    padding-top: 0px; padding-left: 0px; padding-bottom: 0px;
   }
   .edit_expense_title{
     padding-left: 5px;   

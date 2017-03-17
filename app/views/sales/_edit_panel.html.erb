@@ -32,7 +32,7 @@
           <td class="amount"><%= f.text_field :amount, :size=> "6", :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
           <td class="rate"><%= f.text_field :quantity, :size=> "2", :style=>"text-align:right", data: { autonumeric: {mDec: 0} } %></td>
           <td class="content"><%= f.text_field :goods_name, :size => "36"%></td>
-          <td class="account"><%= f.text_field :money_receive, :size=> "7" %></td>
+          <td class="account"><%= f.text_field :closing_date, :size=> "7" %></td>
           <td class="account"><%= f.text_field :handling, :size=> "7" %></td>       
           <td class="update" id="submit-<%= @sale.id %>"><%= f.submit "更新", class: 'btn btn-default btn-xs'%></td>
         </tbody>

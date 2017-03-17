@@ -44,12 +44,12 @@
         <li class="title"><%= link_to "入金額確認レポート" , summaries_path %>の作成</li>
           <div class="explanation">
             <p><%= link_to "トランザクションの概要" , sales_path %>の取込みが終わりましたら、正しく取込みが行われているかを入金額確認レポートを使って確認していただきます。このレポートの詳細については
-            こちらをご参照ください。</P>
+            <a href="./top_pages/help#confirm" target="_blank">入金額確認レポートの作成</a>をご参照ください。</P>
           </div>
         <li class="title"><%= link_to "損益管理シート/パターン登録" , entrypatterns_path %>の確認</li>
           <div class="explanation">
             <p><%= link_to "トランザクションの概要" , stocks_path %>の取込みが終わりましたら、<%= link_to "損益管理シート/パターン登録" , entrypatterns_path %>に登録の漏れがないか確認していただきます。
-            このレポートの詳細についてはこちらをご参照ください。</P>
+            このレポートの詳細については<a href="./top_pages/help#entrypattern" target="_blank">損益管理シート/パターン登録の確認</a>をご参照ください。</P>
           </div>
         <li class="title">トランザクションの概要に<%= link_to "処理データの付与" , handling_sales_path %></li>
           <div class="explanation">
@@ -75,7 +75,7 @@
     <div class="panel-body" id="one">
       <ol>
         <div class="space">　</div>
-        <li class="title"><%= link_to "為替レート" , exchanges_path %>の作成</li>
+        <li class="title"><%= link_to "為替レート" , exchanges_path %>の入力</li>
           <div class="explanation">
             <p>外国通貨で決済を行っている場合はまず為替レートの入力が必要になります。ＣＳＶファイルによる取込みもできます。入力、取込みの方法についてはこちらをご参照ください。</P>
           </div>

@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 	  トランザクションの概要(一覧画面)
 	</div>
-  <div class="panel-body"> 
+  <div class="panel-body" id="new-body"> 
     <%= search_form_for(@q, url: sales_path) do |f| %>
       <%= f.label :order_num_cont, "注文番号で検索" %>
       <%= f.search_field :order_num_cont %>
@@ -23,10 +23,18 @@
       <%= f.search_field :goods_name_cont %>
       <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
     <% end %>
-    <%= search_form_for(@q, url: sales_path) do |f| %>            
-      <%= f.label :money_receive_eq, "締め日で検索" %>
-      <%= f.search_field :money_receive_eq %>
-      <%= f.submit "検索", class: 'btn btn-default btn-xs'%>
-    <% end %>      
+    <br>
+    <%= search_form_for(@q, url: sales_path, html: {class: 'date_form'}, method: "get") do |f| %>
+      <%= f.label :date, "日付で検索"%>
+      <%= f.date_select :date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control generalledger_form" %>〜
+      <%= f.date_select :date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control generalledger_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
+    <%= search_form_for(@q, url: sales_path, html: {class: 'date_form'}, method: "get") do |f| %>
+      <%= f.label :closing_date, "締め日で検索"%>
+      <%= f.date_select :closing_date_gteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control generalledger_form" %>〜
+      <%= f.date_select :closing_date_lteq, {include_blank: true, use_month_numbers: true, date_separator: ' / '}, class: "form-control generalledger_form" %>
+      <%= f.submit "検索", class: 'btn btn-default btn-xs' %>
+    <% end %>
   </div>
 </div>

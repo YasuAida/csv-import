@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309080039) do
+ActiveRecord::Schema.define(version: 20170317015903) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id"
@@ -430,7 +430,7 @@ ActiveRecord::Schema.define(version: 20170309080039) do
   add_index "return_goods", ["stock_id"], name: "index_return_goods_on_stock_id"
   add_index "return_goods", ["user_id"], name: "index_return_goods_on_user_id"
 
-  create_table "sales", force: :cascade do |t|
+  create_table "sale_temps", force: :cascade do |t|
     t.integer  "user_id"
     t.date     "date"
     t.string   "order_num"
@@ -443,8 +443,27 @@ ActiveRecord::Schema.define(version: 20170309080039) do
     t.string   "goods_name"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.date     "money_receive"
+    t.date     "closing_date"
+  end
+
+  add_index "sale_temps", ["user_id"], name: "index_sale_temps_on_user_id"
+
+  create_table "sales", force: :cascade do |t|
+    t.integer  "user_id"
+    t.date     "date"
+    t.string   "order_num"
+    t.string   "sku"
+    t.string   "kind_of_transaction"
+    t.string   "kind_of_payment"
+    t.string   "detail_of_payment"
+    t.integer  "amount"
+    t.integer  "quantity"
+    t.string   "goods_name"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.date     "closing_date"
     t.string   "handling"
+    t.boolean  "destroy_check",       default: false, null: false
   end
 
   add_index "sales", ["user_id"], name: "index_sales_on_user_id"

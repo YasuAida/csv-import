@@ -103,7 +103,7 @@
       </div><%# "panel-body" %>  
     </div><%# "panel panel-default" %>
     
-    <div class="panel panel-default" id="exchange">
+    <div class="panel panel-default" id="currency">
       <div class="panel-heading" id="help_title">
         通貨の登録
       </div>
@@ -127,7 +127,7 @@
       </div>
       <div class="panel-body">
         <div class="explanation">
-          <p>初期設定で必要最小限の勘定科目は登録してあります。</p>
+          <p>会員登録の段階で必要最小限の勘定科目は登録してあります。</p>
           <p>しかし、追加で登録する必要のある勘定科目があると思いますので、必要な勘定科目を追加で登録してください。</p>
           <%= image_tag 'accounts1.BMP', :alt => '勘定科目登録1', :size => '759x405', :class => "border"%>
           <p>こちらの画面の「新規登録画面へ」を押しますと、</p>
@@ -180,27 +180,47 @@
       </div><%# "panel-body" %>  
     </div><%# "panel panel-default" %>
 
-    <div class="panel panel-default" id="transaction">
+    <div class="panel panel-default" id="confirm">
       <div class="panel-heading" id="help_title">
-        トランザクションの概要の取込み
+        入金額確認レポートの作成
       </div>
       <div class="panel-body">
         <div class="explanation">
-          <p>トランザクションの概要はアマゾンの管理画面から入手できる売上と手数料のデータです。</p>
-          <p>アマゾンの管理画面の「レポート」⇒「ペイメント」と進んでいくと次の画面が現れます。</p>
-          <%= image_tag 'amazon1.BMP', :alt => 'トランザクションの概要1', :size => '830x204', :class => "border"%>
-          <p>こちらの画面で「トランザクション」タブをクリックすると次の画面が現れます。</p>
-          <%= image_tag 'amazon2.BMP', :alt => 'トランザクションの概要2', :size => '916x245', :class => "border"%>
-          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
-          <%= image_tag 'amazon3.BMP', :alt => 'トランザクションの概要3', :size => '800x210', :class => "border"%>
-          <p>こちらの画面で「ダウンロード」ボタンを押すと、次のようなテキストファイルがダウンロードできます。</p>
-          <%= image_tag 'amazon4.BMP', :alt => 'トランザクションの概要4', :size => '750x510', :class => "border"%>
-          <p>ダウンロードができましたら、「ファイル」⇒「名前を付けて保存（Ａ）」と進み、図のように名前を「XXXXXXXX.txt」（対象期間の末日を数字8桁で表し、末尾に「.txt」を付ける）
-          として保存してください。</p>
-          <%= image_tag 'amazon5.BMP', :alt => 'トランザクションの概要5', :size => '673x394', :class => "border"%>
-          <p>保存が終わりましたら、このページの上部にあるメニューの「CSVファイルの取込み」をクリックし、「トランザクションの概要：」の横にある「ファイル選択」をクリックした後、
-          先ほどダウンロードしたファイルを参照して「UPLOAD」ボタンを押します。</p>
-          <p>ファイルは一つだけでなく、同時に複数のファイルをアップロードすることができます。</p>
+          <p>「トランザクションの概要」の取込みが終わりましたら、「入金額確認レポート」の作成を行います。</p>
+          <%= image_tag 'confirm1.BMP', :alt => '入金額確認レポート1', :size => '762x325', :class => "border"%>
+          <p>このレポードで入金額の確認および入金口座と入金日の入力をしていただきます。</p>
+        </div><%# "explanation" %>          
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="entrypattern">
+      <div class="panel-heading" id="help_title">
+        損益管理シート/パターン登録の確認
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>入金額確認レポートの確認が終わりましたら「損益管理シート/パターン登録」の確認を行います。</p>
+          <p>このシートは「トランザクションの概要」のそれぞれの取引を、どのように処理するか（売上とするのか、原価や経費等とするのか）を登録するものです。
+          <%= image_tag 'confirm1.BMP', :alt => '入金額確認レポート1', :size => '762x325', :class => "border"%>
+          <p>会員登録の段階である程度のパターン登録は済んでおります。</p>
+          <p>しかし、まだ未登録のものが発生した場合には、どのように処理するのかを指定していただく必要があります。</p>
+          <p>また、既に登録済みのものでも登録内容を変更されたい場合には変更する必要があります。</p>
+        </div><%# "explanation" %>          
+      </div><%# "panel-body" %>  
+    </div><%# "panel panel-default" %>
+    
+    <div class="panel panel-default" id="entrypattern">
+      <div class="panel-heading" id="help_title">
+        為替レートの入力
+      </div>
+      <div class="panel-body">
+        <div class="explanation">
+          <p>入金額確認レポートの確認が終わりましたら「損益管理シート/パターン登録」の確認を行います。</p>
+          <p>このシートは「トランザクションの概要」のそれぞれの取引を、どのように処理するか（売上とするのか、原価や経費等とするのか）を登録するものです。
+          <%= image_tag 'confirm1.BMP', :alt => '入金額確認レポート1', :size => '762x325', :class => "border"%>
+          <p>会員登録の段階である程度のパターン登録は済んでおります。</p>
+          <p>しかし、まだ未登録のものが発生した場合には、どのように処理するのかを指定していただく必要があります。</p>
+          <p>また、既に登録済みのものでも登録内容を変更されたい場合には変更する必要があります。</p>
         </div><%# "explanation" %>          
       </div><%# "panel-body" %>  
     </div><%# "panel panel-default" %>    

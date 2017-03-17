@@ -24,15 +24,22 @@ class SalesController < ApplicationController
     end
   end
   
+  def destroy
+    current_user.sales.where(destroy_check: true).destroy_all
+    redirect_to sales_path, notice: 'データを削除しました'
+  end
+  
   def upload
     data = params[:upload]
     #ファイルの登録
     data[:datafile].each do |datafile|
       file_open(datafile)
-    #ファイルのインポート
+    #ファイルのsale_tempsへのインポート
       file_import_transaction(datafile)
     #ファイルの削除
       file_close(datafile)
+    #sale_tempsのデータをsalesへインポート 
+      import_to_sales_from_sale_temps
     end
 
     redirect_to sales_path
@@ -52,7 +59,7 @@ class SalesController < ApplicationController
 
   private
   def sale_params
-    params.require(:sale).permit(:date, :order_num, :sku, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :amount, :quantity, :goods_name, :money_receive, :handling)
+    params.require(:sale).permit(:date, :order_num, :sku, :kind_of_transaction, :kind_of_payment, :detail_of_payment, :amount, :quantity, :goods_name, :closing_date, :handling)
   end
   
   def set_sale

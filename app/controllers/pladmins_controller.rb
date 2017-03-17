@@ -58,10 +58,6 @@ class PladminsController < ApplicationController
       redirect_to :back 
     end  
   end
-  
-  def blank_form
-    render "index"
-  end
 
   def upload 
     data = params[:upload]

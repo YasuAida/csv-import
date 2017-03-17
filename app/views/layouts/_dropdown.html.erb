@@ -174,13 +174,6 @@
           <% end %>    
         </li>
         <li>  
-          <%= form_tag({ :controller => 'pladmins', :action => 'upload'}, {multipart: true, class: "form_tag"}) do %>
-            <label>損益管理シート　　　　:</label>
-            <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false %>         
-            <%= submit_tag "UPLOAD", class: 'btn btn-default btn-xs' %>  
-          <% end %>      
-        </li>
-        <li>  
       	  <%= form_tag({ :controller => 'exchanges', :action => 'upload'}, {multipart: true, class: "form_tag"}) do %>
             <label>為替レート　　　　　　:</label>
             <%= file_field :upload, :datafile, class: 'filestyle', "data-buttonText": "ファイル選択", 'data-input': false%>             

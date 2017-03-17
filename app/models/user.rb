@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   has_many :rakutens, dependent: :destroy  
   has_many :return_goods, dependent: :destroy
   has_many :sales, dependent: :destroy
+  has_many :sale_temps, dependent: :destroy
   has_many :selfstorages, dependent: :destroy
   has_many :stocks, dependent: :destroy
   has_many :stockaccepts, dependent: :destroy

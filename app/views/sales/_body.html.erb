@@ -1,18 +1,29 @@
     <tbody class="sales">
       <% @sales.each do |sale| %>
-        <tr>
-          <td class="account"><%= sale.date %></td>
-          <td class="order_num"><%= sale.order_num %></td>
-          <td class="large"><%= sale.sku %></td>
-          <td class="order_num"><%= sale.kind_of_transaction %></td>
-          <td class="order_num"><%= sale.kind_of_payment %></td>
-          <td class="order_num"><%= sale.detail_of_payment %></td>
-          <td class="amount"><%= addcomma(sale.amount) %></td>
-          <td class="rate"><%= erase_zero(sale.quantity) %></td>
-          <td class="content"><%= sale.goods_name %></td>
-          <td class="account"><%= sale.money_receive %></td>
-          <td class="account"><%= sale.handling %></td>
-          <td class="update" id="submit-<%= sale.id %>"><%= link_to "修正", edit_sale_path(sale), class: 'btn btn-default btn-xs'%></td>          
+        <!--Ajax用に固有のidを設定-->
+        <tr id="sale-<%= sale.id %>">
+          <%= form_for(sale, url: sale_path(sale.id), remote: true) do |f| %>
+            <td class="update" id="check-<%= sale.id %>"><%= f.check_box :destroy_check, {}, "true", "false" %></td>
+            <td class="account"><%= sale.date %></td>
+            <td class="order_num"><%= sale.order_num %></td>
+            <td class="large"><%= sale.sku %></td>
+            <td class="order_num"><%= sale.kind_of_transaction %></td>
+            <td class="order_num"><%= sale.kind_of_payment %></td>
+            <td class="order_num"><%= sale.detail_of_payment %></td>
+            <td class="amount"><%= addcomma(sale.amount) %></td>
+            <td class="rate"><%= erase_zero(sale.quantity) %></td>
+            <td class="content"><%= sale.goods_name %></td>
+            <td class="account"><%= sale.closing_date %></td>
+            <td class="account"><%= sale.handling %></td>
+            <td class="update" id="submit-<%= sale.id %>"><%= link_to "修正", edit_sale_path(sale), class: 'btn btn-default btn-xs'%></td>
+              
+            <!--チェックボックス更新用JQuery-->
+            <script>
+              $("#check-<%= sale.id %>").change(function(e){
+                $('#edit_sale_<%= sale.id %>').submit();
+              });
+            </script>                    
+          <% end %> 
         </tr>
       <% end %>
     </tbody>

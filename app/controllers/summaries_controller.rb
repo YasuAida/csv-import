@@ -10,9 +10,9 @@ class SummariesController < ApplicationController
 
   def create
     @all_sales = current_user.sales.where.not(kind_of_transaction: "Amazonに支払う額 | 出品者からの返済額")
-    @all_sales.group(:money_receive).each do |totals|
-      total_sales = @all_sales.where(money_receive: totals.money_receive).sum(:amount)
-      current_user.summaries.create(closing_date: totals.date, total_sales: total_sales)      
+    @all_sales.group(:closing_date).each do |totals|
+      total_sales = @all_sales.where(closing_date: totals.closing_date).sum(:amount)
+      current_user.summaries.create(closing_date: totals.closing_date, total_sales: total_sales)      
     end
     redirect_to summaries_path
   end
